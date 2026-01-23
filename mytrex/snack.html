@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>O₂ Rhythm — Snack</title>
+    <link rel="stylesheet" href="../../assets/style.css" />
+    <style>
+        :root {
+            --ring: #ffffff;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="wrap">
+        <section class="card protocol" data-protocol data-title="Craving Interrupt" data-total="45" data-inhale="3"
+            data-hold="0" data-exhale="5">
+
+            <div class="brand">O₂ RHYTHM</div>
+            <h1>Craving Interrupt</h1>
+
+            <div class="ringbox">
+                <svg class="progressRing" viewBox="0 0 220 220" aria-hidden="true">
+                    <circle class="progress-bg" cx="110" cy="110" r="100"></circle>
+                    <circle class="progress" cx="110" cy="110" r="100"></circle>
+                </svg>
+
+                <div id="pacer" class="pacer">
+                    <div class="center">
+                        <button id="startBtn" class="start">START</button>
+                        <div id="timer" class="timer">0:45</div>
+                        <div id="cue" class="cue"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footerlink">
+                <a href="index.html">More protocols</a>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
