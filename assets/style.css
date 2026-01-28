@@ -233,3 +233,62 @@ svg.progressRing {
     background: rgba(255, 255, 255, .06);
     color: #fff;
 }
+
+/* ---------- Add-ons: toggles + feedback (paste at bottom) ---------- */
+
+/* Optional toggle buttons (sound / vibration) */
+.toggleRow {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 8px;
+}
+
+.toggle {
+    border: 1px solid var(--border);
+    padding: 10px 12px;
+    border-radius: 999px;
+    font-size: .85rem;
+    font-weight: 700;
+    color: var(--muted);
+    background: rgba(255, 255, 255, .03);
+    cursor: pointer;
+}
+
+.toggle:hover {
+    background: rgba(255, 255, 255, .06);
+    color: #fff;
+}
+
+.toggle:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+/* Keeps focus visible (accessibility + mobile) */
+.toggle:focus-visible,
+.start:focus-visible,
+.btn:focus-visible,
+a:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, .45);
+    outline-offset: 3px;
+}
+
+/* Feedback link at end of protocol */
+.feedback {
+    margin-top: 18px;
+    text-align: center;
+}
+
+.feedback-link {
+    color: var(--muted);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    font-size: .85rem;
+    font-weight: 700;
+}
+
+.feedback-link:hover {
+    color: #fff;
+}
