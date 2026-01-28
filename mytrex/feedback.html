@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pilot Feedback</title>
+    <style>
+        body {
+            margin: 0;
+            background: #0b0b0b;
+            color: #fff;
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
+        }
+
+        .wrap {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 18px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 16px;
+        }
+
+        h1 {
+            font-size: 18px;
+            margin: 0 0 6px;
+        }
+
+        .sub {
+            color: #a9a9a9;
+            font-size: 13px;
+            margin: 0 0 14px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            margin: 14px 0 6px;
+            color: #dcdcdc;
+        }
+
+        select,
+        textarea,
+        input {
+            width: 100%;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(0, 0, 0, 0.35);
+            color: #fff;
+            padding: 12px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .btn {
+            margin-top: 16px;
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 14px;
+            border: 0;
+            background: #ffffff;
+            color: #000;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .muted {
+            margin-top: 10px;
+            color: #8a8a8a;
+            font-size: 12px;
+            line-height: 1.35;
+        }
+
+        .ok {
+            margin-top: 12px;
+            font-size: 14px;
+        }
+
+        .ok a {
+            color: #bdbdbd;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .pill {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.04);
+            color: #d8d8d8;
+            font-size: 12px;
+            margin: 6px 0 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="card">
+            <h1>Pilot Feedback</h1>
+            <p class="sub">Anonymous. No names or emails. 30 seconds.</p>
+
+            <div id="protocolPill" class="pill hidden"></div>
+
+            <form id="fbForm">
+                <label for="length">The length of this protocol felt:</label>
+                <select id="length" required>
+                    <option value="" selected disabled>Select one</option>
+                    <option>Too short</option>
+                    <option>About right</option>
+                    <option>Too long</option>
+                </select>
+
+                <label for="when_used">When did you use it?</label>
+                <select id="when_used" required>
+                    <option value="" selected disabled>Select one</option>
+                    <option>During a call</option>
+                    <option>Between calls</option>
+                    <option>On break</option>
+                    <option>After a stressful interaction</option>
+                </select>
+
+                <label for="effect">After completing the protocol, did you feel:</label>
+                <select id="effect" required>
+                    <option value="" selected disabled>Select one</option>
+                    <option>More settled</option>
+                    <option>Slightly calmer</option>
+                    <option>No noticeable change</option>
+                    <option>More alert</option>
+                </select>
+
+                <label for="use_again">Would you use this again at work?</label>
+                <select id="use_again" required>
+                    <option value="" selected disabled>Select one</option>
+                    <option>Yes</option>
+                    <option>Maybe</option>
+                    <option>No</option>
+                </select>
+
+                <label for="notes">Anything you’d change? (optional)</label>
+                <textarea id="notes" placeholder="Short and specific is best."></textarea>
+
+                <button class="btn" type="submit" id="submitBtn">Submit feedback</button>
+
+                <div class="muted">
+                    This feedback helps refine timing, wording, and placement for real work environments.
+                </div>
+
+                <div id="status" class="ok hidden"></div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // PASTE YOUR APPS SCRIPT WEB APP URL HERE:
+        const ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbx7AYi_bFQVae7issIwPlTeSdfTtXpXdAF3Aq5wdd6Wn8zyHkY8XpPTCz_2T5nIV9Ap0g/exec";
+
+        const qs = new URLSearchParams(window.location.search);
+        const protocol = (qs.get("protocol") || "").slice(0, 120);
+
+        const pill = document.getElementById("protocolPill");
+        if (protocol) {
+            pill.textContent = "Protocol: " + protocol;
+            pill.classList.remove("hidden");
+        }
+
+        const form = document.getElementById("fbForm");
+        const statusEl = document.getElementById("status");
+        const submitBtn = document.getElementById("submitBtn");
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            statusEl.classList.add("hidden");
+            submitBtn.disabled = true;
+            submitBtn.textContent = "Sending...";
+
+            const payload = {
+                protocol: protocol || "unknown",
+                length: document.getElementById("length").value,
+                when_used: document.getElementById("when_used").value,
+                effect: document.getElementById("effect").value,
+                use_again: document.getElementById("use_again").value,
+                notes: document.getElementById("notes").value.trim(),
+                user_agent: navigator.userAgent,
+                referrer: document.referrer || ""
+            };
+
+            try {
+                const res = await fetch(ENDPOINT_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify(payload)
+                });
+
+                const text = await res.text();
+                let data = {};
+                try { data = JSON.parse(text); } catch (_) { }
+
+                if (data.ok) {
+                    statusEl.innerHTML = "✅ Submitted. Thank you.<br><br><a href=\"javascript:history.back()\">Go back</a>";
+                    statusEl.classList.remove("hidden");
+                    form.reset();
+                } else {
+                    statusEl.textContent = "Something went wrong. Try again.";
+                    statusEl.classList.remove("hidden");
+                }
+            } catch (err) {
+                statusEl.textContent = "Network error. Try again.";
+                statusEl.classList.remove("hidden");
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Submit feedback";
+            }
+        });
+    </script>
+</body>
+
+</html>
