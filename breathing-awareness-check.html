@@ -619,10 +619,14 @@
 
         // ---------- Orientation + routing ----------
         function computeOrientation(session) {
-            // EDIT THESE LINKS:
-            const CALM_LINK = "./library.html#calm"; // <-- change to your real calming section/page
-            const LIBRARY_LINK = "./library.html";   // <-- change if needed
-            const ONEONONE_LINK = "mailto:info@o2rhythm.com?subject=Rhythm%20O2%20-%201on1%20request"; // <-- change email
+
+            // FINAL ROUTING LINKS (match your hubs)
+            const CALM_LINK = "calm-first.html";
+            const BUILD_LINK = "build-gradually.html";
+            const CAPACITY_LINK = "longer-reset.html";
+
+            const ONEONONE_LINK =
+                "mailto:hello.rhythmo2@gmail.com?subject=Rhythm%20O2%20-%201on1%20request";
 
             const step2 = Number(session.step2DurationSec ?? 0);
             const step3 = Number(session.step3DurationSec ?? 0);
@@ -633,10 +637,13 @@
             const fastReturn = notice.includes("fast") || notice.includes("forceful");
             const rushedReturn = notice.includes("rushed");
             const smoothReturn = notice.includes("smooth");
+
             const uncomfortable = body.includes("uncomfortable");
             const veryUncomfortable = body.includes("very");
+
             const feltEasier = reflection.includes("easier");
 
+            // ---- Capacity logic ----
             const calmFirst =
                 fastReturn ||
                 veryUncomfortable ||
@@ -649,56 +656,58 @@
                 step2 >= 25 &&
                 step3 >= 25;
 
-            let path = "BUILD_GRADUALLY";
+            let path = "STEADY_BUILD";
             if (calmFirst) path = "CALM_FIRST";
-            else if (capacityAvailable) path = "CAPACITY_AVAILABLE";
+            else if (capacityAvailable) path = "CAPACITY";
 
+            // ---- Result content ----
             const content = {
+
                 CALM_FIRST: {
                     label: "Calm first",
                     suggests:
                         "Your breathing reacted quickly and felt uncomfortable when it was interrupted. That’s common under stress.",
                     meaning:
-                        "This usually means your system benefits most from short, calming regulation first, before anything longer or more demanding.",
-                    nextTitle: "Best next step in Rhythm O₂",
+                        "This usually means your system benefits most from short, calming regulation before anything longer or more structured.",
+                    nextTitle: "Best next step",
                     nextBody:
-                        "Start with short calming protocols that slow the exhale and reduce urgency. These are designed to work during stress, not after.",
-                    primaryText: "Go to calming protocols",
+                        "Start with brief calming protocols that slow the exhale and reduce urgency. These are designed to work during stress.",
+                    primaryText: "Start with Calm First",
                     primaryHref: CALM_LINK,
                     secondaryText: "Request a 1-on-1 plan",
                     secondaryHref: ONEONONE_LINK
                 },
 
-                BUILD_GRADUALLY: {
+                STEADY_BUILD: {
                     label: "Build gradually",
                     suggests:
-                        (rushedReturn
-                            ? "Your breathing returned a little rushed, which usually means your system can improve quickly with the right pacing."
-                            : "Your response was mixed, which usually means your system can improve quickly with the right pacing."),
+                        rushedReturn
+                            ? "Your breathing returned a little rushed, which usually means your system can stabilize quickly with the right pacing."
+                            : "Your response was mixed, which usually means your system can stabilize with supportive practice.",
                     meaning:
-                        (feltEasier
-                            ? "Calm attention helped. Start with calming regulation, then build into steadier patterns over time."
-                            : "Start with calming regulation first. The goal is supportive, not forced."),
-                    nextTitle: "Best next step in Rhythm O₂",
+                        feltEasier
+                            ? "Calm attention helped. From here, gently building steadier patterns is usually effective."
+                            : "Start with calming regulation first, then move into steadier patterns as appropriate.",
+                    nextTitle: "Best next step",
                     nextBody:
-                        "Use short calming protocols first. If those feel steady, move into slightly longer steady-breath options when appropriate.",
-                    primaryText: "Go to calming protocols",
-                    primaryHref: CALM_LINK,
+                        "Begin with calming protocols. When those feel steady, move into short, structured breathing that builds tolerance without pushing.",
+                    primaryText: "Go to Steady Build",
+                    primaryHref: BUILD_LINK,
                     secondaryText: "Request a 1-on-1 plan",
                     secondaryHref: ONEONONE_LINK
                 },
 
-                CAPACITY_AVAILABLE: {
-                    label: "Steady capacity",
+                CAPACITY: {
+                    label: "Capacity available",
                     suggests:
-                        "Your breathing returned fairly steadily and felt manageable.",
+                        "Your breathing returned steadily and felt manageable.",
                     meaning:
-                        "That usually means you can tolerate longer or more structured regulation when appropriate. Still keep it supportive, not forced.",
-                    nextTitle: "Best next step in Rhythm O₂",
+                        "This usually means you can tolerate longer or more structured regulation when appropriate. Still keep it supportive, not forced.",
+                    nextTitle: "Best next step",
                     nextBody:
-                        "Start with calming protocols anytime stress is high. When you feel steady, explore longer steady-breath options.",
-                    primaryText: "Go to protocols",
-                    primaryHref: LIBRARY_LINK,
+                        "Use calming tools anytime stress is high. When you feel steady, longer reset protocols can help maintain capacity.",
+                    primaryText: "Go to Longer Reset",
+                    primaryHref: CAPACITY_LINK,
                     secondaryText: "Request a 1-on-1 plan",
                     secondaryHref: ONEONONE_LINK
                 }
