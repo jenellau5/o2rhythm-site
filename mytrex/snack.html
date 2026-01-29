@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>O₂ Rhythm — Snack</title>
     <link rel="stylesheet" href="../assets/style.css" />
-    />
     <style>
         :root {
             --ring: #ffffff;
@@ -17,7 +16,7 @@
 <body>
     <main class="wrap">
         <section class="card protocol" data-protocol data-title="Craving Interrupt" data-total="45" data-inhale="3"
-            data-hold="0" data-exhale="5">
+            data-hold1="0" data-exhale="5" data-hold2="0">
 
             <div class="brand">O₂ RHYTHM</div>
             <h1>Craving Interrupt</h1>
@@ -30,12 +29,16 @@
 
                 <div id="pacer" class="pacer">
                     <div class="center">
-                        <button id="startBtn" class="start">START</button>
+                        <button id="startBtn" class="start" type="button">START</button>
                         <div id="timer" class="timer">0:45</div>
-                        <div id="cue" class="cue"></div>
+
+                        <div id="phaseLabel" class="phaseLabel"></div>
+                        <div id="count" class="count"></div>
+                        <div id="dots" class="phaseDots"></div>
                     </div>
                 </div>
             </div>
+
             <div class="toggleRow">
                 <button id="soundToggle" class="toggle" type="button">🔊 Enable sound cues</button>
             </div>
@@ -43,7 +46,9 @@
             <div class="feedback">
                 <a class="feedback-link" href="feedback.html">Pilot feedback (30 seconds)</a>
             </div>
-            <script src="../assets/protocol.js?v=5"></script>
+
+        </section>
+
 
         </section>
     </main>
