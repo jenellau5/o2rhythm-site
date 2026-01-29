@@ -61,18 +61,17 @@ h1 {
 }
 
 .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid var(--border);
-    padding: 14px 16px;
-    border-radius: 14px;
-    background: rgba(255, 255, 255, .04);
-    width: 100%;
-    margin: 8px 0;
-    font-weight: 800;
-    letter-spacing: .4px;
+    display: block;
+    text-align: center;
 }
+
+.btn .sub {
+    display: block;
+    margin-top: 6px;
+    opacity: .75;
+    font-size: 0.95em;
+}
+
 
 .btn:hover {
     background: rgba(255, 255, 255, .07);
