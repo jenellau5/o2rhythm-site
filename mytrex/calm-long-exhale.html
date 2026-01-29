@@ -4,27 +4,53 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Calm — Long Exhale Only</title>
-    <link rel="stylesheet" href="../../assets/style.css" />
+    <title>Calm — Long Exhale</title>
+    <link rel="stylesheet" href="../assets/style.css" />
+    <style>
+        :root {
+            --ring: #4da3ff;
+        }
+    </style>
 </head>
 
 <body>
     <main class="wrap">
-        <section class="card">
-            <div class="brand">O₂ RHYTHM</div>
-            <h1>Calm — Long Exhale Only</h1>
-            <p class="sub">60 seconds. No counting required.</p>
+        <section class="card protocol" data-protocol data-title="Calm — Long Exhale" data-total="60" data-inhale="3"
+            data-hold1="0" data-exhale="6" data-hold2="0">
 
-            <div class="steps">
-                <p>Breathe in naturally through your nose.</p>
-                <p>Let the exhale be slower and longer.</p>
-                <p>Do not force the breath.</p>
-                <p>Repeat for about one minute.</p>
+            <div class="brand">O₂ RHYTHM</div>
+            <h1>Calm — Long Exhale</h1>
+
+            <div class="ringbox">
+                <svg class="progressRing" viewBox="0 0 220 220" aria-hidden="true">
+                    <circle class="progress-bg" cx="110" cy="110" r="100"></circle>
+                    <circle class="progress" cx="110" cy="110" r="100"></circle>
+                </svg>
+
+                <div id="pacer" class="pacer">
+                    <div class="center">
+                        <button id="startBtn" class="start">START</button>
+                        <div id="timer" class="timer">1:00</div>
+
+                        <div id="phaseLabel" class="phaseLabel"> </div>
+                        <div id="count" class="count"></div>
+                        <div id="dots" class="phaseDots"></div>
+                    </div>
+                </div>
             </div>
 
-            <p class="sub">If you feel uncomfortable, stop and return to normal breathing.</p>
+            <div class="footerlink">
+                <a href="calm-first.html">Back to Calm First</a>
+            </div>
 
-            <a class="btn" href="library.html">Back to Library</a>
+            <div class="toggleRow">
+                <button id="soundToggle" class="toggle" type="button">🔊 Enable sound cues</button>
+            </div>
+
+            <div class="feedback">
+                <a class="feedback-link" href="feedback.html">Pilot feedback (30 seconds)</a>
+            </div>
+
             <script src="../assets/protocol.js?v=5"></script>
         </section>
     </main>
