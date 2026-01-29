@@ -1,0 +1,1044 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0b0b0c" />
+    <title>Breathing Awareness Check — Rhythm O₂</title>
+
+    <style>
+        /* =========================================================
+       Rhythm O₂ — Breathing Awareness Check
+       Mobile-first (iPhone Safari). No frameworks. Single file.
+       ========================================================= */
+
+        :root {
+            --bg: #0b0b0c;
+            --card: #121214;
+            --text: #f5f6f7;
+            --muted: #b6bac3;
+            --border: rgba(255, 255, 255, 0.10);
+            --btn: #f5f6f7;
+            --btnText: #0b0b0c;
+            --btnAlt: rgba(255, 255, 255, 0.10);
+            --focus: #9ad7ff;
+            --danger: #ff6b6b;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+            --radius: 18px;
+            --tap: 52px;
+            /* >= 48px */
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+            font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+            background: radial-gradient(1200px 800px at 50% -20%, rgba(255, 255, 255, 0.06), transparent 60%),
+                var(--bg);
+            color: var(--text);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Safer iPhone spacing around the notch/home bar */
+        .page {
+            min-height: 100%;
+            padding: calc(16px + env(safe-area-inset-top)) 16px calc(20px + env(safe-area-inset-bottom));
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .wrap {
+            width: 100%;
+            max-width: 520px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            padding: 6px 2px;
+        }
+
+        .brand {
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            font-size: 12px;
+            color: var(--muted);
+            text-transform: uppercase;
+            user-select: none;
+        }
+
+        .exit {
+            appearance: none;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text);
+            border-radius: 999px;
+            min-height: 40px;
+            padding: 8px 12px;
+            font-weight: 600;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .exit:focus-visible {
+            outline: 3px solid var(--focus);
+            outline-offset: 3px;
+        }
+
+        .exit:active {
+            transform: translateY(1px) scale(0.985);
+            filter: brightness(0.98);
+        }
+
+        .card {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 90%),
+                var(--card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 18px;
+            box-shadow: var(--shadow);
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        /* ===== Pure CSS minimalist breath icon (no images) ===== */
+        .breathIcon {
+            width: 34px;
+            height: 34px;
+            border-radius: 999px;
+            border: 2px solid rgba(255, 255, 255, 0.18);
+            position: relative;
+            flex: 0 0 auto;
+        }
+
+        .breathIcon::before {
+            content: "";
+            position: absolute;
+            inset: 9px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.22);
+        }
+
+        .breathIcon::after {
+            content: "";
+            position: absolute;
+            inset: -6px;
+            border-radius: 999px;
+            border: 2px solid rgba(255, 255, 255, 0.12);
+            transform: scale(0.85);
+            opacity: 0;
+            animation: breathPulse 3.5s ease-in-out infinite;
+        }
+
+        @keyframes breathPulse {
+            0% {
+                transform: scale(0.85);
+                opacity: 0.0;
+            }
+
+            25% {
+                transform: scale(1.02);
+                opacity: 0.35;
+            }
+
+            50% {
+                transform: scale(1.12);
+                opacity: 0.15;
+            }
+
+            100% {
+                transform: scale(0.85);
+                opacity: 0.0;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .breathIcon::after {
+                animation: none;
+                opacity: 0.15;
+                transform: scale(1.0);
+            }
+        }
+
+        .titles {
+            flex: 1;
+            min-width: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .titleRow {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 20px;
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+        }
+
+        .stopAnytime {
+            margin: 0;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.3;
+        }
+
+        .progress {
+            font-variant-numeric: tabular-nums;
+            font-size: 13px;
+            color: var(--muted);
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.04);
+            padding: 6px 10px;
+            border-radius: 999px;
+            white-space: nowrap;
+        }
+
+        .body {
+            color: var(--text);
+            font-size: 16px;
+            line-height: 1.45;
+            margin: 10px 0 14px;
+            white-space: pre-line;
+            /* respect line breaks in copy */
+        }
+
+        .bigTimer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 0 10px;
+            gap: 8px;
+        }
+
+        .bigNumber {
+            font-size: 56px;
+            line-height: 1;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .timerHint {
+            margin: 0;
+            font-size: 14px;
+            color: var(--muted);
+            text-align: center;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .btn {
+            width: 100%;
+            min-height: var(--tap);
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            font-size: 16px;
+            font-weight: 800;
+            letter-spacing: 0.02em;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            transition: transform 90ms ease, box-shadow 90ms ease, filter 90ms ease;
+            will-change: transform;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            user-select: none;
+        }
+
+        .btnPrimary {
+            background: var(--btn);
+            color: var(--btnText);
+            border-color: rgba(0, 0, 0, 0.10);
+        }
+
+        .btnSecondary {
+            background: var(--btnAlt);
+            color: var(--text);
+        }
+
+        .btn:focus-visible {
+            outline: 3px solid var(--focus);
+            outline-offset: 3px;
+        }
+
+        /* “Haptic-like” press feedback (visual only) */
+        .btn:active {
+            transform: translateY(1px) scale(0.985);
+            filter: brightness(0.98);
+        }
+
+        .btn[disabled] {
+            opacity: 0.45;
+            cursor: not-allowed;
+        }
+
+        .btn[disabled]:active {
+            transform: none;
+            filter: none;
+        }
+
+        /* Radio group styling (accessible) */
+        fieldset {
+            border: 0;
+            padding: 0;
+            margin: 10px 0 0;
+        }
+
+        legend {
+            padding: 0;
+            margin: 0 0 10px;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .opt {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 12px;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.03);
+            cursor: pointer;
+            min-height: var(--tap);
+        }
+
+        .opt input {
+            width: 18px;
+            height: 18px;
+            margin: 0;
+            accent-color: var(--text);
+            flex: 0 0 auto;
+        }
+
+        .opt span {
+            font-size: 16px;
+            line-height: 1.3;
+        }
+
+        .opt:focus-within {
+            outline: 3px solid var(--focus);
+            outline-offset: 2px;
+        }
+
+        .note {
+            margin: 10px 0 0;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.35;
+        }
+
+        .divider {
+            height: 1px;
+            background: var(--border);
+            margin: 14px 0;
+        }
+
+        .summary {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 6px;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 10px 12px;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.03);
+            font-size: 14px;
+            line-height: 1.3;
+        }
+
+        .row .k {
+            color: var(--muted);
+        }
+
+        .row .v {
+            font-variant-numeric: tabular-nums;
+            font-weight: 700;
+        }
+
+        /* Screen reader only */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* Prevent text selection / zoom weirdness on long press in iOS for buttons */
+        button,
+        a {
+            -webkit-touch-callout: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="page">
+        <div class="wrap" role="application" aria-label="Breathing Awareness Check">
+            <div class="topbar">
+                <div class="brand">Rhythm O₂</div>
+                <!-- Persistent exit on every screen -->
+                <button id="exitBtn" class="exit" type="button" aria-label="Exit to Done screen">Exit</button>
+            </div>
+
+            <main class="card" id="app" aria-live="polite">
+                <!-- Rendered screen content goes here -->
+            </main>
+        </div>
+    </div>
+
+    <script>
+        /* =========================================================
+           Rhythm O₂ — Breathing Awareness Check
+           Single-page app with a simple state machine.
+           Data stays local only (in-memory; optional localStorage).
+           ========================================================= */
+
+        // ---- Privacy: local only ----
+        const USE_LOCAL_STORAGE = false; // set true if you want persistence on this device only
+        const STORAGE_KEY = "rhythmO2_breathing_awareness_check_v1";
+
+        // ---- App state (in-memory) ----
+        const session = {
+            step1Completed: false,
+            step2DurationSec: null,
+            step3DurationSec: null,
+            notice: null,      // "Smooth and easy", ...
+            bodyCheck: null,   // "Calm", ...
+            reflection: null   // "Easier", ...
+        };
+
+        // ---- Simple state machine ----
+        const Screens = Object.freeze({
+            INTRO: "INTRO",
+            STEP1: "STEP1",
+            NOTICE: "NOTICE",
+            STEP2: "STEP2",
+            BODYCHECK: "BODYCHECK",
+            STEP3: "STEP3",
+            REFLECTION: "REFLECTION",
+            CLOSE: "CLOSE"
+        });
+
+        // Progress display uses 8 screens total per your request (1/8 style).
+        const SCREEN_ORDER = [
+            Screens.INTRO,
+            Screens.STEP1,
+            Screens.NOTICE,
+            Screens.STEP2,
+            Screens.BODYCHECK,
+            Screens.STEP3,
+            Screens.REFLECTION,
+            Screens.CLOSE
+        ];
+
+        let currentScreen = Screens.INTRO;
+
+        // Timers / guards
+        let step1CountdownInterval = null;
+        let step1SecondsLeft = 20;
+        let step1HoldStarted = false;
+
+        let stepHoldInterval = null;
+        let stepHoldStartMs = 0;
+        let holdRunning = false;
+        let lastHoldTapMs = 0; // debounce for HOLD toggle
+
+        const appEl = document.getElementById("app");
+        const exitBtn = document.getElementById("exitBtn");
+
+        // ---------- Utilities ----------
+        function saveIfEnabled() {
+            if (!USE_LOCAL_STORAGE) return;
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify({ session, currentScreen }));
+            } catch (e) { /* ignore */ }
+        }
+
+        function loadIfEnabled() {
+            if (!USE_LOCAL_STORAGE) return;
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (!raw) return;
+                const parsed = JSON.parse(raw);
+                if (parsed && parsed.session) {
+                    Object.assign(session, parsed.session);
+                }
+                if (parsed && parsed.currentScreen && Screens[parsed.currentScreen]) {
+                    currentScreen = parsed.currentScreen;
+                }
+            } catch (e) { /* ignore */ }
+        }
+
+        function clearSavedIfEnabled() {
+            if (!USE_LOCAL_STORAGE) return;
+            try { localStorage.removeItem(STORAGE_KEY); } catch (e) { /* ignore */ }
+        }
+
+        function screenIndex(screen) {
+            const idx = SCREEN_ORDER.indexOf(screen);
+            return idx === -1 ? 0 : idx;
+        }
+
+        function progressText() {
+            const idx = screenIndex(currentScreen) + 1;
+            return `${idx}/8`;
+        }
+
+        function stopAllTimers() {
+            if (step1CountdownInterval) {
+                clearInterval(step1CountdownInterval);
+                step1CountdownInterval = null;
+            }
+            if (stepHoldInterval) {
+                clearInterval(stepHoldInterval);
+                stepHoldInterval = null;
+            }
+            holdRunning = false;
+            step1HoldStarted = false;
+        }
+
+        function setScreen(next) {
+            // Clean up any running timers on navigation
+            stopAllTimers();
+            currentScreen = next;
+            saveIfEnabled();
+            render();
+        }
+
+        function focusFirstInteractive() {
+            // Keep it simple: focus first button or first radio
+            const first = appEl.querySelector("button:not([disabled]), input[type='radio']");
+            if (first) first.focus({ preventScroll: true });
+        }
+
+        // ---------- Render helpers ----------
+        function baseHeader(title) {
+            return `
+        <div class="header">
+          <div class="breathIcon" aria-hidden="true"></div>
+          <div class="titles">
+            <div class="titleRow">
+              <h1>${escapeHtml(title)}</h1>
+              <div class="progress" aria-label="Progress">${progressText()}</div>
+            </div>
+            <p class="stopAnytime">Stop anytime.</p>
+          </div>
+        </div>
+      `;
+        }
+
+        function escapeHtml(str) {
+            return String(str).replace(/[&<>"']/g, s => ({
+                "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;"
+            }[s]));
+        }
+
+        function radioGroup({ name, legend, options, selectedValue }) {
+            const opts = options.map((opt, i) => {
+                const id = `${name}_${i}`;
+                const checked = selectedValue === opt ? "checked" : "";
+                return `
+          <label class="opt" for="${id}">
+            <input id="${id}" type="radio" name="${name}" value="${escapeHtml(opt)}" ${checked} />
+            <span>${escapeHtml(opt)}</span>
+          </label>
+        `;
+            }).join("");
+
+            return `
+        <fieldset>
+          <legend>${escapeHtml(legend)}</legend>
+          <div class="options" role="radiogroup" aria-label="${escapeHtml(legend)}">
+            ${opts}
+          </div>
+        </fieldset>
+      `;
+        }
+
+        // ---------- Screen renderers ----------
+        function renderIntro() {
+            return `
+        ${baseHeader("Breathing Awareness Check")}
+        <div class="body">This short exercise helps you notice how your breathing responds when it pauses and when it resumes.
+There is no score and no goal. You can stop at any time.</div>
+
+        <div class="controls">
+          <button class="btn btnPrimary" type="button" id="startBtn">Start</button>
+        </div>
+      `;
+        }
+
+        function renderStep1() {
+            return `
+        ${baseHeader("Step 1")}
+        <div class="body">Breathe in normally.
+Breathe out normally.
+At the end of the exhale, tap HOLD.</div>
+
+        <div class="bigTimer" aria-live="polite">
+          <div class="bigNumber" id="countdownNum">${step1HoldStarted ? step1SecondsLeft : "20"}</div>
+          <p class="timerHint" id="countdownHint">${step1HoldStarted ? "Countdown running…" : "Tap HOLD to begin the 20-second pause."}</p>
+          <p class="timerHint" id="afterMsg" style="display:none;">Let your breath return naturally.</p>
+        </div>
+
+        <div class="controls">
+          <button class="btn btnPrimary" type="button" id="holdBtn">HOLD</button>
+          <button class="btn btnSecondary" type="button" id="contBtn" disabled>Continue</button>
+        </div>
+
+        <p class="note">If you feel uncomfortable, you can stop and tap Exit.</p>
+      `;
+        }
+
+        function renderNotice() {
+            return `
+        ${baseHeader("Notice")}
+        ${radioGroup({
+                name: "notice",
+                legend: "When your breathing returned, it felt:",
+                options: ["Smooth and easy", "Slightly rushed", "Fast or forceful", "Not sure"],
+                selectedValue: session.notice
+            })}
+        <div class="controls">
+          <button class="btn btnSecondary" type="button" id="contBtn" disabled>Continue</button>
+        </div>
+      `;
+        }
+
+        function renderStep2() {
+            return `
+        ${baseHeader("Step 2")}
+        <div class="body">Breathe in normally.
+Breathe out normally.
+At the end of the exhale, tap HOLD and hold your breath for as long as you can.
+Tap HOLD again when you start breathing.
+This is not a challenge.</div>
+
+        <div class="bigTimer" aria-live="polite">
+          <div class="bigNumber" id="elapsedNum">0</div>
+          <p class="timerHint" id="elapsedHint">Tap HOLD to start. Tap HOLD again to stop.</p>
+        </div>
+
+        <div class="controls">
+          <button class="btn btnPrimary" type="button" id="holdToggle">HOLD</button>
+          <button class="btn btnSecondary" type="button" id="contBtn" disabled>Continue</button>
+        </div>
+      `;
+        }
+
+        function renderBodyCheck() {
+            return `
+        ${baseHeader("Body Check")}
+        ${radioGroup({
+                name: "bodyCheck",
+                legend: "How did that pause feel?",
+                options: ["Calm", "Neutral", "Uncomfortable", "Very uncomfortable"],
+                selectedValue: session.bodyCheck
+            })}
+        <div class="controls">
+          <button class="btn btnSecondary" type="button" id="contBtn" disabled>Continue</button>
+        </div>
+      `;
+        }
+
+        function renderStep3() {
+            return `
+        ${baseHeader("Step 3")}
+        <div class="body">Breathe in normally.
+Breathe out normally.
+At the end of the exhale, tap HOLD and hold your breath for as long as you can.
+As sensations arise:
+- Keep shoulders relaxed
+- Let your jaw stay loose
+Tap HOLD again when you start breathing.</div>
+
+        <div class="bigTimer" aria-live="polite">
+          <div class="bigNumber" id="elapsedNum">0</div>
+          <p class="timerHint" id="elapsedHint">Tap HOLD to start. Tap HOLD again to stop.</p>
+        </div>
+
+        <div class="controls">
+          <button class="btn btnPrimary" type="button" id="holdToggle">HOLD</button>
+          <button class="btn btnSecondary" type="button" id="contBtn" disabled>Continue</button>
+        </div>
+      `;
+        }
+
+        function renderReflection() {
+            return `
+        ${baseHeader("Reflection")}
+        ${radioGroup({
+                name: "reflection",
+                legend: "Compared to the previous pause, this felt:",
+                options: ["Easier", "About the same", "Harder", "Not sure"],
+                selectedValue: session.reflection
+            })}
+        <div class="controls">
+          <button class="btn btnSecondary" type="button" id="contBtn" disabled>Continue</button>
+        </div>
+      `;
+        }
+
+        function renderClose() {
+            const s1 = session.step1Completed ? "Yes" : "No";
+            const s2 = session.step2DurationSec == null ? "—" : `${session.step2DurationSec}s`;
+            const s3 = session.step3DurationSec == null ? "—" : `${session.step3DurationSec}s`;
+
+            return `
+        ${baseHeader("Done")}
+        <div class="body">What this shows
+This exercise helps you notice how your breathing responds to interruption and recovery.
+Use this awareness to choose regulation tools that feel supportive, not forced.
+Return to normal breathing.</div>
+
+        <div class="divider" role="separator" aria-hidden="true"></div>
+
+        <div class="summary" aria-label="Session summary">
+          <div class="row"><div class="k">Step 1 completed</div><div class="v">${escapeHtml(s1)}</div></div>
+          <div class="row"><div class="k">Step 2 duration</div><div class="v">${escapeHtml(s2)}</div></div>
+          <div class="row"><div class="k">Step 3 duration</div><div class="v">${escapeHtml(s3)}</div></div>
+          <div class="row"><div class="k">Notice</div><div class="v">${escapeHtml(session.notice ?? "—")}</div></div>
+          <div class="row"><div class="k">Body Check</div><div class="v">${escapeHtml(session.bodyCheck ?? "—")}</div></div>
+          <div class="row"><div class="k">Reflection</div><div class="v">${escapeHtml(session.reflection ?? "—")}</div></div>
+        </div>
+
+        <div class="controls">
+          <button class="btn btnPrimary" type="button" id="restartBtn">Restart</button>
+        </div>
+
+        <p class="note">Data stays on this device. Nothing is sent anywhere.</p>
+      `;
+        }
+
+        // ---------- Screen wiring ----------
+        function wireIntro() {
+            document.getElementById("startBtn").addEventListener("click", () => setScreen(Screens.STEP1));
+        }
+
+        function wireStep1() {
+            const holdBtn = document.getElementById("holdBtn");
+            const contBtn = document.getElementById("contBtn");
+            const numEl = document.getElementById("countdownNum");
+            const hintEl = document.getElementById("countdownHint");
+            const afterEl = document.getElementById("afterMsg");
+
+            // Navigation must be disabled while countdown runs: we do not provide other nav here.
+            // Exit remains available by requirement.
+
+            function finishStep1() {
+                step1CountdownInterval = null;
+                step1HoldStarted = false;
+                session.step1Completed = true;
+                saveIfEnabled();
+
+                afterEl.style.display = "block";
+                hintEl.textContent = "Pause complete.";
+                contBtn.disabled = false;
+
+                // Keep focus sensible
+                contBtn.focus({ preventScroll: true });
+            }
+
+            function startCountdown() {
+                if (step1HoldStarted) return;
+
+                step1HoldStarted = true;
+                step1SecondsLeft = 20;
+                numEl.textContent = String(step1SecondsLeft);
+                hintEl.textContent = "Countdown running…";
+                afterEl.style.display = "none";
+                contBtn.disabled = true;
+
+                // Prevent re-tap / changes during countdown
+                holdBtn.disabled = true;
+
+                step1CountdownInterval = setInterval(() => {
+                    step1SecondsLeft -= 1;
+                    if (step1SecondsLeft <= 0) {
+                        numEl.textContent = "0";
+                        clearInterval(step1CountdownInterval);
+                        step1CountdownInterval = null;
+                        holdBtn.disabled = false; // not needed, but restores state
+                        finishStep1();
+                        return;
+                    }
+                    numEl.textContent = String(step1SecondsLeft);
+                }, 1000);
+            }
+
+            holdBtn.addEventListener("click", startCountdown);
+
+            contBtn.addEventListener("click", () => {
+                // Only possible after finishStep1 enables it
+                setScreen(Screens.NOTICE);
+            });
+        }
+
+        function wireNotice() {
+            const contBtn = document.getElementById("contBtn");
+            const radios = appEl.querySelectorAll("input[name='notice']");
+
+            function update() {
+                const checked = appEl.querySelector("input[name='notice']:checked");
+                if (checked) {
+                    session.notice = checked.value;
+                    contBtn.disabled = false;
+                    saveIfEnabled();
+                }
+            }
+
+            radios.forEach(r => r.addEventListener("change", update));
+            update();
+
+            contBtn.addEventListener("click", () => setScreen(Screens.STEP2));
+        }
+
+        function startElapsedTimer(elapsedNumEl) {
+            // Uses setInterval for 1s updates; stores start time for accuracy.
+            stepHoldStartMs = Date.now();
+            elapsedNumEl.textContent = "0";
+
+            stepHoldInterval = setInterval(() => {
+                const sec = Math.floor((Date.now() - stepHoldStartMs) / 1000);
+                elapsedNumEl.textContent = String(sec);
+            }, 250); // smoother updates; still cheap
+        }
+
+        function stopElapsedTimer(elapsedNumEl) {
+            if (stepHoldInterval) {
+                clearInterval(stepHoldInterval);
+                stepHoldInterval = null;
+            }
+            const sec = Math.floor((Date.now() - stepHoldStartMs) / 1000);
+            elapsedNumEl.textContent = String(sec);
+            return sec;
+        }
+
+        function wireHoldToggle({ onStop }) {
+            const holdBtn = document.getElementById("holdToggle");
+            const contBtn = document.getElementById("contBtn");
+            const elapsedNumEl = document.getElementById("elapsedNum");
+            const hintEl = document.getElementById("elapsedHint");
+
+            // Reset UI state
+            holdRunning = false;
+            lastHoldTapMs = 0;
+            contBtn.disabled = true;
+            elapsedNumEl.textContent = "0";
+            hintEl.textContent = "Tap HOLD to start. Tap HOLD again to stop.";
+
+            function toggle() {
+                const now = Date.now();
+
+                // 300ms debounce to prevent accidental double taps
+                if (now - lastHoldTapMs < 300) return;
+                lastHoldTapMs = now;
+
+                if (!holdRunning) {
+                    holdRunning = true;
+                    hintEl.textContent = "Timing… tap HOLD again when you start breathing.";
+                    startElapsedTimer(elapsedNumEl);
+                    // Keep Continue disabled while running
+                    contBtn.disabled = true;
+                } else {
+                    holdRunning = false;
+                    const sec = stopElapsedTimer(elapsedNumEl);
+                    hintEl.textContent = "Recorded. Continue when ready.";
+                    contBtn.disabled = false;
+                    onStop(sec);
+
+                    // Focus Continue to reduce extra taps
+                    contBtn.focus({ preventScroll: true });
+                }
+            }
+
+            holdBtn.addEventListener("click", toggle);
+
+            contBtn.addEventListener("click", () => {
+                // Only enabled after stop
+                // Navigation determined by current screen in render() wire phase
+                nextFromCurrent();
+            });
+        }
+
+        function nextFromCurrent() {
+            switch (currentScreen) {
+                case Screens.STEP2: return setScreen(Screens.BODYCHECK);
+                case Screens.STEP3: return setScreen(Screens.REFLECTION);
+                default: break;
+            }
+        }
+
+        function wireStep2() {
+            wireHoldToggle({
+                onStop: (sec) => {
+                    session.step2DurationSec = sec;
+                    saveIfEnabled();
+                }
+            });
+        }
+
+        function wireBodyCheck() {
+            const contBtn = document.getElementById("contBtn");
+            const radios = appEl.querySelectorAll("input[name='bodyCheck']");
+
+            function update() {
+                const checked = appEl.querySelector("input[name='bodyCheck']:checked");
+                if (checked) {
+                    session.bodyCheck = checked.value;
+                    contBtn.disabled = false;
+                    saveIfEnabled();
+                }
+            }
+
+            radios.forEach(r => r.addEventListener("change", update));
+            update();
+
+            contBtn.addEventListener("click", () => setScreen(Screens.STEP3));
+        }
+
+        function wireStep3() {
+            wireHoldToggle({
+                onStop: (sec) => {
+                    session.step3DurationSec = sec;
+                    saveIfEnabled();
+                }
+            });
+        }
+
+        function wireReflection() {
+            const contBtn = document.getElementById("contBtn");
+            const radios = appEl.querySelectorAll("input[name='reflection']");
+
+            function update() {
+                const checked = appEl.querySelector("input[name='reflection']:checked");
+                if (checked) {
+                    session.reflection = checked.value;
+                    contBtn.disabled = false;
+                    saveIfEnabled();
+                }
+            }
+
+            radios.forEach(r => r.addEventListener("change", update));
+            update();
+
+            contBtn.addEventListener("click", () => setScreen(Screens.CLOSE));
+        }
+
+        function wireClose() {
+            document.getElementById("restartBtn").addEventListener("click", () => {
+                // Clear session data and go back to intro
+                stopAllTimers();
+                session.step1Completed = false;
+                session.step2DurationSec = null;
+                session.step3DurationSec = null;
+                session.notice = null;
+                session.bodyCheck = null;
+                session.reflection = null;
+                clearSavedIfEnabled();
+                setScreen(Screens.INTRO);
+            });
+        }
+
+        // ---------- Main render ----------
+        function render() {
+            let html = "";
+            switch (currentScreen) {
+                case Screens.INTRO: html = renderIntro(); break;
+                case Screens.STEP1: html = renderStep1(); break;
+                case Screens.NOTICE: html = renderNotice(); break;
+                case Screens.STEP2: html = renderStep2(); break;
+                case Screens.BODYCHECK: html = renderBodyCheck(); break;
+                case Screens.STEP3: html = renderStep3(); break;
+                case Screens.REFLECTION: html = renderReflection(); break;
+                case Screens.CLOSE: html = renderClose(); break;
+                default: html = renderIntro(); break;
+            }
+
+            appEl.innerHTML = html;
+
+            // Wire events for the new DOM
+            switch (currentScreen) {
+                case Screens.INTRO: wireIntro(); break;
+                case Screens.STEP1: wireStep1(); break;
+                case Screens.NOTICE: wireNotice(); break;
+                case Screens.STEP2: wireStep2(); break;
+                case Screens.BODYCHECK: wireBodyCheck(); break;
+                case Screens.STEP3: wireStep3(); break;
+                case Screens.REFLECTION: wireReflection(); break;
+                case Screens.CLOSE: wireClose(); break;
+            }
+
+            // Keep focus behavior predictable for accessibility
+            setTimeout(focusFirstInteractive, 0);
+        }
+
+        // ---------- Persistent Exit ----------
+        exitBtn.addEventListener("click", () => {
+            // Exit always goes to Close Screen per requirement
+            setScreen(Screens.CLOSE);
+        });
+
+        // ---------- Init ----------
+        loadIfEnabled();
+        render();
+
+        // Safety: If the user navigates away / returns, we do not send data.
+        // Optional localStorage persistence is controlled by USE_LOCAL_STORAGE only.
+    </script>
+</body>
+
+</html>
