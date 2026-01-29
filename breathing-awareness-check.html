@@ -448,8 +448,9 @@
         <div class="wrap" role="application" aria-label="Breathing Awareness Check">
             <div class="topbar">
                 <div class="brand">Rhythm O₂</div>
-                <button id="exitBtn" class="exit" type="button" aria-label="Exit to Done screen">Exit</button>
+                <button id="exitBtn" class="exit" type="button" aria-label="Exit to library">Exit</button>
             </div>
+
 
             <main class="card" id="app" aria-live="polite"></main>
         </div>
@@ -621,9 +622,9 @@
         function computeOrientation(session) {
 
             // FINAL ROUTING LINKS (match your hubs)
-            const CALM_LINK = "mytrexcalm-first.html";
-            const BUILD_LINK = "build-gradually.html";
-            const CAPACITY_LINK = "longer-reset.html";
+            const CALM_LINK = "mytrex/calm-first.html";
+            const BUILD_LINK = "mytrex/build-gradually.html";
+            const CAPACITY_LINK = "mytrex/longer-reset.html";
 
             const ONEONONE_LINK =
                 "mailto:hello.rhythmo2@gmail.com?subject=Rhythm%20O2%20-%201on1%20request";
