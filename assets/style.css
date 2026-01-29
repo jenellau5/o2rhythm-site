@@ -296,3 +296,41 @@ a:focus-visible {
 svg.progressRing {
     pointer-events: none;
 }
+
+/* --- Done screen orientation blocks + details --- */
+.blockTitle {
+    margin: 0 0 8px;
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.block {
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 14px 14px;
+    margin-top: 12px;
+}
+
+.details {
+    margin-top: 12px;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.03);
+    overflow: hidden;
+}
+
+.details summary {
+    cursor: pointer;
+    padding: 14px 14px;
+    font-weight: 800;
+    list-style: none;
+}
+
+.details summary::-webkit-details-marker {
+    display: none;
+}
+
+.detailsBody {
+    padding: 0 14px 14px;
+}

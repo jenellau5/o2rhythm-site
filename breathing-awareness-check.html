@@ -23,7 +23,6 @@
             --btnText: #0b0b0c;
             --btnAlt: rgba(255, 255, 255, 0.10);
             --focus: #9ad7ff;
-            --danger: #ff6b6b;
             --shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
             --radius: 18px;
             --tap: 52px;
@@ -49,7 +48,6 @@
             -moz-osx-font-smoothing: grayscale;
         }
 
-        /* Safer iPhone spacing around the notch/home bar */
         .page {
             min-height: 100%;
             padding: calc(16px + env(safe-area-inset-top)) 16px calc(20px + env(safe-area-inset-bottom));
@@ -227,7 +225,6 @@
             line-height: 1.45;
             margin: 10px 0 14px;
             white-space: pre-line;
-            /* respect line breaks in copy */
         }
 
         .bigTimer {
@@ -271,13 +268,14 @@
             letter-spacing: 0.02em;
             cursor: pointer;
             -webkit-tap-highlight-color: transparent;
-            transition: transform 90ms ease, box-shadow 90ms ease, filter 90ms ease;
+            transition: transform 90ms ease, filter 90ms ease;
             will-change: transform;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
             user-select: none;
+            text-decoration: none;
         }
 
         .btnPrimary {
@@ -296,7 +294,6 @@
             outline-offset: 3px;
         }
 
-        /* “Haptic-like” press feedback (visual only) */
         .btn:active {
             transform: translateY(1px) scale(0.985);
             filter: brightness(0.98);
@@ -312,7 +309,6 @@
             filter: none;
         }
 
-        /* Radio group styling (accessible) */
         fieldset {
             border: 0;
             padding: 0;
@@ -403,20 +399,43 @@
             font-weight: 700;
         }
 
-        /* Screen reader only */
-        .sr-only {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
+        .blockTitle {
+            margin: 0 0 8px;
+            font-size: 16px;
+            font-weight: 800;
         }
 
-        /* Prevent text selection / zoom weirdness on long press in iOS for buttons */
+        .block {
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 14px 14px;
+            margin-top: 12px;
+        }
+
+        .details {
+            margin-top: 12px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.03);
+            overflow: hidden;
+        }
+
+        .details summary {
+            cursor: pointer;
+            padding: 14px 14px;
+            font-weight: 800;
+            list-style: none;
+        }
+
+        .details summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .detailsBody {
+            padding: 0 14px 14px;
+        }
+
         button,
         a {
             -webkit-touch-callout: none;
@@ -429,13 +448,10 @@
         <div class="wrap" role="application" aria-label="Breathing Awareness Check">
             <div class="topbar">
                 <div class="brand">Rhythm O₂</div>
-                <!-- Persistent exit on every screen -->
                 <button id="exitBtn" class="exit" type="button" aria-label="Exit to Done screen">Exit</button>
             </div>
 
-            <main class="card" id="app" aria-live="polite">
-                <!-- Rendered screen content goes here -->
-            </main>
+            <main class="card" id="app" aria-live="polite"></main>
         </div>
     </div>
 
@@ -446,21 +462,19 @@
            Data stays local only (in-memory; optional localStorage).
            ========================================================= */
 
-        // ---- Privacy: local only ----
-        const USE_LOCAL_STORAGE = false; // set true if you want persistence on this device only
-        const STORAGE_KEY = "rhythmO2_breathing_awareness_check_v1";
+        const USE_LOCAL_STORAGE = false;
+        const STORAGE_KEY = "rhythmO2_breathing_awareness_check_v3";
 
-        // ---- App state (in-memory) ----
         const session = {
             step1Completed: false,
+            step1DurationSec: null, // NEW: records how long they held in Step 1 (0–20)
             step2DurationSec: null,
             step3DurationSec: null,
-            notice: null,      // "Smooth and easy", ...
-            bodyCheck: null,   // "Calm", ...
-            reflection: null   // "Easier", ...
+            notice: null,
+            bodyCheck: null,
+            reflection: null
         };
 
-        // ---- Simple state machine ----
         const Screens = Object.freeze({
             INTRO: "INTRO",
             STEP1: "STEP1",
@@ -472,7 +486,6 @@
             CLOSE: "CLOSE"
         });
 
-        // Progress display uses 8 screens total per your request (1/8 style).
         const SCREEN_ORDER = [
             Screens.INTRO,
             Screens.STEP1,
@@ -494,7 +507,7 @@
         let stepHoldInterval = null;
         let stepHoldStartMs = 0;
         let holdRunning = false;
-        let lastHoldTapMs = 0; // debounce for HOLD toggle
+        let lastHoldTapMs = 0;
 
         const appEl = document.getElementById("app");
         const exitBtn = document.getElementById("exitBtn");
@@ -502,9 +515,7 @@
         // ---------- Utilities ----------
         function saveIfEnabled() {
             if (!USE_LOCAL_STORAGE) return;
-            try {
-                localStorage.setItem(STORAGE_KEY, JSON.stringify({ session, currentScreen }));
-            } catch (e) { /* ignore */ }
+            try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ session, currentScreen })); } catch (e) { }
         }
 
         function loadIfEnabled() {
@@ -513,18 +524,14 @@
                 const raw = localStorage.getItem(STORAGE_KEY);
                 if (!raw) return;
                 const parsed = JSON.parse(raw);
-                if (parsed && parsed.session) {
-                    Object.assign(session, parsed.session);
-                }
-                if (parsed && parsed.currentScreen && Screens[parsed.currentScreen]) {
-                    currentScreen = parsed.currentScreen;
-                }
-            } catch (e) { /* ignore */ }
+                if (parsed && parsed.session) Object.assign(session, parsed.session);
+                if (parsed && parsed.currentScreen && Screens[parsed.currentScreen]) currentScreen = parsed.currentScreen;
+            } catch (e) { }
         }
 
         function clearSavedIfEnabled() {
             if (!USE_LOCAL_STORAGE) return;
-            try { localStorage.removeItem(STORAGE_KEY); } catch (e) { /* ignore */ }
+            try { localStorage.removeItem(STORAGE_KEY); } catch (e) { }
         }
 
         function screenIndex(screen) {
@@ -551,7 +558,6 @@
         }
 
         function setScreen(next) {
-            // Clean up any running timers on navigation
             stopAllTimers();
             currentScreen = next;
             saveIfEnabled();
@@ -559,8 +565,7 @@
         }
 
         function focusFirstInteractive() {
-            // Keep it simple: focus first button or first radio
-            const first = appEl.querySelector("button:not([disabled]), input[type='radio']");
+            const first = appEl.querySelector("button:not([disabled]), a.btn, input[type='radio']");
             if (first) first.focus({ preventScroll: true });
         }
 
@@ -586,6 +591,10 @@
             }[s]));
         }
 
+        function escapeAttr(str) {
+            return escapeHtml(str).replace(/`/g, "&#096;");
+        }
+
         function radioGroup({ name, legend, options, selectedValue }) {
             const opts = options.map((opt, i) => {
                 const id = `${name}_${i}`;
@@ -606,6 +615,96 @@
           </div>
         </fieldset>
       `;
+        }
+
+        // ---------- Orientation + routing ----------
+        function computeOrientation(session) {
+            // EDIT THESE LINKS:
+            const CALM_LINK = "./library.html#calm"; // <-- change to your real calming section/page
+            const LIBRARY_LINK = "./library.html";   // <-- change if needed
+            const ONEONONE_LINK = "mailto:info@o2rhythm.com?subject=Rhythm%20O2%20-%201on1%20request"; // <-- change email
+
+            const step2 = Number(session.step2DurationSec ?? 0);
+            const step3 = Number(session.step3DurationSec ?? 0);
+            const notice = (session.notice || "").toLowerCase();
+            const body = (session.bodyCheck || "").toLowerCase();
+            const reflection = (session.reflection || "").toLowerCase();
+
+            const fastReturn = notice.includes("fast") || notice.includes("forceful");
+            const rushedReturn = notice.includes("rushed");
+            const smoothReturn = notice.includes("smooth");
+            const uncomfortable = body.includes("uncomfortable");
+            const veryUncomfortable = body.includes("very");
+            const feltEasier = reflection.includes("easier");
+
+            const calmFirst =
+                fastReturn ||
+                veryUncomfortable ||
+                (uncomfortable && step2 <= 10) ||
+                step2 <= 5;
+
+            const capacityAvailable =
+                smoothReturn &&
+                (body.includes("calm") || body.includes("neutral")) &&
+                step2 >= 25 &&
+                step3 >= 25;
+
+            let path = "BUILD_GRADUALLY";
+            if (calmFirst) path = "CALM_FIRST";
+            else if (capacityAvailable) path = "CAPACITY_AVAILABLE";
+
+            const content = {
+                CALM_FIRST: {
+                    label: "Calm first",
+                    suggests:
+                        "Your breathing reacted quickly and felt uncomfortable when it was interrupted. That’s common under stress.",
+                    meaning:
+                        "This usually means your system benefits most from short, calming regulation first, before anything longer or more demanding.",
+                    nextTitle: "Best next step in Rhythm O₂",
+                    nextBody:
+                        "Start with short calming protocols that slow the exhale and reduce urgency. These are designed to work during stress, not after.",
+                    primaryText: "Go to calming protocols",
+                    primaryHref: CALM_LINK,
+                    secondaryText: "Request a 1-on-1 plan",
+                    secondaryHref: ONEONONE_LINK
+                },
+
+                BUILD_GRADUALLY: {
+                    label: "Build gradually",
+                    suggests:
+                        (rushedReturn
+                            ? "Your breathing returned a little rushed, which usually means your system can improve quickly with the right pacing."
+                            : "Your response was mixed, which usually means your system can improve quickly with the right pacing."),
+                    meaning:
+                        (feltEasier
+                            ? "Calm attention helped. Start with calming regulation, then build into steadier patterns over time."
+                            : "Start with calming regulation first. The goal is supportive, not forced."),
+                    nextTitle: "Best next step in Rhythm O₂",
+                    nextBody:
+                        "Use short calming protocols first. If those feel steady, move into slightly longer steady-breath options when appropriate.",
+                    primaryText: "Go to calming protocols",
+                    primaryHref: CALM_LINK,
+                    secondaryText: "Request a 1-on-1 plan",
+                    secondaryHref: ONEONONE_LINK
+                },
+
+                CAPACITY_AVAILABLE: {
+                    label: "Steady capacity",
+                    suggests:
+                        "Your breathing returned fairly steadily and felt manageable.",
+                    meaning:
+                        "That usually means you can tolerate longer or more structured regulation when appropriate. Still keep it supportive, not forced.",
+                    nextTitle: "Best next step in Rhythm O₂",
+                    nextBody:
+                        "Start with calming protocols anytime stress is high. When you feel steady, explore longer steady-breath options.",
+                    primaryText: "Go to protocols",
+                    primaryHref: LIBRARY_LINK,
+                    secondaryText: "Request a 1-on-1 plan",
+                    secondaryHref: ONEONONE_LINK
+                }
+            };
+
+            return content[path];
         }
 
         // ---------- Screen renderers ----------
@@ -630,12 +729,16 @@ At the end of the exhale, tap HOLD.</div>
 
         <div class="bigTimer" aria-live="polite">
           <div class="bigNumber" id="countdownNum">${step1HoldStarted ? step1SecondsLeft : "20"}</div>
-          <p class="timerHint" id="countdownHint">${step1HoldStarted ? "Countdown running…" : "Tap HOLD to begin the 20-second pause."}</p>
+          <p class="timerHint" id="countdownHint">
+            ${step1HoldStarted ? "Countdown running… tap STOP anytime." : "Tap HOLD to begin. You can stop anytime."}
+          </p>
           <p class="timerHint" id="afterMsg" style="display:none;">Let your breath return naturally.</p>
+          <p class="timerHint" id="heldMsg" style="display:none;"></p>
         </div>
 
         <div class="controls">
           <button class="btn btnPrimary" type="button" id="holdBtn">HOLD</button>
+          <button class="btn btnSecondary" type="button" id="stopBtn" disabled>STOP</button>
           <button class="btn btnSecondary" type="button" id="contBtn" disabled>Continue</button>
         </div>
 
@@ -644,14 +747,21 @@ At the end of the exhale, tap HOLD.</div>
         }
 
         function renderNotice() {
+            const heldLine = (session.step1DurationSec == null)
+                ? ""
+                : `You paused for ${session.step1DurationSec}s.`;
+
             return `
         ${baseHeader("Notice")}
+        ${heldLine ? `<div class="note" style="margin:0 0 10px;">${escapeHtml(heldLine)}</div>` : ""}
+
         ${radioGroup({
                 name: "notice",
                 legend: "When your breathing returned, it felt:",
                 options: ["Smooth and easy", "Slightly rushed", "Fast or forceful", "Not sure"],
                 selectedValue: session.notice
             })}
+
         <div class="controls">
           <button class="btn btnSecondary" type="button" id="contBtn" disabled>Continue</button>
         </div>
@@ -733,27 +843,50 @@ Tap HOLD again when you start breathing.</div>
         }
 
         function renderClose() {
-            const s1 = session.step1Completed ? "Yes" : "No";
+            const o = computeOrientation(session);
+
+            const s1 = session.step1DurationSec == null ? "—" : `${session.step1DurationSec}s`;
             const s2 = session.step2DurationSec == null ? "—" : `${session.step2DurationSec}s`;
             const s3 = session.step3DurationSec == null ? "—" : `${session.step3DurationSec}s`;
 
             return `
         ${baseHeader("Done")}
+
         <div class="body">What this shows
 This exercise helps you notice how your breathing responds to interruption and recovery.
 Use this awareness to choose regulation tools that feel supportive, not forced.
 Return to normal breathing.</div>
 
-        <div class="divider" role="separator" aria-hidden="true"></div>
-
-        <div class="summary" aria-label="Session summary">
-          <div class="row"><div class="k">Step 1 completed</div><div class="v">${escapeHtml(s1)}</div></div>
-          <div class="row"><div class="k">Step 2 duration</div><div class="v">${escapeHtml(s2)}</div></div>
-          <div class="row"><div class="k">Step 3 duration</div><div class="v">${escapeHtml(s3)}</div></div>
-          <div class="row"><div class="k">Notice</div><div class="v">${escapeHtml(session.notice ?? "—")}</div></div>
-          <div class="row"><div class="k">Body Check</div><div class="v">${escapeHtml(session.bodyCheck ?? "—")}</div></div>
-          <div class="row"><div class="k">Reflection</div><div class="v">${escapeHtml(session.reflection ?? "—")}</div></div>
+        <div class="block" role="region" aria-label="What this suggests">
+          <h2 class="blockTitle">What this suggests</h2>
+          <div class="note" style="margin:0 0 8px; font-weight:800; color: var(--text);">${escapeHtml(o.label)}</div>
+          <div class="note" style="margin:0 0 8px;">${escapeHtml(o.suggests)}</div>
+          <div class="note" style="margin:0;">${escapeHtml(o.meaning)}</div>
         </div>
+
+        <div class="block" role="region" aria-label="Best next step">
+          <h2 class="blockTitle">${escapeHtml(o.nextTitle)}</h2>
+          <div class="note" style="margin:0 0 12px;">${escapeHtml(o.nextBody)}</div>
+
+          <div class="controls" style="margin-top:0;">
+            <a class="btn btnPrimary" href="${escapeAttr(o.primaryHref)}" role="button">${escapeHtml(o.primaryText)}</a>
+            <a class="btn btnSecondary" href="${escapeAttr(o.secondaryHref)}" role="button">${escapeHtml(o.secondaryText)}</a>
+          </div>
+        </div>
+
+        <details class="details">
+          <summary>Session details</summary>
+          <div class="detailsBody">
+            <div class="summary" aria-label="Session summary">
+              <div class="row"><div class="k">Step 1 pause</div><div class="v">${escapeHtml(s1)}</div></div>
+              <div class="row"><div class="k">Step 2 duration</div><div class="v">${escapeHtml(s2)}</div></div>
+              <div class="row"><div class="k">Step 3 duration</div><div class="v">${escapeHtml(s3)}</div></div>
+              <div class="row"><div class="k">Notice</div><div class="v">${escapeHtml(session.notice ?? "—")}</div></div>
+              <div class="row"><div class="k">Body Check</div><div class="v">${escapeHtml(session.bodyCheck ?? "—")}</div></div>
+              <div class="row"><div class="k">Reflection</div><div class="v">${escapeHtml(session.reflection ?? "—")}</div></div>
+            </div>
+          </div>
+        </details>
 
         <div class="controls">
           <button class="btn btnPrimary" type="button" id="restartBtn">Restart</button>
@@ -768,63 +901,84 @@ Return to normal breathing.</div>
             document.getElementById("startBtn").addEventListener("click", () => setScreen(Screens.STEP1));
         }
 
+        // Step 1: HOLD starts countdown; STOP ends early and records time reached.
         function wireStep1() {
             const holdBtn = document.getElementById("holdBtn");
+            const stopBtn = document.getElementById("stopBtn");
             const contBtn = document.getElementById("contBtn");
+
             const numEl = document.getElementById("countdownNum");
             const hintEl = document.getElementById("countdownHint");
             const afterEl = document.getElementById("afterMsg");
+            const heldMsg = document.getElementById("heldMsg");
 
-            // Navigation must be disabled while countdown runs: we do not provide other nav here.
-            // Exit remains available by requirement.
+            const TOTAL = 20;
+            let secondsHeld = 0;
 
-            function finishStep1() {
-                step1CountdownInterval = null;
-                step1HoldStarted = false;
+            function finalizeStep1() {
+                session.step1DurationSec = secondsHeld;
                 session.step1Completed = true;
                 saveIfEnabled();
 
+                step1HoldStarted = false;
+
                 afterEl.style.display = "block";
-                hintEl.textContent = "Pause complete.";
+                heldMsg.style.display = "block";
+                heldMsg.textContent = `Paused for ${secondsHeld}s.`;
+
+                hintEl.textContent = "Recorded.";
                 contBtn.disabled = false;
 
-                // Keep focus sensible
+                holdBtn.disabled = true;
+                stopBtn.disabled = true;
+
                 contBtn.focus({ preventScroll: true });
+            }
+
+            function stopEarly() {
+                if (!step1HoldStarted) return;
+                if (step1CountdownInterval) {
+                    clearInterval(step1CountdownInterval);
+                    step1CountdownInterval = null;
+                }
+                finalizeStep1();
             }
 
             function startCountdown() {
                 if (step1HoldStarted) return;
 
                 step1HoldStarted = true;
-                step1SecondsLeft = 20;
-                numEl.textContent = String(step1SecondsLeft);
-                hintEl.textContent = "Countdown running…";
-                afterEl.style.display = "none";
-                contBtn.disabled = true;
+                step1SecondsLeft = TOTAL;
+                secondsHeld = 0;
 
-                // Prevent re-tap / changes during countdown
+                numEl.textContent = String(step1SecondsLeft);
+                hintEl.textContent = "Countdown running… tap STOP anytime.";
+                afterEl.style.display = "none";
+                heldMsg.style.display = "none";
+
+                contBtn.disabled = true;
                 holdBtn.disabled = true;
+                stopBtn.disabled = false;
 
                 step1CountdownInterval = setInterval(() => {
                     step1SecondsLeft -= 1;
+                    secondsHeld += 1;
+
                     if (step1SecondsLeft <= 0) {
                         numEl.textContent = "0";
                         clearInterval(step1CountdownInterval);
                         step1CountdownInterval = null;
-                        holdBtn.disabled = false; // not needed, but restores state
-                        finishStep1();
+                        finalizeStep1();
                         return;
                     }
+
                     numEl.textContent = String(step1SecondsLeft);
                 }, 1000);
             }
 
             holdBtn.addEventListener("click", startCountdown);
-
-            contBtn.addEventListener("click", () => {
-                // Only possible after finishStep1 enables it
-                setScreen(Screens.NOTICE);
-            });
+            stopBtn.addEventListener("click", stopEarly);
+            contBtn.addEventListener("click", () => setScreen(Screens.NOTICE));
         }
 
         function wireNotice() {
@@ -847,14 +1001,13 @@ Return to normal breathing.</div>
         }
 
         function startElapsedTimer(elapsedNumEl) {
-            // Uses setInterval for 1s updates; stores start time for accuracy.
             stepHoldStartMs = Date.now();
             elapsedNumEl.textContent = "0";
 
             stepHoldInterval = setInterval(() => {
                 const sec = Math.floor((Date.now() - stepHoldStartMs) / 1000);
                 elapsedNumEl.textContent = String(sec);
-            }, 250); // smoother updates; still cheap
+            }, 250);
         }
 
         function stopElapsedTimer(elapsedNumEl) {
@@ -867,13 +1020,12 @@ Return to normal breathing.</div>
             return sec;
         }
 
-        function wireHoldToggle({ onStop }) {
+        function wireHoldToggle({ onStop, onContinue }) {
             const holdBtn = document.getElementById("holdToggle");
             const contBtn = document.getElementById("contBtn");
             const elapsedNumEl = document.getElementById("elapsedNum");
             const hintEl = document.getElementById("elapsedHint");
 
-            // Reset UI state
             holdRunning = false;
             lastHoldTapMs = 0;
             contBtn.disabled = true;
@@ -882,8 +1034,6 @@ Return to normal breathing.</div>
 
             function toggle() {
                 const now = Date.now();
-
-                // 300ms debounce to prevent accidental double taps
                 if (now - lastHoldTapMs < 300) return;
                 lastHoldTapMs = now;
 
@@ -891,7 +1041,6 @@ Return to normal breathing.</div>
                     holdRunning = true;
                     hintEl.textContent = "Timing… tap HOLD again when you start breathing.";
                     startElapsedTimer(elapsedNumEl);
-                    // Keep Continue disabled while running
                     contBtn.disabled = true;
                 } else {
                     holdRunning = false;
@@ -899,8 +1048,6 @@ Return to normal breathing.</div>
                     hintEl.textContent = "Recorded. Continue when ready.";
                     contBtn.disabled = false;
                     onStop(sec);
-
-                    // Focus Continue to reduce extra taps
                     contBtn.focus({ preventScroll: true });
                 }
             }
@@ -908,26 +1055,15 @@ Return to normal breathing.</div>
             holdBtn.addEventListener("click", toggle);
 
             contBtn.addEventListener("click", () => {
-                // Only enabled after stop
-                // Navigation determined by current screen in render() wire phase
-                nextFromCurrent();
+                if (contBtn.disabled) return;
+                onContinue();
             });
-        }
-
-        function nextFromCurrent() {
-            switch (currentScreen) {
-                case Screens.STEP2: return setScreen(Screens.BODYCHECK);
-                case Screens.STEP3: return setScreen(Screens.REFLECTION);
-                default: break;
-            }
         }
 
         function wireStep2() {
             wireHoldToggle({
-                onStop: (sec) => {
-                    session.step2DurationSec = sec;
-                    saveIfEnabled();
-                }
+                onStop: (sec) => { session.step2DurationSec = sec; saveIfEnabled(); },
+                onContinue: () => setScreen(Screens.BODYCHECK)
             });
         }
 
@@ -952,10 +1088,8 @@ Return to normal breathing.</div>
 
         function wireStep3() {
             wireHoldToggle({
-                onStop: (sec) => {
-                    session.step3DurationSec = sec;
-                    saveIfEnabled();
-                }
+                onStop: (sec) => { session.step3DurationSec = sec; saveIfEnabled(); },
+                onContinue: () => setScreen(Screens.REFLECTION)
             });
         }
 
@@ -980,9 +1114,9 @@ Return to normal breathing.</div>
 
         function wireClose() {
             document.getElementById("restartBtn").addEventListener("click", () => {
-                // Clear session data and go back to intro
                 stopAllTimers();
                 session.step1Completed = false;
+                session.step1DurationSec = null;
                 session.step2DurationSec = null;
                 session.step3DurationSec = null;
                 session.notice = null;
@@ -1010,7 +1144,6 @@ Return to normal breathing.</div>
 
             appEl.innerHTML = html;
 
-            // Wire events for the new DOM
             switch (currentScreen) {
                 case Screens.INTRO: wireIntro(); break;
                 case Screens.STEP1: wireStep1(); break;
@@ -1022,22 +1155,15 @@ Return to normal breathing.</div>
                 case Screens.CLOSE: wireClose(); break;
             }
 
-            // Keep focus behavior predictable for accessibility
             setTimeout(focusFirstInteractive, 0);
         }
 
         // ---------- Persistent Exit ----------
-        exitBtn.addEventListener("click", () => {
-            // Exit always goes to Close Screen per requirement
-            setScreen(Screens.CLOSE);
-        });
+        exitBtn.addEventListener("click", () => setScreen(Screens.CLOSE));
 
         // ---------- Init ----------
         loadIfEnabled();
         render();
-
-        // Safety: If the user navigates away / returns, we do not send data.
-        // Optional localStorage persistence is controlled by USE_LOCAL_STORAGE only.
     </script>
 </body>
 
