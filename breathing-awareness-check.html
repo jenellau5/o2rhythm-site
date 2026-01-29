@@ -1169,7 +1169,11 @@ Return to normal breathing.</div>
         }
 
         // ---------- Persistent Exit ----------
-        exitBtn.addEventListener("click", () => setScreen(Screens.CLOSE));
+        const LIBRARY_LINK = "mytrex/library.html";
+
+        exitBtn.addEventListener("click", () => {
+            window.location.href = LIBRARY_LINK;
+        });
 
         // ---------- Init ----------
         loadIfEnabled();
