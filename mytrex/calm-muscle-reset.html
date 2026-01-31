@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>No Breathing — Quick Muscle Reset — O₂ Rhythm</title>
+    <link rel="stylesheet" href="../assets/style.css" />
+</head>
+
+<body>
+    <main class="wrap">
+        <section class="card">
+            <div class="brand">O₂ RHYTHM</div>
+            <h1>Quick Muscle Reset</h1>
+            <p class="sub">No breathing. Quiet. 15 seconds.</p>
+
+            <div class="block">
+                <p class="blockTitle">Do this once:</p>
+                <p class="sub" style="margin:0;">
+                    1) Tighten your hands and shoulders for <b>5</b> seconds<br />
+                    2) Let everything go for <b>10</b> seconds
+                </p>
+            </div>
+
+            <a class="btn" href="#" id="start">Start 15-second timer</a>
+            <div class="timer" id="t" style="margin-top:10px;">0:15</div>
+
+            <div class="footerlink">
+                <a href="calm-first.html">Back</a>
+            </div>
+
+            <script>
+                (function () {
+                    const start = document.getElementById("start");
+                    const t = document.getElementById("t");
+                    let running = false, remaining = 15, interval = null;
+
+                    function render() {
+                        const mm = Math.floor(remaining / 60);
+                        const ss = String(remaining % 60).padStart(2, "0");
+                        t.textContent = `${mm}:${ss}`;
+                    }
+
+                    start.addEventListener("click", (e) => {
+                        e.preventDefault();
+                        if (running) return;
+                        running = true;
+                        remaining = 15;
+                        render();
+                        interval = setInterval(() => {
+                            remaining--;
+                            render();
+                            if (remaining <= 0) {
+                                clearInterval(interval);
+                                running = false;
+                                t.textContent = "Done";
+                            }
+                        }, 1000);
+                    });
+
+                    render();
+                })();
+            </script>
+        </section>
+    </main>
+</body>
+
+</html>

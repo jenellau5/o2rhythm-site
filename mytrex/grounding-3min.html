@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>No Breathing — Grounding — O₂ Rhythm</title>
+    <link rel="stylesheet" href="../assets/style.css" />
+</head>
+
+<body>
+    <main class="wrap">
+        <section class="card">
+            <div class="brand">O₂ RHYTHM</div>
+            <h1>Grounding</h1>
+            <p class="sub">No breathing. Use this when you have 3 minutes.</p>
+
+            <div class="block">
+                <p class="blockTitle">Name:</p>
+                <p class="sub" style="margin:0;">
+                    5 things you can see<br />
+                    4 things you can feel<br />
+                    3 things you can hear<br />
+                    2 things you can smell<br />
+                    1 thing you can taste
+                </p>
+            </div>
+
+            <a class="btn" href="#" id="start">Start 3-minute timer</a>
+            <div class="timer" id="t" style="margin-top:10px;">3:00</div>
+
+            <div class="footerlink">
+                <a href="build-gradually.html">Back</a>
+            </div>
+
+            <script>
+                (function () {
+                    const start = document.getElementById("start");
+                    const t = document.getElementById("t");
+                    let running = false, remaining = 180, interval = null;
+
+                    function render() {
+                        const mm = Math.floor(remaining / 60);
+                        const ss = String(remaining % 60).padStart(2, "0");
+                        t.textContent = `${mm}:${ss}`;
+                    }
+
+                    start.addEventListener("click", (e) => {
+                        e.preventDefault();
+                        if (running) return;
+                        running = true;
+                        remaining = 180;
+                        render();
+                        interval = setInterval(() => {
+                            remaining--;
+                            render();
+                            if (remaining <= 0) {
+                                clearInterval(interval);
+                                running = false;
+                                t.textContent = "Done";
+                            }
+                        }, 1000);
+                    });
+
+                    render();
+                })();
+            </script>
+        </section>
+    </main>
+</body>
+
+</html>
