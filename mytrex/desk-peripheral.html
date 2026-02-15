@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Peripheral Reset — O₂ Rhythm</title>
+    <link rel="stylesheet" href="../assets/style.css" />
+    <style>
+        :root {
+            --ring: #ffffff;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="wrap">
+        <section class="card protocol" data-protocol data-agency="mytrex" data-environment="desk"
+            data-protocol-id="peripheral_reset" data-title="PERIPHERAL RESET" data-total="30" data-inhale="0"
+            data-hold1="0" data-exhale="0" data-hold2="0" data-paced="0" data-settle="30">
+
+            <div class="brand">O₂ RHYTHM</div>
+            <h1>PERIPHERAL RESET</h1>
+            <p class="sub">30 sec • Widen focus</p>
+
+            <div class="ringbox">
+                <svg class="progressRing" viewBox="0 0 220 220" aria-hidden="true">
+                    <circle class="progress-bg" cx="110" cy="110" r="100"></circle>
+                    <circle class="progress" cx="110" cy="110" r="100"></circle>
+                </svg>
+
+                <div id="pacer" class="pacer">
+                    <div class="center">
+                        <button id="startBtn" class="start" type="button">START</button>
+                        <div id="timer" class="timer">0:30</div>
+
+                        <div id="phaseLabel" class="phaseLabel"></div>
+                        <div id="count" class="count"></div>
+                        <div id="dots" class="phaseDots"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Non-breath instructions -->
+            <div class="block" style="text-align:left; margin-top:14px;">
+                <div class="blockTitle">DO THIS NOW</div>
+                <div class="note" style="margin:0 0 6px;">
+                    Keep eyes on your screen. Relax jaw. Drop shoulders.
+                </div>
+                <div class="note" style="margin:0 0 6px;">
+                    Notice the far LEFT edge of your vision.
+                </div>
+                <div class="note" style="margin:0 0 6px;">
+                    Notice the far RIGHT edge of your vision.
+                </div>
+                <div class="note" style="margin:0;">
+                    Hold both edges at once. Slow blink. Continue.
+                </div>
+            </div>
+
+            <div class="toggleRow">
+                <button id="soundToggle" class="toggle" type="button">SOUND: OFF</button>
+            </div>
+
+            <div class="navrow">
+                <a class="pill" href="desk.html">Back</a>
+                <a class="pill" href="library.html">Library</a>
+            </div>
+
+            <div class="feedback">
+                <a class="feedback-link" href="feedback.html">Pilot feedback (30 seconds)</a>
+            </div>
+
+        </section>
+    </main>
+
+    <script src="../assets/protocol.js"></script>
+</body>
+
+</html>
