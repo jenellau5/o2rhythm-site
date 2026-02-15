@@ -75,6 +75,7 @@
   </main>
 
   <script>
+    // ---------- Elements ----------
     const page = document.querySelector(".protocol");
     const startBtn = document.getElementById("startBtn");
     const timerEl = document.getElementById("timer");
@@ -84,15 +85,17 @@
     const progressCircle = document.querySelector(".progress");
     const soundToggleBtn = document.getElementById("soundToggle");
 
+    // ---------- Config ----------
     const total = 45;
     let timeLeft = total;
     let running = false;
     let interval = null;
 
-    // GA4 identity (optional)
+    // ---------- GA4 identity (optional) ----------
     const agency = page?.dataset.agency || "unknown";
     const environment = page?.dataset.environment || "unknown";
     const protocolId = page?.dataset.protocolId || "unknown";
+
     function ga(eventName, params = {}) {
       if (typeof window.gtag !== "function") return;
       window.gtag("event", eventName, {
@@ -104,7 +107,7 @@
       });
     }
 
-    // Ring math
+    // ---------- Ring math ----------
     const r = 100;
     const circumference = 2 * Math.PI * r;
     progressCircle.style.strokeDasharray = String(circumference);
@@ -115,6 +118,7 @@
       const ss = String(s % 60).padStart(2, "0");
       return `${m}:${ss}`;
     }
+
     function setOverallProgress(secondsRemaining) {
       const elapsed = total - secondsRemaining;
       const ratio = Math.min(1, Math.max(0, elapsed / total));
@@ -122,7 +126,7 @@
       progressCircle.style.strokeDashoffset = String(offset);
     }
 
-    // SOUND ON/OFF (session remembered)
+    // ---------- SOUND ON/OFF (session remembered) ----------
     const SS_SOUND = "o2_sound_enabled";
     let soundEnabled = sessionStorage.getItem(SS_SOUND) === "1";
     let audioCtx = null;
@@ -133,10 +137,12 @@
       if (!Ctx) return;
       audioCtx = new Ctx();
     }
+
     function setSoundUI() {
       soundToggleBtn.textContent = soundEnabled ? "SOUND: ON" : "SOUND: OFF";
       soundToggleBtn.setAttribute("aria-pressed", soundEnabled ? "true" : "false");
     }
+
     function beep(freq = 440, durationSec = 0.10) {
       if (!soundEnabled) return;
       ensureAudioContext();
@@ -167,39 +173,47 @@
       ga("protocol_toggle", { toggle: "sound", enabled: soundEnabled ? 1 : 0 });
     });
 
-    // Weighted timing (45 sec)
-    const schedule = [
-      { at: 45, label: "SEE", cmd: "NAME 3 THINGS YOU SEE", sub: "Take your time. 1… 2… 3…", tone: 520 },
-      { at: 30, label: "HEAR", cmd: "NAME 2 THINGS YOU HEAR", sub: "1… 2…", tone: 440 },
-      { at: 20, label: "FEEL", cmd: "NAME 1 THING YOU FEEL", sub: "hands • feet • chair", tone: 330 },
-      { at: 12, label: "JAW", cmd: "UNCLENCH YOUR JAW", sub: "tongue down. lips soft.", tone: 520 },
-      { at: 7, label: "SHOULDERS", cmd: "DROP SHOULDERS", sub: "down and back.", tone: 440 },
-      { at: 2, label: "READY", cmd: "BACK TO TASK", sub: "continue.", tone: 330 }
+    // ---------- Phases (durations in seconds) ----------
+    const phases = [
+      { label: "SEE", cmd: "NAME 3 THINGS YOU SEE", sub: "Take your time. 1… 2… 3…", tone: 520, dur: 15 },
+      { label: "HEAR", cmd: "NAME 2 THINGS YOU HEAR", sub: "1… 2…", tone: 440, dur: 10 },
+      { label: "FEEL", cmd: "NAME 1 THING YOU FEEL", sub: "hands • feet • chair", tone: 330, dur: 8 },
+      { label: "JAW", cmd: "UNCLENCH YOUR JAW", sub: "tongue down. lips soft.", tone: 520, dur: 5 },
+      { label: "SHOULDERS", cmd: "DROP SHOULDERS", sub: "down and back.", tone: 440, dur: 5 },
+      { label: "READY", cmd: "BACK TO TASK", sub: "continue.", tone: 330, dur: 2 }
     ];
 
     let currentIdx = -1;
 
-    function applyStep(secondsLeft) {
-      const idx = schedule.findIndex(s => secondsLeft >= s.at);
-      if (idx === -1) return;
-      if (idx !== currentIdx) {
-        currentIdx = idx;
-        const step = schedule[idx];
-        phaseLabelEl.textContent = step.label;
-        promptEl.textContent = step.cmd;
-        promptSubEl.textContent = step.sub;
-        beep(step.tone);
+    function applyPhaseByElapsed(elapsedSeconds) {
+      let acc = 0;
+      for (let i = 0; i < phases.length; i++) {
+        acc += phases[i].dur; // end time of this phase
+        if (elapsedSeconds < acc) {
+          if (i !== currentIdx) {
+            currentIdx = i;
+            const p = phases[i];
+            phaseLabelEl.textContent = p.label;
+            promptEl.textContent = p.cmd;
+            promptSubEl.textContent = p.sub;
+            beep(p.tone);
+          }
+          return;
+        }
       }
     }
 
+    // ---------- UI ----------
     function resetUI() {
       running = false;
       timeLeft = total;
       timerEl.textContent = fmt(total);
       setOverallProgress(total);
+
       phaseLabelEl.textContent = "READY";
       promptEl.textContent = "READY";
       promptSubEl.textContent = "Press START.";
+
       startBtn.disabled = false;
       startBtn.textContent = "START";
       currentIdx = -1;
@@ -207,6 +221,7 @@
 
     function endSession() {
       ga("protocol_complete", { total_seconds: total });
+
       clearInterval(interval);
       interval = null;
       running = false;
@@ -219,6 +234,7 @@
       setTimeout(resetUI, 900);
     }
 
+    // If they background the page mid-run, track it (optional)
     window.addEventListener("visibilitychange", () => {
       if (!running) return;
       if (document.visibilityState === "hidden") {
@@ -226,8 +242,10 @@
       }
     });
 
+    // ---------- Start ----------
     function start() {
       if (running) return;
+
       running = true;
       startBtn.disabled = true;
       startBtn.textContent = "RUNNING";
@@ -236,20 +254,26 @@
       timeLeft = total;
       timerEl.textContent = fmt(timeLeft);
       setOverallProgress(timeLeft);
-      applyStep(timeLeft);
+
+      // Phase at time 0
+      applyPhaseByElapsed(0);
 
       interval = setInterval(() => {
         timeLeft -= 1;
+
         timerEl.textContent = fmt(Math.max(0, timeLeft));
         setOverallProgress(Math.max(0, timeLeft));
-        applyStep(timeLeft);
+
+        const elapsed = total - timeLeft;
+        applyPhaseByElapsed(elapsed);
+
         if (timeLeft <= 0) endSession();
       }, 1000);
     }
 
     startBtn.addEventListener("click", start);
 
-    // Init
+    // ---------- Init ----------
     setSoundUI();
     resetUI();
   </script>
