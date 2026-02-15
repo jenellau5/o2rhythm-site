@@ -487,3 +487,25 @@ h1 {
     font-size: .9rem;
     letter-spacing: 1px;
 }
+
+/* BIG command text (do this at bottom of CSS) */
+.prompt {
+    margin-top: 14px;
+    font-size: 1.35rem;
+    font-weight: 950;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.promptSub {
+    margin-top: 10px;
+    font-size: 1.05rem;
+    line-height: 1.35;
+    color: rgba(255, 255, 255, .82);
+    text-align: center;
+}
+
+.phaseLabel {
+    letter-spacing: 4px;
+}

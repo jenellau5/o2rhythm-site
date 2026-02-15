@@ -4,38 +4,39 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tension Drop — O₂ Rhythm</title>
+    <title>Reset Check — O₂ Rhythm</title>
     <link rel="stylesheet" href="../assets/style.css" />
     <style>
         :root {
             --ring: #ffffff;
         }
 
-        /* Big prompt text */
         .prompt {
             margin-top: 14px;
-            font-size: 1.05rem;
-            font-weight: 900;
-            letter-spacing: 1px;
+            font-size: 1.35rem;
+            font-weight: 950;
+            letter-spacing: 2px;
             text-transform: uppercase;
+            text-align: center;
         }
 
         .promptSub {
-            margin-top: 6px;
-            color: rgba(255, 255, 255, .70);
-            font-size: .9rem;
-            line-height: 1.4;
+            margin-top: 10px;
+            font-size: 1.05rem;
+            line-height: 1.35;
+            color: rgba(255, 255, 255, .82);
+            text-align: center;
         }
     </style>
 </head>
 
 <body>
     <main class="wrap">
-        <section class="card protocol" data-agency="mytrex" data-environment="desk" data-protocol-id="tension_drop">
+        <section class="card protocol" data-agency="mytrex" data-environment="desk" data-protocol-id="reset_check">
 
             <div class="brand">O₂ RHYTHM</div>
-            <h1>TENSION DROP</h1>
-            <p class="sub">30 sec • Release + re-stack</p>
+            <h1>RESET CHECK</h1>
+            <p class="sub">30 sec • Simple commands</p>
 
             <div class="ringbox">
                 <svg class="progressRing" viewBox="0 0 220 220" aria-hidden="true">
@@ -56,7 +57,7 @@
             </div>
 
             <div class="prompt" id="prompt">READY</div>
-            <div class="promptSub" id="promptSub">Press START when you can.</div>
+            <div class="promptSub" id="promptSub">Press START.</div>
 
             <div class="toggleRow">
                 <button id="soundToggle" class="toggle" type="button">SOUND: OFF</button>
@@ -75,10 +76,6 @@
     </main>
 
     <script>
-        // -------------------------------
-        // TENSION DROP (30 sec) — guided
-        // -------------------------------
-
         const page = document.querySelector(".protocol");
         const startBtn = document.getElementById("startBtn");
         const timerEl = document.getElementById("timer");
@@ -86,7 +83,6 @@
         const promptEl = document.getElementById("prompt");
         const promptSubEl = document.getElementById("promptSub");
         const progressCircle = document.querySelector(".progress");
-
         const soundToggleBtn = document.getElementById("soundToggle");
 
         const total = 30;
@@ -94,20 +90,13 @@
         let running = false;
         let interval = null;
 
-        // Analytics identity (optional)
+        // GA4 identity (optional)
         const agency = page?.dataset.agency || "unknown";
         const environment = page?.dataset.environment || "unknown";
         const protocolId = page?.dataset.protocolId || "unknown";
-
         function ga(eventName, params = {}) {
             if (typeof window.gtag !== "function") return;
-            window.gtag("event", eventName, {
-                agency,
-                environment,
-                protocol: protocolId,
-                page_path: location.pathname,
-                ...params
-            });
+            window.gtag("event", eventName, { agency, environment, protocol: protocolId, page_path: location.pathname, ...params });
         }
 
         // Ring math
@@ -121,7 +110,6 @@
             const ss = String(s % 60).padStart(2, "0");
             return `${m}:${ss}`;
         }
-
         function setOverallProgress(secondsRemaining) {
             const elapsed = total - secondsRemaining;
             const ratio = Math.min(1, Math.max(0, elapsed / total));
@@ -140,13 +128,11 @@
             if (!Ctx) return;
             audioCtx = new Ctx();
         }
-
         function setSoundUI() {
             soundToggleBtn.textContent = soundEnabled ? "SOUND: ON" : "SOUND: OFF";
             soundToggleBtn.setAttribute("aria-pressed", soundEnabled ? "true" : "false");
         }
-
-        function beep(freq = 440, durationSec = 0.12) {
+        function beep(freq = 440, durationSec = 0.10) {
             if (!soundEnabled) return;
             ensureAudioContext();
             if (!audioCtx) return;
@@ -164,7 +150,6 @@
 
             osc.connect(gain);
             gain.connect(audioCtx.destination);
-
             osc.start(now);
             osc.stop(now + durationSec);
         }
@@ -177,30 +162,28 @@
             ga("protocol_toggle", { toggle: "sound", enabled: soundEnabled ? 1 : 0 });
         });
 
-        // Prompt schedule (simple, obvious)
+        // BIG, SIMPLE COMMANDS (5 seconds each)
         const schedule = [
-            { t: 30, label: "FEET DOWN", sub: "Press feet into the floor.", tone: 440 },
-            { t: 24, label: "SQUEEZE", sub: "Make fists. 3 seconds.", tone: 520 },
-            { t: 21, label: "RELEASE", sub: "Let go. Drop shoulders.", tone: 330 },
-            { t: 16, label: "STACK", sub: "Back to chair. Sit tall.", tone: 440 },
-            { t: 10, label: "RESET", sub: "Chin level. Jaw unclenched.", tone: 330 },
-            { t: 5, label: "READY", sub: "Slow blink. Continue.", tone: 440 }
+            { at: 30, label: "SEE", cmd: "NAME 3 THINGS YOU SEE", sub: "1… 2… 3…", tone: 520 },
+            { at: 25, label: "HEAR", cmd: "NAME 2 THINGS YOU HEAR", sub: "1… 2…", tone: 440 },
+            { at: 20, label: "FEEL", cmd: "NAME 1 THING YOU FEEL", sub: "hands • feet • chair", tone: 330 },
+            { at: 15, label: "JAW", cmd: "UNCLENCH YOUR JAW", sub: "tongue down. lips soft.", tone: 520 },
+            { at: 10, label: "SHOULDERS", cmd: "DROP SHOULDERS", sub: "down and back.", tone: 440 },
+            { at: 5, label: "READY", cmd: "BACK TO TASK", sub: "you’re good.", tone: 330 }
         ];
 
-        let currentStepIdx = -1;
+        let currentIdx = -1;
 
-        function applyStepForTime(secondsLeft) {
-            // Find first schedule item where secondsLeft >= t
-            const idx = schedule.findIndex(s => secondsLeft >= s.t);
+        function applyStep(secondsLeft) {
+            const idx = schedule.findIndex(s => secondsLeft >= s.at);
             if (idx === -1) return;
-
-            if (idx !== currentStepIdx) {
-                currentStepIdx = idx;
+            if (idx !== currentIdx) {
+                currentIdx = idx;
                 const step = schedule[idx];
                 phaseLabelEl.textContent = step.label;
-                promptEl.textContent = step.label;
+                promptEl.textContent = step.cmd;
                 promptSubEl.textContent = step.sub;
-                beep(step.tone, 0.12);
+                beep(step.tone);
             }
         }
 
@@ -211,15 +194,14 @@
             setOverallProgress(total);
             phaseLabelEl.textContent = "READY";
             promptEl.textContent = "READY";
-            promptSubEl.textContent = "Press START when you can.";
+            promptSubEl.textContent = "Press START.";
             startBtn.disabled = false;
             startBtn.textContent = "START";
-            currentStepIdx = -1;
+            currentIdx = -1;
         }
 
         function endSession() {
             ga("protocol_complete", { total_seconds: total });
-
             clearInterval(interval);
             interval = null;
             running = false;
@@ -227,12 +209,11 @@
             startBtn.textContent = "DONE";
             phaseLabelEl.textContent = "DONE";
             promptEl.textContent = "DONE";
-            promptSubEl.textContent = "Baseline restored. Continue.";
+            promptSubEl.textContent = "Continue.";
 
             setTimeout(resetUI, 900);
         }
 
-        // Bail-out tracking
         window.addEventListener("visibilitychange", () => {
             if (!running) return;
             if (document.visibilityState === "hidden") {
@@ -245,29 +226,23 @@
             running = true;
             startBtn.disabled = true;
             startBtn.textContent = "RUNNING";
-
             ga("protocol_start", { total_seconds: total });
 
             timeLeft = total;
             timerEl.textContent = fmt(timeLeft);
             setOverallProgress(timeLeft);
-
-            applyStepForTime(timeLeft);
+            applyStep(timeLeft);
 
             interval = setInterval(() => {
                 timeLeft -= 1;
                 timerEl.textContent = fmt(Math.max(0, timeLeft));
                 setOverallProgress(Math.max(0, timeLeft));
-
-                applyStepForTime(timeLeft);
-
+                applyStep(timeLeft);
                 if (timeLeft <= 0) endSession();
             }, 1000);
         }
 
         startBtn.addEventListener("click", start);
-
-        // Init
         setSoundUI();
         resetUI();
     </script>
