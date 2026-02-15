@@ -1,13 +1,13 @@
-/* protocol.js — Rhythm O₂
-   - Single source of truth for timing + phases
-   - Optional sound + vibration cues (user-enabled)
-   - Remembers sound/vibe toggles for the current session (sessionStorage)
+/* protocol.js — Rhythm O₂ (TACTICAL)
+   - Timing + phases from data-*
+   - Sound cues: ON/OFF (sessionStorage)
+   - GA4 events: start/complete/toggle/abandon (optional if gtag exists)
 */
 (function () {
     const page = document.querySelector("[data-protocol]");
     if (!page) return;
 
-    // --- Elements (required) ---
+    // --- Required elements ---
     const startBtn = document.getElementById("startBtn");
     const timerEl = document.getElementById("timer");
     const pacerEl = document.getElementById("pacer");
@@ -16,15 +16,10 @@
     const dotsEl = document.getElementById("dots");
     const countEl = document.getElementById("count");
 
-    // --- Elements (optional) ---
-    const soundToggleBtn = document.getElementById("soundToggle"); // optional
-    const vibeToggleBtn = document.getElementById("vibeToggle");   // optional
-    const feedbackLink = document.querySelector(".feedback-link"); // optional (if you want auto protocol naming)
+    // --- Optional element (sound toggle) ---
+    const soundToggleBtn = document.getElementById("soundToggle");
 
-    if (!startBtn || !timerEl || !pacerEl || !progressCircle || !phaseLabelEl || !dotsEl || !countEl) {
-        // Missing required elements; fail quietly.
-        return;
-    }
+    if (!startBtn || !timerEl || !pacerEl || !progressCircle || !phaseLabelEl || !dotsEl || !countEl) return;
 
     // --- Config from data-* ---
     const total = Number(page.dataset.total || 60);
@@ -34,8 +29,7 @@
     const exhale = Number(page.dataset.exhale || 6);
     const hold2 = Number(page.dataset.hold2 || 0);
 
-    // Optional energize-style two-stage pacing:
-    // paced = seconds of breathing loop; settle = seconds of normal breathing (no pacing)
+    // Optional two-stage pacing
     const pacedSeconds = page.dataset.paced ? Number(page.dataset.paced) : null;
     const settleSeconds = page.dataset.settle ? Number(page.dataset.settle) : null;
 
@@ -44,15 +38,21 @@
     const h1 = document.querySelector("h1");
     if (h1) h1.textContent = protocolTitle;
 
-    // If you’re using feedback.html?protocol=..., this can auto-fill it (optional)
-    if (feedbackLink && feedbackLink.getAttribute("href")?.includes("feedback.html")) {
-        try {
-            const href = new URL(feedbackLink.getAttribute("href"), window.location.href);
-            if (!href.searchParams.get("protocol")) {
-                href.searchParams.set("protocol", protocolTitle);
-                feedbackLink.setAttribute("href", href.toString());
-            }
-        } catch (_) { }
+    // --- Identity for analytics (optional but recommended) ---
+    const agency = page.dataset.agency || "unknown";
+    const environment = page.dataset.environment || "unknown";
+    const protocolId = page.dataset.protocolId || "unknown";
+
+    function ga(eventName, params = {}) {
+        if (typeof window.gtag !== "function") return;
+        window.gtag("event", eventName, {
+            agency,
+            environment,
+            protocol: protocolId,
+            protocol_title: protocolTitle,
+            page_path: location.pathname,
+            ...params
+        });
     }
 
     // --- Ring math (r=100 => circumference ~ 628) ---
@@ -61,7 +61,7 @@
     progressCircle.style.strokeDasharray = String(circumference);
     progressCircle.style.strokeDashoffset = String(circumference);
 
-    // --- Session state ---
+    // --- State ---
     let sessionInterval = null;
     let phaseInterval = null;
     let timeLeft = total;
@@ -107,47 +107,26 @@
     function clearAll() {
         if (sessionInterval) clearInterval(sessionInterval);
         sessionInterval = null;
-
         if (phaseInterval) clearInterval(phaseInterval);
         phaseInterval = null;
     }
 
-    // --- Optional cues: sound + vibration (session remembered) ---
+    // --- SOUND: ON/OFF (session remembered) ---
     const SS_SOUND = "o2_sound_enabled";
-    const SS_VIBE = "o2_vibe_enabled";
-
     let soundEnabled = sessionStorage.getItem(SS_SOUND) === "1";
-    let vibeEnabled = sessionStorage.getItem(SS_VIBE) === "1";
 
-    // iOS Safari generally doesn’t support vibration. Android usually does.
-    const vibeSupported = typeof navigator !== "undefined" && typeof navigator.vibrate === "function";
-
-    // Audio context is created only after user interaction (button tap) to satisfy browser policies.
     let audioCtx = null;
-
-    function updateSoundToggleUI() {
-        if (!soundToggleBtn) return;
-        soundToggleBtn.textContent = soundEnabled ? "🔊 Sound on" : "🔊 Enable sound cues";
-        soundToggleBtn.setAttribute("aria-pressed", soundEnabled ? "true" : "false");
-    }
-
-    function updateVibeToggleUI() {
-        if (!vibeToggleBtn) return;
-        if (!vibeSupported) {
-            vibeToggleBtn.textContent = "📳 Vibration not supported";
-            vibeToggleBtn.disabled = true;
-            vibeToggleBtn.setAttribute("aria-disabled", "true");
-            return;
-        }
-        vibeToggleBtn.textContent = vibeEnabled ? "📳 Vibration on" : "📳 Enable vibration";
-        vibeToggleBtn.setAttribute("aria-pressed", vibeEnabled ? "true" : "false");
-    }
-
     function ensureAudioContext() {
         if (audioCtx) return;
         const Ctx = window.AudioContext || window.webkitAudioContext;
         if (!Ctx) return;
         audioCtx = new Ctx();
+    }
+
+    function setSoundUI() {
+        if (!soundToggleBtn) return;
+        soundToggleBtn.textContent = soundEnabled ? "SOUND: ON" : "SOUND: OFF";
+        soundToggleBtn.setAttribute("aria-pressed", soundEnabled ? "true" : "false");
     }
 
     function playTone(freq, durationSec) {
@@ -162,49 +141,26 @@
         osc.type = "sine";
         osc.frequency.value = freq;
 
-        // Very soft envelope
+        // Soft envelope (dispatch-safe)
         gain.gain.setValueAtTime(0.0001, now);
-        gain.gain.exponentialRampToValueAtTime(0.04, now + 0.05);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + Math.max(0.1, durationSec));
+        gain.gain.exponentialRampToValueAtTime(0.04, now + 0.04);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + Math.max(0.12, durationSec));
 
         osc.connect(gain);
         gain.connect(audioCtx.destination);
 
         osc.start(now);
-        osc.stop(now + Math.max(0.1, durationSec));
+        osc.stop(now + Math.max(0.12, durationSec));
     }
 
-    function vibrate(pattern) {
-        if (!vibeEnabled) return;
-        if (!vibeSupported) return;
-        try {
-            navigator.vibrate(pattern);
-        } catch (_) { }
-    }
-
-    // Wire toggles (optional buttons)
     if (soundToggleBtn) {
-        updateSoundToggleUI();
+        setSoundUI();
         soundToggleBtn.addEventListener("click", () => {
             soundEnabled = !soundEnabled;
             sessionStorage.setItem(SS_SOUND, soundEnabled ? "1" : "0");
-            updateSoundToggleUI();
-
-            // Creating audio context on the first explicit user gesture helps iOS.
             if (soundEnabled) ensureAudioContext();
-        });
-    }
-
-    if (vibeToggleBtn) {
-        updateVibeToggleUI();
-        vibeToggleBtn.addEventListener("click", () => {
-            if (!vibeSupported) return;
-            vibeEnabled = !vibeEnabled;
-            sessionStorage.setItem(SS_VIBE, vibeEnabled ? "1" : "0");
-            updateVibeToggleUI();
-
-            // Small confirmation buzz when turned on (Android only)
-            if (vibeEnabled) vibrate([40]);
+            setSoundUI();
+            ga("protocol_toggle", { toggle: "sound", enabled: soundEnabled ? 1 : 0 });
         });
     }
 
@@ -223,11 +179,13 @@
         countEl.textContent = "";
 
         progressCircle.style.strokeDashoffset = String(circumference);
-        pacerEl.style.transition = "transform 250ms ease";
+        pacerEl.style.transition = "transform 200ms ease";
         pacerEl.style.transform = "scale(1)";
     }
 
     function endSession() {
+        ga("protocol_complete", { total_seconds: total });
+
         clearAll();
         running = false;
 
@@ -236,13 +194,21 @@
         dotsEl.innerHTML = "";
         countEl.textContent = "";
 
-        pacerEl.style.transition = "transform 250ms ease";
+        pacerEl.style.transition = "transform 200ms ease";
         pacerEl.style.transform = "scale(1)";
 
         setTimeout(resetUI, 900);
     }
 
-    // --- Core phase runner ---
+    // Track bail-outs (close tab / navigate away mid-run)
+    window.addEventListener("visibilitychange", () => {
+        if (!running) return;
+        if (document.visibilityState === "hidden") {
+            ga("protocol_abandon", { seconds_remaining: timeLeft });
+        }
+    });
+
+    // --- Phase runner ---
     function runPhase(label, seconds, pacerMode) {
         return new Promise((resolve) => {
             if (!running) return resolve();
@@ -251,24 +217,13 @@
             setPhaseLabel(label);
             buildDots(seconds);
 
-            // Visual pacing
             if (pacerMode === "expand") setPacerScale(1.18, seconds * 1000);
             if (pacerMode === "contract") setPacerScale(0.92, seconds * 1000);
-            if (pacerMode === "hold") setPacerScale(1.05, 150);
+            if (pacerMode === "hold") setPacerScale(1.05, 120);
 
-            // Optional cues at phase start
-            // Keep this subtle + dispatch-safe.
-            if (label === "INHALE") {
-                playTone(440, Math.max(0.2, seconds * 0.9));
-                vibrate([30]); // tiny tap
-            } else if (label === "EXHALE") {
-                playTone(220, Math.max(0.2, seconds * 0.9));
-                vibrate([50]); // slightly longer tap
-            } else if (label === "HOLD") {
-                // Optional: very light cue for hold (usually not necessary)
-                // playTone(330, 0.15);
-                // vibrate([20]);
-            }
+            // Sound cues (simple)
+            if (label === "INHALE") playTone(440, Math.max(0.18, seconds * 0.85));
+            if (label === "EXHALE") playTone(220, Math.max(0.18, seconds * 0.85));
 
             let t = 0;
             countEl.textContent = "1";
@@ -294,7 +249,6 @@
         let remainingLoop = loopSecondsLimit ?? Infinity;
 
         while (running && timeLeft > 0 && remainingLoop > 0) {
-            // If loop is limited, don’t start a cycle we can’t finish
             if (remainingLoop !== Infinity && cycleLen > remainingLoop) break;
 
             await runPhase("INHALE", inhale, "expand");
@@ -318,7 +272,7 @@
     async function runSettle(seconds) {
         if (!running || seconds <= 0) return;
 
-        setPhaseLabel("BREATHE");
+        setPhaseLabel("STEADY"); // more operational than BREATHE
         buildDots(seconds);
         setPacerScale(1.0, 200);
 
@@ -360,6 +314,8 @@
         startBtn.disabled = true;
         startBtn.textContent = "RUNNING";
 
+        ga("protocol_start", { total_seconds: total });
+
         timeLeft = total;
         timerEl.textContent = fmt(timeLeft);
         setOverallProgress(timeLeft);
@@ -368,7 +324,6 @@
             timeLeft -= 1;
             timerEl.textContent = fmt(Math.max(0, timeLeft));
             setOverallProgress(Math.max(0, timeLeft));
-
             if (timeLeft <= 0) endSession();
         }, 1000);
 
@@ -379,6 +334,5 @@
 
     // Init
     timerEl.textContent = fmt(total);
-    updateSoundToggleUI();
-    updateVibeToggleUI();
+    setSoundUI();
 })();

@@ -341,3 +341,106 @@ svg.progressRing {
 .detailsBody {
     padding: 0 14px 14px;
 }
+
+/* =========================================================
+   TACTICAL MODE — Rhythm O2
+   Clean. Controlled. Operational.
+========================================================= */
+
+:root {
+    --bg: #000;
+    --fg: #fff;
+    --muted: #9a9a9a;
+    --border: rgba(255, 255, 255, .14);
+    --ring: #4da3ff;
+}
+
+/* Card becomes command panel */
+.card {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px 18px;
+    background: rgba(255, 255, 255, .015);
+}
+
+/* Brand looks like issued equipment */
+.brand {
+    font-size: .75rem;
+    letter-spacing: 4px;
+    font-weight: 800;
+    color: var(--muted);
+}
+
+/* Header = command label */
+h1 {
+    font-size: 1.35rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+
+.sub {
+    font-size: .9rem;
+    margin-bottom: 18px;
+    color: var(--muted);
+}
+
+/* Buttons = command modules */
+.btn {
+    padding: 15px 16px;
+    margin: 8px 0;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, .025);
+    font-weight: 900;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    transition: background 120ms ease, border-color 120ms ease;
+}
+
+/* Tactical hover */
+.btn:hover {
+    background: rgba(255, 255, 255, .07);
+    border-color: rgba(255, 255, 255, .28);
+}
+
+/* Subtext smaller + neutral */
+.btn .sub {
+    text-transform: none;
+    font-size: .85em;
+    font-weight: 600;
+    letter-spacing: 0;
+    opacity: .7;
+}
+
+/* Divider more subtle */
+.card div[style*="height:1px"] {
+    opacity: .5;
+}
+
+/* START button less playful */
+.start {
+    width: 120px;
+    height: 120px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, .45);
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    background: rgba(255, 255, 255, .03);
+}
+
+/* Ring thinner + sharper */
+.progress-bg,
+.progress {
+    stroke-width: 8;
+}
+
+/* Pills smaller + tight */
+.pill {
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+    font-size: .8rem;
+    letter-spacing: .8px;
+    text-transform: uppercase;
+}
