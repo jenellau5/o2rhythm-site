@@ -444,3 +444,46 @@ h1 {
     letter-spacing: .8px;
     text-transform: uppercase;
 }
+
+/* --- START button: make it belong in the ring --- */
+.start {
+    width: 140px;
+    height: 140px;
+    border-radius: 999px;
+    /* circle */
+    border: 2px solid rgba(255, 255, 255, .25);
+    background: rgba(255, 255, 255, .03);
+    color: #fff;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+
+    display: grid;
+    place-items: center;
+
+    transition: transform 120ms ease, background 120ms ease, border-color 120ms ease;
+}
+
+.start:hover {
+    background: rgba(255, 255, 255, .06);
+    border-color: rgba(255, 255, 255, .40);
+}
+
+.start:active {
+    transform: scale(.98);
+}
+
+.start:disabled {
+    opacity: .45;
+    cursor: default;
+}
+
+.center {
+    gap: 12px;
+}
+
+.timer {
+    font-size: .9rem;
+    letter-spacing: 1px;
+}
