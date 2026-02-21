@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Corrections Academy — O₂ Rhythm</title>
+
+    <link rel="stylesheet" href="/assets/style.css">
+    <script src="/assets/protocol.js" defer></script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5NKZ7XYYWF"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        // page view
+        gtag('config', 'G-5NKZ7XYYWF', {
+            page_title: document.title,
+            page_path: location.pathname
+        });
+    </script>
+</head>
+
+<body data-agency="academy" data-environment="corrections">
+    <main class="wrap">
+        <section class="card">
+            <div class="brand">O₂ RHYTHM</div>
+
+            <h1>Corrections Regulation</h1>
+            <p class="sub">Controlled response under stress.</p>
+
+            <a class="btn" href="/shared/protocols/calm-long-exhale.html" onclick="trackProtocol('30s_floor_reset')"
+                data-ga="corr_30s_floor_reset">
+                30s FLOOR RESET
+                <br>
+                <span class="sub">Rapid control • Lower activation</span>
+            </a>
+
+            <a class="btn" href="/shared/protocols/calm-muscle-reset.html" onclick="trackProtocol('45s_tension_drop')"
+                data-ga="corr_45s_tension_drop">
+                45s TENSION DROP
+                <br>
+                <span class="sub">Release jaw • Shoulders • Hands</span>
+            </a>
+
+            <a class="btn" href="/shared/protocols/capacity-reset.html" onclick="trackProtocol('60s_after_incident')"
+                data-ga="corr_60s_after_incident">
+                60s AFTER INCIDENT
+                <br>
+                <span class="sub">Downshift • Clear thinking</span>
+            </a>
+
+            <div style="height:1px;background:rgba(255,255,255,.12);margin:14px 0;"></div>
+
+            <a class="btn" href="/shared/protocols/capacity-grounding.html"
+                onclick="trackProtocol('mental_regulation_academy_aligned')" data-ga="corr_mental_regulation">
+                MENTAL REGULATION
+                <br>
+                <span class="sub">Academy aligned • No breath required</span>
+            </a>
+
+            <div class="navrow">
+                <a class="pill" href="/shared/protocols/" onclick="trackProtocol('open_library')"
+                    data-ga="corr_library">Library</a>
+            </div>
+
+            <p class="sub" style="margin-top:14px;opacity:.85;">
+                No phone inside? Save this page as a desktop shortcut for access in the pit.
+            </p>
+        </section>
+    </main>
+</body>
+
+</html>
