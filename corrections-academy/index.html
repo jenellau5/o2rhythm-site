@@ -4,23 +4,18 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Corrections Academy — O₂ Rhythm</title>
+    <title>Corrections Regulation — O₂ Rhythm</title>
 
     <link rel="stylesheet" href="/assets/style.css">
     <script src="/assets/protocol.js" defer></script>
 
-    <!-- Google tag (gtag.js) -->
+    <!-- GA4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-5NKZ7XYYWF"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
-
-        // page view
-        gtag('config', 'G-5NKZ7XYYWF', {
-            page_title: document.title,
-            page_path: location.pathname
-        });
+        gtag('config', 'G-5NKZ7XYYWF', { page_title: document.title, page_path: location.pathname });
     </script>
 </head>
 
@@ -30,46 +25,76 @@
             <div class="brand">O₂ RHYTHM</div>
 
             <h1>Corrections Regulation</h1>
-            <p class="sub">Controlled response under stress.</p>
+            <p class="sub">Short, on-shift-safe resets for controlled response under stress.</p>
+            <p class="sub" style="margin-top:-8px;opacity:.85;">Aligned with CORE.1120-105 Practicing Mindfulness.</p>
 
-            <a class="btn" href="/shared/protocols/calm-long-exhale.html" onclick="trackProtocol('30s_floor_reset')"
-                data-ga="corr_30s_floor_reset">
-                30s FLOOR RESET
-                <br>
-                <span class="sub">Rapid control • Lower activation</span>
+            <div style="margin: 12px 0 16px; font-size: 0.95rem; opacity: .92; line-height: 1.45;">
+                <strong>Translation:</strong><br>
+                “Meditation” = <strong>Regulation</strong><br>
+                “Breathwork” = <strong>Oxygen control</strong><br>
+                Goal = <strong>control</strong> (not “calm”)
+            </div>
+
+            <!-- OXYGEN / BREATH (2) -->
+            <a class="btn" href="o2-reset-60.html" onclick="trackProtocol?.('academy_o2_reset_60')"
+                data-ga="academy_o2_reset_60">
+                O₂ RESET
+                <br><span class="sub">60 sec • Oxygen control (no holds)</span>
             </a>
 
-            <a class="btn" href="/shared/protocols/calm-muscle-reset.html" onclick="trackProtocol('45s_tension_drop')"
-                data-ga="corr_45s_tension_drop">
-                45s TENSION DROP
-                <br>
-                <span class="sub">Release jaw • Shoulders • Hands</span>
-            </a>
-
-            <a class="btn" href="/shared/protocols/capacity-reset.html" onclick="trackProtocol('60s_after_incident')"
-                data-ga="corr_60s_after_incident">
-                60s AFTER INCIDENT
-                <br>
-                <span class="sub">Downshift • Clear thinking</span>
+            <a class="btn" href="o2-downshift-hold-60.html" onclick="trackProtocol?.('academy_o2_downshift_hold_60')"
+                data-ga="academy_o2_downshift_hold_60">
+                O₂ DOWNSHIFT (HOLD)
+                <br><span class="sub">60 sec • Inhale / hold / exhale / hold</span>
             </a>
 
             <div style="height:1px;background:rgba(255,255,255,.12);margin:14px 0;"></div>
 
-            <a class="btn" href="/shared/protocols/capacity-grounding.html"
-                onclick="trackProtocol('mental_regulation_academy_aligned')" data-ga="corr_mental_regulation">
-                MENTAL REGULATION
-                <br>
-                <span class="sub">Academy aligned • No breath required</span>
+            <!-- CURRICULUM TYPES (NON-BREATH) -->
+            <a class="btn" href="listening-45.html" onclick="trackProtocol?.('academy_listening_45')"
+                data-ga="academy_listening_45">
+                LISTENING REGULATION
+                <br><span class="sub">45 sec • Re-orient attention</span>
             </a>
 
-            <div class="navrow">
-                <a class="pill" href="/shared/protocols/" onclick="trackProtocol('open_library')"
-                    data-ga="corr_library">Library</a>
-            </div>
+            <a class="btn" href="body-scan-60.html" onclick="trackProtocol?.('academy_body_scan_60')"
+                data-ga="academy_body_scan_60">
+                BODY SCAN REGULATION
+                <br><span class="sub">60 sec • Jaw / shoulders / hands</span>
+            </a>
+
+            <a class="btn" href="naming-30.html" onclick="trackProtocol?.('academy_naming_30')"
+                data-ga="academy_naming_30">
+                NAMING REGULATION
+                <br><span class="sub">30 sec • Observe without judgment</span>
+            </a>
+
+            <a class="btn" href="walking-180.html" onclick="trackProtocol?.('academy_walking_180')"
+                data-ga="academy_walking_180">
+                WALKING REGULATION
+                <br><span class="sub">3 min • Movement-based reset</span>
+            </a>
 
             <p class="sub" style="margin-top:14px;opacity:.85;">
+                Use: before shift • after a stressful moment • on break • before going home.
+            </p>
+
+            <p class="sub" style="margin-top:6px;opacity:.85;">
                 No phone inside? Save this page as a desktop shortcut for access in the pit.
             </p>
+
+            <div style="height:1px;background:rgba(255,255,255,.12);margin:16px 0;"></div>
+
+            <p class="sub" style="margin:0;opacity:.9;">
+                Want to learn more or bring this to your facility?
+            </p>
+
+            <div class="navrow" style="margin-top:10px;">
+                <a class="pill" href="https://rhythmo2.com" target="_blank" rel="noopener"
+                    onclick="trackProtocol?.('academy_learn_more_site')">RhythmO2.com</a>
+                <a class="pill" href="mailto:YOUR_EMAIL_HERE?subject=Rhythm%20O2%20for%20Corrections"
+                    onclick="trackProtocol?.('academy_learn_more_email')">Email</a>
+            </div>
         </section>
     </main>
 </body>
