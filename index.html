@@ -3,43 +3,410 @@
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>O₂ Rhythm — Operational Micro-Regulation for High-Stress Teams</title>
     <meta name="description"
         content="O₂ Rhythm is a QR-based micro-regulation system built for dispatch, EMS, fire, law enforcement, and corrections. Deploy in minutes. Measure adoption. Improve downshift and recovery." />
 
+    <!-- Open Graph -->
+    <meta property="og:title" content="O₂ Rhythm — Operational Micro-Regulation" />
+    <meta property="og:description"
+        content="QR-based micro-protocol menus built for real shifts. No app. No login. Measurable adoption." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/assets/img/hero.png" />
+
     <link rel="stylesheet" href="/assets/style.css" />
+
+    <style>
+        /* Page-level layout fixes (bounded images + readable hierarchy) */
+        .wrap {
+            width: min(1100px, 92vw);
+            margin: 0 auto;
+        }
+
+        .pagePad {
+            padding: 26px 0 60px;
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 20;
+            background: rgba(11, 12, 16, .88);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, .08);
+        }
+
+        .topbar__inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            padding: 12px 0;
+        }
+
+        .brandlock {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brandlock img {
+            width: 34px;
+            height: 34px;
+            object-fit: contain;
+        }
+
+        .brandname {
+            font-weight: 900;
+            letter-spacing: .14em;
+            font-size: 12px;
+        }
+
+        .nav {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .nav a {
+            text-decoration: none;
+            padding: 8px 10px;
+            border-radius: 999px;
+            border: 1px solid transparent;
+            font-size: 13px;
+            color: rgba(233, 233, 239, .75);
+        }
+
+        .nav a:hover {
+            border-color: rgba(255, 255, 255, .10);
+            color: rgba(233, 233, 239, .95);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 14px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, .12);
+            text-decoration: none;
+            font-weight: 750;
+            font-size: 14px;
+            color: #e9e9ef;
+        }
+
+        .btnPrimary {
+            background: #fff;
+            color: #0b0c10;
+            border-color: transparent;
+        }
+
+        .btnPrimary:hover {
+            opacity: .92;
+        }
+
+        .btn:hover {
+            border-color: rgba(255, 255, 255, .22);
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.15fr .85fr;
+            gap: 14px;
+            padding: 22px 0 10px;
+            align-items: stretch;
+        }
+
+        .card {
+            background: rgba(17, 19, 26, .98);
+            border: 1px solid rgba(255, 255, 255, .08);
+            border-radius: 20px;
+            padding: 18px;
+        }
+
+        .kicker {
+            color: rgba(233, 233, 239, .70);
+            font-size: 12px;
+            letter-spacing: .22em;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            margin: 10px 0;
+            font-size: 36px;
+            line-height: 1.08;
+            letter-spacing: -.02em;
+        }
+
+        .sub {
+            margin: 0;
+            color: rgba(233, 233, 239, .72);
+            font-size: 15px;
+            line-height: 1.6;
+            max-width: 68ch;
+        }
+
+        .ctaRow {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 14px;
+        }
+
+        .pillRow {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 14px;
+        }
+
+        .pill {
+            border: 1px solid rgba(255, 255, 255, .10);
+            border-radius: 999px;
+            padding: 7px 10px;
+            font-size: 12px;
+            color: rgba(233, 233, 239, .70);
+            background: rgba(255, 255, 255, .02);
+        }
+
+        /* Bounded media: no more huge images */
+        .mediaBox {
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, .08);
+            background: #000;
+        }
+
+        .mediaBox img {
+            width: 100%;
+            height: clamp(220px, 26vw, 360px);
+            object-fit: cover;
+            display: block;
+            opacity: .92;
+        }
+
+        .mediaBox--small img {
+            height: clamp(170px, 20vw, 240px);
+        }
+
+        .section {
+            margin-top: 26px;
+        }
+
+        .sectionHead {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 14px;
+            padding: 18px 0 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, .08);
+        }
+
+        .sectionHead h2 {
+            margin: 0;
+            font-size: 18px;
+            letter-spacing: -.01em;
+        }
+
+        .hint {
+            margin: 0;
+            color: rgba(233, 233, 239, .65);
+            font-size: 13px;
+            max-width: 60ch;
+        }
+
+        .grid3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 14px;
+        }
+
+        .tile {
+            background: rgba(17, 19, 26, .98);
+            border: 1px solid rgba(255, 255, 255, .08);
+            border-radius: 18px;
+            padding: 16px;
+        }
+
+        .tile h3 {
+            margin: 0 0 6px;
+            font-size: 15px;
+        }
+
+        .tile p {
+            margin: 0;
+            color: rgba(233, 233, 239, .70);
+            font-size: 13px;
+            line-height: 1.55;
+            max-width: 68ch;
+        }
+
+        .twoCol {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 14px;
+        }
+
+        .list {
+            margin: 10px 0 0;
+            padding-left: 18px;
+            color: rgba(233, 233, 239, .70);
+            font-size: 13px;
+            line-height: 1.75;
+        }
+
+        .list li {
+            margin: 6px 0;
+        }
+
+        .steps {
+            display: grid;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .step {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+            background: rgba(17, 19, 26, .98);
+            border: 1px solid rgba(255, 255, 255, .08);
+            border-radius: 18px;
+            padding: 14px 16px;
+        }
+
+        .stepNum {
+            width: 34px;
+            height: 34px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, .12);
+            font-weight: 900;
+        }
+
+        .step h3 {
+            margin: 0 0 4px;
+            font-size: 15px;
+        }
+
+        .step p {
+            margin: 0;
+            color: rgba(233, 233, 239, .70);
+            font-size: 13px;
+            line-height: 1.55;
+        }
+
+        .callout {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .fine {
+            margin: 10px 0 0;
+            color: rgba(233, 233, 239, .55);
+            font-size: 12px;
+        }
+
+        .faq {
+            display: grid;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        details {
+            background: rgba(17, 19, 26, .98);
+            border: 1px solid rgba(255, 255, 255, .08);
+            border-radius: 18px;
+            padding: 14px 16px;
+        }
+
+        summary {
+            cursor: pointer;
+            font-weight: 850;
+            color: rgba(233, 233, 239, .92);
+        }
+
+        details p {
+            margin: 10px 0 0;
+            color: rgba(233, 233, 239, .70);
+            font-size: 13px;
+            line-height: 1.6;
+            max-width: 72ch;
+        }
+
+        .footer {
+            margin-top: 30px;
+            padding-top: 18px;
+            border-top: 1px solid rgba(255, 255, 255, .08);
+            color: rgba(233, 233, 239, .60);
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 900px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            .grid3 {
+                grid-template-columns: 1fr;
+            }
+
+            .twoCol {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 32px;
+            }
+
+            .nav {
+                display: none;
+            }
+        }
+    </style>
 </head>
 
 <body>
     <header class="topbar">
         <div class="wrap topbar__inner">
             <div class="brandlock">
-                <img src="/assets/img/logo.png" alt="O₂ Rhythm logo" onerror="this.remove();" />
+                <img src="/assets/img/logo.png" alt="O₂ Rhythm logo" />
                 <div class="brandname">O₂ RHYTHM</div>
             </div>
 
-            <nav class="nav">
+            <nav class="nav" aria-label="Primary">
                 <a href="#how">How it works</a>
                 <a href="#what">What you get</a>
                 <a href="#pilot">Pilot</a>
+                <a href="#faq">FAQ</a>
                 <a class="btn btnPrimary" href="#contact">Bring to my agency</a>
             </nav>
         </div>
     </header>
 
-    <main class="wrap">
+    <main class="wrap pagePad">
 
         <!-- HERO -->
         <section class="hero">
-            <div class="hero__left">
+            <div class="card">
                 <div class="kicker">Operational micro-regulation • QR based • measurable adoption</div>
                 <h1>Regulation your team will actually use between calls.</h1>
-
                 <p class="sub">
-                    O₂ Rhythm is a QR-based protocol menu built for dispatch, EMS, fire, law enforcement, and
+                    O₂ Rhythm is a QR-based protocol system built for dispatch, EMS, fire, law enforcement, and
                     corrections.
-                    It’s not wellness content. It’s a fast downshift tool designed for real shifts.
+                    No apps. No logins. Short protocols (30–120 seconds) designed for real shifts and real stress.
                 </p>
 
                 <div class="ctaRow">
@@ -50,52 +417,59 @@
                 <div class="pillRow">
                     <span class="pill"><strong>30–120 sec</strong> protocols</span>
                     <span class="pill"><strong>No app</strong> • no login</span>
-                    <span class="pill"><strong>Desk / Break / Quiet</strong> environments</span>
+                    <span class="pill"><strong>Desk / Break / Quiet</strong> menus</span>
                     <span class="pill"><strong>Usage analytics</strong></span>
                 </div>
             </div>
 
-            <div class="hero__right">
-                <img src="/assets/img/hero.jpg" alt="O₂ Rhythm in a high-stress workspace" />
+            <div class="mediaBox" aria-label="O₂ Rhythm hero image">
+                <img src="/assets/img/hero.png" alt="O₂ Rhythm in a high-stress workspace" />
             </div>
         </section>
 
         <!-- WHAT IT IS / ISN'T -->
-        <section class="split">
-            <div class="card">
-                <h2>What it is</h2>
+        <section class="twoCol">
+            <div class="tile">
+                <h3>What it is</h3>
                 <ul class="list">
-                    <li><strong>QR access</strong> to short regulation protocols (30–120 seconds)</li>
-                    <li><strong>Environment-specific menus</strong> (desk, break room, quiet room)</li>
-                    <li><strong>Built for cognitive load</strong> and rapid recovery between demands</li>
-                    <li><strong>Trackable</strong> adoption (scans + traffic by environment)</li>
+                    <li><strong>QR access</strong> to short regulation protocols</li>
+                    <li><strong>Environment-specific</strong> menus (desk / break / quiet)</li>
+                    <li><strong>Built for cognitive load</strong> and fast recovery between calls</li>
+                    <li><strong>Trackable adoption</strong> by environment</li>
                 </ul>
             </div>
 
-            <div class="card">
-                <h2>What it isn’t</h2>
+            <div class="tile">
+                <h3>What it isn’t</h3>
                 <ul class="list">
                     <li>Not a meditation app</li>
-                    <li>Not “take a 20-minute break” content</li>
-                    <li>Not fluffy wellness programming</li>
-                    <li>Not dependent on perfect compliance</li>
+                    <li>Not “wellness programming”</li>
+                    <li>Not 20-minute sessions</li>
+                    <li>Not dependent on motivation or perfect compliance</li>
                 </ul>
             </div>
         </section>
 
-        <!-- QUICK OUTCOMES -->
-        <section class="grid">
-            <div class="tile">
-                <h3>Faster downshift</h3>
-                <p><strong>Goal:</strong> reduce time stuck “up-regulated” after high-acuity moments.</p>
+        <!-- OUTCOMES -->
+        <section class="section">
+            <div class="sectionHead">
+                <h2>Outcomes teams care about</h2>
+                <p class="hint">Short, operational, measurable.</p>
             </div>
-            <div class="tile">
-                <h3>More stable under load</h3>
-                <p><strong>Goal:</strong> regulation while still working, not only after the shift ends.</p>
-            </div>
-            <div class="tile">
-                <h3>Measurable adoption</h3>
-                <p><strong>Goal:</strong> leadership can see what’s actually being used.</p>
+
+            <div class="grid3">
+                <div class="tile">
+                    <h3>Faster downshift</h3>
+                    <p>Reduce time stuck activated after high-acuity moments.</p>
+                </div>
+                <div class="tile">
+                    <h3>Stability under load</h3>
+                    <p>Support regulation while still working — not only after shift.</p>
+                </div>
+                <div class="tile">
+                    <h3>Measurable adoption</h3>
+                    <p>Track scans and engagement by environment for leadership buy-in.</p>
+                </div>
             </div>
         </section>
 
@@ -108,23 +482,23 @@
 
             <div class="steps">
                 <div class="step">
-                    <div class="step__num">1</div>
+                    <div class="stepNum">1</div>
                     <div>
                         <h3>Place the QR</h3>
-                        <p>Desk stations, break room, quiet room, hallway reset point.</p>
+                        <p>Desk stations, break room, quiet room, hallway reset points.</p>
                     </div>
                 </div>
 
                 <div class="step">
-                    <div class="step__num">2</div>
+                    <div class="stepNum">2</div>
                     <div>
                         <h3>Scan → choose a protocol</h3>
-                        <p>Short menu: downshift, reset, stabilize, recover.</p>
+                        <p>Downshift • reset • stabilize • recover (30–120 seconds).</p>
                     </div>
                 </div>
 
                 <div class="step">
-                    <div class="step__num">3</div>
+                    <div class="stepNum">3</div>
                     <div>
                         <h3>Track usage</h3>
                         <p>Scans + traffic by environment. Optional anonymous feedback prompt.</p>
@@ -137,27 +511,42 @@
         <section id="what" class="section">
             <div class="sectionHead">
                 <h2>What your agency gets</h2>
-                <p class="hint">Concrete deliverables.</p>
+                <p class="hint">Deliverables. Not vibes.</p>
             </div>
 
-            <div class="split">
-                <div class="card">
+            <div class="twoCol">
+                <div class="tile">
                     <h3>Protocol menus</h3>
                     <ul class="list">
-                        <li><strong>Desk</strong> menu (micro-downshift, cognitive reset)</li>
+                        <li><strong>Desk</strong> menu (micro-downshift + cognitive reset)</li>
                         <li><strong>Break room</strong> menu (longer reset options)</li>
-                        <li><strong>Quiet room</strong> menu (deeper downshift)</li>
+                        <li><strong>Quiet room</strong> menu (deeper downshift options)</li>
                         <li>Optional guided + silent versions</li>
                     </ul>
                 </div>
 
-                <div class="card">
+                <div class="tile">
                     <h3>Deployment + analytics</h3>
                     <ul class="list">
                         <li>QR setup + print-ready sheets</li>
-                        <li>Environment tagging</li>
+                        <li>Environment tagging (desk / break / quiet)</li>
                         <li>30-day + 60-day usage summary</li>
                     </ul>
+                </div>
+            </div>
+
+            <div class="twoCol">
+                <div class="mediaBox mediaBox--small">
+                    <img src="/assets/img/demo.png" alt="Protocol menu preview" />
+                </div>
+                <div class="tile">
+                    <h3>Why QR?</h3>
+                    <p class="sub" style="margin:0;">
+                        Adoption is the whole game. QR keeps it frictionless: scan → protocol → back to work.
+                    </p>
+                    <p class="sub" style="margin-top:10px;">
+                        If usage is low, you’ll know quickly and can adjust placement, menu structure, or champions.
+                    </p>
                 </div>
             </div>
         </section>
@@ -166,20 +555,23 @@
         <section id="pilot" class="section">
             <div class="sectionHead">
                 <h2>60-day pilot</h2>
-                <p class="hint">A real test, not a “nice idea.”</p>
+                <p class="hint">A real test with real usage data.</p>
             </div>
 
             <div class="card callout">
                 <div>
-                    <p><strong>Setup:</strong> choose 1–3 environments (ex: desk + break room)</p>
-                    <p><strong>Onboarding:</strong> quick supervisor/champion intro (10–15 mins)</p>
-                    <p><strong>Reporting:</strong> day 30 check-in + day 60 summary</p>
+                    <p class="sub" style="margin:0;"><strong>Start:</strong> choose 1–3 environments (ex: desk + break
+                        room)</p>
+                    <p class="sub" style="margin:6px 0 0;"><strong>Onboarding:</strong> 10–15 min supervisor/champion
+                        intro</p>
+                    <p class="sub" style="margin:6px 0 0;"><strong>Reporting:</strong> day 30 check-in + day 60 summary
+                    </p>
                 </div>
                 <a class="btn btnPrimary" href="#contact">Request pilot</a>
             </div>
 
-            <div class="split">
-                <div class="card">
+            <div class="twoCol">
+                <div class="tile">
                     <h3>Success metrics</h3>
                     <ul class="list">
                         <li>Scan volume by environment</li>
@@ -188,10 +580,10 @@
                     </ul>
                 </div>
 
-                <div class="card">
+                <div class="tile">
                     <h3>Good fit if…</h3>
                     <ul class="list">
-                        <li>You want something teams can use without leaving their post</li>
+                        <li>You want something people can use without leaving their post</li>
                         <li>You need a system that doesn’t rely on motivation</li>
                         <li>You want measurable adoption for leadership buy-in</li>
                     </ul>
@@ -200,28 +592,28 @@
         </section>
 
         <!-- FAQ -->
-        <section class="section">
+        <section id="faq" class="section">
             <div class="sectionHead">
                 <h2>FAQ</h2>
-                <p class="hint">The questions they’ll ask anyway.</p>
+                <p class="hint">The questions admins and chiefs ask.</p>
             </div>
 
             <div class="faq">
-                <details class="faq__item">
-                    <summary>Is this training oxygen?</summary>
-                    <p>No. It’s training <strong>downshift control</strong> and <strong>autonomic flexibility</strong>
-                        under stress.</p>
+                <details>
+                    <summary>Is this “oxygen training”?</summary>
+                    <p>No. This is about <strong>downshift control</strong> and <strong>autonomic flexibility</strong>
+                        under stress — short protocols people can repeat inside real operations.</p>
                 </details>
 
-                <details class="faq__item">
+                <details>
                     <summary>Do people need an app or login?</summary>
-                    <p>No. QR → page opens. That’s the whole point.</p>
+                    <p>No. QR → page opens. That’s the point.</p>
                 </details>
 
-                <details class="faq__item">
-                    <summary>How do you prevent it from becoming “ignored wall clutter”?</summary>
+                <details>
+                    <summary>How do you keep it from becoming ignored wall clutter?</summary>
                     <p>Short protocols + environment relevance + champions + measurable usage. If adoption is low,
-                        you’ll see it fast and can adjust.</p>
+                        you’ll see it fast and adjust placement/menu.</p>
                 </details>
             </div>
         </section>
@@ -233,29 +625,36 @@
                 <p class="hint">Quick intake. Clear next step.</p>
             </div>
 
-            <div class="split">
-                <div class="card">
+            <div class="twoCol">
+                <div class="tile">
                     <h3>Email to request a pilot</h3>
                     <p class="sub">
                         Include: agency name, team size, environments (desk/break/quiet), and what you want to improve
                         (volume, staffing strain, recovery, etc.).
                     </p>
+
                     <a class="btn btnPrimary"
-                        href="mailto:hello@rhythmo2.com?subject=O2%20Rhythm%20Pilot%20Request">Email me</a>
-                    <p class="fine">Replace <strong>hello@rhythmo2@gmail.com</strong> with your real email.</p>
+                        href="mailto:hello.rhythmo2@gmail.com?subject=O2%20Rhythm%20Pilot%20Request">Email me</a>
+
+                    <p class="fine">Email: <strong>hello.rhythmo2@gmail.com</strong></p>
                 </div>
 
-                <div class="card">
-                    <h3>Preview image</h3>
-                    <img class="img" src="/assets/img/demo.png" alt="QR menu example" />
+                <div class="tile">
+                    <h3>What I’ll ask back</h3>
+                    <ul class="list">
+                        <li>Which environments you want first</li>
+                        <li>How many stations / approximate headcount</li>
+                        <li>Your biggest operational stress point</li>
+                        <li>Who will champion rollout (supervisor/trainer)</li>
+                    </ul>
                 </div>
             </div>
-        </section>
 
-        <footer class="footer">
-            <div>© <span id="y"></span> O₂ Rhythm</div>
-            <div>Built for dispatch • EMS • fire • law enforcement • corrections</div>
-        </footer>
+            <footer class="footer">
+                <div>© <span id="y"></span> O₂ Rhythm</div>
+                <div>Built for dispatch • EMS • fire • law enforcement • corrections</div>
+            </footer>
+        </section>
 
     </main>
 
