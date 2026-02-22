@@ -1,45 +1,494 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>O₂ Rhythm</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>O₂ Rhythm — Micro-Regulation for High-Stress Teams</title>
+    <meta name="description"
+        content="O₂ Rhythm is a QR-based micro-regulation system built for dispatch, EMS, fire, law enforcement, and corrections. Deploy in minutes. Track usage. Improve downshift." />
 
-    <!-- index.html is inside O2rhythm/, so assets is next to it -->
-    <link rel="stylesheet" href="assets/style.css" />
+    <link rel="stylesheet" href="/assets/style.css" />
+    <style>
+        /* Minimal landing-page styles (keeps your existing style.css intact) */
+        :root {
+            --bg: #0b0c10;
+            --card: #11131a;
+            --text: #e9e9ef;
+            --muted: #b5b7c4;
+            --line: rgba(255, 255, 255, .08);
+            --accent: #ffffff;
+        }
 
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5NKZ7XYYWF"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
+        body {
+            background: var(--bg);
+            color: var(--text);
+        }
 
-        gtag('config', 'G-5NKZ7XYYWF');
-    </script>
+        a {
+            color: inherit;
+        }
+
+        .wrap {
+            width: min(1100px, 92vw);
+            margin: 0 auto;
+            padding: 28px 0 60px;
+        }
+
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 10px 0 24px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .brandlock {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brandlock img {
+            width: 34px;
+            height: 34px;
+            object-fit: contain;
+        }
+
+        .brandname {
+            font-weight: 800;
+            letter-spacing: .12em;
+            font-size: 13px;
+            opacity: .9;
+        }
+
+        .nav {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .nav a {
+            text-decoration: none;
+            padding: 8px 10px;
+            border: 1px solid transparent;
+            border-radius: 999px;
+        }
+
+        .nav a:hover {
+            border-color: var(--line);
+            color: var(--text);
+        }
+
+        .hero {
+            display: grid;
+            grid-template-columns: 1.15fr .85fr;
+            gap: 22px;
+            padding: 26px 0;
+            align-items: stretch;
+        }
+
+        .heroCard {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            padding: 22px;
+        }
+
+        .kicker {
+            color: var(--muted);
+            font-size: 12px;
+            letter-spacing: .18em;
+            text-transform: uppercase;
+        }
+
+        h1 {
+            margin: 10px 0 10px;
+            font-size: 38px;
+            line-height: 1.08;
+            letter-spacing: -.02em;
+        }
+
+        .sub {
+            color: var(--muted);
+            font-size: 15px;
+            line-height: 1.55;
+            max-width: 58ch;
+        }
+
+        .ctaRow {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 14px;
+            border-radius: 14px;
+            border: 1px solid var(--line);
+            text-decoration: none;
+            font-weight: 650;
+            font-size: 14px;
+        }
+
+        .btnPrimary {
+            background: var(--accent);
+            color: #0b0c10;
+            border-color: transparent;
+        }
+
+        .btnPrimary:hover {
+            opacity: .92;
+        }
+
+        .btn:hover {
+            border-color: rgba(255, 255, 255, .2);
+        }
+
+        .heroImg {
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid var(--line);
+            background: #000;
+        }
+
+        .heroImg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            opacity: .92;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-top: 16px;
+        }
+
+        .tile {
+            background: var(--card);
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            padding: 16px;
+        }
+
+        .tile h3 {
+            margin: 0 0 6px;
+            font-size: 15px;
+        }
+
+        .tile p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .section {
+            margin-top: 26px;
+        }
+
+        .sectionHead {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 14px;
+            padding: 18px 0 10px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .sectionHead h2 {
+            margin: 0;
+            font-size: 18px;
+            letter-spacing: -.01em;
+        }
+
+        .sectionHead .hint {
+            margin: 0;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .twoCol {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-top: 14px;
+        }
+
+        .list {
+            margin: 10px 0 0;
+            padding-left: 18px;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .pillRow {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .pill {
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 7px 10px;
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .footer {
+            margin-top: 30px;
+            padding-top: 18px;
+            border-top: 1px solid var(--line);
+            color: var(--muted);
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 900px) {
+            .hero {
+                grid-template-columns: 1fr;
+            }
+
+            h1 {
+                font-size: 32px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .twoCol {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <main class="wrap">
-        <section class="card">
-            <div class="brand">O₂ RHYTHM</div>
-            <h1>Scan. Start. Regulate.</h1>
-            <p class="sub">
-                QR-first protocols built for high-stress environments. No audio. No scrolling.
-            </p>
+    <div class="wrap">
+        <header class="topbar">
+            <div class="brandlock">
+                <!-- Optional logo. If you don't have one yet, delete the img tag -->
+                <img src="/assets/img/logo.png" alt="O₂ Rhythm logo" onerror="this.remove();" />
+                <div class="brandname">O₂ RHYTHM</div>
+            </div>
 
-            <!-- mytrex is a sibling folder -->
-            <a class="btn" href="./mytrex/library.html">
-                Rhythm O₂ Library
-            </a>
+            <nav class="nav">
+                <a href="#how">How it works</a>
+                <a href="#pilot">Pilot</a>
+                <a href="#whatyouget">What you get</a>
+                <a href="#contact">Bring to my agency</a>
+            </nav>
+        </header>
 
-            <div class="small">
-                This page is just an entry point. QRs should link directly to a protocol page.
+        <!-- HERO -->
+        <section class="hero">
+            <div class="heroCard">
+                <div class="kicker">Micro-regulation for high-stress operations</div>
+                <h1>Deploy a regulation system your team will actually use.</h1>
+                <p class="sub">
+                    O₂ Rhythm is a QR-based protocol menu built for dispatch, EMS, fire, law enforcement, and
+                    corrections.
+                    It’s not “wellness.” It’s an operational downshift tool — fast, repeatable, trackable.
+                </p>
+
+                <div class="pillRow">
+                    <div class="pill">QR access</div>
+                    <div class="pill">30–120 second protocols</div>
+                    <div class="pill">Environment-specific</div>
+                    <div class="pill">Usage analytics</div>
+                </div>
+
+                <div class="ctaRow">
+                    <a class="btn btnPrimary" href="#contact">Request a pilot</a>
+                    <a class="btn" href="#pilot">See pilot format</a>
+                </div>
+
+                <ul class="list">
+                    <li><strong>Built for</strong> cognitive load, call recovery, and shift stress.</li>
+                    <li><strong>Designed to deploy</strong> in minutes — no apps, no logins.</li>
+                    <li><strong>Track usage</strong> by environment (desk, break room, quiet room).</li>
+                </ul>
+            </div>
+
+            <div class="heroImg">
+                <!-- Replace with your best “this is in a real center” photo -->
+                <img src="/assets/img/hero.png" alt="O₂ Rhythm used in a high-stress workspace" />
             </div>
         </section>
-    </main>
-</body>
 
+        <!-- 3 VALUE TILES -->
+        <section class="grid">
+            <div class="tile">
+                <h3>Fast downshift</h3>
+                <p>Protocols built for 30–120 seconds. Useful between calls, not in a yoga studio fantasy.</p>
+            </div>
+            <div class="tile">
+                <h3>Context matters</h3>
+                <p>Desk, break room, hallway, quiet room — different environments get different menus.</p>
+            </div>
+            <div class="tile">
+                <h3>Measurable adoption</h3>
+                <p>Track scans and engagement so leadership can see what’s actually being used.</p>
+            </div>
+        </section>
+
+        <!-- HOW IT WORKS -->
+        <section id="how" class="section">
+            <div class="sectionHead">
+                <h2>How it works</h2>
+                <p class="hint">Simple is the point.</p>
+            </div>
+
+            <div class="twoCol">
+                <div class="tile">
+                    <h3>1) QR code in the environment</h3>
+                    <p>Place a QR at the desk, break area, or quiet room. Scan → protocol menu opens instantly.</p>
+                    <ul class="list">
+                        <li>No app</li>
+                        <li>No login</li>
+                        <li>Works on any phone</li>
+                    </ul>
+                </div>
+
+                <div class="tile">
+                    <h3>2) Micro-protocols built for real shifts</h3>
+                    <p>Short patterns that stabilize breathing and attention under stress and cognitive load.</p>
+                    <ul class="list">
+                        <li>Downshift</li>
+                        <li>Reset between calls</li>
+                        <li>Stability under pressure</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- WHAT YOU GET -->
+        <section id="whatyouget" class="section">
+            <div class="sectionHead">
+                <h2>What your agency gets</h2>
+                <p class="hint">Deliverables, not vibes.</p>
+            </div>
+
+            <div class="twoCol">
+                <div class="tile">
+                    <h3>Protocol menus</h3>
+                    <ul class="list">
+                        <li>Environment-specific pages (desk / break / quiet room)</li>
+                        <li>Short protocol library (30–120 seconds)</li>
+                        <li>Optional “guided” + “silent” versions</li>
+                    </ul>
+                </div>
+
+                <div class="tile">
+                    <h3>Deployment + analytics</h3>
+                    <ul class="list">
+                        <li>QR setup + print-ready files</li>
+                        <li>Usage tracking (scans, page views, environment tags)</li>
+                        <li>Simple monthly summary for leadership</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- PILOT -->
+        <section id="pilot" class="section">
+            <div class="sectionHead">
+                <h2>60-day pilot</h2>
+                <p class="hint">A real test, not a “nice idea.”</p>
+            </div>
+
+            <div class="twoCol">
+                <div class="tile">
+                    <h3>Pilot structure</h3>
+                    <ul class="list">
+                        <li>Choose 1–3 environments (ex: desk + break room)</li>
+                        <li>Deploy QR codes</li>
+                        <li>Light onboarding for supervisors + champions</li>
+                        <li>Usage report at day 30 + day 60</li>
+                    </ul>
+                </div>
+
+                <div class="tile">
+                    <h3>Success metrics</h3>
+                    <ul class="list">
+                        <li>Scan volume by environment</li>
+                        <li>Repeat use (returning traffic)</li>
+                        <li>Optional anonymous feedback prompt</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT -->
+        <section id="contact" class="section">
+            <div class="sectionHead">
+                <h2>Bring O₂ Rhythm to your agency</h2>
+                <p class="hint">Tell me where you want it deployed.</p>
+            </div>
+
+            <div class="twoCol">
+                <div class="tile">
+                    <h3>Request a pilot</h3>
+                    <p class="sub" style="margin:8px 0 0;">
+                        Add a simple contact form, or link to your Calendly / email.
+                        If you don’t have one yet, use the email option below.
+                    </p>
+
+                    <div class="ctaRow" style="margin-top:14px;">
+                        <!-- Replace with your actual scheduling link if you have one -->
+                        <a class="btn btnPrimary"
+                            href="mailto:hello@rhythmo2.com?subject=O2%20Rhythm%20Pilot%20Request">Email to request
+                            pilot</a>
+                        <a class="btn" href="#how">Re-read how it works</a>
+                    </div>
+
+                    <p class="sub" style="margin-top:12px;">
+                        Include: agency name, team size, environments (desk/break/quiet), and your biggest stress point
+                        (volume, staffing, critical incidents, etc.).
+                    </p>
+                </div>
+
+                <div class="tile">
+                    <h3>About</h3>
+                    <p class="sub" style="margin:8px 0 0;">
+                        Built by a public safety dispatcher for operational reality — not generic breathing content.
+                        Designed for high-stress teams that need fast, repeatable regulation between demands.
+                    </p>
+
+                    <!-- Optional image -->
+                    <div style="margin-top:12px; border-radius:16px; overflow:hidden; border:1px solid var(--line);">
+                        <img src="/assets/img/demo.png" alt="QR menu example" style="width:100%; display:block;">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <div>© <span id="y"></span> O₂ Rhythm</div>
+            <div>Built for dispatch • EMS • fire • law enforcement • corrections</div>
+        </footer>
+    </div>
+
+    <script>
+        document.getElementById("y").textContent = new Date().getFullYear();
+    </script>
+</body>
 
 </html>
