@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Demo — Desk Reset 45 • O₂ Rhythm</title>
+    <meta name="description" content="45-second desk reset demo for dispatch and high-cognitive load environments." />
+    <link rel="stylesheet" href="/assets/style.css" />
+
+    <style>
+        :root {
+            --ring: #ffffff;
+        }
+
+        /* Small demo-only adjustments */
+        .demoTop {
+            display: grid;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+
+        .kicker {
+            font-size: 12px;
+            letter-spacing: 0.12em;
+            opacity: 0.8;
+            text-transform: uppercase;
+        }
+
+        .sub {
+            margin: 0;
+            opacity: 0.85;
+        }
+
+        .miniCta {
+            display: grid;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .ctaBtn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 14px;
+            border-radius: 12px;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: rgba(255, 255, 255, 0.08);
+            color: inherit;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
+        .ctaBtn:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .pillrow {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+
+        .pillrow a {
+            text-decoration: none;
+        }
+
+        .fineprint {
+            font-size: 12px;
+            opacity: 0.7;
+            line-height: 1.35;
+            margin-top: 10px;
+        }
+    </style>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5NKZ7XYYWF"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-5NKZ7XYYWF');
+    </script>
+</head>
+
+<body>
+    <main class="wrap">
+        <section class="card protocol" data-protocol data-agency="public" data-environment="demo_desk"
+            data-protocol-id="desk_reset45" data-title="DESK RESET" data-total="45" data-inhale="4" data-hold1="0"
+            data-exhale="6" data-hold2="0" data-paced="30" data-settle="15">
+
+            <div class="brand">O₂ RHYTHM</div>
+
+            <div class="demoTop">
+                <div class="kicker">DEMO • DESK</div>
+                <h1 style="margin:0;">RESET 45</h1>
+                <p class="sub">45 sec • after a stressful call</p>
+            </div>
+
+            <div class="ringbox">
+                <svg class="progressRing" viewBox="0 0 220 220" aria-hidden="true">
+                    <circle class="progress-bg" cx="110" cy="110" r="100"></circle>
+                    <circle class="progress" cx="110" cy="110" r="100"></circle>
+                </svg>
+
+                <div id="pacer" class="pacer">
+                    <div class="center">
+                        <button id="startBtn" class="start" type="button">START</button>
+                        <div id="timer" class="timer">0:45</div>
+
+                        <div id="phaseLabel" class="phaseLabel"></div>
+                        <div id="count" class="count"></div>
+                        <div id="dots" class="phaseDots"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="toggleRow">
+                <button id="soundToggle" class="toggle" type="button">SOUND: OFF</button>
+            </div>
+
+            <!-- Demo navigation (minimal) -->
+            <div class="pillrow">
+                <a class="pill" href="/demo/" data-track="nav_click" data-cta="demo_home">All demos</a>
+                <a class="pill" href="/demo/vehicle.html" data-track="nav_click" data-cta="next_vehicle">Next:
+                    Vehicle</a>
+            </div>
+
+            <div class="miniCta">
+                <a class="ctaBtn" href="/contact/" data-track="cta_click" data-cta="bring_to_agency_from_desk_demo">
+                    Bring this to my agency
+                </a>
+                <div class="fineprint">
+                    Tip: In real deployments, desk protocols usually open instantly via a dedicated QR code to avoid
+                    extra taps.
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <script src="/assets/protocol.js"></script>
+
+    <script>
+        // GA4 click tracking for the demo (start, sound, completion inferred)
+        (function () {
+            const startBtn = document.getElementById("startBtn");
+            const soundBtn = document.getElementById("soundToggle");
+            const protocolEl = document.querySelector("[data-protocol]");
+
+            function safeEvent(name, params) {
+                try { gtag("event", name, params || {}); } catch (e) { }
+            }
+
+            // Start click
+            if (startBtn) {
+                startBtn.addEventListener("click", () => {
+                    safeEvent("demo_start", {
+                        demo: "desk_reset45",
+                        page: "demo_desk"
+                    });
+                }, { once: false });
+            }
+
+            // Sound toggle click
+            if (soundBtn) {
+                soundBtn.addEventListener("click", () => {
+                    // Read current label for context
+                    const label = (soundBtn.textContent || "").trim();
+                    safeEvent("demo_sound_toggle", {
+                        demo: "desk_reset45",
+                        page: "demo_desk",
+                        state: label.includes("ON") ? "on" : (label.includes("OFF") ? "off" : "unknown")
+                    });
+                });
+            }
+
+            // Generic link tracking on this page
+            document.addEventListener("click", (e) => {
+                const a = e.target.closest("a[data-track]");
+                if (!a) return;
+                safeEvent(a.getAttribute("data-track"), {
+                    page: "demo_desk",
+                    cta: a.getAttribute("data-cta") || ""
+                });
+            });
+
+            // Completion: best-effort observer
+            // Assumes protocol.js updates timer to 0:00 at end.
+            const timerEl = document.getElementById("timer");
+            if (timerEl) {
+                let fired = false;
+                const obs = new MutationObserver(() => {
+                    const t = (timerEl.textContent || "").trim();
+                    if (!fired && (t === "0:00" || t === "00:00")) {
+                        fired = true;
+                        safeEvent("demo_complete", {
+                            demo: "desk_reset45",
+                            page: "demo_desk"
+                        });
+                    }
+                });
+                obs.observe(timerEl, { childList: true, characterData: true, subtree: true });
+            }
+
+            // Page view hint (optional explicit event)
+            safeEvent("demo_view", { demo: "desk_reset45", page: "demo_desk" });
+        })();
+    </script>
+</body>
+
+</html>

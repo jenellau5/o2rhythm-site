@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Demo — No-Breath Name 5 • O₂ Rhythm</title>
+    <meta name="description" content="45-second no-breath cognitive reset demo for high-stress operations." />
+    <link rel="stylesheet" href="/assets/style.css" />
+
+    <style>
+        :root {
+            --ring: #ffffff;
+        }
+
+        .demoTop {
+            display: grid;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+
+        .kicker {
+            font-size: 12px;
+            letter-spacing: 0.12em;
+            opacity: 0.8;
+            text-transform: uppercase;
+        }
+
+        .sub {
+            margin: 0;
+            opacity: 0.85;
+        }
+
+        .hint {
+            margin: 8px 0 0 0;
+            opacity: 0.75;
+            font-size: 13px;
+            line-height: 1.35;
+        }
+
+        /* Use your existing ring visuals, but we’ll drive it ourselves */
+        .promptBox {
+            display: grid;
+            gap: 10px;
+            margin-top: 10px;
+            text-align: center;
+        }
+
+        .promptTitle {
+            font-size: 18px;
+            letter-spacing: 0.02em;
+            margin: 0;
+        }
+
+        .promptText {
+            margin: 0;
+            opacity: 0.92;
+            font-size: 16px;
+            line-height: 1.35;
+            min-height: 44px;
+        }
+
+        .micro {
+            margin: 0;
+            opacity: 0.75;
+            font-size: 12px;
+            line-height: 1.35;
+        }
+
+        .pillrow {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+
+        .pillrow a {
+            text-decoration: none;
+        }
+
+        .miniCta {
+            display: grid;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .ctaBtn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 14px;
+            border-radius: 12px;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: rgba(255, 255, 255, 0.08);
+            color: inherit;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
+        .ctaBtn:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .fineprint {
+            font-size: 12px;
+            opacity: 0.7;
+            line-height: 1.35;
+            margin-top: 10px;
+        }
+
+        /* Make START feel obvious */
+        .start {
+            min-width: 140px;
+        }
+    </style>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5NKZ7XYYWF"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-5NKZ7XYYWF');
+    </script>
+</head>
+
+<body>
+    <main class="wrap">
+        <section class="card protocol" data-demo="nonbreath_name5" data-total="45">
+            <div class="brand">O₂ RHYTHM</div>
+
+            <div class="demoTop">
+                <div class="kicker">DEMO • NO-BREATH</div>
+                <h1 style="margin:0;">NAME 5</h1>
+                <p class="sub">~45 sec • grounding without breathwork</p>
+                <p class="hint">For people who won’t do breathing protocols. Eyes open. Stay operational.</p>
+            </div>
+
+            <div class="ringbox">
+                <svg class="progressRing" viewBox="0 0 220 220" aria-hidden="true">
+                    <circle class="progress-bg" cx="110" cy="110" r="100"></circle>
+                    <circle id="progress" class="progress" cx="110" cy="110" r="100"></circle>
+                </svg>
+
+                <div class="pacer">
+                    <div class="center">
+                        <button id="startBtn" class="start" type="button">START</button>
+                        <div id="timer" class="timer">0:45</div>
+                        <div class="promptBox" aria-live="polite">
+                            <p class="promptTitle" id="promptTitle">Ready</p>
+                            <p class="promptText" id="promptText">Press START.</p>
+                            <p class="micro" id="promptMicro"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="toggleRow">
+                <button id="soundToggle" class="toggle" type="button">SOUND: OFF</button>
+            </div>
+
+            <div class="pillrow">
+                <a class="pill" href="/demo/" data-track="nav_click" data-cta="demo_home">All demos</a>
+                <a class="pill" href="/demo/desk.html" data-track="nav_click" data-cta="back_to_desk">Back: Desk</a>
+            </div>
+
+            <div class="miniCta">
+                <a class="ctaBtn" href="/contact/" data-track="cta_click"
+                    data-cta="bring_to_agency_from_nonbreath_demo">
+                    Bring this to my agency
+                </a>
+                <div class="fineprint">
+                    This is a demo preview. Deployments can include non-breath options for adoption and compliance.
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <script>
+        (function () {
+            const total = 45;
+
+            const startBtn = document.getElementById("startBtn");
+            const timerEl = document.getElementById("timer");
+            const soundBtn = document.getElementById("soundToggle");
+
+            const titleEl = document.getElementById("promptTitle");
+            const textEl = document.getElementById("promptText");
+            const microEl = document.getElementById("promptMicro");
+
+            const progressEl = document.getElementById("progress");
+
+            // Ring math (matches your SVG circle r=100)
+            const r = 100;
+            const circumference = 2 * Math.PI * r;
+            progressEl.style.strokeDasharray = `${circumference}`;
+            progressEl.style.strokeDashoffset = `${circumference}`;
+
+            let running = false;
+            let remaining = total;
+            let tickInterval = null;
+            let soundOn = false;
+
+            // Prompts: timed segments (seconds)
+            const steps = [
+                { t: 0, title: "NAME 5", text: "Name 5 things you can see.", micro: "Scan the scene. No rushing." },
+                { t: 10, title: "NAME 4", text: "Name 4 things you can hear.", micro: "Near sounds. Far sounds." },
+                { t: 20, title: "NAME 3", text: "Name 3 physical sensations.", micro: "Feet. Hands. Jaw." },
+                { t: 30, title: "NAME 2", text: "Name 2 priorities for the next 60 seconds.", micro: "What matters right now?" },
+                { t: 40, title: "FINISH", text: "One steady blink. Reset your posture.", micro: "Then move." }
+            ];
+
+            // Simple beep (no external audio file)
+            let audioCtx = null;
+            function beep() {
+                if (!soundOn) return;
+                try {
+                    audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+                    const o = audioCtx.createOscillator();
+                    const g = audioCtx.createGain();
+                    o.type = "sine";
+                    o.frequency.value = 880;
+                    g.gain.value = 0.04;
+                    o.connect(g);
+                    g.connect(audioCtx.destination);
+                    o.start();
+                    setTimeout(() => { o.stop(); }, 120);
+                } catch (e) { /* ignore */ }
+            }
+
+            function safeEvent(name, params) {
+                try { gtag("event", name, params || {}); } catch (e) { }
+            }
+
+            function fmt(sec) {
+                const m = Math.floor(sec / 60);
+                const s = sec % 60;
+                return `${m}:${String(s).padStart(2, "0")}`;
+            }
+
+            function setStepByElapsed(elapsed) {
+                // elapsed = seconds since start
+                let current = steps[0];
+                for (const st of steps) {
+                    if (elapsed >= st.t) current = st;
+                }
+                titleEl.textContent = current.title;
+                textEl.textContent = current.text;
+                microEl.textContent = current.micro || "";
+            }
+
+            function updateUI() {
+                timerEl.textContent = fmt(remaining);
+
+                const progress = (total - remaining) / total; // 0..1
+                const offset = circumference * (1 - progress);
+                progressEl.style.strokeDashoffset = `${offset}`;
+            }
+
+            function reset() {
+                running = false;
+                remaining = total;
+                clearInterval(tickInterval);
+                tickInterval = null;
+                startBtn.disabled = false;
+                startBtn.textContent = "START";
+                setStepByElapsed(0);
+                updateUI();
+            }
+
+            function complete() {
+                running = false;
+                clearInterval(tickInterval);
+                tickInterval = null;
+                remaining = 0;
+                updateUI();
+                startBtn.disabled = false;
+                startBtn.textContent = "RESTART";
+
+                titleEl.textContent = "DONE";
+                textEl.textContent = "Return to task. You’re back online.";
+                microEl.textContent = "";
+
+                safeEvent("demo_complete", { demo: "nonbreath_name5", page: "demo_nonbreath" });
+                beep();
+            }
+
+            function start() {
+                if (running) return;
+
+                // If they hit RESTART, reset first
+                if (remaining === 0) {
+                    remaining = total;
+                    setStepByElapsed(0);
+                    updateUI();
+                }
+
+                running = true;
+                startBtn.disabled = true;
+
+                safeEvent("demo_start", { demo: "nonbreath_name5", page: "demo_nonbreath" });
+
+                const startedAt = Date.now();
+                let lastStepIndex = -1;
+
+                tickInterval = setInterval(() => {
+                    const elapsed = Math.floor((Date.now() - startedAt) / 1000);
+                    const newRemaining = Math.max(0, total - elapsed);
+
+                    // Step change detection
+                    let stepIndex = 0;
+                    for (let i = 0; i < steps.length; i++) {
+                        if (elapsed >= steps[i].t) stepIndex = i;
+                    }
+                    if (stepIndex !== lastStepIndex) {
+                        lastStepIndex = stepIndex;
+                        setStepByElapsed(elapsed);
+                        beep();
+                        safeEvent("demo_prompt_change", {
+                            demo: "nonbreath_name5",
+                            page: "demo_nonbreath",
+                            step: steps[stepIndex].title
+                        });
+                    }
+
+                    remaining = newRemaining;
+                    updateUI();
+
+                    if (remaining <= 0) {
+                        startBtn.disabled = false;
+                        complete();
+                    }
+                }, 250);
+            }
+
+            // Sound toggle
+            if (soundBtn) {
+                soundBtn.addEventListener("click", () => {
+                    soundOn = !soundOn;
+                    soundBtn.textContent = soundOn ? "SOUND: ON" : "SOUND: OFF";
+                    safeEvent("demo_sound_toggle", {
+                        demo: "nonbreath_name5",
+                        page: "demo_nonbreath",
+                        state: soundOn ? "on" : "off"
+                    });
+                    if (soundOn) beep();
+                });
+            }
+
+            // Start button
+            if (startBtn) {
+                startBtn.addEventListener("click", () => {
+                    // If not running and remaining 0, allow restart
+                    if (!running && remaining === 0) {
+                        reset();
+                    }
+                    start();
+                });
+            }
+
+            // Link tracking
+            document.addEventListener("click", (e) => {
+                const a = e.target.closest("a[data-track]");
+                if (!a) return;
+                safeEvent(a.getAttribute("data-track"), {
+                    page: "demo_nonbreath",
+                    cta: a.getAttribute("data-cta") || ""
+                });
+            });
+
+            // Initial view event + UI state
+            safeEvent("demo_view", { demo: "nonbreath_name5", page: "demo_nonbreath" });
+            reset();
+        })();
+    </script>
+</body>
+
+</html>

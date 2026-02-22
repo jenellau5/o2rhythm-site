@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Demo — Vehicle Pre-Arrival 30 • O₂ Rhythm</title>
+    <meta name="description"
+        content="30-second vehicle demo for patrol, fire, and EMS. Stabilize before stepping out." />
+    <link rel="stylesheet" href="/assets/style.css" />
+
+    <style>
+        :root {
+            --ring: #ffffff;
+        }
+
+        .demoTop {
+            display: grid;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+
+        .kicker {
+            font-size: 12px;
+            letter-spacing: 0.12em;
+            opacity: 0.8;
+            text-transform: uppercase;
+        }
+
+        .sub {
+            margin: 0;
+            opacity: 0.85;
+        }
+
+        .hint {
+            margin: 8px 0 0 0;
+            opacity: 0.75;
+            font-size: 13px;
+            line-height: 1.35;
+        }
+
+        .miniCta {
+            display: grid;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .ctaBtn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 14px;
+            border-radius: 12px;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: rgba(255, 255, 255, 0.08);
+            color: inherit;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
+        .ctaBtn:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .pillrow {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+
+        .pillrow a {
+            text-decoration: none;
+        }
+
+        .fineprint {
+            font-size: 12px;
+            opacity: 0.7;
+            line-height: 1.35;
+            margin-top: 10px;
+        }
+
+        /* Optional: slightly larger START for in-motion */
+        .start {
+            min-width: 120px;
+        }
+    </style>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5NKZ7XYYWF"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-5NKZ7XYYWF');
+    </script>
+</head>
+
+<body>
+    <main class="wrap">
+        <section class="card protocol" data-protocol data-agency="public" data-environment="demo_vehicle"
+            data-protocol-id="vehicle_prearrival30" data-title="PRE-ARRIVAL" data-total="30" data-inhale="3"
+            data-hold1="0" data-exhale="3" data-hold2="0" data-paced="30" data-settle="0">
+
+            <div class="brand">O₂ RHYTHM</div>
+
+            <div class="demoTop">
+                <div class="kicker">DEMO • VEHICLE</div>
+                <h1 style="margin:0;">PRE-ARRIVAL 30</h1>
+                <p class="sub">30 sec • before stepping out</p>
+                <p class="hint">Keep your eyes open. Hands stay ready. This is stabilization, not relaxation.</p>
+            </div>
+
+            <div class="ringbox">
+                <svg class="progressRing" viewBox="0 0 220 220" aria-hidden="true">
+                    <circle class="progress-bg" cx="110" cy="110" r="100"></circle>
+                    <circle class="progress" cx="110" cy="110" r="100"></circle>
+                </svg>
+
+                <div id="pacer" class="pacer">
+                    <div class="center">
+                        <button id="startBtn" class="start" type="button">START</button>
+                        <div id="timer" class="timer">0:30</div>
+
+                        <div id="phaseLabel" class="phaseLabel"></div>
+                        <div id="count" class="count"></div>
+                        <div id="dots" class="phaseDots"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="toggleRow">
+                <button id="soundToggle" class="toggle" type="button">SOUND: OFF</button>
+            </div>
+
+            <div class="pillrow">
+                <a class="pill" href="/demo/" data-track="nav_click" data-cta="demo_home">All demos</a>
+                <a class="pill" href="/demo/nonbreath.html" data-track="nav_click" data-cta="next_nonbreath">Next:
+                    No-breath</a>
+            </div>
+
+            <div class="miniCta">
+                <a class="ctaBtn" href="/contact/" data-track="cta_click" data-cta="bring_to_agency_from_vehicle_demo">
+                    Bring this to my agency
+                </a>
+                <div class="fineprint">
+                    Tip: In field deployments, vehicle protocols should open instantly via a dedicated QR to eliminate
+                    extra taps.
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <script src="/assets/protocol.js"></script>
+
+    <script>
+        (function () {
+            const startBtn = document.getElementById("startBtn");
+            const soundBtn = document.getElementById("soundToggle");
+            const timerEl = document.getElementById("timer");
+
+            function safeEvent(name, params) {
+                try { gtag("event", name, params || {}); } catch (e) { }
+            }
+
+            // Page view hint (optional explicit event)
+            safeEvent("demo_view", { demo: "vehicle_prearrival30", page: "demo_vehicle" });
+
+            // Start click
+            if (startBtn) {
+                startBtn.addEventListener("click", () => {
+                    safeEvent("demo_start", { demo: "vehicle_prearrival30", page: "demo_vehicle" });
+                });
+            }
+
+            // Sound toggle click
+            if (soundBtn) {
+                soundBtn.addEventListener("click", () => {
+                    const label = (soundBtn.textContent || "").trim();
+                    safeEvent("demo_sound_toggle", {
+                        demo: "vehicle_prearrival30",
+                        page: "demo_vehicle",
+                        state: label.includes("ON") ? "on" : (label.includes("OFF") ? "off" : "unknown")
+                    });
+                });
+            }
+
+            // Generic link tracking on this page
+            document.addEventListener("click", (e) => {
+                const a = e.target.closest("a[data-track]");
+                if (!a) return;
+                safeEvent(a.getAttribute("data-track"), {
+                    page: "demo_vehicle",
+                    cta: a.getAttribute("data-cta") || ""
+                });
+            });
+
+            // Completion (best-effort): watch timer hit 0:00
+            if (timerEl) {
+                let fired = false;
+                const obs = new MutationObserver(() => {
+                    const t = (timerEl.textContent || "").trim();
+                    if (!fired && (t === "0:00" || t === "00:00")) {
+                        fired = true;
+                        safeEvent("demo_complete", { demo: "vehicle_prearrival30", page: "demo_vehicle" });
+                    }
+                });
+                obs.observe(timerEl, { childList: true, characterData: true, subtree: true });
+            }
+        })();
+    </script>
+</body>
+
+</html>
