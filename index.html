@@ -6,12 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>O₂ Rhythm — Micro-Regulation for First Responders</title>
     <meta name="description"
-        content="QR-based micro-regulation built for dispatch, EMS, fire, law enforcement, and corrections. Scan. Select. Regulate. Adoption tracked." />
+        content="O₂ Rhythm is a QR-based micro-regulation system built for dispatch, EMS, fire, law enforcement, and corrections. Scan. Select. Regulate. Adoption tracked." />
 
     <!-- Open Graph -->
     <meta property="og:title" content="O₂ Rhythm — Micro-Regulation for First Responders" />
     <meta property="og:description"
-        content="Scan. Select. Regulate. Built for real operations. No app. No login. Adoption tracked." />
+        content="QR-based protocols for real operations. No app. No login. Track adoption." />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="/assets/img/hero-patrol.png" />
 
@@ -20,13 +20,14 @@
     <style>
         :root {
             --bg: #0b0c10;
-            --panel: rgba(17, 19, 26, .97);
+            --panel: rgba(17, 19, 26, .96);
             --line: rgba(255, 255, 255, .10);
             --line2: rgba(255, 255, 255, .18);
             --text: #e9e9ef;
             --muted: rgba(233, 233, 239, .72);
             --muted2: rgba(233, 233, 239, .60);
             --shadow: 0 18px 55px rgba(0, 0, 0, .42);
+            --radius: 20px;
         }
 
         * {
@@ -44,6 +45,11 @@
                 radial-gradient(1200px 700px at 20% -10%, rgba(255, 255, 255, .06), transparent 60%),
                 radial-gradient(900px 500px at 90% 5%, rgba(255, 255, 255, .04), transparent 55%),
                 var(--bg);
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        a {
+            color: inherit;
         }
 
         /* layout */
@@ -53,7 +59,7 @@
         }
 
         .section {
-            padding: 26px 0;
+            padding: 28px 0;
         }
 
         .grid2 {
@@ -65,7 +71,7 @@
         .grid3 {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
+            gap: 14px;
         }
 
         @media (max-width: 920px) {
@@ -99,7 +105,6 @@
             align-items: center;
             gap: 10px;
             text-decoration: none;
-            color: var(--text);
         }
 
         .brand img {
@@ -173,52 +178,26 @@
             opacity: .92;
         }
 
-        /* hero */
-        .hero {
-            position: relative;
-            min-height: clamp(560px, 72vh, 820px);
-            display: grid;
-            align-items: end;
-            overflow: hidden;
-            border-bottom: 1px solid var(--line);
+        /* cards */
+        .card {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 16px;
+            box-shadow: 0 18px 50px rgba(0, 0, 0, .25);
         }
 
-        .heroMedia {
-            position: absolute;
-            inset: 0;
-            background: #000;
+        .tile {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 16px;
+            transition: transform .12s ease, border-color .12s ease;
         }
 
-        .heroMedia img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: contrast(1.05) saturate(1.02);
-            opacity: .88;
-        }
-
-        .heroOverlay {
-            position: absolute;
-            inset: 0;
-            background:
-                linear-gradient(180deg, rgba(11, 12, 16, .30), rgba(11, 12, 16, .86) 72%, rgba(11, 12, 16, .98)),
-                radial-gradient(900px 600px at 18% 20%, rgba(255, 255, 255, .08), transparent 60%);
-        }
-
-        .heroInner {
-            position: relative;
-            padding: 26px 0 26px;
-        }
-
-        .heroCard {
-            width: min(980px, 92vw);
-            margin: 0 auto;
-            background: rgba(17, 19, 26, .78);
-            border: 1px solid rgba(255, 255, 255, .14);
-            border-radius: 22px;
-            padding: 18px;
-            box-shadow: var(--shadow);
-            backdrop-filter: blur(10px);
+        .tile:hover {
+            transform: translateY(-1px);
+            border-color: rgba(255, 255, 255, .16);
         }
 
         .kicker {
@@ -230,9 +209,20 @@
 
         h1 {
             margin: 10px 0 8px;
-            font-size: clamp(34px, 4vw, 48px);
-            line-height: 1.05;
+            font-size: clamp(34px, 4vw, 52px);
+            line-height: 1.03;
             letter-spacing: -.03em;
+        }
+
+        h2 {
+            margin: 0 0 8px;
+            font-size: 18px;
+            letter-spacing: -.01em;
+        }
+
+        h3 {
+            margin: 0 0 6px;
+            font-size: 15px;
         }
 
         .sub {
@@ -240,15 +230,22 @@
             color: var(--muted);
             font-size: 15px;
             line-height: 1.65;
-            max-width: 78ch;
+            max-width: 80ch;
         }
 
-        .heroRow {
+        .hint {
+            margin: 0;
+            color: rgba(233, 233, 239, .63);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .row {
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
-            margin-top: 14px;
             align-items: center;
+            margin-top: 14px;
         }
 
         .pillRow {
@@ -267,68 +264,68 @@
             background: rgba(255, 255, 255, .02);
         }
 
-        /* cards */
-        .card {
-            background: var(--panel);
-            border: 1px solid var(--line);
-            border-radius: 20px;
-            padding: 16px;
-            box-shadow: 0 18px 50px rgba(0, 0, 0, .25);
+        /* HERO (fix: text no longer covers whole image) */
+        .hero {
+            position: relative;
+            min-height: clamp(620px, 82vh, 920px);
+            overflow: hidden;
+            border-bottom: 1px solid var(--line);
         }
 
-        .card h2 {
-            margin: 0 0 8px;
-            font-size: 18px;
-            letter-spacing: -.01em;
+        .heroMedia {
+            position: absolute;
+            inset: 0;
+            background: #000;
         }
 
-        .hint {
-            margin: 0;
-            color: rgba(233, 233, 239, .63);
-            font-size: 13px;
-            line-height: 1.6;
+        .heroMedia img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            opacity: .94;
+            filter: contrast(1.06) saturate(1.03);
+            transform: scale(1.01);
         }
 
-        .tile {
-            background: var(--panel);
-            border: 1px solid var(--line);
-            border-radius: 20px;
-            padding: 16px;
-            transition: transform .12s ease, border-color .12s ease;
+        .heroOverlay {
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(180deg,
+                    rgba(0, 0, 0, .15) 0%,
+                    rgba(0, 0, 0, .40) 45%,
+                    rgba(11, 12, 16, .88) 100%);
         }
 
-        .tile:hover {
-            transform: translateY(-1px);
-            border-color: rgba(255, 255, 255, .16);
+        .heroInner {
+            position: relative;
+            height: 100%;
+            display: flex;
+            align-items: flex-end;
+            padding: 30px 0 30px;
         }
 
-        .tile h3 {
-            margin: 0 0 6px;
-            font-size: 15px;
+        .heroCard {
+            width: min(760px, 92vw);
+            margin-left: max(4vw, 18px);
+            background: rgba(15, 16, 20, .52);
+            border: 1px solid rgba(255, 255, 255, .14);
+            border-radius: 22px;
+            padding: 18px;
+            backdrop-filter: blur(7px);
+            box-shadow: var(--shadow);
         }
 
-        .tile p {
-            margin: 0;
-            color: rgba(233, 233, 239, .70);
-            font-size: 13px;
-            line-height: 1.6;
-        }
-
-        ul {
-            margin: 10px 0 0;
-            padding-left: 18px;
-            color: rgba(233, 233, 239, .70);
-            font-size: 13px;
-            line-height: 1.85;
-        }
-
-        li {
-            margin: 6px 0;
+        @media (max-width: 920px) {
+            .heroCard {
+                margin: 0 auto;
+            }
         }
 
         /* media */
         .media {
-            border-radius: 20px;
+            border-radius: var(--radius);
             overflow: hidden;
             border: 1px solid var(--line);
             background: #000;
@@ -336,25 +333,41 @@
 
         .media img {
             width: 100%;
-            height: 100%;
+            height: 260px;
             object-fit: cover;
             display: block;
             opacity: .95;
         }
 
-        /* how it works graphic */
+        .mediaTall img {
+            height: 340px;
+        }
+
+        @media (max-width: 920px) {
+            .media img {
+                height: 240px;
+            }
+
+            .mediaTall img {
+                height: 260px;
+            }
+        }
+
+        /* how-it-works graphic */
         .howGraphic img {
             width: 100%;
             height: auto;
             display: block;
+            object-fit: contain;
         }
 
-        /* demo block */
+        /* demo */
         .demoWrap {
             display: grid;
             grid-template-columns: 1.1fr .9fr;
             gap: 14px;
             align-items: stretch;
+            margin-top: 14px;
         }
 
         @media (max-width: 920px) {
@@ -373,32 +386,47 @@
         }
 
         .demoQR img {
-            width: min(360px, 82%);
+            width: min(360px, 86%);
             height: auto;
             display: block;
             border-radius: 12px;
             background: #fff;
         }
 
-        .bigline {
+        .capline {
             margin-top: 10px;
             font-weight: 950;
             letter-spacing: .10em;
             text-transform: uppercase;
             color: rgba(233, 233, 239, .88);
             font-size: 12px;
+            text-align: center;
         }
 
-        /* FAQ */
+        /* lists */
+        ul {
+            margin: 10px 0 0;
+            padding-left: 18px;
+            color: rgba(233, 233, 239, .70);
+            font-size: 13px;
+            line-height: 1.85;
+        }
+
+        li {
+            margin: 6px 0;
+        }
+
+        /* faq */
         .faq {
             display: grid;
             gap: 10px;
+            margin-top: 14px;
         }
 
         details {
             background: var(--panel);
             border: 1px solid var(--line);
-            border-radius: 20px;
+            border-radius: var(--radius);
             padding: 14px 16px;
         }
 
@@ -418,7 +446,7 @@
 
         /* footer */
         .footer {
-            margin-top: 22px;
+            margin-top: 18px;
             padding-top: 18px;
             border-top: 1px solid var(--line);
             color: rgba(233, 233, 239, .60);
@@ -451,56 +479,77 @@
         </div>
     </header>
 
-    <!-- HERO (TOP, FULL-BLEED) -->
+    <!-- HERO -->
     <section id="top" class="hero" aria-label="O₂ Rhythm hero">
         <div class="heroMedia">
-            <img src="/assets/img/patrol-hero.png" alt="O₂ Rhythm in the field" />
+            <img src="/assets/img/hero-patrol.png" alt="O₂ Rhythm used in the field" />
         </div>
         <div class="heroOverlay" aria-hidden="true"></div>
 
         <div class="heroInner">
             <div class="heroCard">
                 <div class="kicker">Scan • Select • Regulate • Adoption tracked</div>
-                <h1>Micro-regulation built for real operations.</h1>
+                <h1>Built for real operations.</h1>
                 <p class="sub">
-                    O₂ Rhythm is a QR-based protocol system for <strong>dispatch, EMS, fire, law enforcement, and
+                    QR-based micro-regulation for <strong>dispatch, EMS, fire, law enforcement, and
                         corrections</strong>.
-                    No apps. No logins. 30–120 second protocols designed to downshift fast and return to task.
+                    30–120 second protocols. No app. No login.
                 </p>
 
-                <div class="heroRow">
+                <div class="row">
                     <a class="btn btnPrimary" href="#demo">Try the demo</a>
-                    <a class="btn" href="#pilot">Request a 60-day pilot</a>
+                    <a class="btn" href="#pilot">Request pilot</a>
                     <a class="btn" href="#contact">Contact</a>
                 </div>
 
                 <div class="pillRow">
                     <span class="pill"><strong>30–120 sec</strong> protocols</span>
                     <span class="pill"><strong>No app</strong> • no login</span>
-                    <span class="pill"><strong>Deploy in minutes</strong></span>
-                    <span class="pill"><strong>Custom menus</strong> by environment</span>
+                    <span class="pill"><strong>Environment menus</strong></span>
                     <span class="pill"><strong>Usage analytics</strong></span>
                 </div>
+
+                <p class="hint" style="margin-top:12px;">
+                    Built for use between contacts, between calls, between runs, between events — not outside the shift.
+                </p>
             </div>
         </div>
     </section>
 
     <main class="wrap">
 
-        <!-- WHY / WHAT IT IS -->
+        <!-- PROOF STRIP (small visuals, multiple environments) -->
+        <section class="section" aria-label="Deployment examples">
+            <div class="grid3">
+                <div class="media">
+                    <img src="/assets/img/hero-desk.png" alt="Dispatch console deployment" />
+                </div>
+                <div class="media">
+                    <img src="/assets/img/patrol-car-qr.png" alt="Patrol car deployment" />
+                </div>
+                <div class="media">
+                    <img src="/assets/img/qr-break-room.png" alt="Break room deployment" />
+                </div>
+            </div>
+            <p class="hint" style="margin-top:12px;">
+                Same system. Different environments. Designed to be used where the stress actually happens.
+            </p>
+        </section>
+
+        <!-- OUTCOMES -->
         <section class="section">
             <div class="grid3">
                 <div class="tile">
-                    <h3>Fast downshift</h3>
-                    <p>Reduce the time your system stays activated after high-acuity events.</p>
+                    <h3>Faster downshift</h3>
+                    <p class="hint">Reduce how long the body stays activated after high-acuity moments.</p>
                 </div>
                 <div class="tile">
                     <h3>Stability under load</h3>
-                    <p>Built for mid-shift use—console, bay, unit, briefing, post-incident.</p>
+                    <p class="hint">Support regulation mid-shift — console, bay, unit, briefing, post-incident.</p>
                 </div>
                 <div class="tile">
-                    <h3>Adoption tracked</h3>
-                    <p>Know what’s being used, where it’s being used, and what needs adjusting.</p>
+                    <h3>Measurable adoption</h3>
+                    <p class="hint">Track usage by environment so leadership sees what’s actually being used.</p>
                 </div>
             </div>
 
@@ -508,28 +557,28 @@
                 <div class="tile">
                     <h3>What it is</h3>
                     <ul>
-                        <li><strong>QR access</strong> to short protocols (30–120 sec)</li>
+                        <li><strong>QR access</strong> to short regulation protocols (30–120 sec)</li>
                         <li><strong>Environment-specific menus</strong> (console, bay, unit, briefing, break room)</li>
-                        <li><strong>Operational nervous system conditioning</strong>—not “wellness content”</li>
+                        <li><strong>Built for cognitive load</strong> and rapid recovery between demands</li>
                     </ul>
                 </div>
                 <div class="tile">
                     <h3>What it isn’t</h3>
                     <ul>
                         <li>Not a meditation app</li>
-                        <li>Not a 20-minute session model</li>
+                        <li>Not “wellness programming”</li>
+                        <li>Not 20-minute sessions</li>
                         <li>Not dependent on motivation or perfect compliance</li>
-                        <li>Not hard to deploy (no installs, no accounts)</li>
                     </ul>
                 </div>
             </div>
         </section>
 
-        <!-- HOW IT WORKS (GRAPHIC) -->
+        <!-- HOW IT WORKS -->
         <section id="how" class="section">
             <div class="card">
                 <h2>How it works</h2>
-                <p class="hint">One loop. Built for speed. Built for repeat use.</p>
+                <p class="hint">One loop. Low friction. Built for repeat use.</p>
                 <div class="media howGraphic" style="margin-top:14px;">
                     <img src="/assets/img/how-it-works.png"
                         alt="Scan → 30–60 sec protocol → back to task → adoption tracked" />
@@ -537,7 +586,7 @@
             </div>
         </section>
 
-        <!-- DEPLOYMENT (uses your new imagery vibe) -->
+        <!-- DEPLOYMENT DETAILS -->
         <section id="deploy" class="section">
             <div class="grid2">
                 <div class="card">
@@ -551,47 +600,56 @@
                         <li><strong>Corrections:</strong> control room / sally port / break area</li>
                     </ul>
                     <p class="hint" style="margin-top:12px;">
-                        Adoption is placement + relevance. We build around your environments so it actually gets used.
+                        Adoption is placement + relevance. We build menus around your environments so it gets used.
                     </p>
                 </div>
 
-                <div class="media" aria-label="Desk hero">
-                    <img src="/assets/img/desk-hero.png" alt="O₂ Rhythm in a dispatch environment" />
+                <div class="media mediaTall">
+                    <img src="/assets/img/hero-desk.png" alt="Dispatch environment" />
                 </div>
             </div>
         </section>
 
-        <!-- DEMO (NEW QR) -->
+        <!-- DEMO -->
         <section id="demo" class="section">
             <div class="card">
                 <h2>Try the demo</h2>
-                <p class="hint">Scan the QR or open the demo page. Same experience your team gets during pilot.</p>
+                <p class="hint">Scan the QR or open the demo page. No login. Same experience your team gets during
+                    pilot.</p>
 
-                <div class="demoWrap" style="margin-top:14px;">
+                <div class="demoWrap">
                     <div class="tile">
-                        <h3>Scan. Select. Regulate.</h3>
-                        <p>Short protocols designed for fast downshift and immediate return to task.</p>
+                        <h3>Live demo</h3>
+                        <p class="hint">
+                            Short protocols designed for fast downshift and immediate return to task.
+                        </p>
+
                         <ul>
                             <li>30–120 second options</li>
                             <li>Guided + silent options</li>
                             <li>Built for console / bay / unit / field</li>
                         </ul>
 
-                        <div class="heroRow" style="margin-top:12px;">
-                            <!-- SET THIS to your real demo URL -->
-                            <a class="btn btnPrimary" id="demoLink" href="https://o2rhythm.com/demo/" target="_blank"
+                        <div class="row">
+                            <a class="btn btnPrimary" href="https://o2rhythm.com/demo/" target="_blank"
                                 rel="noopener">Open demo</a>
                             <a class="btn" href="#contact">Bring this to my agency</a>
                         </div>
 
-                        <div class="bigline">DEMO QR LIVE</div>
-                        <p class="hint" style="margin-top:6px;">
-                            Tip: print this and tape it where it will get used. That’s the point.
+                        <p class="hint" style="margin-top:12px;">
+                            Tip: print the QR and place it where it will actually be used.
                         </p>
                     </div>
 
                     <div class="demoQR" aria-label="Demo QR code">
-                        <img src="/assets/img/demo-qr.png" alt="O₂ Rhythm demo QR code" />
+                        <a href="https://o2rhythm.com/demo/" target="_blank" rel="noopener"
+                            aria-label="Open demo by clicking QR">
+                            <img src="/assets/img/demo-qr.png" alt="O₂ Rhythm demo QR code" />
+                        </a>
+                        <div class="capline">DEMO QR • LIVE</div>
+                        <p class="hint" style="margin-top:8px; text-align:center;">
+                            https://o2rhythm.com/demo/
+                        </p>
                     </div>
                 </div>
             </div>
@@ -607,8 +665,8 @@
                     <div class="tile">
                         <h3>What’s included</h3>
                         <ul>
-                            <li><strong>Start:</strong> 1–3 environments (ex: console + break room, bay + unit, briefing
-                                + patrol)</li>
+                            <li><strong>Start:</strong> 1–3 environments (console + break room / bay + unit / briefing +
+                                patrol)</li>
                             <li><strong>Onboarding:</strong> 10–15 min champion/supervisor intro</li>
                             <li><strong>Reporting:</strong> day 30 check-in + day 60 summary + recommended adjustments
                             </li>
@@ -625,16 +683,16 @@
                             <li>What placements are working</li>
                             <li>What needs adjustment (menu + placement + champions)</li>
                         </ul>
-                        <div class="heroRow" style="margin-top:12px;">
-                            <a class="btn btnPrimary" href="#contact">Request a pilot</a>
+                        <div class="row">
+                            <a class="btn btnPrimary" href="#contact">Request pilot</a>
                             <a class="btn" href="#faq">Read FAQ</a>
                         </div>
                     </div>
                 </div>
 
                 <p class="hint" style="margin-top:12px;">
-                    IT-friendly: no installs, no accounts, no personal data collection required. Can be hosted on your
-                    domain if needed.
+                    IT-friendly: no installs, no accounts, no personal data required. Can be hosted on your domain if
+                    needed.
                 </p>
             </div>
         </section>
@@ -645,7 +703,7 @@
                 <h2>FAQ</h2>
                 <p class="hint">Clear answers. No fluff.</p>
 
-                <div class="faq" style="margin-top:14px;">
+                <div class="faq">
                     <details>
                         <summary>How is pricing determined?</summary>
                         <p>
@@ -703,7 +761,7 @@
         <section id="contact" class="section">
             <div class="card">
                 <h2>Bring O₂ Rhythm to your agency</h2>
-                <p class="hint">Email with your basics. I’ll tell you quickly if it’s a fit.</p>
+                <p class="hint">Email your basics. I’ll tell you quickly if it’s a fit.</p>
 
                 <div class="grid2" style="margin-top:14px;">
                     <div class="tile">
@@ -713,7 +771,7 @@
                             what you want to improve.
                         </p>
 
-                        <div class="heroRow" style="margin-top:12px;">
+                        <div class="row">
                             <a class="btn btnPrimary"
                                 href="mailto:hello.rhythmo2@gmail.com?subject=O2%20Rhythm%20Pilot%20Request">Email
                                 me</a>
@@ -724,16 +782,14 @@
                     </div>
 
                     <div class="tile">
-                        <h3>Typical next steps</h3>
+                        <h3>Next steps</h3>
                         <ul>
                             <li>5–10 minute call</li>
                             <li>Pick 1–3 environments</li>
                             <li>Deploy QR + onboard champions</li>
                             <li>Day 30 check-in + day 60 summary</li>
                         </ul>
-                        <p class="hint" style="margin-top:10px;">
-                            Start small. Get clean adoption. Then scale.
-                        </p>
+                        <p class="hint" style="margin-top:10px;">Start small. Prove adoption. Then scale.</p>
                     </div>
                 </div>
 
@@ -770,10 +826,11 @@ Anything else we should know?`;
                 b.textContent = "Copied ✅";
                 setTimeout(() => b.textContent = "Copy intake template", 1600);
             } catch (e) {
-                alert("Copy failed. You can manually copy from the page source.");
+                alert("Copy failed. You can copy from the page source.");
             }
         });
     </script>
+
 </body>
 
 </html>
