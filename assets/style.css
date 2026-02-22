@@ -406,3 +406,63 @@ a:focus-visible {
     outline: 2px solid rgba(255, 255, 255, .45);
     outline-offset: 3px;
 }
+
+/* =========================================
+   PROMPT LAYOUT FIX (Academy protocols)
+   Prevent overlap + keep text readable
+========================================= */
+
+.center {
+    width: 100%;
+    max-width: 360px;
+}
+
+/* Reserve space under the ring so prompts don't collide with buttons */
+.protocol {
+    padding-bottom: 10px;
+}
+
+/* Prompt = bold but controlled */
+.prompt {
+    margin-top: 10px;
+    padding: 0 14px;
+    max-width: 360px;
+
+    font-size: clamp(1.05rem, 3.2vw, 1.35rem);
+    line-height: 1.15;
+
+    font-weight: 950;
+    letter-spacing: 1px;
+    /* was too wide */
+    text-transform: uppercase;
+
+    white-space: normal;
+    /* allow wrap */
+    word-break: normal;
+    overflow-wrap: anywhere;
+    /* prevents overflow on long strings */
+
+    text-align: center;
+}
+
+/* If you use promptSub anywhere */
+.promptSub {
+    padding: 0 14px;
+    max-width: 360px;
+    font-size: clamp(.95rem, 2.8vw, 1.05rem);
+    line-height: 1.25;
+}
+
+/* Give the ringbox more breathing room on small screens */
+.ringbox {
+    margin-bottom: 6px;
+}
+
+/* Keep toggle/feedback from getting crowded */
+.toggleRow {
+    margin-top: 10px;
+}
+
+.feedback {
+    margin-top: 14px;
+}
