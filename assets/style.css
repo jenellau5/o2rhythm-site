@@ -1,3 +1,8 @@
+/* =========================================================
+   RHYTHM O₂ — Tactical / Professional UI
+   Clean. Controlled. Operational.
+========================================================= */
+
 * {
     box-sizing: border-box;
 }
@@ -5,10 +10,21 @@
 :root {
     --bg: #000;
     --fg: #fff;
-    --muted: #8a8a8a;
-    --ring-bg: #222;
+
+    --muted: rgba(255, 255, 255, .62);
+    --muted2: rgba(255, 255, 255, .42);
+
+    --panel: rgba(255, 255, 255, .02);
+    --panel2: rgba(255, 255, 255, .035);
+
+    --border: rgba(255, 255, 255, .16);
+    --border2: rgba(255, 255, 255, .26);
+
+    --ring-bg: rgba(255, 255, 255, .10);
     --ring: #4da3ff;
-    --border: rgba(255, 255, 255, .25);
+
+    --radius: 14px;
+    --radius2: 10px;
 }
 
 html,
@@ -35,63 +51,145 @@ a {
     padding: 24px;
 }
 
+/* =========================================================
+   CARD / TYPOGRAPHY
+========================================================= */
+
 .card {
     width: min(560px, 100%);
     text-align: center;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px 18px;
+    background: var(--panel);
 }
 
 .brand {
-    font-size: .9rem;
-    letter-spacing: 2px;
+    font-size: .78rem;
+    letter-spacing: 4px;
+    font-weight: 900;
     text-transform: uppercase;
     color: var(--muted);
     margin-bottom: 10px;
 }
 
 h1 {
-    font-size: 1.65rem;
-    margin: 0 0 10px 0;
-    letter-spacing: .3px;
+    margin: 0 0 8px 0;
+    font-size: 1.38rem;
+    font-weight: 900;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
 }
 
 .sub {
+    margin: 0 0 16px 0;
     color: var(--muted);
-    line-height: 1.5;
-    margin: 0 0 18px 0;
+    line-height: 1.45;
+    font-size: .95rem;
 }
+
+.small {
+    margin-top: 16px;
+    color: var(--muted);
+    font-size: .88rem;
+}
+
+/* small “boxed note” for translation / guidance */
+.note {
+    margin: 12px 0 14px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius2);
+    background: var(--panel2);
+    text-align: left;
+    font-size: .92rem;
+    line-height: 1.35;
+    color: rgba(255, 255, 255, .82);
+}
+
+.note strong {
+    color: #fff;
+}
+
+/* simple divider */
+.divider {
+    height: 1px;
+    background: rgba(255, 255, 255, .12);
+    margin: 14px 0;
+}
+
+/* =========================================================
+   MENU BUTTONS
+========================================================= */
 
 .btn {
     display: block;
-    padding: 18px 18px;
-    margin: 12px 0;
+    padding: 15px 16px;
+    margin: 10px 0;
     border: 1px solid var(--border);
-    border-radius: 18px;
-    background: rgba(255, 255, 255, .03);
+    border-radius: var(--radius2);
+    background: rgba(255, 255, 255, .02);
     text-align: center;
-    font-weight: 800;
-    letter-spacing: .2px;
+    font-weight: 950;
+    letter-spacing: 1.3px;
+    text-transform: uppercase;
+    transition: background 120ms ease, border-color 120ms ease, transform 60ms ease;
 }
 
 .btn:hover {
-    background: rgba(255, 255, 255, .07);
+    background: rgba(255, 255, 255, .065);
+    border-color: var(--border2);
+}
+
+.btn:active {
+    transform: scale(.995);
 }
 
 .btn .sub {
     display: block;
-    margin-top: 6px;
-    opacity: .75;
-    font-size: .95em;
-    font-weight: 600;
+    margin: 6px 0 0 0;
+    font-size: .86em;
+    font-weight: 650;
+    text-transform: none;
     letter-spacing: 0;
+    opacity: .78;
 }
 
-.small {
-    margin-top: 18px;
+/* =========================================================
+   NAV PILLS (Back / Learn more / Email)
+========================================================= */
+
+.navrow {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.pill {
+    border: 1px solid var(--border);
+    padding: 9px 12px;
+    border-radius: 8px;
+    font-size: .82rem;
+    font-weight: 800;
+    letter-spacing: .9px;
+    text-transform: uppercase;
     color: var(--muted);
-    font-size: .85rem;
+    background: rgba(255, 255, 255, .02);
+    transition: background 120ms ease, border-color 120ms ease, color 120ms ease;
 }
 
-/* Protocol UI */
+.pill:hover {
+    background: rgba(255, 255, 255, .06);
+    border-color: var(--border2);
+    color: #fff;
+}
+
+/* =========================================================
+   PROTOCOL UI (Ring + Pacer)
+========================================================= */
+
 .protocol {
     display: grid;
     gap: 14px;
@@ -110,18 +208,19 @@ svg.progressRing {
     transform: rotate(-90deg);
     position: absolute;
     inset: 0;
+    pointer-events: none;
 }
 
 .progress-bg {
     fill: none;
     stroke: var(--ring-bg);
-    stroke-width: 12;
+    stroke-width: 8;
 }
 
 .progress {
     fill: none;
     stroke: var(--ring);
-    stroke-width: 12;
+    stroke-width: 8;
     stroke-linecap: round;
     stroke-dasharray: 628;
     stroke-dashoffset: 628;
@@ -132,30 +231,43 @@ svg.progressRing {
     position: absolute;
     inset: 28px;
     border-radius: 999px;
-    border: 2px solid rgba(255, 255, 255, .28);
+    border: 1px solid rgba(255, 255, 255, .22);
+    background: rgba(255, 255, 255, .01);
     display: grid;
     place-items: center;
-    transform: scale(1);
-    will-change: transform;
 }
 
 .center {
     display: grid;
     place-items: center;
-    gap: 10px;
+    gap: 12px;
     padding: 8px;
 }
 
+/* START button: bold + professional */
 .start {
-    width: 132px;
-    height: 132px;
+    width: 140px;
+    height: 140px;
     border-radius: 999px;
-    border: 2px solid rgba(255, 255, 255, .55);
-    background: transparent;
-    color: var(--fg);
-    font-weight: 900;
-    letter-spacing: 1px;
+    border: 2px solid rgba(255, 255, 255, .26);
+    background: rgba(255, 255, 255, .03);
+    color: #fff;
+    font-weight: 950;
+    letter-spacing: 2px;
+    text-transform: uppercase;
     cursor: pointer;
+    display: grid;
+    place-items: center;
+    transition: transform 120ms ease, background 120ms ease, border-color 120ms ease;
+}
+
+.start:hover {
+    background: rgba(255, 255, 255, .06);
+    border-color: rgba(255, 255, 255, .42);
+}
+
+.start:active {
+    transform: scale(.985);
 }
 
 .start:disabled {
@@ -164,26 +276,46 @@ svg.progressRing {
 }
 
 .timer {
-    font-size: .95rem;
+    font-size: .9rem;
     color: var(--muted);
-    letter-spacing: .5px;
+    letter-spacing: 1px;
 }
 
+/* Phase label stays “issued” */
 .phaseLabel {
-    font-size: .8rem;
-    letter-spacing: 3px;
+    font-size: .78rem;
+    letter-spacing: 4px;
     text-transform: uppercase;
-    color: rgba(255, 255, 255, .75);
+    color: rgba(255, 255, 255, .78);
 }
 
 .count {
-    font-size: 2.2rem;
+    font-size: 2.15rem;
     font-weight: 1000;
     letter-spacing: 1px;
     line-height: 1;
 }
 
-/* Phase dots (bubbles) */
+/* For non-breath pages: use this class for prompts */
+.prompt {
+    margin-top: 4px;
+    font-size: 1.1rem;
+    font-weight: 950;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 1.2;
+}
+
+.promptSub {
+    margin-top: 8px;
+    font-size: 1rem;
+    line-height: 1.35;
+    color: rgba(255, 255, 255, .82);
+    text-align: center;
+}
+
+/* Phase dots */
 .phaseDots {
     display: flex;
     gap: 8px;
@@ -196,7 +328,7 @@ svg.progressRing {
     width: 10px;
     height: 10px;
     border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, .35);
+    border: 1px solid rgba(255, 255, 255, .28);
     background: rgba(255, 255, 255, .06);
     transition: transform 150ms ease, background 150ms ease, border-color 150ms ease;
 }
@@ -207,43 +339,10 @@ svg.progressRing {
     transform: scale(1.12);
 }
 
-.footerlink {
-    margin-top: 18px;
-    color: var(--muted);
-    font-size: .85rem;
-}
+/* =========================================================
+   TOGGLES + FEEDBACK
+========================================================= */
 
-.footerlink a {
-    color: var(--muted);
-    text-decoration: underline;
-    text-underline-offset: 4px;
-}
-
-/* Tiny “back” row for menus */
-.navrow {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    margin-top: 10px;
-}
-
-.pill {
-    border: 1px solid var(--border);
-    padding: 10px 12px;
-    border-radius: 999px;
-    font-size: .85rem;
-    color: var(--muted);
-    background: rgba(255, 255, 255, .03);
-}
-
-.pill:hover {
-    background: rgba(255, 255, 255, .06);
-    color: #fff;
-}
-
-/* ---------- Add-ons: toggles + feedback (paste at bottom) ---------- */
-
-/* Optional toggle buttons (sound / vibration) */
 .toggleRow {
     display: flex;
     gap: 10px;
@@ -257,14 +356,18 @@ svg.progressRing {
     padding: 10px 12px;
     border-radius: 999px;
     font-size: .85rem;
-    font-weight: 700;
+    font-weight: 850;
+    letter-spacing: .9px;
+    text-transform: uppercase;
     color: var(--muted);
-    background: rgba(255, 255, 255, .03);
+    background: rgba(255, 255, 255, .02);
     cursor: pointer;
+    transition: background 120ms ease, border-color 120ms ease, color 120ms ease;
 }
 
 .toggle:hover {
     background: rgba(255, 255, 255, .06);
+    border-color: var(--border2);
     color: #fff;
 }
 
@@ -273,16 +376,7 @@ svg.progressRing {
     cursor: not-allowed;
 }
 
-/* Keeps focus visible (accessibility + mobile) */
-.toggle:focus-visible,
-.start:focus-visible,
-.btn:focus-visible,
-a:focus-visible {
-    outline: 2px solid rgba(255, 255, 255, .45);
-    outline-offset: 3px;
-}
-
-/* Feedback link at end of protocol */
+/* Feedback */
 .feedback {
     margin-top: 18px;
     text-align: center;
@@ -293,219 +387,22 @@ a:focus-visible {
     text-decoration: underline;
     text-underline-offset: 4px;
     font-size: .85rem;
-    font-weight: 700;
+    font-weight: 800;
+    letter-spacing: .2px;
 }
 
 .feedback-link:hover {
     color: #fff;
 }
 
-svg.progressRing {
-    pointer-events: none;
-}
-
-/* --- Done screen orientation blocks + details --- */
-.blockTitle {
-    margin: 0 0 8px;
-    font-size: 16px;
-    font-weight: 800;
-}
-
-.block {
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    background: rgba(255, 255, 255, 0.03);
-    padding: 14px 14px;
-    margin-top: 12px;
-}
-
-.details {
-    margin-top: 12px;
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    background: rgba(255, 255, 255, 0.03);
-    overflow: hidden;
-}
-
-.details summary {
-    cursor: pointer;
-    padding: 14px 14px;
-    font-weight: 800;
-    list-style: none;
-}
-
-.details summary::-webkit-details-marker {
-    display: none;
-}
-
-.detailsBody {
-    padding: 0 14px 14px;
-}
-
 /* =========================================================
-   TACTICAL MODE — Rhythm O2
-   Clean. Controlled. Operational.
+   ACCESSIBILITY
 ========================================================= */
 
-:root {
-    --bg: #000;
-    --fg: #fff;
-    --muted: #9a9a9a;
-    --border: rgba(255, 255, 255, .14);
-    --ring: #4da3ff;
-}
-
-/* Card becomes command panel */
-.card {
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 22px 18px;
-    background: rgba(255, 255, 255, .015);
-}
-
-/* Brand looks like issued equipment */
-.brand {
-    font-size: .75rem;
-    letter-spacing: 4px;
-    font-weight: 800;
-    color: var(--muted);
-}
-
-/* Header = command label */
-h1 {
-    font-size: 1.35rem;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    margin-bottom: 6px;
-}
-
-.sub {
-    font-size: .9rem;
-    margin-bottom: 18px;
-    color: var(--muted);
-}
-
-/* Buttons = command modules */
-.btn {
-    padding: 15px 16px;
-    margin: 8px 0;
-    border-radius: 10px;
-    border: 1px solid var(--border);
-    background: rgba(255, 255, 255, .025);
-    font-weight: 900;
-    letter-spacing: 1.2px;
-    text-transform: uppercase;
-    transition: background 120ms ease, border-color 120ms ease;
-}
-
-/* Tactical hover */
-.btn:hover {
-    background: rgba(255, 255, 255, .07);
-    border-color: rgba(255, 255, 255, .28);
-}
-
-/* Subtext smaller + neutral */
-.btn .sub {
-    text-transform: none;
-    font-size: .85em;
-    font-weight: 600;
-    letter-spacing: 0;
-    opacity: .7;
-}
-
-/* Divider more subtle */
-.card div[style*="height:1px"] {
-    opacity: .5;
-}
-
-/* START button less playful */
-.start {
-    width: 120px;
-    height: 120px;
-    border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, .45);
-    font-weight: 900;
-    letter-spacing: 1.5px;
-    background: rgba(255, 255, 255, .03);
-}
-
-/* Ring thinner + sharper */
-.progress-bg,
-.progress {
-    stroke-width: 8;
-}
-
-/* Pills smaller + tight */
-.pill {
-    border-radius: 6px;
-    border: 1px solid var(--border);
-    padding: 8px 12px;
-    font-size: .8rem;
-    letter-spacing: .8px;
-    text-transform: uppercase;
-}
-
-/* --- START button: make it belong in the ring --- */
-.start {
-    width: 140px;
-    height: 140px;
-    border-radius: 999px;
-    /* circle */
-    border: 2px solid rgba(255, 255, 255, .25);
-    background: rgba(255, 255, 255, .03);
-    color: #fff;
-    font-weight: 900;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    cursor: pointer;
-
-    display: grid;
-    place-items: center;
-
-    transition: transform 120ms ease, background 120ms ease, border-color 120ms ease;
-}
-
-.start:hover {
-    background: rgba(255, 255, 255, .06);
-    border-color: rgba(255, 255, 255, .40);
-}
-
-.start:active {
-    transform: scale(.98);
-}
-
-.start:disabled {
-    opacity: .45;
-    cursor: default;
-}
-
-.center {
-    gap: 12px;
-}
-
-.timer {
-    font-size: .9rem;
-    letter-spacing: 1px;
-}
-
-/* BIG command text (do this at bottom of CSS) */
-.prompt {
-    margin-top: 14px;
-    font-size: 1.35rem;
-    font-weight: 950;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    text-align: center;
-}
-
-.promptSub {
-    margin-top: 10px;
-    font-size: 1.05rem;
-    line-height: 1.35;
-    color: rgba(255, 255, 255, .82);
-    text-align: center;
-}
-
-.phaseLabel {
-    letter-spacing: 4px;
+.toggle:focus-visible,
+.start:focus-visible,
+.btn:focus-visible,
+a:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, .45);
+    outline-offset: 3px;
 }
