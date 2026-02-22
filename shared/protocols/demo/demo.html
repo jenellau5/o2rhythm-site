@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Demo — O₂ Rhythm</title>
+    <meta name="description"
+        content="Try a 30–45 second operational micro-regulation demo. Built for dispatch, EMS, fire, law enforcement. No app. No login." />
+    <link rel="stylesheet" href="/assets/style.css" />
+
+    <style>
+        :root {
+            --ring: #ffffff;
+        }
+
+        /* Light demo-specific layout, keeps your global style intact */
+        .demoHeader {
+            display: grid;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .kicker {
+            font-size: 12px;
+            letter-spacing: 0.12em;
+            opacity: 0.8;
+            text-transform: uppercase;
+        }
+
+        .lede {
+            margin: 0;
+            opacity: 0.9;
+        }
+
+        .grid3 {
+            display: grid;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        @media (min-width: 820px) {
+            .grid3 {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+        }
+
+        .demoTile {
+            display: grid;
+            gap: 10px;
+            padding: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .demoTile h2 {
+            margin: 0;
+            font-size: 18px;
+            letter-spacing: 0.02em;
+        }
+
+        .demoTile p {
+            margin: 0;
+            opacity: 0.85;
+            font-size: 14px;
+            line-height: 1.35;
+        }
+
+        .tagRow {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            font-size: 12px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            opacity: 0.9;
+            white-space: nowrap;
+        }
+
+        .ctaRow {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+            align-items: center;
+        }
+
+        .primaryBtn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 14px;
+            border-radius: 12px;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: rgba(255, 255, 255, 0.08);
+            color: inherit;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
+        .primaryBtn:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .secondaryBtn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 14px;
+            border-radius: 12px;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: transparent;
+            color: inherit;
+            opacity: 0.9;
+            font-weight: 600;
+        }
+
+        .secondaryBtn:hover {
+            opacity: 1;
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .mini {
+            font-size: 12px;
+            opacity: 0.7;
+            margin-top: 10px;
+            line-height: 1.35;
+        }
+
+        .divider {
+            height: 1px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.12);
+            margin: 14px 0;
+        }
+
+        .foot {
+            display: grid;
+            gap: 10px;
+            margin-top: 6px;
+        }
+
+        .foot a {
+            color: inherit;
+        }
+    </style>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5NKZ7XYYWF"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-5NKZ7XYYWF');
+    </script>
+</head>
+
+<body>
+    <main class="wrap">
+        <section class="card">
+            <div class="brand">O₂ RHYTHM</div>
+
+            <header class="demoHeader">
+                <div class="kicker">DEMO</div>
+                <h1 style="margin:0;">Try it in 30–45 seconds</h1>
+                <p class="lede">
+                    This is operational micro-regulation: short, contextual, and usable on shift.
+                    No app. No login. Scan → run → done.
+                </p>
+
+                <div class="tagRow" aria-label="demo-tags">
+                    <span class="tag">Dispatch</span>
+                    <span class="tag">EMS</span>
+                    <span class="tag">Fire</span>
+                    <span class="tag">Law Enforcement</span>
+                    <span class="tag">Corrections</span>
+                </div>
+            </header>
+
+            <div class="divider"></div>
+
+            <section class="grid3" aria-label="demo-options">
+
+                <!-- DESK -->
+                <article class="demoTile">
+                    <h2>DESK — RESET 45</h2>
+                    <p>Downshift fast after a stressful call. Built for headset + screens + cognitive load.</p>
+                    <div class="ctaRow">
+                        <a class="primaryBtn" href="/demo/desk.html" data-track="demo_select" data-demo="desk_reset45">
+                            Start Desk Demo
+                        </a>
+                    </div>
+                    <p class="mini">45 sec • recovery + composure</p>
+                </article>
+
+                <!-- VEHICLE -->
+                <article class="demoTile">
+                    <h2>VEHICLE — PRE-ARRIVAL 30</h2>
+                    <p>Stabilize before stepping out. Not relaxation. Regulation under motion + noise.</p>
+                    <div class="ctaRow">
+                        <a class="primaryBtn" href="/demo/vehicle.html" data-track="demo_select"
+                            data-demo="vehicle_prearrival30">
+                            Start Vehicle Demo
+                        </a>
+                    </div>
+                    <p class="mini">30 sec • composure before action</p>
+                </article>
+
+                <!-- NON-BREATH -->
+                <article class="demoTile">
+                    <h2>NO-BREATH — NAME 5</h2>
+                    <p>For people who won’t do breathwork. A fast cognitive reset that still works.</p>
+                    <div class="ctaRow">
+                        <a class="primaryBtn" href="/demo/nonbreath.html" data-track="demo_select"
+                            data-demo="nonbreath_name5">
+                            Start No-Breath Demo
+                        </a>
+                    </div>
+                    <p class="mini">~45 sec • grounding without breathing cues</p>
+                </article>
+
+            </section>
+
+            <div class="divider"></div>
+
+            <section class="foot" aria-label="bring-to-agency">
+                <h2 style="margin:0; font-size:18px;">Want this in your agency?</h2>
+                <p style="margin:0; opacity:0.85;">
+                    Rhythm O₂ deploys via QR in minutes. Environments can be customized (desk, vehicle, breakroom, bay,
+                    quiet room).
+                    Adoption can be tracked.
+                </p>
+
+                <div class="ctaRow">
+                    <!-- Change this link to your contact page if you have one -->
+                    <a class="primaryBtn" href="/contact/" data-track="cta_click" data-cta="bring_to_agency">
+                        Bring to my agency
+                    </a>
+
+                    <!-- Optional: if you don’t have a contact page yet, swap the above for mailto -->
+                    <!-- <a class="primaryBtn" href="mailto:hello@yourdomain.com?subject=Rhythm%20O2%20Agency%20Inquiry" data-track="cta_click" data-cta="bring_to_agency_email">
+            Bring to my agency
+          </a> -->
+
+                    <a class="secondaryBtn" href="/" data-track="nav_click" data-cta="back_home">
+                        Back to site
+                    </a>
+                </div>
+
+                <p class="mini">
+                    Note: This is a demo preview. Field deployments typically use separate QR codes per environment to
+                    eliminate extra taps.
+                </p>
+            </section>
+
+        </section>
+    </main>
+
+    <script>
+        // Simple GA4 event tracking using data attributes
+        (function () {
+            function trackClick(e) {
+                const a = e.target.closest("a[data-track]");
+                if (!a) return;
+
+                const eventName = a.getAttribute("data-track");
+                const demo = a.getAttribute("data-demo");
+                const cta = a.getAttribute("data-cta");
+
+                const params = {};
+                if (demo) params.demo = demo;
+                if (cta) params.cta = cta;
+                params.page = "demo_index";
+
+                try {
+                    gtag("event", eventName, params);
+                } catch (err) {
+                    // fail silently
+                }
+            }
+
+            document.addEventListener("click", trackClick);
+        })();
+    </script>
+</body>
+
+</html>
