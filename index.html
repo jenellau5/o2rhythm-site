@@ -4,23 +4,23 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>O₂ Rhythm — Operational Micro-Regulation for High-Stress Teams</title>
+    <title>O₂ Rhythm — Micro-Regulation for First Responders</title>
     <meta name="description"
-        content="O₂ Rhythm is a QR-based micro-regulation system built for dispatch, EMS, fire, law enforcement, and corrections. Deploy in minutes. Measure adoption. Improve downshift and recovery." />
+        content="O₂ Rhythm is a QR-based micro-regulation system built for dispatch, EMS, fire, law enforcement, and corrections. Deploy in minutes. Customizable by environment. Measurable adoption." />
 
     <!-- Open Graph -->
-    <meta property="og:title" content="O₂ Rhythm — Operational Micro-Regulation" />
+    <meta property="og:title" content="O₂ Rhythm — Micro-Regulation for First Responders" />
     <meta property="og:description"
-        content="QR-based micro-protocol menus built for real shifts. No app. No login. Measurable adoption." />
+        content="QR-based protocol menus built for real operations: dispatch, EMS, fire, law enforcement, corrections. No app. No login. Track adoption." />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="/assets/img/hero.png" />
 
     <link rel="stylesheet" href="/assets/style.css" />
 
     <style>
-        /* Page-level layout fixes (bounded images + readable hierarchy) */
+        /* Tactical + readable. Bounded images. Minimal overrides. */
         .wrap {
-            width: min(1100px, 92vw);
+            width: min(1120px, 92vw);
             margin: 0 auto;
         }
 
@@ -113,7 +113,7 @@
 
         .hero {
             display: grid;
-            grid-template-columns: 1.15fr .85fr;
+            grid-template-columns: 1.1fr .9fr;
             gap: 14px;
             padding: 22px 0 10px;
             align-items: stretch;
@@ -145,7 +145,7 @@
             color: rgba(233, 233, 239, .72);
             font-size: 15px;
             line-height: 1.6;
-            max-width: 68ch;
+            max-width: 70ch;
         }
 
         .ctaRow {
@@ -171,7 +171,6 @@
             background: rgba(255, 255, 255, .02);
         }
 
-        /* Bounded media: no more huge images */
         .mediaBox {
             border-radius: 20px;
             overflow: hidden;
@@ -214,12 +213,19 @@
             margin: 0;
             color: rgba(233, 233, 239, .65);
             font-size: 13px;
-            max-width: 60ch;
+            max-width: 62ch;
         }
 
         .grid3 {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 14px;
+        }
+
+        .twoCol {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 12px;
             margin-top: 14px;
         }
@@ -241,14 +247,7 @@
             color: rgba(233, 233, 239, .70);
             font-size: 13px;
             line-height: 1.55;
-            max-width: 68ch;
-        }
-
-        .twoCol {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-top: 14px;
+            max-width: 72ch;
         }
 
         .list {
@@ -309,10 +308,25 @@
             flex-wrap: wrap;
         }
 
-        .fine {
-            margin: 10px 0 0;
-            color: rgba(233, 233, 239, .55);
-            font-size: 12px;
+        .trustStrip {
+            margin-top: 12px;
+            border: 1px solid rgba(255, 255, 255, .08);
+            border-radius: 18px;
+            background: rgba(255, 255, 255, .02);
+            padding: 12px 14px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+            color: rgba(233, 233, 239, .70);
+            font-size: 13px;
+        }
+
+        .dot {
+            width: 4px;
+            height: 4px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, .30);
         }
 
         .faq {
@@ -339,7 +353,13 @@
             color: rgba(233, 233, 239, .70);
             font-size: 13px;
             line-height: 1.6;
-            max-width: 72ch;
+            max-width: 78ch;
+        }
+
+        .fine {
+            margin: 10px 0 0;
+            color: rgba(233, 233, 239, .55);
+            font-size: 12px;
         }
 
         .footer {
@@ -354,7 +374,7 @@
             flex-wrap: wrap;
         }
 
-        @media (max-width: 900px) {
+        @media (max-width: 920px) {
             .hero {
                 grid-template-columns: 1fr;
             }
@@ -388,6 +408,7 @@
 
             <nav class="nav" aria-label="Primary">
                 <a href="#how">How it works</a>
+                <a href="#where">Where it lives</a>
                 <a href="#what">What you get</a>
                 <a href="#pilot">Pilot</a>
                 <a href="#faq">FAQ</a>
@@ -401,12 +422,13 @@
         <!-- HERO -->
         <section class="hero">
             <div class="card">
-                <div class="kicker">Operational micro-regulation • QR based • measurable adoption</div>
-                <h1>Regulation your team will actually use between calls.</h1>
+                <div class="kicker">Micro-regulation • QR based • measurable adoption</div>
+                <h1>Built for first responders. Designed for real operations.</h1>
                 <p class="sub">
-                    O₂ Rhythm is a QR-based protocol system built for dispatch, EMS, fire, law enforcement, and
-                    corrections.
-                    No apps. No logins. Short protocols (30–120 seconds) designed for real shifts and real stress.
+                    O₂ Rhythm is a QR-based protocol system for <strong>dispatch, EMS, fire, law enforcement, and
+                        corrections</strong>.
+                    No apps. No logins. Short protocols (30–120 seconds) for downshift and recovery — at the desk, in
+                    the bay, on the unit, or on scene.
                 </p>
 
                 <div class="ctaRow">
@@ -417,13 +439,22 @@
                 <div class="pillRow">
                     <span class="pill"><strong>30–120 sec</strong> protocols</span>
                     <span class="pill"><strong>No app</strong> • no login</span>
-                    <span class="pill"><strong>Desk / Break / Quiet</strong> menus</span>
+                    <span class="pill"><strong>Custom menus</strong> by environment</span>
                     <span class="pill"><strong>Usage analytics</strong></span>
+                </div>
+
+                <div class="trustStrip" aria-label="Built for">
+                    <span><strong>Built for:</strong></span>
+                    <span>Dispatch</span><span class="dot" aria-hidden="true"></span>
+                    <span>EMS</span><span class="dot" aria-hidden="true"></span>
+                    <span>Fire</span><span class="dot" aria-hidden="true"></span>
+                    <span>Law Enforcement</span><span class="dot" aria-hidden="true"></span>
+                    <span>Corrections</span>
                 </div>
             </div>
 
             <div class="mediaBox" aria-label="O₂ Rhythm hero image">
-                <img src="/assets/img/hero.png" alt="O₂ Rhythm in a high-stress workspace" />
+                <img src="/assets/img/hero.png" alt="O₂ Rhythm in a first responder environment" />
             </div>
         </section>
 
@@ -432,10 +463,10 @@
             <div class="tile">
                 <h3>What it is</h3>
                 <ul class="list">
-                    <li><strong>QR access</strong> to short regulation protocols</li>
-                    <li><strong>Environment-specific</strong> menus (desk / break / quiet)</li>
-                    <li><strong>Built for cognitive load</strong> and fast recovery between calls</li>
-                    <li><strong>Trackable adoption</strong> by environment</li>
+                    <li><strong>QR access</strong> to short regulation protocols (30–120 sec)</li>
+                    <li><strong>Environment-specific menus</strong> (desk, bay, unit, break room, quiet room)</li>
+                    <li><strong>Designed for cognitive load</strong> and rapid recovery between demands</li>
+                    <li><strong>Trackable adoption</strong> (usage by environment)</li>
                 </ul>
             </div>
 
@@ -454,21 +485,21 @@
         <section class="section">
             <div class="sectionHead">
                 <h2>Outcomes teams care about</h2>
-                <p class="hint">Short, operational, measurable.</p>
+                <p class="hint">Operational benefits that are short, repeatable, and measurable.</p>
             </div>
 
             <div class="grid3">
                 <div class="tile">
                     <h3>Faster downshift</h3>
-                    <p>Reduce time stuck activated after high-acuity moments.</p>
+                    <p>Reduce the time your body stays activated after high-acuity moments.</p>
                 </div>
                 <div class="tile">
                     <h3>Stability under load</h3>
-                    <p>Support regulation while still working — not only after shift.</p>
+                    <p>Support regulation while working — in the middle of the shift, not just after.</p>
                 </div>
                 <div class="tile">
                     <h3>Measurable adoption</h3>
-                    <p>Track scans and engagement by environment for leadership buy-in.</p>
+                    <p>Track scans and usage by environment so leadership can see what’s being used.</p>
                 </div>
             </div>
         </section>
@@ -485,7 +516,8 @@
                     <div class="stepNum">1</div>
                     <div>
                         <h3>Place the QR</h3>
-                        <p>Desk stations, break room, quiet room, hallway reset points.</p>
+                        <p>Post it where the stress is: desk stations, bay doors, unit clipboard, patrol bag, briefing
+                            room, break room.</p>
                     </div>
                 </div>
 
@@ -493,7 +525,7 @@
                     <div class="stepNum">2</div>
                     <div>
                         <h3>Scan → choose a protocol</h3>
-                        <p>Downshift • reset • stabilize • recover (30–120 seconds).</p>
+                        <p>Downshift • reset • stabilize • recover (30–120 seconds). Guided or silent options.</p>
                     </div>
                 </div>
 
@@ -501,8 +533,33 @@
                     <div class="stepNum">3</div>
                     <div>
                         <h3>Track usage</h3>
-                        <p>Scans + traffic by environment. Optional anonymous feedback prompt.</p>
+                        <p>Usage analytics by environment. Optional anonymous feedback prompt.</p>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WHERE IT LIVES (make it feel for everyone) -->
+        <section id="where" class="section">
+            <div class="sectionHead">
+                <h2>Where it lives</h2>
+                <p class="hint">Same system. Different deployment depending on your team.</p>
+            </div>
+
+            <div class="twoCol">
+                <div class="tile">
+                    <h3>Examples by team</h3>
+                    <ul class="list">
+                        <li><strong>Dispatch:</strong> console / break room / quiet room</li>
+                        <li><strong>EMS:</strong> station bay / unit / supply room</li>
+                        <li><strong>Fire:</strong> bay / turnout area / day room</li>
+                        <li><strong>Law enforcement:</strong> patrol car / briefing room / report writing area</li>
+                        <li><strong>Corrections:</strong> control room / sally port / break area</li>
+                    </ul>
+                </div>
+
+                <div class="mediaBox mediaBox--small" aria-label="Patrol QR photo">
+                    <img src="/assets/img/patrol.png" alt="Patrol car with QR code on phone" />
                 </div>
             </div>
         </section>
@@ -511,17 +568,17 @@
         <section id="what" class="section">
             <div class="sectionHead">
                 <h2>What your agency gets</h2>
-                <p class="hint">Deliverables. Not vibes.</p>
+                <p class="hint">Customizable deliverables, not generic content.</p>
             </div>
 
             <div class="twoCol">
                 <div class="tile">
-                    <h3>Protocol menus</h3>
+                    <h3>Custom protocol menus</h3>
                     <ul class="list">
-                        <li><strong>Desk</strong> menu (micro-downshift + cognitive reset)</li>
-                        <li><strong>Break room</strong> menu (longer reset options)</li>
-                        <li><strong>Quiet room</strong> menu (deeper downshift options)</li>
-                        <li>Optional guided + silent versions</li>
+                        <li>Menus built by <strong>environment</strong> (desk / bay / unit / quiet room)</li>
+                        <li>Short protocol library (30–120 sec)</li>
+                        <li>Guided + silent options</li>
+                        <li>Optional “quick reset” and “post-incident” menu</li>
                     </ul>
                 </div>
 
@@ -529,14 +586,14 @@
                     <h3>Deployment + analytics</h3>
                     <ul class="list">
                         <li>QR setup + print-ready sheets</li>
-                        <li>Environment tagging (desk / break / quiet)</li>
-                        <li>30-day + 60-day usage summary</li>
+                        <li>Environment tagging</li>
+                        <li>Usage summary and rollout adjustments</li>
                     </ul>
                 </div>
             </div>
 
             <div class="twoCol">
-                <div class="mediaBox mediaBox--small">
+                <div class="mediaBox mediaBox--small" aria-label="Protocol menu preview">
                     <img src="/assets/img/demo.png" alt="Protocol menu preview" />
                 </div>
                 <div class="tile">
@@ -545,7 +602,7 @@
                         Adoption is the whole game. QR keeps it frictionless: scan → protocol → back to work.
                     </p>
                     <p class="sub" style="margin-top:10px;">
-                        If usage is low, you’ll know quickly and can adjust placement, menu structure, or champions.
+                        If usage is low, you’ll see it quickly and can adjust placement, menus, and champions.
                     </p>
                 </div>
             </div>
@@ -555,54 +612,75 @@
         <section id="pilot" class="section">
             <div class="sectionHead">
                 <h2>60-day pilot</h2>
-                <p class="hint">A real test with real usage data.</p>
+                <p class="hint">A real test with usage data — not opinions.</p>
             </div>
 
             <div class="card callout">
                 <div>
                     <p class="sub" style="margin:0;"><strong>Start:</strong> choose 1–3 environments (ex: desk + break
-                        room)</p>
+                        room, bay + unit, briefing room + patrol)</p>
                     <p class="sub" style="margin:6px 0 0;"><strong>Onboarding:</strong> 10–15 min supervisor/champion
                         intro</p>
                     <p class="sub" style="margin:6px 0 0;"><strong>Reporting:</strong> day 30 check-in + day 60 summary
-                    </p>
+                        + recommended adjustments</p>
+                    <p class="sub" style="margin:6px 0 0;"><strong>Founder pricing:</strong> pilot agencies lock in
+                        founder pricing when they continue after pilot</p>
                 </div>
                 <a class="btn btnPrimary" href="#contact">Request pilot</a>
             </div>
-
-            <div class="twoCol">
-                <div class="tile">
-                    <h3>Success metrics</h3>
-                    <ul class="list">
-                        <li>Scan volume by environment</li>
-                        <li>Repeat usage (returning traffic)</li>
-                        <li>Optional anonymous feedback prompt</li>
-                    </ul>
-                </div>
-
-                <div class="tile">
-                    <h3>Good fit if…</h3>
-                    <ul class="list">
-                        <li>You want something people can use without leaving their post</li>
-                        <li>You need a system that doesn’t rely on motivation</li>
-                        <li>You want measurable adoption for leadership buy-in</li>
-                    </ul>
-                </div>
-            </div>
         </section>
 
-        <!-- FAQ -->
+        <!-- FAQ (includes pricing + customization + founder pricing + updates) -->
         <section id="faq" class="section">
             <div class="sectionHead">
                 <h2>FAQ</h2>
-                <p class="hint">The questions admins and chiefs ask.</p>
+                <p class="hint">Clear answers. No fluff.</p>
             </div>
 
             <div class="faq">
                 <details>
+                    <summary>How is pricing determined?</summary>
+                    <p>
+                        Pricing is based on scope: <strong>number of environments</strong> (desk/bay/unit/etc.),
+                        <strong>number of QR placements</strong>,
+                        and your <strong>update cadence tier</strong> (monthly vs quarterly). Larger deployments and
+                        custom requests change scope.
+                    </p>
+                </details>
+
+                <details>
+                    <summary>Is it customizable for my agency/team?</summary>
+                    <p>
+                        Yes. Menus are built around <strong>your environments</strong> and your operational reality.
+                        Dispatch looks different than patrol; EMS looks different than corrections. The system stays the
+                        same — the menus change.
+                    </p>
+                </details>
+
+                <details>
+                    <summary>What is founder pricing?</summary>
+                    <p>
+                        Agencies that join during the pilot phase can lock in <strong>founder pricing</strong> when they
+                        continue after the pilot.
+                        That rate stays in place as long as you remain active on the same tier/scope.
+                    </p>
+                </details>
+
+                <details>
+                    <summary>How often do you update content?</summary>
+                    <p>
+                        Updates are provided <strong>monthly or quarterly depending on tier</strong>. If something
+                        operational changes (policy, environment,
+                        critical incident need), additional updates can be made when needed.
+                    </p>
+                </details>
+
+                <details>
                     <summary>Is this “oxygen training”?</summary>
-                    <p>No. This is about <strong>downshift control</strong> and <strong>autonomic flexibility</strong>
-                        under stress — short protocols people can repeat inside real operations.</p>
+                    <p>
+                        No. This is about <strong>downshift control</strong> and <strong>autonomic flexibility</strong>
+                        under stress — short protocols people can repeat inside real operations.
+                    </p>
                 </details>
 
                 <details>
@@ -612,8 +690,10 @@
 
                 <details>
                     <summary>How do you keep it from becoming ignored wall clutter?</summary>
-                    <p>Short protocols + environment relevance + champions + measurable usage. If adoption is low,
-                        you’ll see it fast and adjust placement/menu.</p>
+                    <p>
+                        Short protocols + environment relevance + champions + measurable usage. If adoption is low,
+                        you’ll see it fast and adjust placement/menu.
+                    </p>
                 </details>
             </div>
         </section>
@@ -622,15 +702,15 @@
         <section id="contact" class="section">
             <div class="sectionHead">
                 <h2>Bring O₂ Rhythm to your agency</h2>
-                <p class="hint">Quick intake. Clear next step.</p>
+                <p class="hint">Tell me your team type + environments. I’ll tell you if it’s a fit.</p>
             </div>
 
             <div class="twoCol">
                 <div class="tile">
                     <h3>Email to request a pilot</h3>
                     <p class="sub">
-                        Include: agency name, team size, environments (desk/break/quiet), and what you want to improve
-                        (volume, staffing strain, recovery, etc.).
+                        Include: agency name, discipline (dispatch/EMS/fire/LE/corrections), approximate headcount,
+                        environments you want first, and what you want to improve.
                     </p>
 
                     <a class="btn btnPrimary"
@@ -642,17 +722,17 @@
                 <div class="tile">
                     <h3>What I’ll ask back</h3>
                     <ul class="list">
-                        <li>Which environments you want first</li>
-                        <li>How many stations / approximate headcount</li>
-                        <li>Your biggest operational stress point</li>
-                        <li>Who will champion rollout (supervisor/trainer)</li>
+                        <li>Your first 1–3 environments</li>
+                        <li>Approx # of QR placements</li>
+                        <li>Your update tier preference (monthly vs quarterly)</li>
+                        <li>Who will champion rollout</li>
                     </ul>
                 </div>
             </div>
 
             <footer class="footer">
                 <div>© <span id="y"></span> O₂ Rhythm</div>
-                <div>Built for dispatch • EMS • fire • law enforcement • corrections</div>
+                <div>Dispatch • EMS • Fire • Law Enforcement • Corrections</div>
             </footer>
         </section>
 
