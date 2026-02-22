@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pilot Feedback — O₂ Rhythm</title>
+
+    <link rel="stylesheet" href="/assets/style.css" />
+
+    <!-- GA4 (optional, but consistent) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5NKZ7XYYWF"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-5NKZ7XYYWF', { page_title: document.title, page_path: location.pathname });
+    </script>
+
+    <style>
+        /* Small form-specific additions that align with your CSS */
+        .form {
+            width: 100%;
+            max-width: 560px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            font-size: .9rem;
+            font-weight: 800;
+            letter-spacing: .2px;
+            margin: 14px 0 6px;
+            color: rgba(255, 255, 255, .82);
+        }
+
+        select,
+        textarea,
+        input {
+            width: 100%;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, .16);
+            background: rgba(255, 255, 255, .02);
+            color: #fff;
+            padding: 12px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+
+        .submitBtn {
+            width: 100%;
+            margin-top: 14px;
+            padding: 12px 14px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, .16);
+            background: rgba(255, 255, 255, .92);
+            color: #000;
+            font-weight: 900;
+            letter-spacing: .8px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: transform 120ms ease, filter 120ms ease;
+        }
+
+        .submitBtn:hover {
+            filter: brightness(1.02);
+        }
+
+        .submitBtn:active {
+            transform: scale(.995);
+        }
+
+        .submitBtn:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+        .pillMini {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, .16);
+            background: rgba(255, 255, 255, .02);
+            color: rgba(255, 255, 255, .75);
+            font-size: .78rem;
+            letter-spacing: .6px;
+            text-transform: uppercase;
+            margin: 0 0 12px;
+        }
+
+        .status {
+            margin-top: 12px;
+            font-size: .95rem;
+            color: rgba(255, 255, 255, .85);
+            line-height: 1.4;
+        }
+    </style>
+</head>
+
+<body data-agency="academy" data-environment="training">
+    <main class="wrap">
+        <section class="card">
+            <div class="brand">O₂ RHYTHM</div>
+            <h1>Pilot Feedback</h1>
+            <p class="sub">Anonymous. No names or emails. ~30 seconds.</p>
+
+            <div id="metaPills" style="text-align:left;">
+                <div id="protocolPill" class="pillMini" style="display:none;"></div>
+                <div id="srcPill" class="pillMini" style="display:none;"></div>
+            </div>
+
+            <div class="divider"></div>
+
+            <form id="fbForm" class="form">
+                <label for="length">The length felt:</label>
+                <select id="length" required>
+                    <option value="" selected disabled>Select one</option>
+                    <option>Too short</option>
+                    <option>About right</option>
+                    <option>Too long</option>
+                </select>
+
+                <label for="when_used">When did you use it?</label>
+                <select id="when_used" required>
+                    <option value="" selected disabled>Select one</option>
+                    <option>During a call / active moment</option>
+                    <option>Between tasks</option>
+                    <option>On break</option>
+                    <option>After a stressful interaction</option>
+                </select>
+
+                <label for="effect">After completing it, you felt:</label>
+                <select id="effect" required>
+                    <option value="" selected disabled>Select one</option>
+                    <option>More settled</option>
+                    <option>Slightly calmer</option>
+                    <option>No noticeable change</option>
+                    <option>More alert</option>
+                </select>
+
+                <label for="use_again">Would you use this again?</label>
+                <select id="use_again" required>
+                    <option value="" selected disabled>Select one</option>
+                    <option>Yes</option>
+                    <option>Maybe</option>
+                    <option>No</option>
+                </select>
+
+                <label for="notes">Anything you’d change? (optional)</label>
+                <textarea id="notes" placeholder="Short + specific is best."></textarea>
+
+                <button class="submitBtn" type="submit" id="submitBtn">Submit</button>
+
+                <p class="sub" style="margin-top:12px;">
+                    This helps refine timing, wording, and placement for real work environments.
+                </p>
+
+                <div id="status" class="status" style="display:none;"></div>
+
+                <div class="navrow" style="margin-top:12px; justify-content:flex-start;">
+                    <a class="pill" href="javascript:history.back()">Back</a>
+                </div>
+            </form>
+        </section>
+    </main>
+
+    <script>
+        // PASTE YOUR APPS SCRIPT WEB APP URL HERE:
+        const ENDPOINT_URL = "https://script.google.com/macros/s/AKfycbx7AYi_bFQVae7issIwPlTeSdfTtXpXdAF3Aq5wdd6Wn8zyHkY8XpPTCz_2T5nIV9Ap0g/exec";
+
+        const qs = new URLSearchParams(window.location.search);
+
+        // 1) read explicit params
+        let protocol = (qs.get("protocol") || "").slice(0, 120);
+        let src = (qs.get("src") || "").slice(0, 60);
+
+        // 2) fallback: derive protocol from referrer filename if missing
+        // e.g. .../academy_state_regulation_30.html -> academy_state_regulation_30
+        // or .../o2-reset-60.html -> o2-reset-60 (still useful)
+        const ref = document.referrer || "";
+        if (!protocol && ref) {
+            try {
+                const url = new URL(ref);
+                const file = url.pathname.split("/").pop() || "";
+                protocol = file.replace(/\.html$/i, "").slice(0, 120) || "unknown";
+            } catch (_) { }
+        }
+        if (!protocol) protocol = "unknown";
+        if (!src) src = "academy";
+
+        // show pills
+        const protocolPill = document.getElementById("protocolPill");
+        const srcPill = document.getElementById("srcPill");
+
+        protocolPill.textContent = "Protocol: " + protocol;
+        protocolPill.style.display = "inline-block";
+
+        srcPill.textContent = "Source: " + src;
+        srcPill.style.display = "inline-block";
+
+        const form = document.getElementById("fbForm");
+        const statusEl = document.getElementById("status");
+        const submitBtn = document.getElementById("submitBtn");
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            statusEl.style.display = "none";
+            submitBtn.disabled = true;
+            submitBtn.textContent = "Sending...";
+
+            const payload = {
+                src,
+                protocol,
+                length: document.getElementById("length").value,
+                when_used: document.getElementById("when_used").value,
+                effect: document.getElementById("effect").value,
+                use_again: document.getElementById("use_again").value,
+                notes: document.getElementById("notes").value.trim(),
+                user_agent: navigator.userAgent,
+                referrer: document.referrer || "",
+                page_path: location.pathname
+            };
+
+            try {
+                const res = await fetch(ENDPOINT_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "text/plain;charset=utf-8" },
+                    body: JSON.stringify(payload)
+                });
+
+                const text = await res.text();
+                let data = {};
+                try { data = JSON.parse(text); } catch (_) { }
+
+                if (data.ok) {
+                    statusEl.innerHTML = "✅ Submitted. Thank you.";
+                    statusEl.style.display = "block";
+                    form.reset();
+
+                    // keep protocol/src pills visible, don’t wipe them
+                } else {
+                    statusEl.textContent = "Something went wrong. Try again.";
+                    statusEl.style.display = "block";
+                }
+            } catch (err) {
+                statusEl.textContent = "Network error. Try again.";
+                statusEl.style.display = "block";
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = "Submit";
+            }
+        });
+    </script>
+</body>
+
+</html>

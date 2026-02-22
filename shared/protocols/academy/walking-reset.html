@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Walking Regulation — O₂ Rhythm</title>
+    <title>Walking Reset — O₂ Rhythm</title>
 
     <link rel="stylesheet" href="/assets/style.css" />
 
@@ -21,12 +21,12 @@
 <body data-agency="academy" data-environment="training">
     <main class="wrap">
         <section class="card protocol" data-agency="academy" data-environment="training"
-            data-protocol-id="academy_walking_regulation_180">
+            data-protocol-id="walking-reset">
 
             <div class="brand">O₂ RHYTHM</div>
 
-            <h1>Walking Reset • Walking Meditation </h1>
-            <p class="sub">3 min • movement-based reset</p>
+            <h1>Walking Reset</h1>
+            <p class="sub">Walking Meditation • 3 min</p>
             <p class="sub" style="margin-top:-10px;">Use: on break • after a rough interaction • before going home</p>
 
             <div class="ringbox">
@@ -47,6 +47,7 @@
 
             <div class="toggleRow">
                 <button id="soundToggle" class="toggle" type="button">SOUND: OFF</button>
+                <button id="musicToggle" class="toggle" type="button">MUSIC: OFF</button>
             </div>
 
             <div class="navrow">
@@ -54,17 +55,22 @@
             </div>
 
             <div class="feedback">
-                <a class="feedback-link" href="/feedback.html?src=academy&protocol=academy_walking_regulation_180"
-                    onclick="trackFeedback?.('academy_walking_regulation_180')">
-                    Feedback (10 seconds)
+                <a class="feedback-link" href="feedback.html?src=academy&protocol=walking-reset" target="_blank"
+                    rel="noopener">
+                    Feedback (30 seconds)
                 </a>
             </div>
+
+            <!-- Audio element must be OUTSIDE the script -->
+            <audio id="walkMusic" preload="auto" loop>
+                <source src="/assets/audio/walking-loop.mp3" type="audio/mpeg">
+            </audio>
 
         </section>
     </main>
 
     <script>
-        // Walking Regulation — timed prompts (non-breath)
+        // Walking Reset — timed prompts (non-breath)
         const totalSeconds = 180;
         const steps = [
             { t: 0, text: "WALK STEADY. EYES FORWARD. JAW RELAXED." },
@@ -76,13 +82,20 @@
         let running = false;
         let remaining = totalSeconds;
         let tick = null;
+
         let soundOn = false;
+        let musicOn = false;
 
         const startBtn = document.getElementById("startBtn");
         const timerEl = document.getElementById("timer");
         const labelEl = document.getElementById("phaseLabel");
         const promptEl = document.getElementById("prompt");
+
         const soundToggle = document.getElementById("soundToggle");
+        const musicToggle = document.getElementById("musicToggle");
+
+        const musicEl = document.getElementById("walkMusic");
+        musicEl.volume = 0.22; // professional low volume
 
         // progress ring
         const circle = document.querySelector("circle.progress");
@@ -90,6 +103,7 @@
         const circ = 2 * Math.PI * r;
         circle.style.strokeDasharray = `${circ} ${circ}`;
         circle.style.strokeDashoffset = `${circ}`;
+
         function setProgress(pct) {
             circle.style.strokeDashoffset = (circ - (pct * circ));
         }
@@ -123,25 +137,47 @@
             return cur;
         }
 
+        async function playMusicIfOn() {
+            if (!musicOn) return;
+            try { await musicEl.play(); } catch (_) { }
+        }
+
+        function stopMusic() {
+            try {
+                musicEl.pause();
+                musicEl.currentTime = 0;
+            } catch (_) { }
+        }
+
         function stopRun(status) {
             running = false;
             startBtn.textContent = "START";
             labelEl.textContent = status;
+
             if (tick) clearInterval(tick);
             tick = null;
+
+            stopMusic();
         }
 
-        function startStop() {
+        async function startStop() {
             if (running) {
                 stopRun("STOPPED");
                 return;
             }
 
+            // reset each time you start
+            remaining = totalSeconds;
+            timerEl.textContent = fmt(remaining);
+            setProgress(0);
+
             running = true;
             startBtn.textContent = "STOP";
             labelEl.textContent = "RUNNING";
             promptEl.textContent = stepText(0);
+
             beep();
+            await playMusicIfOn();
 
             tick = setInterval(() => {
                 if (!running) return;
@@ -168,6 +204,17 @@
             soundOn = !soundOn;
             soundToggle.textContent = `SOUND: ${soundOn ? "ON" : "OFF"}`;
             if (soundOn) beep();
+        });
+
+        musicToggle.addEventListener("click", async () => {
+            musicOn = !musicOn;
+            musicToggle.textContent = `MUSIC: ${musicOn ? "ON" : "OFF"}`;
+
+            if (musicOn) {
+                await playMusicIfOn();
+            } else {
+                stopMusic();
+            }
         });
     </script>
 </body>
