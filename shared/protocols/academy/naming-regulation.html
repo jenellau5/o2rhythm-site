@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Naming Regulation — O₂ Rhythm</title>
+
+  <link rel="stylesheet" href="/assets/style.css" />
+
+  <!-- GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-5NKZ7XYYWF"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-5NKZ7XYYWF', { page_title: document.title, page_path: location.pathname });
+  </script>
+
+  <style>
+    /* Page-local safety: keep prompts readable + never overlapping controls */
+    .center {
+      width: 100%;
+      max-width: 360px;
+    }
+
+    .prompt {
+      margin-top: 10px;
+      padding: 0 14px;
+      max-width: 360px;
+      font-size: clamp(1.05rem, 3.2vw, 1.35rem);
+      line-height: 1.15;
+      font-weight: 950;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      white-space: normal;
+      overflow-wrap: anywhere;
+      text-align: center;
+    }
+
+    .toggleRow {
+      margin-top: 12px;
+    }
+  </style>
+</head>
+
+<body data-agency="academy" data-environment="training">
+  <main class="wrap">
+    <section class="card protocol" data-agency="academy" data-environment="training"
+      data-protocol-id="naming-regulation">
+
+      <div class="brand">O₂ RHYTHM</div>
+
+      <h1>Naming Regulation</h1>
+      <p class="sub">Naming Meditation • 45 sec</p>
+      <p class="sub" style="margin-top:-10px;">Use: before speaking • after provocation • when reactive</p>
+
+      <div class="ringbox">
+        <svg class="progressRing" viewBox="0 0 220 220" aria-hidden="true">
+          <circle class="progress-bg" cx="110" cy="110" r="100"></circle>
+          <circle class="progress" cx="110" cy="110" r="100"></circle>
+        </svg>
+
+        <div class="pacer">
+          <div class="center">
+            <button id="startBtn" class="start" type="button">START</button>
+            <div id="timer" class="timer">0:45</div>
+            <div id="phaseLabel" class="phaseLabel">READY</div>
+            <div id="prompt" class="prompt"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="toggleRow">
+        <button id="soundToggle" class="toggle" type="button">SOUND: OFF</button>
+      </div>
+
+      <div class="navrow">
+        <a class="pill" href="/academy/">Back</a>
+      </div>
+
+      <div class="feedback">
+        <a class="feedback-link" href="feedback.html?src=academy&protocol=naming-regulation" target="_blank"
+          rel="noopener">
+          Feedback (30 seconds)
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Naming Regulation — Emotion + Body + Sensory + Breath (45 seconds)
+    const totalSeconds = 45;
+    const steps = [
+      { t: 0, text: "NAME THE EMOTION. ANGRY / RUSHED / ANXIOUS." },
+      { t: 10, text: "WHERE IN YOUR BODY? JAW / CHEST / HANDS." },
+      { t: 20, text: "3 THINGS YOU SEE. NAME THEM SILENTLY." },
+      { t: 30, text: "2 THINGS YOU FEEL. CLOTHING / AIR / FLOOR." },
+      { t: 40, text: "1 SLOW BREATH. IN NOSE. LONG EXHALE." },
+    ];
+
+    let running = false;
+    let remaining = totalSeconds;
+    let tick = null;
+    let soundOn = false;
+
+    const startBtn = document.getElementById("startBtn");
+    const timerEl = document.getElementById("timer");
+    const labelEl = document.getElementById("phaseLabel");
+    const promptEl = document.getElementById("prompt");
+    const soundToggle = document.getElementById("soundToggle");
+
+    // progress ring
+    const circle = document.querySelector("circle.progress");
+    const r = 100;
+    const circ = 2 * Math.PI * r;
+    circle.style.strokeDasharray = `${circ} ${circ}`;
+    circle.style.strokeDashoffset = `${circ}`;
+
+    function setProgress(pct) {
+      circle.style.strokeDashoffset = (circ - (pct * circ));
+    }
+    setProgress(0);
+
+    function fmt(sec) {
+      const m = Math.floor(sec / 60);
+      const s = sec % 60;
+      return `${m}:${String(s).padStart(2, "0")}`;
+    }
+
+    function beep() {
+      if (!soundOn) return;
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type = "sine";
+      o.frequency.value = 880;
+      g.gain.value = 0.05;
+      o.connect(g);
+      g.connect(ctx.destination);
+      o.start();
+      setTimeout(() => { o.stop(); ctx.close(); }, 80);
+    }
+
+    function stepText(elapsed) {
+      let cur = steps[0].text;
+      for (const s of steps) {
+        if (elapsed >= s.t) cur = s.text;
+      }
+      return cur;
+    }
+
+    function stopRun(status) {
+      running = false;
+      startBtn.textContent = "START";
+      labelEl.textContent = status;
+      if (tick) clearInterval(tick);
+      tick = null;
+    }
+
+    function startStop() {
+      if (running) {
+        stopRun("STOPPED");
+        return;
+      }
+
+      // reset each run
+      remaining = totalSeconds;
+      timerEl.textContent = fmt(remaining);
+      setProgress(0);
+
+      running = true;
+      startBtn.textContent = "STOP";
+      labelEl.textContent = "RUNNING";
+      promptEl.textContent = stepText(0);
+      beep();
+
+      tick = setInterval(() => {
+        if (!running) return;
+
+        remaining -= 1;
+        const elapsed = totalSeconds - remaining;
+
+        timerEl.textContent = fmt(remaining);
+        promptEl.textContent = stepText(elapsed);
+        setProgress(Math.min(1, elapsed / totalSeconds));
+
+        // cue beeps at each prompt boundary
+        if (steps.some(s => s.t === elapsed)) beep();
+
+        if (remaining <= 0) {
+          stopRun("DONE");
+          beep();
+        }
+      }, 1000);
+    }
+
+    startBtn.addEventListener("click", startStop);
+
+    soundToggle.addEventListener("click", () => {
+      soundOn = !soundOn;
+      soundToggle.textContent = `SOUND: ${soundOn ? "ON" : "OFF"}`;
+      if (soundOn) beep();
+    });
+  </script>
+</body>
+
+</html>
