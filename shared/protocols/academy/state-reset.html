@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Walking Regulation — O₂ Rhythm</title>
+    <title>State Regulation — O₂ Rhythm</title>
 
     <link rel="stylesheet" href="/assets/style.css" />
 
@@ -21,13 +21,13 @@
 <body data-agency="academy" data-environment="training">
     <main class="wrap">
         <section class="card protocol" data-agency="academy" data-environment="training"
-            data-protocol-id="academy_walking_regulation_180">
+            data-protocol-id="academy_state_regulation_30">
 
             <div class="brand">O₂ RHYTHM</div>
 
-            <h1>Walking Regulation</h1>
-            <p class="sub">3 min • movement-based reset</p>
-            <p class="sub" style="margin-top:-10px;">Use: on break • after a rough interaction • before going home</p>
+            <h1>State Regulation • Naming Meditation </h1>
+            <p class="sub">30 sec • name it without judgment</p>
+            <p class="sub" style="margin-top:-10px;">Use: when reactive • after provocation • before speaking</p>
 
             <div class="ringbox">
                 <svg class="progressRing" viewBox="0 0 220 220" aria-hidden="true">
@@ -38,7 +38,7 @@
                 <div class="pacer">
                     <div class="center">
                         <button id="startBtn" class="start" type="button">START</button>
-                        <div id="timer" class="timer">3:00</div>
+                        <div id="timer" class="timer">0:30</div>
                         <div id="phaseLabel" class="phaseLabel">READY</div>
                         <div id="prompt" class="prompt"></div>
                     </div>
@@ -54,8 +54,8 @@
             </div>
 
             <div class="feedback">
-                <a class="feedback-link" href="/feedback.html?src=academy&protocol=academy_walking_regulation_180"
-                    onclick="trackFeedback?.('academy_walking_regulation_180')">
+                <a class="feedback-link" href="/feedback.html?src=academy&protocol=academy_state_regulation_30"
+                    onclick="trackFeedback?.('academy_state_regulation_30')">
                     Feedback (10 seconds)
                 </a>
             </div>
@@ -64,13 +64,12 @@
     </main>
 
     <script>
-        // Walking Regulation — timed prompts (non-breath)
-        const totalSeconds = 180;
+        // State Regulation — timed prompts (non-breath)
+        const totalSeconds = 30;
         const steps = [
-            { t: 0, text: "WALK STEADY. EYES FORWARD. JAW RELAXED." },
-            { t: 45, text: "SOFTEN HANDS + SHOULDERS. RELEASE GRIP." },
-            { t: 90, text: "WIDEN VISION. PERIPHERAL, NOT TUNNEL." },
-            { t: 135, text: "RETURN TO TASK. STEADY PACE. STEADY TONE." },
+            { t: 0, text: "NAME IT: activated / irritated / rushed." },
+            { t: 10, text: "NO JUDGMENT. JUST LABEL." },
+            { t: 20, text: "CHOOSE: slow voice • neutral face • clear instruction." },
         ];
 
         let running = false;

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>State Regulation — O₂ Rhythm</title>
+    <title>Attention control • listening meditiation — O₂ Rhythm</title>
 
     <link rel="stylesheet" href="/assets/style.css" />
 
@@ -21,13 +21,13 @@
 <body data-agency="academy" data-environment="training">
     <main class="wrap">
         <section class="card protocol" data-agency="academy" data-environment="training"
-            data-protocol-id="academy_state_regulation_30">
+            data-protocol-id="academy_attention_regulation_45">
 
             <div class="brand">O₂ RHYTHM</div>
 
-            <h1>State Regulation</h1>
-            <p class="sub">30 sec • name it without judgment</p>
-            <p class="sub" style="margin-top:-10px;">Use: when reactive • after provocation • before speaking</p>
+            <h1>Attention Regulation</h1>
+            <p class="sub">45 sec • listening focus reset</p>
+            <p class="sub" style="margin-top:-10px;">Use: after chaos • when overstimulated • before contact</p>
 
             <div class="ringbox">
                 <svg class="progressRing" viewBox="0 0 220 220" aria-hidden="true">
@@ -38,7 +38,7 @@
                 <div class="pacer">
                     <div class="center">
                         <button id="startBtn" class="start" type="button">START</button>
-                        <div id="timer" class="timer">0:30</div>
+                        <div id="timer" class="timer">0:45</div>
                         <div id="phaseLabel" class="phaseLabel">READY</div>
                         <div id="prompt" class="prompt"></div>
                     </div>
@@ -54,8 +54,8 @@
             </div>
 
             <div class="feedback">
-                <a class="feedback-link" href="/feedback.html?src=academy&protocol=academy_state_regulation_30"
-                    onclick="trackFeedback?.('academy_state_regulation_30')">
+                <a class="feedback-link" href="/feedback.html?src=academy&protocol=academy_attention_regulation_45"
+                    onclick="trackFeedback?.('academy_attention_regulation_45')">
                     Feedback (10 seconds)
                 </a>
             </div>
@@ -64,12 +64,12 @@
     </main>
 
     <script>
-        // State Regulation — timed prompts (non-breath)
-        const totalSeconds = 30;
+        // Attention Regulation — timed prompts (non-breath)
+        const totalSeconds = 45;
         const steps = [
-            { t: 0, text: "NAME IT: activated / irritated / rushed." },
-            { t: 10, text: "NO JUDGMENT. JUST LABEL." },
-            { t: 20, text: "CHOOSE: slow voice • neutral face • clear instruction." },
+            { t: 0, text: "Pick ONE sound. Name it." },
+            { t: 15, text: "Pick a SECOND sound. Name it." },
+            { t: 30, text: "Pick a THIRD sound. Name it." },
         ];
 
         let running = false;

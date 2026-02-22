@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Attention Regulation — O₂ Rhythm</title>
+    <title>Physical Regulation — O₂ Rhythm</title>
 
     <link rel="stylesheet" href="/assets/style.css" />
 
@@ -21,13 +21,13 @@
 <body data-agency="academy" data-environment="training">
     <main class="wrap">
         <section class="card protocol" data-agency="academy" data-environment="training"
-            data-protocol-id="academy_attention_regulation_45">
+            data-protocol-id="academy_physical_regulation_60">
 
             <div class="brand">O₂ RHYTHM</div>
 
-            <h1>Attention Regulation</h1>
-            <p class="sub">45 sec • listening focus reset</p>
-            <p class="sub" style="margin-top:-10px;">Use: after chaos • when overstimulated • before contact</p>
+            <h1>Physical Regulation • Body Scan Meditation </h1>
+            <p class="sub">60 sec • jaw / shoulders / hands</p>
+            <p class="sub" style="margin-top:-10px;">Use: when tense • after provocation • before contact</p>
 
             <div class="ringbox">
                 <svg class="progressRing" viewBox="0 0 220 220" aria-hidden="true">
@@ -38,7 +38,7 @@
                 <div class="pacer">
                     <div class="center">
                         <button id="startBtn" class="start" type="button">START</button>
-                        <div id="timer" class="timer">0:45</div>
+                        <div id="timer" class="timer">1:00</div>
                         <div id="phaseLabel" class="phaseLabel">READY</div>
                         <div id="prompt" class="prompt"></div>
                     </div>
@@ -54,8 +54,8 @@
             </div>
 
             <div class="feedback">
-                <a class="feedback-link" href="/feedback.html?src=academy&protocol=academy_attention_regulation_45"
-                    onclick="trackFeedback?.('academy_attention_regulation_45')">
+                <a class="feedback-link" href="/feedback.html?src=academy&protocol=academy_physical_regulation_60"
+                    onclick="trackFeedback?.('academy_physical_regulation_60')">
                     Feedback (10 seconds)
                 </a>
             </div>
@@ -64,12 +64,13 @@
     </main>
 
     <script>
-        // Attention Regulation — timed prompts (non-breath)
-        const totalSeconds = 45;
+        // Physical Regulation — timed prompts (non-breath)
+        const totalSeconds = 60;
         const steps = [
-            { t: 0, text: "Pick ONE sound. Name it." },
-            { t: 15, text: "Pick a SECOND sound. Name it." },
-            { t: 30, text: "Pick a THIRD sound. Name it." },
+            { t: 0, text: "JAW: unclench. tongue relaxed." },
+            { t: 15, text: "SHOULDERS: drop down and back." },
+            { t: 30, text: "HANDS: release grip. open fingers." },
+            { t: 45, text: "POSTURE: feet grounded. head level." },
         ];
 
         let running = false;
