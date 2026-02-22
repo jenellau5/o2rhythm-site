@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Oxygen Regulation (Hold) — O₂ Rhythm</title>
+
+    <link rel="stylesheet" href="/assets/style.css" />
+    <style>
+        :root {
+            --ring: #ffffff;
+        }
+
+        /* keep if you want this protocol ring white */
+    </style>
+
+    <!-- GA4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5NKZ7XYYWF"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-5NKZ7XYYWF', { page_title: document.title, page_path: location.pathname });
+    </script>
+</head>
+
+<body data-agency="academy" data-environment="training">
+    <main class="wrap">
+        <section class="card protocol" data-protocol data-agency="academy" data-environment="training"
+            data-protocol-id="academy_oxygen_regulation_hold_60" data-title="OXYGEN (HOLD)" data-total="60"
+            data-inhale="4" data-hold1="2" data-exhale="6" data-hold2="2" data-paced="60" data-settle="0">
+
+            <div class="brand">O₂ RHYTHM</div>
+
+            <h1>Oxygen Regulation (Hold)</h1>
+            <p class="sub">60 sec • inhale / hold / exhale / hold</p>
+            <p class="sub" style="margin-top:-10px;">Use: after a tense moment • before contact • before going home</p>
+
+            <div class="ringbox">
+                <svg class="progressRing" viewBox="0 0 220 220" aria-hidden="true">
+                    <circle class="progress-bg" cx="110" cy="110" r="100"></circle>
+                    <circle class="progress" cx="110" cy="110" r="100"></circle>
+                </svg>
+
+                <div id="pacer" class="pacer">
+                    <div class="center">
+                        <button id="startBtn" class="start" type="button">START</button>
+                        <div id="timer" class="timer">1:00</div>
+
+                        <div id="phaseLabel" class="phaseLabel"></div>
+                        <div id="count" class="count"></div>
+                        <div id="dots" class="phaseDots"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="toggleRow">
+                <button id="soundToggle" class="toggle" type="button">SOUND: OFF</button>
+            </div>
+
+            <div class="navrow">
+                <a class="pill" href="/academy/">Back</a>
+            </div>
+
+            <div class="feedback">
+                <a class="feedback-link" href="/feedback.html?src=academy&protocol=academy_oxygen_regulation_hold_60"
+                    onclick="trackFeedback?.('academy_oxygen_regulation_hold_60')">
+                    Feedback (10 seconds)
+                </a>
+            </div>
+
+        </section>
+    </main>
+
+    <script src="/assets/protocol.js"></script>
+</body>
+
+</html>
