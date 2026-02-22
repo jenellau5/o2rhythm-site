@@ -466,3 +466,61 @@ a:focus-visible {
 .feedback {
     margin-top: 14px;
 }
+
+/* =========================================================
+   MOBILE PROMPT FIX — prevents prompt overlapping controls
+   Applies to all protocol pages
+========================================================= */
+
+/* Give the protocol card a little more bottom breathing room */
+.card.protocol {
+    padding-bottom: 18px;
+}
+
+/* Keep the ring + center content from being too tall */
+.ringbox {
+    margin-bottom: 12px;
+}
+
+/* PROMPT: cap size + spacing so it never hits toggles */
+.prompt {
+    margin: 10px auto 0;
+    padding: 0 14px;
+    max-width: 340px;
+
+    font-size: clamp(1.0rem, 3.4vw, 1.2rem);
+    line-height: 1.12;
+
+    font-weight: 900;
+    letter-spacing: .6px;
+    text-transform: uppercase;
+
+    white-space: normal;
+    overflow-wrap: anywhere;
+
+    /* hard guardrail */
+    max-height: 3.6em;
+    /* ~3 lines */
+    overflow: hidden;
+}
+
+/* Push toggle row DOWN so it can’t be covered */
+.toggleRow {
+    margin-top: 18px;
+    padding-top: 6px;
+}
+
+/* Make toggles slightly slimmer for small screens */
+.toggle {
+    padding: 9px 12px;
+    font-size: .82rem;
+}
+
+/* iPhone small screens: tighten prompt further */
+@media (max-width: 420px) {
+    .prompt {
+        font-size: 1.02rem;
+        max-width: 320px;
+        max-height: 3.2em;
+    }
+}
