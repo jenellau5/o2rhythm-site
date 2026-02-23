@@ -376,14 +376,6 @@
             let audioOn = true;
 
             // Prompts
-            const steps = [
-                { t: 0, title: "SETTLE", text: "Eyes open. Drop shoulders.", micro: "Stay operational." },
-                { t: 10, title: "NEAR", text: "Pick the nearest sound.", micro: "Label it once." },
-                { t: 30, title: "FAR", text: "Pick the farthest sound.", micro: "Distance creates space." },
-                { t: 50, title: "STEADY", text: "Find a steady mechanical hum.", micro: "Fan. HVAC. Computer." },
-                { t: 75, title: "PATTERN", text: "Find one repeating pattern.", micro: "Beep. Click. Footsteps." },
-                { t: 105, title: "RETURN", text: "Return to the nearest sound.", micro: "Posture reset." }
-            ];
 
             function safeEvent(name, params) {
                 try { gtag("event", name, params || {}); } catch (e) { }
