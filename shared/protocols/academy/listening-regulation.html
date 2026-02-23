@@ -4,9 +4,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Listening Regulation — O₂ Rhythm</title>
+    <title>Walking Reset — O₂ Rhythm</title>
 
-    <!-- Match the rest of your protocols -->
     <link rel="stylesheet" href="/assets/style.css" />
 
     <!-- GA4 -->
@@ -17,65 +16,31 @@
         gtag('js', new Date());
         gtag('config', 'G-5NKZ7XYYWF', { page_title: document.title, page_path: location.pathname });
     </script>
-
-    <style>
-        /* light add-ons only */
-        .choiceRow {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-top: 12px;
-        }
-
-        .choiceBtn {
-            width: 100%;
-            padding: 12px 10px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            background: rgba(255, 255, 255, 0.04);
-            color: rgba(255, 255, 255, 0.92);
-            cursor: pointer;
-            font-size: 13px;
-            letter-spacing: .02em;
-        }
-
-        .choiceBtn:hover {
-            background: rgba(255, 255, 255, 0.07);
-        }
-
-        .choiceBtn.active {
-            background: rgba(255, 255, 255, 0.10);
-            border-color: rgba(255, 255, 255, 0.22);
-        }
-
-        .endMsg {
-            margin-top: 12px;
-            padding: 14px;
-            border-radius: 14px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            background: rgba(255, 255, 255, 0.03);
-            color: rgba(255, 255, 255, 0.92);
-            line-height: 1.35;
-            display: none;
-        }
-
-        .endMsg strong {
-            display: block;
-            margin-bottom: 6px;
-            letter-spacing: .02em;
-        }
-    </style>
 </head>
 
 <body data-agency="academy" data-environment="training">
     <main class="wrap">
-        <section class="card protocol" data-protocol-id="academy_listening_directional">
+        <section class="card protocol" data-agency="academy" data-environment="training"
+            data-protocol-id="walking-reset">
 
             <div class="brand">O₂ RHYTHM</div>
 
-            <h1>Listening Regulation • Directional Audio</h1>
-            <p class="sub">Choose 1 min / 2 min / 3 min • headphones recommended</p>
-            <p class="sub" style="margin-top:-10px;">Use: overload • noise reactivity • pre-contact focus</p>
+            <h1>Walking Reset</h1>
+            <p class="sub" id="subline">Walking Meditation • 3 min</p>
+            <p class="sub" style="margin-top:-10px;">Use: on break • after a rough interaction • before going home</p>
+
+            <!-- Top instruction (your wording) -->
+            <p class="sub" style="margin-top:10px; line-height:1.35;" id="walkInstruction">
+                Walk until the music stops. Clear your mind and just walk.
+                If you cannot listen to the music, use this as a timer and go for a walk and notice things around you.
+            </p>
+
+            <!-- Duration options -->
+            <div class="toggleRow" style="margin-top:10px;">
+                <button class="toggle" type="button" data-dur="60" id="dur1">WALK: 1 MIN</button>
+                <button class="toggle" type="button" data-dur="180" id="dur3">WALK: 3 MIN</button>
+                <button class="toggle" type="button" data-dur="600" id="dur10">WALK: 10 MIN</button>
+            </div>
 
             <div class="ringbox">
                 <svg class="progressRing" viewBox="0 0 220 220" aria-hidden="true">
@@ -86,25 +51,47 @@
                 <div class="pacer">
                     <div class="center">
                         <button id="startBtn" class="start" type="button">START</button>
-                        <div id="timer" class="timer">1:00</div>
+                        <div id="timer" class="timer">3:00</div>
                         <div id="phaseLabel" class="phaseLabel">READY</div>
+                        <div id="prompt" class="prompt"></div>
                     </div>
                 </div>
             </div>
 
-            <div class="choiceRow" aria-label="Duration selection">
-                <button class="choiceBtn active" type="button" data-seconds="60" id="opt60">1 MIN</button>
-                <button class="choiceBtn" type="button" data-seconds="120" id="opt120">2 MIN</button>
-                <button class="choiceBtn" type="button" data-seconds="192" id="opt192">3 MIN</button>
+            <div class="toggleRow">
+                <button id="soundToggle" class="toggle" type="button">SOUND: OFF</button>
+                <button id="musicToggle" class="toggle" type="button">MUSIC: OFF</button>
             </div>
 
-            <div class="toggleRow" style="margin-top:12px;">
-                <button id="soundToggle" class="toggle" type="button">SOUND: ON</button>
-            </div>
+            <!-- No headphones fallback checklist -->
+            <div class="soundScan" id="soundScan" style="margin-top:14px;">
+                <div class="soundScanTitle">No headphones?</div>
+                <div class="soundScanSub">
+                    Use this as a timer. While you walk, check off what you notice. Aim for 5–10 items.
+                </div>
 
-            <div id="endMsg" class="endMsg">
-                <strong>This listening regulation has ended.</strong>
-                If you need more time, run it again. Otherwise, resume duties.
+                <div class="soundScanGrid">
+                    <label class="scanItem"><input type="checkbox" data-scan="birds"> Birds</label>
+                    <label class="scanItem"><input type="checkbox" data-scan="typing"> Typing / clicking</label>
+                    <label class="scanItem"><input type="checkbox" data-scan="plane"> Plane / helicopter</label>
+                    <label class="scanItem"><input type="checkbox" data-scan="wind"> Wind</label>
+                    <label class="scanItem"><input type="checkbox" data-scan="machine"> Machine / HVAC</label>
+                    <label class="scanItem"><input type="checkbox" data-scan="silence"> Silence / quiet</label>
+                    <label class="scanItem"><input type="checkbox" data-scan="rain"> Rain / water</label>
+                    <label class="scanItem"><input type="checkbox" data-scan="people"> People talking</label>
+                    <label class="scanItem"><input type="checkbox" data-scan="phone"> Phone vibration/ring</label>
+                    <label class="scanItem"><input type="checkbox" data-scan="music"> Music (somewhere)</label>
+                    <label class="scanItem"><input type="checkbox" data-scan="traffic"> Traffic</label>
+                    <label class="scanItem"><input type="checkbox" data-scan="footsteps"> Footsteps</label>
+                    <label class="scanItem"><input type="checkbox" data-scan="radio"> Radio / tones</label>
+                    <label class="scanItem"><input type="checkbox" data-scan="other"> Something else</label>
+                </div>
+
+                <div class="soundScanRow"
+                    style="display:flex;align-items:center;justify-content:space-between;margin-top:12px;">
+                    <div class="soundScanCount"><span id="scanCount">0</span> checked</div>
+                    <button class="pill" type="button" id="scanClear">Clear</button>
+                </div>
             </div>
 
             <div class="navrow">
@@ -112,35 +99,55 @@
             </div>
 
             <div class="feedback">
-                <a class="feedback-link" href="feedback.html?src=academy&protocol=listening-directional" target="_blank"
+                <a class="feedback-link" href="feedback.html?src=academy&protocol=walking-reset" target="_blank"
                     rel="noopener">
                     Feedback (30 seconds)
                 </a>
             </div>
 
-            <!-- Audio -->
-            <audio id="track" preload="auto" src="/assets/audio/directional-listening.mp3"></audio>
+            <!-- Audio (NO loop; controlled in JS) -->
+            <audio id="walkMusic" preload="auto"></audio>
 
         </section>
     </main>
 
     <script>
-        // ============================================================
-        // Listening Regulation — Directional Audio (MP3)
-        // - User chooses 1/2/3 min
-        // - Fades out smoothly at end (no abrupt stop)
-        // - Uses your existing ring/timer look
-        // ============================================================
+        // -----------------------------
+        // Walking Reset — multi-duration + fade out + no autoplay
+        // -----------------------------
+        const AUDIO_5MIN = "/assets/audio/walking-loop.mp3";     // ~300s
+        const AUDIO_10MIN = "/assets/audio/walking-loop2.mp3";   // ~600s
 
-        const track = document.getElementById("track");
+        let totalSeconds = 180; // default
+        let steps = stepsFor(totalSeconds);
+
+        let running = false;
+        let remaining = totalSeconds;
+        let tick = null;
+
+        let soundOn = false;
+        let musicOn = false;
+
+        let elapsedNow = 0;
 
         const startBtn = document.getElementById("startBtn");
         const timerEl = document.getElementById("timer");
         const labelEl = document.getElementById("phaseLabel");
-        const endMsgEl = document.getElementById("endMsg");
-        const soundToggle = document.getElementById("soundToggle");
+        const promptEl = document.getElementById("prompt");
 
-        const choiceBtns = Array.from(document.querySelectorAll(".choiceBtn"));
+        const soundToggle = document.getElementById("soundToggle");
+        const musicToggle = document.getElementById("musicToggle");
+        const sublineEl = document.getElementById("subline");
+
+        const durButtons = [
+            document.getElementById("dur1"),
+            document.getElementById("dur3"),
+            document.getElementById("dur10"),
+        ];
+
+        const musicEl = document.getElementById("walkMusic");
+        const BASE_VOL = 0.22;
+        musicEl.volume = BASE_VOL;
 
         // progress ring
         const circle = document.querySelector("circle.progress");
@@ -148,203 +155,279 @@
         const circ = 2 * Math.PI * r;
         circle.style.strokeDasharray = `${circ} ${circ}`;
         circle.style.strokeDashoffset = `${circ}`;
+
         function setProgress(pct) {
             circle.style.strokeDashoffset = (circ - (pct * circ));
         }
         setProgress(0);
 
-        // Duration options
-        // File is 3:12 = 192 seconds
-        const MAX_LEN = 192;
-        let selectedSeconds = 60;
-
-        // Sound + volume handling
-        let soundOn = true;
-        track.volume = 1.0;
-        track.muted = false;
-
-        // Run state
-        let running = false;
-        let raf = null;
-        let fadeTimer = null;
-        let endAt = 0;         // target end time in seconds (audio timeline)
-        let endScheduled = false;
-
-        const FADE_SECONDS = 2.0;  // smooth fade at end
-
         function fmt(sec) {
-            const s = Math.max(0, Math.ceil(sec));
-            const m = Math.floor(s / 60);
-            const rem = s % 60;
-            return `${m}:${String(rem).padStart(2, "0")}`;
+            const m = Math.floor(sec / 60);
+            const s = sec % 60;
+            return `${m}:${String(s).padStart(2, "0")}`;
         }
 
-        function showEnd() { endMsgEl.style.display = "block"; }
-        function hideEnd() { endMsgEl.style.display = "none"; }
+        function beep() {
+            if (!soundOn) return;
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const o = ctx.createOscillator();
+            const g = ctx.createGain();
+            o.type = "sine";
+            o.frequency.value = 880;
+            g.gain.value = 0.05;
+            o.connect(g);
+            g.connect(ctx.destination);
+            o.start();
+            setTimeout(() => { o.stop(); ctx.close(); }, 80);
+        }
 
-        function setActiveChoice(btn) {
-            choiceBtns.forEach(b => b.classList.remove("active"));
-            btn.classList.add("active");
-            selectedSeconds = Number(btn.dataset.seconds) || 60;
+        function stepsFor(duration) {
+            if (duration === 60) {
+                return [
+                    { t: 0, text: "WALK STEADY. CLEAR YOUR MIND. JUST WALK." },
+                    { t: 30, text: "NOTICE 3 THINGS: LIGHT • SOUND • TEMPERATURE." },
+                    { t: 55, text: "WHEN IT ENDS: DEEP INHALE. LONG EXHALE. RETURN CLEAN." },
+                ];
+            }
+            if (duration === 600) {
+                return [
+                    { t: 0, text: "WALK STEADY. EYES FORWARD. JAW RELAXED. UNTIL THE MUSIC STOPS." },
+                    { t: 120, text: "SOFTEN HANDS + SHOULDERS. RELEASE GRIP." },
+                    { t: 300, text: "NOTICE WHAT’S AROUND YOU. SHAPES. COLORS. MOVEMENT." },
+                    { t: 480, text: "LAST MINUTES: SLOW THE MIND. KEEP THE WALK EASY." },
+                    { t: 590, text: "WHEN IT ENDS: DEEP INHALE. LONG EXHALE. RETURN TO TASK." },
+                ];
+            }
+            // 3 min
+            return [
+                { t: 0, text: "WALK STEADY. EYES FORWARD. JAW RELAXED. UNTIL THE MUSIC STOPS." },
+                { t: 45, text: "SOFTEN HANDS + SHOULDERS. RELEASE GRIP." },
+                { t: 90, text: "EYES FORWARD. JAW RELAXED." },
+                { t: 135, text: "ONCE THE MUSIC IS DONE: DEEP INHALE. LONG EXHALE. RETURN TO TASK." },
+            ];
+        }
 
-            // Update timer display if idle
-            if (!running) {
-                timerEl.textContent = fmt(selectedSeconds);
-                setProgress(0);
-                labelEl.textContent = "READY";
-                hideEnd();
+        function stepText(elapsed) {
+            let cur = steps[0].text;
+            for (const s of steps) {
+                if (elapsed >= s.t) cur = s.text;
+            }
+            return cur;
+        }
+
+        function audioSrcForDuration(duration) {
+            return (duration === 600) ? AUDIO_10MIN : AUDIO_5MIN;
+        }
+
+        function setAudioSourceForDuration(duration) {
+            const wanted = audioSrcForDuration(duration);
+            // If already correct, do nothing
+            if (musicEl.src && musicEl.src.includes(wanted)) return;
+
+            try {
+                musicEl.pause();
+                musicEl.src = wanted;
+                musicEl.load();
+            } catch (_) { }
+        }
+
+        async function playMusicSynced() {
+            if (!musicOn) return;
+            try {
+                setAudioSourceForDuration(totalSeconds);
+
+                const t = Math.max(0, Math.min(elapsedNow, totalSeconds));
+                // If duration known, cap slightly under end to avoid errors
+                if (isFinite(musicEl.duration) && musicEl.duration > 0) {
+                    musicEl.currentTime = Math.min(t, Math.max(0, musicEl.duration - 0.25));
+                } else {
+                    musicEl.currentTime = t;
+                }
+
+                musicEl.volume = BASE_VOL;
+                await musicEl.play();
+            } catch (_) { }
+        }
+
+        function hardStopMusic() {
+            try {
+                musicEl.pause();
+                musicEl.currentTime = 0;
+                musicEl.volume = BASE_VOL;
+            } catch (_) { }
+        }
+
+        function fadeOutAndStop(fadeSeconds = 6) {
+            try {
+                const startVol = musicEl.volume;
+                const stepsN = Math.max(1, fadeSeconds * 20); // 20 ticks/sec
+                let i = 0;
+
+                const iv = setInterval(() => {
+                    i++;
+                    const p = i / stepsN;
+                    musicEl.volume = Math.max(0, startVol * (1 - p));
+                    if (i >= stepsN) {
+                        clearInterval(iv);
+                        hardStopMusic();
+                    }
+                }, 50);
+            } catch (_) {
+                hardStopMusic();
             }
         }
 
-        // Prevent changing duration mid-run (keeps behavior predictable)
-        function lockChoices(lock) {
-            choiceBtns.forEach(b => b.disabled = lock);
-            choiceBtns.forEach(b => b.style.opacity = lock ? "0.6" : "1");
-        }
-
-        function stopInternal(status, showEndMsg) {
+        function stopRun(status, doFade = false) {
             running = false;
-            endScheduled = false;
-
             startBtn.textContent = "START";
             labelEl.textContent = status;
 
-            if (raf) cancelAnimationFrame(raf);
-            raf = null;
+            if (tick) clearInterval(tick);
+            tick = null;
 
-            if (fadeTimer) {
-                clearInterval(fadeTimer);
-                fadeTimer = null;
-            }
-
-            try { track.pause(); } catch (_) { }
-
-            // Reset volume so next run isn't stuck quiet
-            track.volume = soundOn ? 1.0 : 1.0;
-
-            lockChoices(false);
-
-            if (showEndMsg) showEnd();
-            else hideEnd();
+            if (doFade && musicOn) fadeOutAndStop(6);
+            else hardStopMusic();
         }
 
-        function scheduleFadeOut() {
-            if (fadeTimer) return;
+        function setDuration(seconds) {
+            // no switching duration mid-run (keeps it clean)
+            if (running) return;
 
-            // Fade out over FADE_SECONDS using small steps
-            const steps = 20;
-            const stepMs = (FADE_SECONDS * 1000) / steps;
-            const startVol = track.volume;
-            let i = 0;
+            totalSeconds = seconds;
+            remaining = totalSeconds;
+            elapsedNow = 0;
 
-            fadeTimer = setInterval(() => {
-                i++;
-                const pct = i / steps;
-                const v = Math.max(0, startVol * (1 - pct));
-                track.volume = v;
+            steps = stepsFor(totalSeconds);
 
-                if (i >= steps) {
-                    clearInterval(fadeTimer);
-                    fadeTimer = null;
+            timerEl.textContent = fmt(remaining);
+            promptEl.textContent = "";
+            labelEl.textContent = "READY";
+            setProgress(0);
 
-                    // Pause once silent, then mark complete
-                    try { track.pause(); } catch (_) { }
-                    track.currentTime = 0; // reset for next run
-                    track.volume = soundOn ? 1.0 : 1.0;
+            const label = (seconds === 60) ? "1 min" : (seconds === 180) ? "3 min" : "10 min";
+            sublineEl.textContent = `Walking Meditation • ${label}`;
 
-                    setProgress(1);
-                    timerEl.textContent = "00:00";
-                    stopInternal("DONE", true);
+            // prep correct audio file (do not play)
+            setAudioSourceForDuration(totalSeconds);
 
-                    try {
-                        gtag("event", "protocol_complete", {
-                            protocol: "listening_directional",
-                            duration_selected: selectedSeconds,
-                            agency: document.body.dataset.agency || "",
-                            environment: document.body.dataset.environment || ""
-                        });
-                    } catch (_) { }
-                }
-            }, stepMs);
-        }
-
-        function updateLoop() {
-            if (!running) return;
-
-            const t = track.currentTime || 0;
-
-            // Remaining is based on selected duration, not file length
-            const remain = Math.max(0, selectedSeconds - t);
-            timerEl.textContent = fmt(remain);
-
-            setProgress(Math.min(1, t / selectedSeconds));
-
-            // When we hit the selected duration, fade out (do not abruptly stop)
-            if (!endScheduled && t >= Math.max(0, selectedSeconds - FADE_SECONDS)) {
-                endScheduled = true;
-                scheduleFadeOut();
-            }
-
-            raf = requestAnimationFrame(updateLoop);
+            // highlight selected button (relies on .isOn class in your css if you add it)
+            durButtons.forEach(btn => btn.classList.remove("isOn"));
+            const activeBtn = (seconds === 60) ? durButtons[0] : (seconds === 180) ? durButtons[1] : durButtons[2];
+            activeBtn.classList.add("isOn");
         }
 
         async function startStop() {
             if (running) {
-                stopInternal("STOPPED", false);
-                try { gtag("event", "protocol_stop", { protocol: "listening_directional", duration_selected: selectedSeconds }); } catch (_) { }
+                stopRun("STOPPED", false);
                 return;
             }
 
-            hideEnd();
+            remaining = totalSeconds;
+            elapsedNow = 0;
 
-            // Ensure selected duration never exceeds file length
-            selectedSeconds = Math.min(selectedSeconds, MAX_LEN);
-
-            // Reset track
-            track.currentTime = 0;
-            track.volume = 1.0;
-            track.muted = !soundOn;
+            timerEl.textContent = fmt(remaining);
+            setProgress(0);
 
             running = true;
             startBtn.textContent = "STOP";
             labelEl.textContent = "RUNNING";
-            lockChoices(true);
+            promptEl.textContent = stepText(0);
 
-            try {
-                await track.play();
-            } catch (_) {
-                // If play fails (autoplay restrictions), revert state cleanly
-                stopInternal("READY", false);
-                return;
-            }
+            beep();
 
-            try {
-                gtag("event", "protocol_start", {
-                    protocol: "listening_directional",
-                    duration_selected: selectedSeconds
-                });
-            } catch (_) { }
+            // Music starts ONLY on START
+            await playMusicSynced();
 
-            raf = requestAnimationFrame(updateLoop);
+            tick = setInterval(() => {
+                if (!running) return;
+
+                remaining -= 1;
+                elapsedNow = totalSeconds - remaining;
+
+                timerEl.textContent = fmt(remaining);
+                promptEl.textContent = stepText(elapsedNow);
+                setProgress(Math.min(1, elapsedNow / totalSeconds));
+
+                if (steps.some(s => s.t === elapsedNow)) beep();
+
+                if (remaining <= 0) {
+                    stopRun("DONE", true); // fade out at end
+                    beep();
+                }
+            }, 1000);
         }
 
-        // SOUND toggle
+        // events
+        startBtn.addEventListener("click", startStop);
+
         soundToggle.addEventListener("click", () => {
             soundOn = !soundOn;
             soundToggle.textContent = `SOUND: ${soundOn ? "ON" : "OFF"}`;
-            track.muted = !soundOn;
+            if (soundOn) beep();
         });
 
-        // Choice buttons
-        choiceBtns.forEach(btn => btn.addEventListener("click", () => setActiveChoice(btn)));
+        // IMPORTANT: no autoplay unless already running
+        musicToggle.addEventListener("click", async () => {
+            musicOn = !musicOn;
+            musicToggle.textContent = `MUSIC: ${musicOn ? "ON" : "OFF"}`;
 
-        // Start/Stop
-        startBtn.addEventListener("click", startStop);
+            if (!musicOn) {
+                hardStopMusic();
+                return;
+            }
 
-        // Initial UI
-        timerEl.textContent = fmt(selectedSeconds);
-        labelEl.textContent = "READY";
-        hideEnd();
+            if (running) {
+                await playMusicSynced();
+            }
+        });
+
+        durButtons.forEach(btn => {
+            btn.addEventListener("click", () => {
+                const sec = Number(btn.dataset.dur);
+                setDuration(sec);
+            });
+        });
+
+        // -----------------------------
+        // Sound Scan (no headphones) checklist
+        // -----------------------------
+        const scanKey = "o2r_walk_scan";
+        const scanBoxes = Array.from(document.querySelectorAll('#soundScan input[type="checkbox"][data-scan]'));
+        const scanCountEl = document.getElementById("scanCount");
+        const scanClearBtn = document.getElementById("scanClear");
+
+        function updateScanCount() {
+            const n = scanBoxes.filter(b => b.checked).length;
+            scanCountEl.textContent = String(n);
+        }
+
+        function saveScanState() {
+            const state = {};
+            scanBoxes.forEach(b => state[b.dataset.scan] = !!b.checked);
+            try { localStorage.setItem(scanKey, JSON.stringify(state)); } catch (_) { }
+            updateScanCount();
+        }
+
+        function loadScanState() {
+            try {
+                const raw = localStorage.getItem(scanKey);
+                if (!raw) return updateScanCount();
+                const state = JSON.parse(raw);
+                scanBoxes.forEach(b => { b.checked = !!state[b.dataset.scan]; });
+            } catch (_) { }
+            updateScanCount();
+        }
+
+        scanBoxes.forEach(b => b.addEventListener("change", saveScanState));
+
+        scanClearBtn.addEventListener("click", () => {
+            scanBoxes.forEach(b => b.checked = false);
+            saveScanState();
+        });
+
+        // init
+        setDuration(180);
+        loadScanState();
     </script>
 </body>
 
