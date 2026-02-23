@@ -26,21 +26,26 @@
 
         .kicker {
             font-size: 12px;
-            letter-spacing: 0.12em;
-            opacity: 0.8;
+            letter-spacing: .12em;
+            opacity: .8;
             text-transform: uppercase;
         }
 
         .sub {
             margin: 0;
-            opacity: 0.85;
+            opacity: .85;
         }
 
         .hint {
             margin: 8px 0 0 0;
-            opacity: 0.78;
+            opacity: .78;
             font-size: 13px;
             line-height: 1.35;
+        }
+
+        .hint strong {
+            opacity: .95;
+            font-weight: 700;
         }
 
         .controlRow {
@@ -54,16 +59,16 @@
 
         .controlRow label {
             font-size: 12px;
-            letter-spacing: 0.08em;
-            opacity: 0.8;
+            letter-spacing: .08em;
+            opacity: .8;
             text-transform: uppercase;
         }
 
         .select {
             padding: 10px 12px;
             border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, .18);
+            background: rgba(255, 255, 255, .08);
             color: inherit;
             min-width: 110px;
             text-align: center;
@@ -76,6 +81,7 @@
             margin: 0 auto;
         }
 
+        /* Static text only (no changing prompts) */
         .promptBox {
             display: grid;
             gap: 10px;
@@ -85,13 +91,13 @@
 
         .promptTitle {
             font-size: 18px;
-            letter-spacing: 0.02em;
+            letter-spacing: .02em;
             margin: 0;
         }
 
         .promptText {
             margin: 0;
-            opacity: 0.92;
+            opacity: .92;
             font-size: 16px;
             line-height: 1.35;
             min-height: 44px;
@@ -99,7 +105,7 @@
 
         .micro {
             margin: 0;
-            opacity: 0.75;
+            opacity: .75;
             font-size: 12px;
             line-height: 1.35;
         }
@@ -131,25 +137,25 @@
             padding: 12px 14px;
             border-radius: 12px;
             text-decoration: none;
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, .18);
+            background: rgba(255, 255, 255, .08);
             color: inherit;
             font-weight: 600;
-            letter-spacing: 0.02em;
+            letter-spacing: .02em;
         }
 
         .ctaBtn:hover {
-            background: rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, .12);
         }
 
         .start {
             min-width: 140px;
         }
 
-        /* --- NO AUDIO CHECKLIST (always bottom, clean, compact) --- */
+        /* --- NO AUDIO CHECKLIST (always bottom, clean) --- */
         .noAudio {
             margin-top: 18px;
-            border-top: 1px solid rgba(255, 255, 255, 0.10);
+            border-top: 1px solid rgba(255, 255, 255, .10);
             padding-top: 16px;
         }
 
@@ -164,25 +170,25 @@
         .noAudioTitle {
             margin: 0;
             font-size: 12px;
-            letter-spacing: 0.12em;
+            letter-spacing: .12em;
             text-transform: uppercase;
-            opacity: 0.85;
+            opacity: .85;
         }
 
         .noAudioReset {
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, .18);
+            background: rgba(255, 255, 255, .06);
             color: inherit;
             border-radius: 10px;
             padding: 8px 10px;
             font-weight: 600;
             font-size: 12px;
-            letter-spacing: 0.02em;
+            letter-spacing: .02em;
             cursor: pointer;
         }
 
         .noAudioReset:hover {
-            background: rgba(255, 255, 255, 0.10);
+            background: rgba(255, 255, 255, .10);
         }
 
         .checkGrid {
@@ -190,7 +196,7 @@
             gap: 10px;
         }
 
-        @media (min-width: 520px) {
+        @media (min-width:520px) {
             .checkGrid {
                 grid-template-columns: 1fr 1fr;
                 gap: 10px 12px;
@@ -203,12 +209,12 @@
             gap: 10px;
             padding: 10px 12px;
             border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, .14);
+            background: rgba(255, 255, 255, .05);
         }
 
         .checkItem:hover {
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, .08);
         }
 
         .checkItem input[type="checkbox"] {
@@ -221,13 +227,13 @@
         .checkItem label {
             cursor: pointer;
             user-select: none;
-            opacity: 0.92;
+            opacity: .92;
             font-size: 14px;
             line-height: 1.3;
         }
 
         .checkItem.done {
-            opacity: 0.75;
+            opacity: .75;
         }
     </style>
 
@@ -274,16 +280,16 @@
                         <button id="startBtn" class="start" type="button">START</button>
                         <div id="timer" class="timer">2:00</div>
 
+                        <!-- STATIC (no changing prompts) -->
                         <div class="promptBox" aria-live="polite">
-                            <p class="promptTitle" id="promptTitle">Ready</p>
-                            <p class="promptText" id="promptText">Select duration. Press START.</p>
+                            <p class="promptTitle" id="promptTitle">LISTEN</p>
+                            <p class="promptText" id="promptText">Let the audio run. Stay eyes-open and operational.</p>
                             <p class="micro" id="promptMicro"></p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Buttons stay ABOVE checklist -->
             <div class="pillrow">
                 <a class="pill" href="/demo/" data-track="nav_click" data-cta="demo_home">All demos</a>
                 <a class="pill" href="/demo/desk.html" data-track="nav_click" data-cta="back_to_desk">Back: Desk</a>
@@ -304,35 +310,16 @@
                 </div>
 
                 <div class="checkGrid" id="checkGrid">
-                    <div class="checkItem">
-                        <input id="c1" type="checkbox" />
-                        <label for="c1">Nearest sound</label>
-                    </div>
-
-                    <div class="checkItem">
-                        <input id="c2" type="checkbox" />
-                        <label for="c2">Farthest sound</label>
-                    </div>
-
-                    <div class="checkItem">
-                        <input id="c3" type="checkbox" />
-                        <label for="c3">Mechanical hum (HVAC/computer/radio)</label>
-                    </div>
-
-                    <div class="checkItem">
-                        <input id="c4" type="checkbox" />
-                        <label for="c4">Human sound (footsteps/voices) — no content</label>
-                    </div>
-
-                    <div class="checkItem">
-                        <input id="c5" type="checkbox" />
-                        <label for="c5">One repeating pattern (beep, click, fan cycle)</label>
-                    </div>
-
-                    <div class="checkItem">
-                        <input id="c6" type="checkbox" />
-                        <label for="c6">Silence gap (even half a second)</label>
-                    </div>
+                    <div class="checkItem"><input id="c1" type="checkbox" /><label for="c1">Nearest sound</label></div>
+                    <div class="checkItem"><input id="c2" type="checkbox" /><label for="c2">Farthest sound</label></div>
+                    <div class="checkItem"><input id="c3" type="checkbox" /><label for="c3">Mechanical hum
+                            (HVAC/computer/radio)</label></div>
+                    <div class="checkItem"><input id="c4" type="checkbox" /><label for="c4">Human sound
+                            (footsteps/voices) — no content</label></div>
+                    <div class="checkItem"><input id="c5" type="checkbox" /><label for="c5">One repeating pattern (beep,
+                            click, fan cycle)</label></div>
+                    <div class="checkItem"><input id="c6" type="checkbox" /><label for="c6">Silence gap (even half a
+                            second)</label></div>
                 </div>
             </div>
 
@@ -362,20 +349,17 @@
             audio.loop = true;
             audio.volume = 1.0;
 
-            // Ring math (SVG circle r=100)
+            // Ring math
             const r = 100;
             const circumference = 2 * Math.PI * r;
             progressEl.style.strokeDasharray = `${circumference}`;
             progressEl.style.strokeDashoffset = `${circumference}`;
 
-            // State
             let total = 120;
             let running = false;
             let remaining = total;
             let tickInterval = null;
             let audioOn = true;
-
-            // Prompts
 
             function safeEvent(name, params) {
                 try { gtag("event", name, params || {}); } catch (e) { }
@@ -387,17 +371,9 @@
                 return `${m}:${String(s).padStart(2, "0")}`;
             }
 
-            function setStepByElapsed(elapsed) {
-                let current = steps[0];
-                for (const st of steps) if (elapsed >= st.t) current = st;
-                titleEl.textContent = current.title;
-                textEl.textContent = current.text;
-                microEl.textContent = current.micro || "";
-            }
-
             function updateUI() {
                 timerEl.textContent = fmt(remaining);
-                const progress = (total - remaining) / total;
+                const progress = (total - remaining) / total; // 0..1
                 const offset = circumference * (1 - progress);
                 progressEl.style.strokeDashoffset = `${offset}`;
             }
@@ -406,16 +382,29 @@
                 const v = parseInt(durationSel.value, 10);
                 total = Number.isFinite(v) ? v : 120;
                 remaining = total;
-                timerEl.textContent = fmt(total);
                 updateUI();
                 safeEvent("demo_duration_set", { demo: DEMO_ID, page: PAGE_ID, seconds: total });
             }
 
             function stopAudioHard() {
-                try {
-                    audio.pause();
-                    audio.currentTime = 0;
-                } catch (e) { }
+                try { audio.pause(); audio.currentTime = 0; } catch (e) { }
+            }
+
+            function setStaticCopy(state) {
+                // state: "ready" | "running" | "done"
+                if (state === "ready") {
+                    titleEl.textContent = "LISTEN";
+                    textEl.textContent = "Let the audio run. Stay eyes-open and operational.";
+                    microEl.textContent = "";
+                } else if (state === "running") {
+                    titleEl.textContent = "LISTEN";
+                    textEl.textContent = "Stay with the sound. No analysis.";
+                    microEl.textContent = "";
+                } else {
+                    titleEl.textContent = "DONE";
+                    textEl.textContent = "Return to task. You’re back online.";
+                    microEl.textContent = "";
+                }
             }
 
             function reset() {
@@ -428,7 +417,7 @@
                 startBtn.textContent = "START";
 
                 remaining = total;
-                setStepByElapsed(0);
+                setStaticCopy("ready");
                 updateUI();
             }
 
@@ -439,31 +428,27 @@
 
                 remaining = 0;
                 updateUI();
-
                 stopAudioHard();
 
                 startBtn.disabled = false;
                 startBtn.textContent = "RESTART";
 
-                titleEl.textContent = "DONE";
-                textEl.textContent = "Return to task. You’re back online.";
-                microEl.textContent = "";
-
+                setStaticCopy("done");
                 safeEvent("demo_complete", { demo: DEMO_ID, page: PAGE_ID, seconds: total, audio: audioOn ? "on" : "off" });
             }
 
             async function start() {
                 if (running) return;
 
-                // Restart path
+                // restart path
                 if (remaining === 0) {
                     remaining = total;
-                    setStepByElapsed(0);
                     updateUI();
                 }
 
                 running = true;
                 startBtn.disabled = true;
+                setStaticCopy("running");
 
                 safeEvent("demo_start", { demo: DEMO_ID, page: PAGE_ID, seconds: total, audio: audioOn ? "on" : "off" });
 
@@ -477,24 +462,10 @@
                 }
 
                 const startedAt = Date.now();
-                let lastStepIndex = -1;
 
                 tickInterval = setInterval(() => {
                     const elapsed = Math.floor((Date.now() - startedAt) / 1000);
-                    const newRemaining = Math.max(0, total - elapsed);
-
-                    let stepIndex = 0;
-                    for (let i = 0; i < steps.length; i++) {
-                        if (elapsed >= steps[i].t) stepIndex = i;
-                    }
-
-                    if (stepIndex !== lastStepIndex) {
-                        lastStepIndex = stepIndex;
-                        setStepByElapsed(elapsed);
-                        safeEvent("demo_prompt_change", { demo: DEMO_ID, page: PAGE_ID, step: steps[stepIndex].title });
-                    }
-
-                    remaining = newRemaining;
+                    remaining = Math.max(0, total - elapsed);
                     updateUI();
 
                     if (remaining <= 0) {
@@ -513,14 +484,12 @@
                 safeEvent("demo_audio_toggle", { demo: DEMO_ID, page: PAGE_ID, state: audioOn ? "on" : "off" });
             });
 
-            // Duration select
             durationSel.addEventListener("change", () => {
                 if (running) return;
                 setTotalFromSelector();
                 reset();
             });
 
-            // Start button
             startBtn.addEventListener("click", () => {
                 if (!running && remaining === 0) reset();
                 start();
@@ -533,7 +502,7 @@
                 safeEvent(a.getAttribute("data-track"), { page: PAGE_ID, cta: a.getAttribute("data-cta") || "" });
             });
 
-            // --- Checklist interactivity (localStorage) ---
+            // Checklist interactivity (localStorage)
             const STORAGE_KEY = "o2_listening_checks_v1";
             const checkGrid = document.getElementById("checkGrid");
             const resetChecks = document.getElementById("resetChecks");
@@ -551,9 +520,7 @@
             function saveChecks() {
                 if (!checkGrid) return;
                 const data = {};
-                checkGrid.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-                    data[cb.id] = cb.checked;
-                });
+                checkGrid.querySelectorAll('input[type="checkbox"]').forEach(cb => data[cb.id] = cb.checked);
                 try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch (e) { }
             }
 
