@@ -13,6 +13,11 @@
             --ring: #ffffff;
         }
 
+        .protocol {
+            max-width: 560px;
+            margin: 0 auto;
+        }
+
         .demoTop {
             display: grid;
             gap: 6px;
@@ -43,10 +48,36 @@
             font-weight: 700;
         }
 
+        .controlRow {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            margin: 14px 0 12px 0;
+        }
+
+        .controlRow label {
+            font-size: 12px;
+            letter-spacing: .08em;
+            opacity: .8;
+            text-transform: uppercase;
+        }
+
+        .select {
+            padding: 10px 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, .18);
+            background: rgba(255, 255, 255, .08);
+            color: inherit;
+            min-width: 110px;
+            text-align: center;
+        }
+
         .promptBox {
             display: grid;
             gap: 10px;
-            margin-top: 10px;
+            margin-top: 12px;
             text-align: center;
         }
 
@@ -75,7 +106,7 @@
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
-            margin-top: 12px;
+            margin-top: 14px;
         }
 
         .pillrow a {
@@ -111,41 +142,24 @@
             font-size: 12px;
             opacity: .7;
             line-height: 1.35;
-            margin-top: 10px;
+            margin-top: 12px;
         }
 
         .start {
             min-width: 140px;
         }
 
-        /* Small control row for duration */
-        .controlRow {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: center;
-            margin: 10px 0 0 0;
+        /* Ring sizing */
+        .progressRing {
+            width: min(360px, 86vw);
+            height: auto;
+            display: block;
+            margin: 0 auto;
         }
 
-        .controlRow label {
-            font-size: 12px;
-            letter-spacing: .08em;
-            opacity: .8;
-            text-transform: uppercase;
-        }
-
-        .select {
-            padding: 10px 12px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, .18);
-            background: rgba(255, 255, 255, .08);
-            color: inherit;
-        }
-
-        /* No-sound box */
+        /* NO-SOUND checklist (hidden until DONE) */
         .nosoundBox {
-            margin-top: 12px;
+            margin-top: 18px;
             border: 1px solid rgba(255, 255, 255, .18);
             background: rgba(255, 255, 255, .06);
             border-radius: 14px;
@@ -196,15 +210,15 @@
 
 <body>
     <main class="wrap">
-        <section class="card protocol" data-demo="listening_reset" data-total="120">
+        <section class="card protocol" data-demo="listening_reset">
             <div class="brand">O₂ RHYTHM</div>
 
             <div class="demoTop">
                 <div class="kicker">DEMO • LISTENING REGULATION</div>
                 <h1 style="margin:0;">LISTENING RESET</h1>
                 <p class="sub">Choose 1:00 or 2:00 • eyes open • stay operational</p>
-                <p class="hint"><strong>Headphones recommended</strong> for full effect. If you can’t use sound, switch
-                    to “NO-SOUND” and run it visually.</p>
+                <p class="hint"><strong>Headphones recommended</strong> for full effect. If you can’t use sound, run it
+                    visually after completion.</p>
             </div>
 
             <div class="controlRow" aria-label="Demo controls">
@@ -214,7 +228,7 @@
                     <option value="120" selected>2:00</option>
                 </select>
 
-                <button id="soundToggle" class="toggle" type="button">MODE: AUDIO</button>
+                <button id="audioToggle" class="toggle" type="button">AUDIO: ON</button>
             </div>
 
             <div class="ringbox">
@@ -233,22 +247,22 @@
                             <p class="promptText" id="promptText">Select duration. Press START.</p>
                             <p class="micro" id="promptMicro"></p>
                         </div>
-
-                        <div id="nosoundBox" class="nosoundBox" aria-live="polite">
-                            <p class="nosoundTitle">NO-SOUND OPTION</p>
-                            <ul class="listenList">
-                                <li>Nearest sound</li>
-                                <li>Farthest sound</li>
-                                <li>Mechanical hum (HVAC/computer/radio)</li>
-                                <li>Human sound (footsteps/voices) — without tracking content</li>
-                                <li>One repeating pattern (beep, click, fan cycle)</li>
-                                <li>Silence gap (even half a second)</li>
-                            </ul>
-                            <p class="listenLine" id="listenLine">Listen for the nearest sound.</p>
-                        </div>
-
                     </div>
                 </div>
+            </div>
+
+            <!-- NO-SOUND CHECKLIST (shown only after DONE) -->
+            <div id="nosoundBox" class="nosoundBox" aria-live="polite">
+                <p class="nosoundTitle">NO-SOUND FALLBACK (VISUAL)</p>
+                <ul class="listenList">
+                    <li>Nearest sound</li>
+                    <li>Farthest sound</li>
+                    <li>Mechanical hum (HVAC/computer/radio)</li>
+                    <li>Human sound (footsteps/voices) — without tracking content</li>
+                    <li>One repeating pattern (beep, click, fan cycle)</li>
+                    <li>Silence gap (even half a second)</li>
+                </ul>
+                <p class="listenLine" id="listenLine">If audio isn’t available, run this list once visually.</p>
             </div>
 
             <div class="pillrow">
@@ -256,7 +270,7 @@
                 <a class="pill" href="/demo/desk.html" data-track="nav_click" data-cta="back_to_desk">Back: Desk</a>
             </div>
 
-            <div class="miniCta" style="margin-top:40px; text-align:center;">
+            <div class="miniCta" style="margin-top:36px; text-align:center;">
                 <a class="ctaBtn" href="../index.html#pilot-intake" data-track="cta_click"
                     data-cta="bring_to_agency_from_demo">
                     Bring O₂ Rhythm to My Agency
@@ -277,7 +291,7 @@
 
             const startBtn = document.getElementById("startBtn");
             const timerEl = document.getElementById("timer");
-            const soundBtn = document.getElementById("soundToggle");
+            const audioToggle = document.getElementById("audioToggle");
             const durationSel = document.getElementById("durationSel");
 
             const titleEl = document.getElementById("promptTitle");
@@ -288,11 +302,11 @@
             const nosoundBox = document.getElementById("nosoundBox");
             const listenLine = document.getElementById("listenLine");
 
-            // Audio file (update path if needed)
+            // Audio file
             const AUDIO_SRC = "/assets/audio/demo-8d.mp3";
             const audio = new Audio(AUDIO_SRC);
             audio.preload = "auto";
-            audio.loop = true; // we’ll stop it on completion
+            audio.loop = true;
             audio.volume = 1.0;
 
             // Ring math (SVG circle r=100)
@@ -301,35 +315,32 @@
             progressEl.style.strokeDasharray = `${circumference}`;
             progressEl.style.strokeDashoffset = `${circumference}`;
 
+            // State
             let total = 120;
             let running = false;
             let remaining = total;
             let tickInterval = null;
 
-            // Modes
-            // "audio" = plays mp3 + prompts
-            // "nosound" = no audio, show checklist + rotating listen line
-            let mode = "audio";
+            // Audio state (true=on, false=off)
+            let audioOn = true;
 
-            // Listen-line rotation (no-sound)
-            const listenPrompts = [
-                "Nearest sound. Label it once. Then let it be.",
-                "Farthest sound you can detect. Don’t chase it.",
-                "Mechanical hum. Find the steady layer underneath.",
-                "One repeating pattern. Count 5 repeats.",
-                "Silence gap. Notice even half a second.",
-                "Return to the nearest sound. Reset posture."
-            ];
-
-            // Timed prompts (seconds). Works for both modes.
-            // Note: we’ll scale logic by elapsed time; these are generic checkpoints.
+            // Prompts
             const steps = [
-                { t: 0, title: "SETTLE", text: "Eyes open. Drop shoulders.", micro: "Stay operational. No deep breathing required." },
+                { t: 0, title: "SETTLE", text: "Eyes open. Drop shoulders.", micro: "Stay operational. No breathwork required." },
                 { t: 10, title: "NEAR", text: "Pick the nearest sound.", micro: "Label it once. Then stop analyzing." },
                 { t: 30, title: "FAR", text: "Pick the farthest sound.", micro: "Distance creates space fast." },
                 { t: 50, title: "STEADY", text: "Find a steady mechanical hum.", micro: "Fan. HVAC. Computer." },
                 { t: 75, title: "PATTERN", text: "Find one repeating pattern.", micro: "Beep. Click. Footsteps." },
                 { t: 105, title: "RETURN", text: "Return to the nearest sound.", micro: "Posture reset. Back to task." }
+            ];
+
+            const postRunLines = [
+                "Nearest sound → label it once.",
+                "Farthest sound → don’t chase it.",
+                "Mechanical hum → find the steady layer.",
+                "Repeating pattern → count 5 repeats.",
+                "Silence gap → notice even half a second.",
+                "Return → posture reset and move."
             ];
 
             function safeEvent(name, params) {
@@ -349,17 +360,11 @@
                 titleEl.textContent = current.title;
                 textEl.textContent = current.text;
                 microEl.textContent = current.micro || "";
-
-                // No-sound rotating line (every ~10s)
-                if (mode === "nosound" && listenLine) {
-                    const idx = Math.min(listenPrompts.length - 1, Math.floor(elapsed / 10));
-                    listenLine.textContent = listenPrompts[idx];
-                }
             }
 
             function updateUI() {
                 timerEl.textContent = fmt(remaining);
-                const progress = (total - remaining) / total;
+                const progress = (total - remaining) / total; // 0..1
                 const offset = circumference * (1 - progress);
                 progressEl.style.strokeDashoffset = `${offset}`;
             }
@@ -368,9 +373,16 @@
                 const v = parseInt(durationSel.value, 10);
                 total = Number.isFinite(v) ? v : 120;
                 remaining = total;
-                updateUI();
                 timerEl.textContent = fmt(total);
+                updateUI();
                 safeEvent("demo_duration_set", { demo: DEMO_ID, page: PAGE_ID, seconds: total });
+            }
+
+            function stopAudioHard() {
+                try {
+                    audio.pause();
+                    audio.currentTime = 0;
+                } catch (e) { }
             }
 
             function reset() {
@@ -378,11 +390,7 @@
                 clearInterval(tickInterval);
                 tickInterval = null;
 
-                // Stop audio hard
-                try {
-                    audio.pause();
-                    audio.currentTime = 0;
-                } catch (e) { }
+                stopAudioHard();
 
                 startBtn.disabled = false;
                 startBtn.textContent = "START";
@@ -390,6 +398,10 @@
                 remaining = total;
                 setStepByElapsed(0);
                 updateUI();
+
+                // Hide checklist until DONE
+                if (nosoundBox) nosoundBox.classList.remove("show");
+                if (listenLine) listenLine.textContent = "If audio isn’t available, run this list once visually.";
             }
 
             function complete() {
@@ -400,8 +412,7 @@
                 remaining = 0;
                 updateUI();
 
-                // Stop audio
-                try { audio.pause(); } catch (e) { }
+                stopAudioHard();
 
                 startBtn.disabled = false;
                 startBtn.textContent = "RESTART";
@@ -410,7 +421,13 @@
                 textEl.textContent = "Return to task. You’re back online.";
                 microEl.textContent = "";
 
-                safeEvent("demo_complete", { demo: DEMO_ID, page: PAGE_ID, seconds: total, mode });
+                // Show checklist AFTER completion
+                if (nosoundBox) nosoundBox.classList.add("show");
+
+                // Put a simple post-run line (first line) — optional
+                if (listenLine) listenLine.textContent = postRunLines[0];
+
+                safeEvent("demo_complete", { demo: DEMO_ID, page: PAGE_ID, seconds: total, audio: audioOn ? "on" : "off" });
             }
 
             async function start() {
@@ -421,23 +438,22 @@
                     remaining = total;
                     setStepByElapsed(0);
                     updateUI();
+                    if (nosoundBox) nosoundBox.classList.remove("show");
                 }
 
                 running = true;
                 startBtn.disabled = true;
 
-                safeEvent("demo_start", { demo: DEMO_ID, page: PAGE_ID, seconds: total, mode });
+                safeEvent("demo_start", { demo: DEMO_ID, page: PAGE_ID, seconds: total, audio: audioOn ? "on" : "off" });
 
-                // Start audio only if in audio mode
-                if (mode === "audio") {
+                // Start audio if enabled
+                if (audioOn) {
                     try {
-                        // user-gesture should allow play
                         await audio.play();
                     } catch (e) {
-                        // If play fails (autoplay restriction), force no-sound mode
-                        mode = "nosound";
-                        soundBtn.textContent = "MODE: NO-SOUND";
-                        nosoundBox.classList.add("show");
+                        // If audio fails, force audio off
+                        audioOn = false;
+                        audioToggle.textContent = "AUDIO: OFF";
                         safeEvent("demo_audio_failed", { demo: DEMO_ID, page: PAGE_ID });
                     }
                 }
@@ -454,14 +470,18 @@
                     for (let i = 0; i < steps.length; i++) {
                         if (elapsed >= steps[i].t) stepIndex = i;
                     }
+
                     if (stepIndex !== lastStepIndex) {
                         lastStepIndex = stepIndex;
                         setStepByElapsed(elapsed);
-                        safeEvent("demo_prompt_change", {
-                            demo: DEMO_ID,
-                            page: PAGE_ID,
-                            step: steps[stepIndex].title
-                        });
+
+                        // If they want audio off, rotate the checklist helper line anyway (still hidden until DONE)
+                        if (!audioOn && listenLine) {
+                            const idx = Math.min(postRunLines.length - 1, stepIndex);
+                            listenLine.textContent = postRunLines[idx];
+                        }
+
+                        safeEvent("demo_prompt_change", { demo: DEMO_ID, page: PAGE_ID, step: steps[stepIndex].title });
                     }
 
                     remaining = newRemaining;
@@ -474,19 +494,15 @@
                 }, 250);
             }
 
-            // Mode toggle
-            soundBtn.addEventListener("click", () => {
-                // Don’t allow switching mid-run (keeps it clean)
+            // Audio toggle (no mid-run switching)
+            audioToggle.addEventListener("click", () => {
                 if (running) return;
+                audioOn = !audioOn;
+                audioToggle.textContent = audioOn ? "AUDIO: ON" : "AUDIO: OFF";
 
-                mode = (mode === "audio") ? "nosound" : "audio";
-                soundBtn.textContent = (mode === "audio") ? "MODE: AUDIO" : "MODE: NO-SOUND";
+                if (!audioOn) stopAudioHard();
 
-                if (mode === "nosound") nosoundBox.classList.add("show");
-                else nosoundBox.classList.remove("show");
-
-                safeEvent("demo_mode_toggle", { demo: DEMO_ID, page: PAGE_ID, mode });
-                setStepByElapsed(0);
+                safeEvent("demo_audio_toggle", { demo: DEMO_ID, page: PAGE_ID, state: audioOn ? "on" : "off" });
             });
 
             // Duration select
@@ -506,10 +522,7 @@
             document.addEventListener("click", (e) => {
                 const a = e.target.closest("a[data-track]");
                 if (!a) return;
-                safeEvent(a.getAttribute("data-track"), {
-                    page: PAGE_ID,
-                    cta: a.getAttribute("data-cta") || ""
-                });
+                safeEvent(a.getAttribute("data-track"), { page: PAGE_ID, cta: a.getAttribute("data-cta") || "" });
             });
 
             // Init
