@@ -1,169 +1,108 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>O₂ Rhythm — Directional Listening Regulation</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Listening Regulation — O₂ Rhythm</title>
+
+    <!-- Match the rest of your protocols -->
+    <link rel="stylesheet" href="/assets/style.css" />
+
+    <!-- GA4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5NKZ7XYYWF"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-5NKZ7XYYWF', { page_title: document.title, page_path: location.pathname });
+    </script>
+
     <style>
-        body {
-            margin: 0;
-            padding: 24px;
-            background: #0b0b0d;
-            color: #f5f5f7;
-            font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-        }
-
-        .wrap {
-            width: min(560px, 100%);
+        /* light add-ons only */
+        .choiceRow {
             display: grid;
-            gap: 14px;
-        }
-
-        .card {
-            background: #121217;
-            border: 1px solid #242430;
-            border-radius: 16px;
-            padding: 18px;
-        }
-
-        .brand {
-            letter-spacing: .22em;
-            font-size: 12px;
-            color: #a6a6b3;
-        }
-
-        h1 {
-            margin: 8px 0 6px;
-            font-size: 18px;
-        }
-
-        p {
-            margin: 6px 0 0;
-            color: #a6a6b3;
-            line-height: 1.45;
-            font-size: 14px;
-        }
-
-        .row {
-            display: grid;
+            grid-template-columns: repeat(3, 1fr);
             gap: 10px;
-            grid-template-columns: 1fr 1fr;
+            margin-top: 12px;
         }
 
-        button {
+        .choiceBtn {
             width: 100%;
-            padding: 14px;
+            padding: 12px 10px;
             border-radius: 12px;
-            border: 1px solid #242430;
-            background: #1a1a23;
-            color: #f5f5f7;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: rgba(255, 255, 255, 0.04);
+            color: rgba(255, 255, 255, 0.92);
             cursor: pointer;
-            font-size: 14px;
+            font-size: 13px;
+            letter-spacing: .02em;
         }
 
-        button:hover {
-            background: #222233;
+        .choiceBtn:hover {
+            background: rgba(255, 255, 255, 0.07);
         }
 
-        label {
-            display: block;
-            font-size: 12px;
-            color: #a6a6b3;
-            margin: 10px 0 6px;
-        }
-
-        input[type="range"] {
-            width: 100%;
-        }
-
-        .status {
-            font-size: 12px;
-            color: #a6a6b3;
-            margin-top: 10px;
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .hint {
-            font-size: 12px;
-            color: #a6a6b3;
-            margin-top: 10px;
+        .choiceBtn.active {
+            background: rgba(255, 255, 255, 0.10);
+            border-color: rgba(255, 255, 255, 0.22);
         }
 
         .endMsg {
-            margin-top: 14px;
+            margin-top: 12px;
             padding: 14px;
-            border-radius: 12px;
-            border: 1px solid #242430;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
             background: rgba(255, 255, 255, 0.03);
-            color: #f5f5f7;
-            line-height: 1.45;
-            font-size: 13px;
+            color: rgba(255, 255, 255, 0.92);
+            line-height: 1.35;
+            display: none;
         }
 
         .endMsg strong {
             display: block;
             margin-bottom: 6px;
-        }
-
-        .miniCta {
-            margin-top: 18px;
-            text-align: center;
-        }
-
-        .ctaBtn {
-            display: inline-block;
-            padding: 12px 14px;
-            border-radius: 999px;
-            border: 1px solid #242430;
-            background: #1a1a23;
-            color: #f5f5f7;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 700;
             letter-spacing: .02em;
-        }
-
-        .ctaBtn:hover {
-            background: #222233;
         }
     </style>
 </head>
 
-<body>
+<body data-agency="academy" data-environment="training">
     <main class="wrap">
-        <section class="card">
+        <section class="card protocol" data-protocol-id="academy_listening_directional">
+
             <div class="brand">O₂ RHYTHM</div>
-            <h1>Directional Listening Regulation (60s)</h1>
-            <p>Follow the sound. The direction is the exercise.</p>
-            <p class="hint" style="margin-top:10px;">
-                <strong>Headphones recommended.</strong><br>
-                Directional sound works best when audio is isolated to each ear.
-            </p>
-        </section>
 
-        <section class="card">
-            <div class="row">
-                <button id="startBtn">Start 60s Reset</button>
-                <button id="stopBtn" disabled>Stop</button>
+            <h1>Listening Regulation • Directional Audio</h1>
+            <p class="sub">Choose 1 min / 2 min / 3 min • headphones recommended</p>
+            <p class="sub" style="margin-top:-10px;">Use: overload • noise reactivity • pre-contact focus</p>
+
+            <div class="ringbox">
+                <svg class="progressRing" viewBox="0 0 220 220" aria-hidden="true">
+                    <circle class="progress-bg" cx="110" cy="110" r="100"></circle>
+                    <circle class="progress" cx="110" cy="110" r="100"></circle>
+                </svg>
+
+                <div class="pacer">
+                    <div class="center">
+                        <button id="startBtn" class="start" type="button">START</button>
+                        <div id="timer" class="timer">1:00</div>
+                        <div id="phaseLabel" class="phaseLabel">READY</div>
+                    </div>
+                </div>
             </div>
 
-            <label for="vol">Volume</label>
-            <input id="vol" type="range" min="0" max="1" step="0.01" value="0.35" />
-
-            <div class="status">
-                <div id="status">Status: idle</div>
-                <div id="timer">01:00</div>
+            <div class="choiceRow" aria-label="Duration selection">
+                <button class="choiceBtn active" type="button" data-seconds="60" id="opt60">1 MIN</button>
+                <button class="choiceBtn" type="button" data-seconds="120" id="opt120">2 MIN</button>
+                <button class="choiceBtn" type="button" data-seconds="192" id="opt192">3 MIN</button>
             </div>
 
-            <div class="hint">Flow: Left → Right (gradual) → Center low → Right → Left (gradual) → End</div>
+            <div class="toggleRow" style="margin-top:12px;">
+                <button id="soundToggle" class="toggle" type="button">SOUND: ON</button>
+            </div>
 
-            <div id="endMsg" class="endMsg" hidden>
+            <div id="endMsg" class="endMsg">
                 <strong>This listening regulation has ended.</strong>
                 If you need more time, run it again. Otherwise, resume duties.
             </div>
@@ -173,278 +112,239 @@
             </div>
 
             <div class="feedback">
-                <a class="feedback-link" href="feedback.html?src=academy&protocol=naming-regulation" target="_blank"
+                <a class="feedback-link" href="feedback.html?src=academy&protocol=listening-directional" target="_blank"
                     rel="noopener">
                     Feedback (30 seconds)
                 </a>
             </div>
+
+            <!-- Audio -->
+            <audio id="track" preload="auto" src="/assets/audio/directional-listening.mp3"></audio>
+
         </section>
     </main>
 
     <script>
-        // Key change: TRUE stereo.
-        // We generate TWO different sources:
-        // - Left tone (lower frequency)
-        // - Right tone (higher frequency)
-        // Each is hard-panned to its side.
-        // Then we crossfade gains to create obvious movement.
-        //
-        // Optional "ticks" reinforce direction (brief, ear-specific).
+        // ============================================================
+        // Listening Regulation — Directional Audio (MP3)
+        // - User chooses 1/2/3 min
+        // - Fades out smoothly at end (no abrupt stop)
+        // - Uses your existing ring/timer look
+        // ============================================================
 
-        let ctx = null;
-        let master = null;
-        let running = false;
-        let stopTimer = null;
-        let tickTimer = null;
-        let uiTimer = null;
-        let startWall = null;
+        const track = document.getElementById("track");
 
         const startBtn = document.getElementById("startBtn");
-        const stopBtn = document.getElementById("stopBtn");
-        const volSlider = document.getElementById("vol");
-        const statusEl = document.getElementById("status");
         const timerEl = document.getElementById("timer");
+        const labelEl = document.getElementById("phaseLabel");
         const endMsgEl = document.getElementById("endMsg");
+        const soundToggle = document.getElementById("soundToggle");
 
-        function setStatus(msg) { statusEl.textContent = `Status: ${msg}`; }
-        function showEnd() { endMsgEl.hidden = false; }
-        function hideEnd() { endMsgEl.hidden = true; }
+        const choiceBtns = Array.from(document.querySelectorAll(".choiceBtn"));
 
-        function fmtTime(secondsLeft) {
-            const s = Math.max(0, Math.ceil(secondsLeft));
-            const mm = String(Math.floor(s / 60)).padStart(2, "0");
-            const ss = String(s % 60).padStart(2, "0");
-            return `${mm}:${ss}`;
+        // progress ring
+        const circle = document.querySelector("circle.progress");
+        const r = 100;
+        const circ = 2 * Math.PI * r;
+        circle.style.strokeDasharray = `${circ} ${circ}`;
+        circle.style.strokeDashoffset = `${circ}`;
+        function setProgress(pct) {
+            circle.style.strokeDashoffset = (circ - (pct * circ));
+        }
+        setProgress(0);
+
+        // Duration options
+        // File is 3:12 = 192 seconds
+        const MAX_LEN = 192;
+        let selectedSeconds = 60;
+
+        // Sound + volume handling
+        let soundOn = true;
+        track.volume = 1.0;
+        track.muted = false;
+
+        // Run state
+        let running = false;
+        let raf = null;
+        let fadeTimer = null;
+        let endAt = 0;         // target end time in seconds (audio timeline)
+        let endScheduled = false;
+
+        const FADE_SECONDS = 2.0;  // smooth fade at end
+
+        function fmt(sec) {
+            const s = Math.max(0, Math.ceil(sec));
+            const m = Math.floor(s / 60);
+            const rem = s % 60;
+            return `${m}:${String(rem).padStart(2, "0")}`;
         }
 
-        function safe(v) { return Math.max(v, 0.0001); }
+        function showEnd() { endMsgEl.style.display = "block"; }
+        function hideEnd() { endMsgEl.style.display = "none"; }
 
-        function rampExpo(param, t0, t1, from, to) {
-            param.setValueAtTime(safe(from), t0);
-            param.exponentialRampToValueAtTime(safe(to), t1);
-        }
-        function rampLin(param, t0, t1, from, to) {
-            param.setValueAtTime(from, t0);
-            param.linearRampToValueAtTime(to, t1);
-        }
+        function setActiveChoice(btn) {
+            choiceBtns.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            selectedSeconds = Number(btn.dataset.seconds) || 60;
 
-        function scheduleTick(atTime, side) {
-            // A short ear-specific click to make direction unmistakable.
-            // side: "L" or "R"
-            if (!ctx || !master) return;
-
-            const osc = ctx.createOscillator();
-            osc.type = "square";
-            osc.frequency.value = 900; // click-ish
-
-            const g = ctx.createGain();
-            g.gain.value = 0.0001;
-
-            const pan = ctx.createStereoPanner();
-            pan.pan.value = (side === "L") ? -1 : 1;
-
-            osc.connect(g);
-            g.connect(pan);
-            pan.connect(master);
-
-            osc.start(atTime);
-
-            // Fast click envelope (~40ms)
-            rampExpo(g.gain, atTime, atTime + 0.01, 0.0001, 0.05);
-            rampExpo(g.gain, atTime + 0.01, atTime + 0.04, 0.05, 0.0001);
-
-            osc.stop(atTime + 0.06);
+            // Update timer display if idle
+            if (!running) {
+                timerEl.textContent = fmt(selectedSeconds);
+                setProgress(0);
+                labelEl.textContent = "READY";
+                hideEnd();
+            }
         }
 
-        async function startReset() {
-            if (running) return;
+        // Prevent changing duration mid-run (keeps behavior predictable)
+        function lockChoices(lock) {
+            choiceBtns.forEach(b => b.disabled = lock);
+            choiceBtns.forEach(b => b.style.opacity = lock ? "0.6" : "1");
+        }
+
+        function stopInternal(status, showEndMsg) {
+            running = false;
+            endScheduled = false;
+
+            startBtn.textContent = "START";
+            labelEl.textContent = status;
+
+            if (raf) cancelAnimationFrame(raf);
+            raf = null;
+
+            if (fadeTimer) {
+                clearInterval(fadeTimer);
+                fadeTimer = null;
+            }
+
+            try { track.pause(); } catch (_) { }
+
+            // Reset volume so next run isn't stuck quiet
+            track.volume = soundOn ? 1.0 : 1.0;
+
+            lockChoices(false);
+
+            if (showEndMsg) showEnd();
+            else hideEnd();
+        }
+
+        function scheduleFadeOut() {
+            if (fadeTimer) return;
+
+            // Fade out over FADE_SECONDS using small steps
+            const steps = 20;
+            const stepMs = (FADE_SECONDS * 1000) / steps;
+            const startVol = track.volume;
+            let i = 0;
+
+            fadeTimer = setInterval(() => {
+                i++;
+                const pct = i / steps;
+                const v = Math.max(0, startVol * (1 - pct));
+                track.volume = v;
+
+                if (i >= steps) {
+                    clearInterval(fadeTimer);
+                    fadeTimer = null;
+
+                    // Pause once silent, then mark complete
+                    try { track.pause(); } catch (_) { }
+                    track.currentTime = 0; // reset for next run
+                    track.volume = soundOn ? 1.0 : 1.0;
+
+                    setProgress(1);
+                    timerEl.textContent = "00:00";
+                    stopInternal("DONE", true);
+
+                    try {
+                        gtag("event", "protocol_complete", {
+                            protocol: "listening_directional",
+                            duration_selected: selectedSeconds,
+                            agency: document.body.dataset.agency || "",
+                            environment: document.body.dataset.environment || ""
+                        });
+                    } catch (_) { }
+                }
+            }, stepMs);
+        }
+
+        function updateLoop() {
+            if (!running) return;
+
+            const t = track.currentTime || 0;
+
+            // Remaining is based on selected duration, not file length
+            const remain = Math.max(0, selectedSeconds - t);
+            timerEl.textContent = fmt(remain);
+
+            setProgress(Math.min(1, t / selectedSeconds));
+
+            // When we hit the selected duration, fade out (do not abruptly stop)
+            if (!endScheduled && t >= Math.max(0, selectedSeconds - FADE_SECONDS)) {
+                endScheduled = true;
+                scheduleFadeOut();
+            }
+
+            raf = requestAnimationFrame(updateLoop);
+        }
+
+        async function startStop() {
+            if (running) {
+                stopInternal("STOPPED", false);
+                try { gtag("event", "protocol_stop", { protocol: "listening_directional", duration_selected: selectedSeconds }); } catch (_) { }
+                return;
+            }
+
             hideEnd();
 
-            ctx = new (window.AudioContext || window.webkitAudioContext)();
-            if (ctx.state === "suspended") await ctx.resume();
+            // Ensure selected duration never exceeds file length
+            selectedSeconds = Math.min(selectedSeconds, MAX_LEN);
+
+            // Reset track
+            track.currentTime = 0;
+            track.volume = 1.0;
+            track.muted = !soundOn;
 
             running = true;
-            startBtn.disabled = true;
-            stopBtn.disabled = false;
+            startBtn.textContent = "STOP";
+            labelEl.textContent = "RUNNING";
+            lockChoices(true);
 
-            const total = 60;
-            setStatus("running (60s)");
-            timerEl.textContent = "01:00";
-
-            startWall = Date.now();
-            uiTimer = setInterval(() => {
-                const elapsed = (Date.now() - startWall) / 1000;
-                timerEl.textContent = fmtTime(total - elapsed);
-            }, 200);
-
-            const now = ctx.currentTime;
-
-            // Master
-            master = ctx.createGain();
-            master.gain.value = Number(volSlider.value);
-            master.connect(ctx.destination);
-
-            // Two different tones so L/R is obvious
-            const leftOsc = ctx.createOscillator();
-            leftOsc.type = "sine";
-            leftOsc.frequency.value = 165; // left = lower
-
-            const rightOsc = ctx.createOscillator();
-            rightOsc.type = "triangle";
-            rightOsc.frequency.value = 245; // right = higher + different timbre
-
-            // Gains for crossfading
-            const leftGain = ctx.createGain();
-            const rightGain = ctx.createGain();
-            leftGain.gain.value = 0.0001;
-            rightGain.gain.value = 0.0001;
-
-            // Hard pan each source
-            const leftPan = ctx.createStereoPanner();
-            leftPan.pan.value = -1;
-
-            const rightPan = ctx.createStereoPanner();
-            rightPan.pan.value = 1;
-
-            // Gentle common bed to avoid "empty silence" (centered, low)
-            const bedOsc = ctx.createOscillator();
-            bedOsc.type = "sine";
-            bedOsc.frequency.value = 90;
-
-            const bedGain = ctx.createGain();
-            bedGain.gain.value = 0.0001;
-
-            const bedPan = ctx.createStereoPanner();
-            bedPan.pan.value = 0;
-
-            // Routing
-            leftOsc.connect(leftGain);
-            leftGain.connect(leftPan);
-            leftPan.connect(master);
-
-            rightOsc.connect(rightGain);
-            rightGain.connect(rightPan);
-            rightPan.connect(master);
-
-            bedOsc.connect(bedGain);
-            bedGain.connect(bedPan);
-            bedPan.connect(master);
-
-            // Start
-            leftOsc.start(now);
-            rightOsc.start(now);
-            bedOsc.start(now);
-
-            // Levels (tune here if needed)
-            const ON = 0.10;      // main ear tone level
-            const LOW = 0.02;     // low phase
-            const BED_ON = 0.025; // constant bed while active
-            const BED_LOW = 0.01;
-
-            // ===== Timeline =====
-            // 0–3: Fade in LEFT only (bed on)
-            // 3–23: Crossfade LEFT -> RIGHT (gradual, obvious)
-            // 23–28: Center low (both low, bed low)
-            // 28–31: Fade in RIGHT only
-            // 31–51: Crossfade RIGHT -> LEFT (gradual)
-            // 51–60: Center + fade out
-
-            // 0–3: left in, right off, bed on
-            rampExpo(leftGain.gain, now + 0, now + 3, 0.0001, ON);
-            rampExpo(rightGain.gain, now + 0, now + 3, 0.0001, 0.0001);
-            rampExpo(bedGain.gain, now + 0, now + 3, 0.0001, BED_ON);
-
-            // 3–23: crossfade left -> right
-            rampLin(leftGain.gain, now + 3, now + 23, ON, 0.0001);
-            rampLin(rightGain.gain, now + 3, now + 23, 0.0001, ON);
-
-            // ticks during first sweep (helps a lot)
-            // every ~4 seconds, tick on whichever side is dominant at that moment
-            for (let t = 5; t <= 21; t += 4) {
-                // early = left, late = right
-                const side = (t < 14) ? "L" : "R";
-                scheduleTick(now + t, side);
+            try {
+                await track.play();
+            } catch (_) {
+                // If play fails (autoplay restrictions), revert state cleanly
+                stopInternal("READY", false);
+                return;
             }
 
-            // 23–28: center low (both low), bed low (not dead silent)
-            rampExpo(leftGain.gain, now + 23, now + 28, safe(leftGain.gain.value), LOW);
-            rampExpo(rightGain.gain, now + 23, now + 28, safe(rightGain.gain.value), LOW);
-            rampExpo(bedGain.gain, now + 23, now + 28, BED_ON, BED_LOW);
+            try {
+                gtag("event", "protocol_start", {
+                    protocol: "listening_directional",
+                    duration_selected: selectedSeconds
+                });
+            } catch (_) { }
 
-            // 28–31: right back up (right-only feel), left stays low
-            rampExpo(rightGain.gain, now + 28, now + 31, LOW, ON);
-            rampExpo(leftGain.gain, now + 28, now + 31, LOW, 0.0001);
-            rampExpo(bedGain.gain, now + 28, now + 31, BED_LOW, BED_ON);
-
-            // 31–51: crossfade right -> left
-            rampLin(rightGain.gain, now + 31, now + 51, ON, 0.0001);
-            rampLin(leftGain.gain, now + 31, now + 51, 0.0001, ON);
-
-            // ticks during second sweep
-            for (let t = 33; t <= 49; t += 4) {
-                const side = (t < 42) ? "R" : "L";
-                scheduleTick(now + t, side);
-            }
-
-            // 51–60: center + fade out
-            // bring both briefly to low center, then fade everything out.
-            rampExpo(leftGain.gain, now + 51, now + 54, safe(leftGain.gain.value), LOW);
-            rampExpo(rightGain.gain, now + 51, now + 54, safe(rightGain.gain.value), LOW);
-            rampExpo(bedGain.gain, now + 51, now + 54, BED_ON, BED_LOW);
-
-            rampExpo(leftGain.gain, now + 56, now + 60, LOW, 0.0001);
-            rampExpo(rightGain.gain, now + 56, now + 60, LOW, 0.0001);
-            rampExpo(bedGain.gain, now + 56, now + 60, BED_LOW, 0.0001);
-
-            // End
-            stopTimer = setTimeout(() => finishReset(), (total + 0.2) * 1000);
+            raf = requestAnimationFrame(updateLoop);
         }
 
-        function finishReset() {
-            if (!running) return;
-
-            running = false;
-            startBtn.disabled = false;
-            stopBtn.disabled = true;
-
-            setStatus("complete");
-            timerEl.textContent = "00:00";
-            showEnd();
-
-            cleanupAudio();
-        }
-
-        function stopReset() {
-            if (!running) return;
-
-            running = false;
-            startBtn.disabled = false;
-            stopBtn.disabled = true;
-
-            setStatus("stopped");
-            // Only show end message on completion, not manual stop.
-            hideEnd();
-
-            cleanupAudio();
-        }
-
-        function cleanupAudio() {
-            if (uiTimer) { clearInterval(uiTimer); uiTimer = null; }
-            if (stopTimer) { clearTimeout(stopTimer); stopTimer = null; }
-
-            try { if (ctx) ctx.close(); } catch (e) { }
-
-            ctx = null;
-            master = null;
-            startWall = null;
-        }
-
-        startBtn.addEventListener("click", startReset);
-        stopBtn.addEventListener("click", stopReset);
-
-        volSlider.addEventListener("input", () => {
-            if (master) master.gain.value = Number(volSlider.value);
+        // SOUND toggle
+        soundToggle.addEventListener("click", () => {
+            soundOn = !soundOn;
+            soundToggle.textContent = `SOUND: ${soundOn ? "ON" : "OFF"}`;
+            track.muted = !soundOn;
         });
+
+        // Choice buttons
+        choiceBtns.forEach(btn => btn.addEventListener("click", () => setActiveChoice(btn)));
+
+        // Start/Stop
+        startBtn.addEventListener("click", startStop);
+
+        // Initial UI
+        timerEl.textContent = fmt(selectedSeconds);
+        labelEl.textContent = "READY";
+        hideEnd();
     </script>
 </body>
 
