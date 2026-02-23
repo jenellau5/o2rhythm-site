@@ -1084,9 +1084,9 @@
 
                             <div class="row">
                                 <a class="btn btnPrimary"
-                                    href="mailto:hello.rhythmo2@gmail.com?subject=O2%20Rhythm%20Pilot%20Request">Email
-                                    me</a>
-                                <button class="btn" type="button" id="copyTemplate">Copy intake template</button>
+                                    href="mailto:hello.rhythmo2@gmail.com?subject=O2%20Rhythm%20Pilot%20Request">
+                                    Email me
+                                </a>
                             </div>
 
                             <p class="hint" style="margin-top:10px;">Email: <strong>hello.rhythmo2@gmail.com</strong>
@@ -1117,30 +1117,35 @@
     <script>
         document.getElementById("y").textContent = new Date().getFullYear();
 
-        const template =
-            `Subject: O₂ Rhythm Pilot Request
-
-Agency/Organization:
+        const subject = "O2 Rhythm Pilot Request";
+        const body =
+            `Agency/Organization:
 Discipline (dispatch / EMS / fire / LE / corrections / training):
 Primary contact name + role:
 Email / phone:
 Approx headcount:
-Environments to deploy first (1–3):
+Environments to deploy first (1-3):
 Approx # of QR placements:
 What are you trying to improve? (recovery, shift stress, retention, post-incident downshift):
 Preferred update tier (monthly / quarterly):
 Anything else we should know?`;
 
+        // Copy button = plain text (no encoding)
         document.getElementById("copyTemplate")?.addEventListener("click", async () => {
             try {
-                await navigator.clipboard.writeText(template);
+                await navigator.clipboard.writeText(`Subject: ${subject}\n\n${body}`);
                 const b = document.getElementById("copyTemplate");
                 b.textContent = "Copied ✅";
                 setTimeout(() => b.textContent = "Copy intake template", 1600);
-            } catch (e) {
+            } catch {
                 alert("Copy failed. You can copy from the page source.");
             }
         });
+
+        // Email button = properly encoded ONCE
+        const mailto = `mailto:hello.rhythmo2@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        const emailBtn = document.getElementById("emailDraft");
+        if (emailBtn) emailBtn.setAttribute("href", mailto);
     </script>
 
 </body>
