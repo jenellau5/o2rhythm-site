@@ -304,8 +304,7 @@
         .heroOverlay {
             position: absolute;
             inset: 0;
-            background:
-                linear-gradient(180deg,
+            background: linear-gradient(180deg,
                     rgba(0, 0, 0, .15) 0%,
                     rgba(0, 0, 0, .38) 45%,
                     rgba(11, 12, 16, .90) 100%);
@@ -366,11 +365,97 @@
             }
         }
 
-        /* gallery (auto-fit so 5, 8, 12 images never look weird) */
-        .gallery {
+        /* ENVIRONMENT BLOCKS (smaller images + more columns so it doesn’t feel huge) */
+        .envBlock {
+            margin-top: 14px;
+            padding: 16px;
+            border-radius: var(--radius);
+            border: 1px solid var(--line);
+            background: rgba(255, 255, 255, .01);
+        }
+
+        .envHead h3 {
+            margin: 0 0 6px;
+            font-size: 15px;
+            letter-spacing: -.01em;
+        }
+
+        .envHead .hint {
+            max-width: 92ch;
+        }
+
+        .envGrid {
+            margin-top: 12px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 14px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        @media (max-width: 1100px) {
+            .envGrid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 920px) {
+            .envGrid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 560px) {
+            .envGrid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .envCard {
+            border: 1px solid rgba(255, 255, 255, .10);
+            background: rgba(17, 19, 26, .78);
+            border-radius: 14px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100%;
+            transition: transform .12s ease, border-color .12s ease;
+        }
+
+        .envCard:hover {
+            transform: translateY(-1px);
+            border-color: rgba(255, 255, 255, .18);
+        }
+
+        .envImg img {
+            width: 100%;
+            height: 110px;
+            /* key: SMALLER */
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            opacity: .95;
+        }
+
+        .envBody {
+            padding: 10px;
+            display: grid;
+            gap: 5px;
+        }
+
+        .envTitle {
+            font-weight: 950;
+            font-size: 12.5px;
+            color: rgba(233, 233, 239, .95);
+        }
+
+        .envWhy {
+            font-size: 12px;
+            line-height: 1.45;
+            color: rgba(233, 233, 239, .70);
+        }
+
+        .envMeta {
+            font-size: 11px;
+            color: rgba(233, 233, 239, .58);
         }
 
         /* how-it-works graphic */
@@ -527,7 +612,6 @@
                     <a class="btn" href="#contact">Contact</a>
                 </div>
 
-                <!-- FIX: these look like badges, not fake buttons -->
                 <div class="pillRow" aria-label="Key features">
                     <span class="pill"><strong>30–120 sec</strong> protocols</span>
                     <span class="pill"><strong>No app</strong> • no login</span>
@@ -540,7 +624,7 @@
 
     <main class="wrap">
 
-        <!-- ENVIRONMENTS (text + 2–3 cards per block) -->
+        <!-- ENVIRONMENTS -->
         <section class="section" aria-label="Where it gets used">
             <div class="card">
                 <h2>Where it gets used</h2>
@@ -551,7 +635,7 @@
                 </p>
             </div>
 
-            <!-- Block 1: Dispatch + Desk -->
+            <!-- Block 1 -->
             <div class="envBlock">
                 <div class="envHead">
                     <h3>Dispatch + Console Environments</h3>
@@ -563,9 +647,8 @@
 
                 <div class="envGrid">
                     <article class="envCard">
-                        <div class="envImg">
-                            <img src="/assets/img/desk-qr2.png" alt="QR placement near a dispatch console" />
-                        </div>
+                        <div class="envImg"><img src="/assets/img/desk-qr2.png"
+                                alt="QR placement near a dispatch console" /></div>
                         <div class="envBody">
                             <div class="envTitle">Console Reset</div>
                             <div class="envWhy">Short resets that reduce lingering activation and bring attention back
@@ -575,9 +658,8 @@
                     </article>
 
                     <article class="envCard">
-                        <div class="envImg">
-                            <img src="/assets/img/desk-qruse.png" alt="QR being used near a dispatch workstation" />
-                        </div>
+                        <div class="envImg"><img src="/assets/img/desk-qruse.png"
+                                alt="QR being used near a dispatch workstation" /></div>
                         <div class="envBody">
                             <div class="envTitle">Between-Call Reset</div>
                             <div class="envWhy">Built for “I have 60 seconds before the next thing hits.”</div>
@@ -586,20 +668,30 @@
                     </article>
 
                     <article class="envCard">
-                        <div class="envImg">
-                            <img src="/assets/img/qr%20break%20room.png" alt="Break room QR placement" />
-                        </div>
+                        <div class="envImg"><img src="/assets/img/qr%20break%20room.png"
+                                alt="Break room QR placement" /></div>
                         <div class="envBody">
                             <div class="envTitle">Break Room Reset</div>
                             <div class="envWhy">A true downshift option when you step away — without turning it into a
-                                whole “session.”</div>
+                                whole session.</div>
                             <div class="envMeta">Placement: fridge • coffee station • exit door</div>
+                        </div>
+                    </article>
+
+                    <article class="envCard">
+                        <div class="envImg"><img src="/assets/img/post-classroomqr.png"
+                                alt="Training classroom QR placement" /></div>
+                        <div class="envBody">
+                            <div class="envTitle">Training Room Reset</div>
+                            <div class="envWhy">Useful for skills days and call reviews — reset before and after
+                                evolutions.</div>
+                            <div class="envMeta">Placement: classroom wall • entry door • skills lab</div>
                         </div>
                     </article>
                 </div>
             </div>
 
-            <!-- Block 2: Police + Corrections -->
+            <!-- Block 2 -->
             <div class="envBlock">
                 <div class="envHead">
                     <h3>Police + Corrections</h3>
@@ -611,20 +703,18 @@
 
                 <div class="envGrid">
                     <article class="envCard">
-                        <div class="envImg">
-                            <img src="/assets/img/police-qr.png" alt="Police environment QR placement" />
-                        </div>
+                        <div class="envImg"><img src="/assets/img/police-qr.png"
+                                alt="Police environment QR placement" /></div>
                         <div class="envBody">
-                            <div class="envTitle">Patrol / Briefing Reset</div>
-                            <div class="envWhy">Fast regulation before you walk into the next contact or briefing.</div>
+                            <div class="envTitle">Briefing / Report Writing Reset</div>
+                            <div class="envWhy">Fast regulation before the next contact or after a difficult one.</div>
                             <div class="envMeta">Placement: briefing room • report writing • locker area</div>
                         </div>
                     </article>
 
                     <article class="envCard">
-                        <div class="envImg">
-                            <img src="/assets/img/police-qruse.png" alt="Police QR being used in the field" />
-                        </div>
+                        <div class="envImg"><img src="/assets/img/police-qruse.png"
+                                alt="Police QR being used in the field" /></div>
                         <div class="envBody">
                             <div class="envTitle">In-Unit Reset</div>
                             <div class="envWhy">Designed to be used sitting in the car — no gear removal, no privacy
@@ -634,9 +724,8 @@
                     </article>
 
                     <article class="envCard">
-                        <div class="envImg">
-                            <img src="/assets/img/corrections-qr.png" alt="Corrections environment QR placement" />
-                        </div>
+                        <div class="envImg"><img src="/assets/img/corrections-qr.png"
+                                alt="Corrections environment QR placement" /></div>
                         <div class="envBody">
                             <div class="envTitle">Control Room Reset</div>
                             <div class="envWhy">Keep arousal from stacking across the shift — especially after
@@ -644,10 +733,20 @@
                             <div class="envMeta">Placement: control room • sally port • break area</div>
                         </div>
                     </article>
+
+                    <article class="envCard">
+                        <div class="envImg"><img src="/assets/img/post-dt.png"
+                                alt="Defensive tactics / scenario training QR placement" /></div>
+                        <div class="envBody">
+                            <div class="envTitle">DT / Tactical Reset</div>
+                            <div class="envWhy">Bring your system down enough to learn without losing intensity.</div>
+                            <div class="envMeta">Placement: mat edge • water station • exit door</div>
+                        </div>
+                    </article>
                 </div>
             </div>
 
-            <!-- Block 3: Fire + EMS -->
+            <!-- Block 3 -->
             <div class="envBlock">
                 <div class="envHead">
                     <h3>Fire + EMS / Paramedic</h3>
@@ -659,9 +758,7 @@
 
                 <div class="envGrid">
                     <article class="envCard">
-                        <div class="envImg">
-                            <img src="/assets/img/fire-qr.png" alt="Fire station QR placement" />
-                        </div>
+                        <div class="envImg"><img src="/assets/img/fire-qr.png" alt="Fire station QR placement" /></div>
                         <div class="envBody">
                             <div class="envTitle">Bay / Turnout Reset</div>
                             <div class="envWhy">Downshift without dropping readiness — recover faster between tones.
@@ -671,85 +768,38 @@
                     </article>
 
                     <article class="envCard">
-                        <div class="envImg">
-                            <img src="/assets/img/emt-qr.png" alt="EMS/Paramedic environment QR placement" />
-                        </div>
+                        <div class="envImg"><img src="/assets/img/emt-qr.png"
+                                alt="EMS/Paramedic environment QR placement" /></div>
                         <div class="envBody">
                             <div class="envTitle">Unit Reset</div>
-                            <div class="envWhy">Quick reset after patient handoff or documentation — designed for the
-                                rig.</div>
+                            <div class="envWhy">Quick reset after handoff or documentation — designed for the rig.</div>
                             <div class="envMeta">Placement: inside unit • station bay • supply room</div>
                         </div>
                     </article>
 
                     <article class="envCard">
-                        <div class="envImg">
-                            <img src="/assets/img/post-classroomqr.png" alt="Training classroom QR placement" />
-                        </div>
+                        <div class="envImg"><img src="/assets/img/post-liveclassroom.png"
+                                alt="Live classroom slide showing QR for training" /></div>
                         <div class="envBody">
-                            <div class="envTitle">Station / Training Reset</div>
-                            <div class="envWhy">Useful for drills and skills days — regulate before and after scenarios.
+                            <div class="envTitle">Pre / Post Scenario Reset</div>
+                            <div class="envWhy">Calm the noise, sharpen decisions, then clear adrenaline so the debrief
+                                lands.</div>
+                            <div class="envMeta">Placement: slide deck • entrance • debrief room</div>
+                        </div>
+                    </article>
+
+                    <article class="envCard">
+                        <div class="envImg"><img src="/assets/img/qr%20break%20room.png"
+                                alt="Break room QR placement" /></div>
+                        <div class="envBody">
+                            <div class="envTitle">Station Reset</div>
+                            <div class="envWhy">Low-friction recovery during station time — not a 20-minute program.
                             </div>
-                            <div class="envMeta">Placement: classroom wall • entry door • skills lab</div>
+                            <div class="envMeta">Placement: fridge • coffee station • exit door</div>
                         </div>
                     </article>
                 </div>
             </div>
-
-            <!-- Block 4: Training / Scenario -->
-            <div class="envBlock">
-                <div class="envHead">
-                    <h3>Training + Scenario Environments</h3>
-                    <p class="hint">
-                        This is where you build the habit: reset before the evolution, reset after the evolution.
-                        Repeat exposure. Repeat recovery.
-                    </p>
-                </div>
-
-                <div class="envGrid">
-                    <article class="envCard">
-                        <div class="envImg">
-                            <img src="/assets/img/post-liveclassroom.png"
-                                alt="Live classroom slide showing QR for training" />
-                        </div>
-                        <div class="envBody">
-                            <div class="envTitle">Pre-Scenario Reset</div>
-                            <div class="envWhy">Calm the noise, sharpen decisions, keep breathing clean under pressure.
-                            </div>
-                            <div class="envMeta">Placement: slide deck • entrance • staging wall</div>
-                        </div>
-                    </article>
-
-                    <article class="envCard">
-                        <div class="envImg">
-                            <img src="/assets/img/post-dt.png"
-                                alt="Defensive tactics / scenario training QR placement" />
-                        </div>
-                        <div class="envBody">
-                            <div class="envTitle">DT / Tactical Reset</div>
-                            <div class="envWhy">Bring your system down enough to learn, without losing intensity.</div>
-                            <div class="envMeta">Placement: mat edge • water station • exit door</div>
-                        </div>
-                    </article>
-
-                    <article class="envCard">
-                        <div class="envImg">
-                            <img src="/assets/img/post-classroomqr.png"
-                                alt="Training classroom QR placement close-up" />
-                        </div>
-                        <div class="envBody">
-                            <div class="envTitle">Post-Scenario Reset</div>
-                            <div class="envWhy">Clear the adrenaline so the debrief actually lands.</div>
-                            <div class="envMeta">Placement: debrief room • hallway • gear staging</div>
-                        </div>
-                    </article>
-                </div>
-            </div>
-
-            <p class="hint" style="margin-top:12px;">
-                If you want, we can reduce this to 3 blocks (cleaner) and rotate extra environments into a “More
-                environments” section lower on the page.
-            </p>
         </section>
 
         <!-- OUTCOMES -->
@@ -803,7 +853,7 @@
             </div>
         </section>
 
-        <!-- WHERE IT FITS (clear, easier to understand) -->
+        <!-- WHERE IT FITS -->
         <section id="where" class="section" aria-label="Where it fits">
             <div class="grid2">
                 <div class="card">
@@ -841,9 +891,7 @@
                 <div class="demoWrap">
                     <div class="tile">
                         <h3>Live demo</h3>
-                        <p class="hint">
-                            Short protocols designed for fast downshift and immediate return to task.
-                        </p>
+                        <p class="hint">Short protocols designed for fast downshift and immediate return to task.</p>
 
                         <ul>
                             <li>30–120 second options</li>
@@ -857,9 +905,8 @@
                             <a class="btn" href="#contact">Bring this to my agency</a>
                         </div>
 
-                        <p class="hint" style="margin-top:12px;">
-                            Tip: print the QR and place it where it will actually be used.
-                        </p>
+                        <p class="hint" style="margin-top:12px;">Tip: print the QR and place it where it will actually
+                            be used.</p>
                     </div>
 
                     <div class="demoQR" aria-label="Demo QR code">
@@ -868,9 +915,7 @@
                             <img src="/assets/img/demo-qr.png" alt="O₂ Rhythm demo QR code" />
                         </a>
                         <div class="capline">DEMO • LIVE</div>
-                        <p class="hint" style="margin-top:8px; text-align:center;">
-                            https://o2rhythm.com/demo/
-                        </p>
+                        <p class="hint" style="margin-top:8px; text-align:center;">https://o2rhythm.com/demo/</p>
                     </div>
                 </div>
             </div>
@@ -962,8 +1007,8 @@
                         <summary>How often do you update content?</summary>
                         <p>
                             Updates are provided <strong>monthly or quarterly depending on tier</strong>. If something
-                            operational changes (policy, environment,
-                            critical incident need), additional updates can be made when needed.
+                            operational changes
+                            (policy, environment, critical incident need), additional updates can be made when needed.
                         </p>
                     </details>
                 </div>
