@@ -91,9 +91,26 @@
             margin-top: 10px;
         }
 
-        .mono {
-            opacity: .8;
-            font-size: 12px;
+        .miniCta {
+            margin-top: 18px;
+            text-align: center;
+        }
+
+        .ctaBtn {
+            display: inline-block;
+            padding: 12px 14px;
+            border-radius: 999px;
+            border: 1px solid #242430;
+            background: #1a1a23;
+            color: #f5f5f7;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: .02em;
+        }
+
+        .ctaBtn:hover {
+            background: #222233;
         }
     </style>
 </head>
@@ -106,7 +123,7 @@
             <p>
                 A 60-second spatial awareness reset. Follow the sound as it shifts direction.
             </p>
-            <p class="hint" style="margin-top:10px;">
+            <p class="hint" style="margin: top 20px;">
                 <strong>Headphones recommended.</strong><br>
                 Directional sound works best when audio is isolated to each ear.
             </p>
@@ -122,13 +139,21 @@
             <input id="vol" type="range" min="0" max="1" step="0.01" value="0.35" />
 
             <div class="status" id="status">Status: idle</div>
-            <div class="hint">Flow: Left → Right → “Behind-ish” → Alternating → Center</div>
+            <div class="hint">Flow: Left → Right → Left → Right → Center</div>
+
+            <div class="miniCta">
+                <a class="ctaBtn" href="../index.html#pilot-intake" data-track="cta_click"
+                    data-cta="bring_to_agency_from_demo">
+                    Bring O₂ Rhythm to My Agency
+                </a>
+            </div>
         </section>
     </main>
 
     <script>
-        // Directional Listening Reset (60s) — Web Audio (no file downloads)
-        // Works best with headphones.
+        // Directional Listening Regulation (60s) — Web Audio (no audio files)
+        // Goal: avoid the "stuck loud on left" issue by fading OUT between direction shifts,
+        // then fading IN on the opposite side.
 
         let ctx = null;
         let master = null;
@@ -144,34 +169,38 @@
             statusEl.textContent = `Status: ${msg}`;
         }
 
-        function makePinkishNoiseBuffer(audioCtx, seconds = 2) {
-            // Simple "pink-ish" noise: white noise run through a lowpass later.
+        function makeNoiseBuffer(audioCtx, seconds = 2) {
             const rate = audioCtx.sampleRate;
             const frameCount = Math.floor(rate * seconds);
             const buffer = audioCtx.createBuffer(1, frameCount, rate);
             const data = buffer.getChannelData(0);
             for (let i = 0; i < frameCount; i++) {
-                data[i] = (Math.random() * 2 - 1) * 0.25; // conservative amplitude
+                data[i] = (Math.random() * 2 - 1) * 0.22; // conservative amplitude
             }
             return buffer;
         }
 
-        function expRampParam(param, atTime, from, to, dur) {
-            // Safer tiny ramps to avoid clicks.
-            param.setValueAtTime(from, atTime);
-            param.exponentialRampToValueAtTime(Math.max(to, 0.0001), atTime + dur);
+        function safeVal(v) {
+            return Math.max(v, 0.0001);
         }
 
-        function scheduleSegmentPan(panner, t0, t1, panFrom, panTo) {
-            // Linear is fine for pan.
-            panner.pan.setValueAtTime(panFrom, t0);
-            panner.pan.linearRampToValueAtTime(panTo, t1);
+        function setSafe(param, t, v) {
+            param.setValueAtTime(safeVal(v), t);
+        }
+
+        function fadeIn(param, t0, t1, target) {
+            setSafe(param, t0, 0.0001);
+            param.exponentialRampToValueAtTime(safeVal(target), t1);
+        }
+
+        function fadeOut(param, t0, t1, from) {
+            setSafe(param, t0, safeVal(from));
+            param.exponentialRampToValueAtTime(0.0001, t1);
         }
 
         async function startReset() {
             if (running) return;
 
-            // Must be created/resumed from user gesture
             ctx = new (window.AudioContext || window.webkitAudioContext)();
             if (ctx.state === "suspended") await ctx.resume();
 
@@ -188,53 +217,31 @@
             master.gain.value = Number(volSlider.value);
             master.connect(ctx.destination);
 
-            // Soft tone (sine) + gentle noise bed
+            // Tone
             const toneOsc = ctx.createOscillator();
             toneOsc.type = "sine";
-            toneOsc.frequency.value = 160; // low, calm
+            toneOsc.frequency.value = 160;
 
             const toneGain = ctx.createGain();
-            toneGain.gain.value = 0.0;
+            toneGain.gain.value = 0.0001;
 
-            const panner = ctx.createStereoPanner();
-
-            // Noise source (looped buffer)
+            // Noise (soft bed)
             const noiseSrc = ctx.createBufferSource();
-            noiseSrc.buffer = makePinkishNoiseBuffer(ctx, 2);
+            noiseSrc.buffer = makeNoiseBuffer(ctx, 2);
             noiseSrc.loop = true;
 
             const noiseLP = ctx.createBiquadFilter();
             noiseLP.type = "lowpass";
-            noiseLP.frequency.value = 900; // keep it soft
+            noiseLP.frequency.value = 850;
             noiseLP.Q.value = 0.7;
 
             const noiseGain = ctx.createGain();
-            noiseGain.gain.value = 0.0;
+            noiseGain.gain.value = 0.0001;
 
-            // A little "depth" effect (behind-ish): quieter + darker + tiny reverb-ish smear.
-            // We'll approximate with another lowpass and a short delay feedback.
-            const depthLP = ctx.createBiquadFilter();
-            depthLP.type = "lowpass";
-            depthLP.frequency.value = 450;
-            depthLP.Q.value = 0.6;
+            // Panner
+            const panner = ctx.createStereoPanner();
 
-            const delay = ctx.createDelay(0.25);
-            delay.delayTime.value = 0.09; // subtle
-
-            const fb = ctx.createGain();
-            fb.gain.value = 0.18; // subtle feedback
-
-            // routing: (tone + noise) -> panner -> (optional depth chain blend) -> master
-            // We'll do: panner -> depthLP -> delay -> master, with feedback loop.
-            // And also direct panner -> master so it doesn't feel "echoey" all the time.
-
-            const direct = ctx.createGain();
-            direct.gain.value = 1.0;
-
-            const depthBlend = ctx.createGain();
-            depthBlend.gain.value = 0.0; // only raise during "behind-ish" segment
-
-            // Build graph
+            // Routing
             toneOsc.connect(toneGain);
             toneGain.connect(panner);
 
@@ -242,67 +249,55 @@
             noiseLP.connect(noiseGain);
             noiseGain.connect(panner);
 
-            panner.connect(direct);
-            direct.connect(master);
-
-            panner.connect(depthBlend);
-            depthBlend.connect(depthLP);
-            depthLP.connect(delay);
-            delay.connect(master);
-
-            // feedback loop (tiny)
-            delay.connect(fb);
-            fb.connect(delay);
+            panner.connect(master);
 
             // Start sources
             toneOsc.start(now);
             noiseSrc.start(now);
 
-            // Envelope to avoid clicks
-            // Fade in over 1s, fade out last 1s
-            expRampParam(toneGain.gain, now, 0.0001, 0.10, 1.0);
-            expRampParam(noiseGain.gain, now, 0.0001, 0.06, 1.2);
+            // --- Directional Flow (60s) ---
+            // Each sweep is 12s (fade in 2s, hold 8s, fade out 2s)
+            // Add 3s "space" between sweeps so it clearly drops out and comes back on the other side.
+            const g = toneGain.gain;
+            const n = noiseGain.gain;
+            const p = panner.pan;
 
-            // --- Pan Timeline (60s) ---
-            // 0-15: Left focus
-            // 15-30: Right focus
-            // 30-40: "Behind-ish" (center + depth blend)
-            // 40-55: Alternating slow sweep
-            // 55-60: Center settle + fade out
+            function segment(startSec, panValue, toneLevel = 0.10, noiseLevel = 0.06) {
+                const t0 = now + startSec;
+                const tInEnd = t0 + 2;
+                const tHoldEnd = tInEnd + 8;
+                const tOutEnd = tHoldEnd + 2;
 
-            // Segment 1: Left (set and gently drift)
-            scheduleSegmentPan(panner, now + 0, now + 15, -0.85, -0.65);
+                p.setValueAtTime(panValue, t0);
 
-            // Segment 2: Right
-            scheduleSegmentPan(panner, now + 15, now + 30, 0.65, 0.85);
+                fadeIn(g, t0, tInEnd, toneLevel);
+                fadeIn(n, t0, tInEnd, noiseLevel);
 
-            // Segment 3: Behind-ish (center + depth blend up)
-            scheduleSegmentPan(panner, now + 30, now + 40, 0.0, 0.0);
-            depthBlend.gain.setValueAtTime(0.0001, now + 30);
-            depthBlend.gain.linearRampToValueAtTime(0.65, now + 32);
-            depthBlend.gain.linearRampToValueAtTime(0.65, now + 38);
-            depthBlend.gain.linearRampToValueAtTime(0.0001, now + 40);
+                setSafe(g, tInEnd, toneLevel);
+                setSafe(n, tInEnd, noiseLevel);
+                setSafe(g, tHoldEnd, toneLevel);
+                setSafe(n, tHoldEnd, noiseLevel);
 
-            // Segment 4: Alternating (slow left-right sweeps)
-            // We'll schedule a few sweeps manually.
-            const s4 = now + 40;
-            const sweeps = [
-                [s4 + 0, s4 + 3.5, -0.8, 0.8],
-                [s4 + 3.5, s4 + 7.0, 0.8, -0.8],
-                [s4 + 7.0, s4 + 10.5, -0.8, 0.8],
-                [s4 + 10.5, s4 + 15.0, 0.8, 0.0], // settle toward center by 55s
-            ];
-            for (const [a, b, from, to] of sweeps) {
-                scheduleSegmentPan(panner, a, b, from, to);
+                fadeOut(g, tHoldEnd, tOutEnd, toneLevel);
+                fadeOut(n, tHoldEnd, tOutEnd, noiseLevel);
+
+                return tOutEnd;
             }
 
-            // Segment 5: Center + fade out
-            scheduleSegmentPan(panner, now + 55, now + 60, 0.0, 0.0);
-            // Fade out
-            expRampParam(toneGain.gain, now + 59, Math.max(toneGain.gain.value, 0.0001), 0.0001, 1.0);
-            expRampParam(noiseGain.gain, now + 59, Math.max(noiseGain.gain.value, 0.0001), 0.0001, 1.0);
+            // Left, Right, Left, Right (with 3s gaps)
+            segment(0, -0.90);
+            segment(15, 0.90);
+            segment(30, -0.90);
+            segment(45, 0.90);
 
-            // Hard stop after 60.2s
+            // Final center settle: 57-60
+            p.setValueAtTime(0.0, now + 57);
+            fadeIn(g, now + 57, now + 58, 0.08);
+            fadeIn(n, now + 57, now + 58, 0.05);
+            fadeOut(g, now + 59, now + 60, 0.08);
+            fadeOut(n, now + 59, now + 60, 0.05);
+
+            // Hard stop
             stopTimer = setTimeout(() => stopReset(), (total + 0.3) * 1000);
         }
 
@@ -320,10 +315,7 @@
             }
 
             try {
-                if (ctx) {
-                    // Close context cleanly
-                    ctx.close();
-                }
+                if (ctx) ctx.close();
             } catch (e) { /* ignore */ }
 
             ctx = null;
