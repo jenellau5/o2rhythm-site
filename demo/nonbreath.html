@@ -26,26 +26,21 @@
 
         .kicker {
             font-size: 12px;
-            letter-spacing: .12em;
-            opacity: .8;
+            letter-spacing: 0.12em;
+            opacity: 0.8;
             text-transform: uppercase;
         }
 
         .sub {
             margin: 0;
-            opacity: .85;
+            opacity: 0.85;
         }
 
         .hint {
             margin: 8px 0 0 0;
-            opacity: .78;
+            opacity: 0.78;
             font-size: 13px;
             line-height: 1.35;
-        }
-
-        .hint strong {
-            opacity: .95;
-            font-weight: 700;
         }
 
         .controlRow {
@@ -59,19 +54,26 @@
 
         .controlRow label {
             font-size: 12px;
-            letter-spacing: .08em;
-            opacity: .8;
+            letter-spacing: 0.08em;
+            opacity: 0.8;
             text-transform: uppercase;
         }
 
         .select {
             padding: 10px 12px;
             border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, .18);
-            background: rgba(255, 255, 255, .08);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: rgba(255, 255, 255, 0.08);
             color: inherit;
             min-width: 110px;
             text-align: center;
+        }
+
+        .progressRing {
+            width: min(360px, 86vw);
+            height: auto;
+            display: block;
+            margin: 0 auto;
         }
 
         .promptBox {
@@ -83,13 +85,13 @@
 
         .promptTitle {
             font-size: 18px;
-            letter-spacing: .02em;
+            letter-spacing: 0.02em;
             margin: 0;
         }
 
         .promptText {
             margin: 0;
-            opacity: .92;
+            opacity: 0.92;
             font-size: 16px;
             line-height: 1.35;
             min-height: 44px;
@@ -97,7 +99,7 @@
 
         .micro {
             margin: 0;
-            opacity: .75;
+            opacity: 0.75;
             font-size: 12px;
             line-height: 1.35;
         }
@@ -107,6 +109,7 @@
             gap: 10px;
             flex-wrap: wrap;
             margin-top: 14px;
+            justify-content: center;
         }
 
         .pillrow a {
@@ -116,7 +119,8 @@
         .miniCta {
             display: grid;
             gap: 10px;
-            margin-top: 14px;
+            margin-top: 18px;
+            text-align: center;
         }
 
         .ctaBtn {
@@ -127,74 +131,103 @@
             padding: 12px 14px;
             border-radius: 12px;
             text-decoration: none;
-            border: 1px solid rgba(255, 255, 255, .18);
-            background: rgba(255, 255, 255, .08);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: rgba(255, 255, 255, 0.08);
             color: inherit;
             font-weight: 600;
-            letter-spacing: .02em;
+            letter-spacing: 0.02em;
         }
 
         .ctaBtn:hover {
-            background: rgba(255, 255, 255, .12);
-        }
-
-        .fineprint {
-            font-size: 12px;
-            opacity: .7;
-            line-height: 1.35;
-            margin-top: 12px;
+            background: rgba(255, 255, 255, 0.12);
         }
 
         .start {
             min-width: 140px;
         }
 
-        /* Ring sizing */
-        .progressRing {
-            width: min(360px, 86vw);
-            height: auto;
-            display: block;
-            margin: 0 auto;
-        }
-
-        /* NO-SOUND checklist (hidden until DONE) */
-        .nosoundBox {
+        /* --- NO AUDIO CHECKLIST (always bottom, clean, compact) --- */
+        .noAudio {
             margin-top: 18px;
-            border: 1px solid rgba(255, 255, 255, .18);
-            background: rgba(255, 255, 255, .06);
-            border-radius: 14px;
-            padding: 12px;
-            text-align: left;
-            display: none;
+            border-top: 1px solid rgba(255, 255, 255, 0.10);
+            padding-top: 16px;
         }
 
-        .nosoundBox.show {
-            display: block;
+        .noAudioHead {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 10px;
         }
 
-        .nosoundTitle {
-            margin: 0 0 8px 0;
-            font-size: 13px;
-            letter-spacing: .08em;
-            text-transform: uppercase;
-            opacity: .85;
-        }
-
-        .listenList {
+        .noAudioTitle {
             margin: 0;
-            padding-left: 16px;
-            opacity: .9;
-            font-size: 14px;
-            line-height: 1.4;
-            display: grid;
-            gap: 6px;
+            font-size: 12px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            opacity: 0.85;
         }
 
-        .listenLine {
-            margin: 10px 0 0 0;
-            opacity: .85;
-            font-size: 13px;
-            line-height: 1.35;
+        .noAudioReset {
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: rgba(255, 255, 255, 0.06);
+            color: inherit;
+            border-radius: 10px;
+            padding: 8px 10px;
+            font-weight: 600;
+            font-size: 12px;
+            letter-spacing: 0.02em;
+            cursor: pointer;
+        }
+
+        .noAudioReset:hover {
+            background: rgba(255, 255, 255, 0.10);
+        }
+
+        .checkGrid {
+            display: grid;
+            gap: 10px;
+        }
+
+        @media (min-width: 520px) {
+            .checkGrid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px 12px;
+            }
+        }
+
+        .checkItem {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .checkItem:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .checkItem input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #ffffff;
+            cursor: pointer;
+        }
+
+        .checkItem label {
+            cursor: pointer;
+            user-select: none;
+            opacity: 0.92;
+            font-size: 14px;
+            line-height: 1.3;
+        }
+
+        .checkItem.done {
+            opacity: 0.75;
         }
     </style>
 
@@ -217,8 +250,7 @@
                 <div class="kicker">DEMO • LISTENING REGULATION</div>
                 <h1 style="margin:0;">LISTENING RESET</h1>
                 <p class="sub">Choose 1:00 or 2:00 • eyes open • stay operational</p>
-                <p class="hint"><strong>Headphones recommended</strong> for full effect. If you can’t use sound, run it
-                    visually after completion.</p>
+                <p class="hint"><strong>Headphones recommended</strong> for full effect.</p>
             </div>
 
             <div class="controlRow" aria-label="Demo controls">
@@ -251,36 +283,59 @@
                 </div>
             </div>
 
-            <!-- NO-SOUND CHECKLIST (shown only after DONE) -->
-            <div id="nosoundBox" class="nosoundBox" aria-live="polite">
-                <p class="nosoundTitle">NO-SOUND FALLBACK (VISUAL)</p>
-                <ul class="listenList">
-                    <li>Nearest sound</li>
-                    <li>Farthest sound</li>
-                    <li>Mechanical hum (HVAC/computer/radio)</li>
-                    <li>Human sound (footsteps/voices) — without tracking content</li>
-                    <li>One repeating pattern (beep, click, fan cycle)</li>
-                    <li>Silence gap (even half a second)</li>
-                </ul>
-                <p class="listenLine" id="listenLine">If audio isn’t available, run this list once visually.</p>
-            </div>
-
+            <!-- Buttons stay ABOVE checklist -->
             <div class="pillrow">
                 <a class="pill" href="/demo/" data-track="nav_click" data-cta="demo_home">All demos</a>
                 <a class="pill" href="/demo/desk.html" data-track="nav_click" data-cta="back_to_desk">Back: Desk</a>
             </div>
 
-            <div class="miniCta" style="margin-top:36px; text-align:center;">
+            <div class="miniCta">
                 <a class="ctaBtn" href="../index.html#pilot-intake" data-track="cta_click"
                     data-cta="bring_to_agency_from_demo">
                     Bring O₂ Rhythm to My Agency
                 </a>
             </div>
 
-            <div class="fineprint">
-                This is a demo preview. Deployments can include listening protocols + no-sound fallbacks for adoption
-                and compliance.
+            <!-- NO AUDIO OPTION at the bottom, always visible -->
+            <div class="noAudio" id="no-audio">
+                <div class="noAudioHead">
+                    <p class="noAudioTitle">NO AUDIO</p>
+                    <button id="resetChecks" class="noAudioReset" type="button">RESET</button>
+                </div>
+
+                <div class="checkGrid" id="checkGrid">
+                    <div class="checkItem">
+                        <input id="c1" type="checkbox" />
+                        <label for="c1">Nearest sound</label>
+                    </div>
+
+                    <div class="checkItem">
+                        <input id="c2" type="checkbox" />
+                        <label for="c2">Farthest sound</label>
+                    </div>
+
+                    <div class="checkItem">
+                        <input id="c3" type="checkbox" />
+                        <label for="c3">Mechanical hum (HVAC/computer/radio)</label>
+                    </div>
+
+                    <div class="checkItem">
+                        <input id="c4" type="checkbox" />
+                        <label for="c4">Human sound (footsteps/voices) — no content</label>
+                    </div>
+
+                    <div class="checkItem">
+                        <input id="c5" type="checkbox" />
+                        <label for="c5">One repeating pattern (beep, click, fan cycle)</label>
+                    </div>
+
+                    <div class="checkItem">
+                        <input id="c6" type="checkbox" />
+                        <label for="c6">Silence gap (even half a second)</label>
+                    </div>
+                </div>
             </div>
+
         </section>
     </main>
 
@@ -299,8 +354,6 @@
             const microEl = document.getElementById("promptMicro");
 
             const progressEl = document.getElementById("progress");
-            const nosoundBox = document.getElementById("nosoundBox");
-            const listenLine = document.getElementById("listenLine");
 
             // Audio file
             const AUDIO_SRC = "/assets/audio/demo-8d.mp3";
@@ -320,27 +373,16 @@
             let running = false;
             let remaining = total;
             let tickInterval = null;
-
-            // Audio state (true=on, false=off)
             let audioOn = true;
 
             // Prompts
             const steps = [
-                { t: 0, title: "SETTLE", text: "Eyes open. Drop shoulders.", micro: "Stay operational. No breathwork required." },
-                { t: 10, title: "NEAR", text: "Pick the nearest sound.", micro: "Label it once. Then stop analyzing." },
-                { t: 30, title: "FAR", text: "Pick the farthest sound.", micro: "Distance creates space fast." },
+                { t: 0, title: "SETTLE", text: "Eyes open. Drop shoulders.", micro: "Stay operational." },
+                { t: 10, title: "NEAR", text: "Pick the nearest sound.", micro: "Label it once." },
+                { t: 30, title: "FAR", text: "Pick the farthest sound.", micro: "Distance creates space." },
                 { t: 50, title: "STEADY", text: "Find a steady mechanical hum.", micro: "Fan. HVAC. Computer." },
                 { t: 75, title: "PATTERN", text: "Find one repeating pattern.", micro: "Beep. Click. Footsteps." },
-                { t: 105, title: "RETURN", text: "Return to the nearest sound.", micro: "Posture reset. Back to task." }
-            ];
-
-            const postRunLines = [
-                "Nearest sound → label it once.",
-                "Farthest sound → don’t chase it.",
-                "Mechanical hum → find the steady layer.",
-                "Repeating pattern → count 5 repeats.",
-                "Silence gap → notice even half a second.",
-                "Return → posture reset and move."
+                { t: 105, title: "RETURN", text: "Return to the nearest sound.", micro: "Posture reset." }
             ];
 
             function safeEvent(name, params) {
@@ -356,7 +398,6 @@
             function setStepByElapsed(elapsed) {
                 let current = steps[0];
                 for (const st of steps) if (elapsed >= st.t) current = st;
-
                 titleEl.textContent = current.title;
                 textEl.textContent = current.text;
                 microEl.textContent = current.micro || "";
@@ -364,7 +405,7 @@
 
             function updateUI() {
                 timerEl.textContent = fmt(remaining);
-                const progress = (total - remaining) / total; // 0..1
+                const progress = (total - remaining) / total;
                 const offset = circumference * (1 - progress);
                 progressEl.style.strokeDashoffset = `${offset}`;
             }
@@ -389,7 +430,6 @@
                 running = false;
                 clearInterval(tickInterval);
                 tickInterval = null;
-
                 stopAudioHard();
 
                 startBtn.disabled = false;
@@ -398,10 +438,6 @@
                 remaining = total;
                 setStepByElapsed(0);
                 updateUI();
-
-                // Hide checklist until DONE
-                if (nosoundBox) nosoundBox.classList.remove("show");
-                if (listenLine) listenLine.textContent = "If audio isn’t available, run this list once visually.";
             }
 
             function complete() {
@@ -421,12 +457,6 @@
                 textEl.textContent = "Return to task. You’re back online.";
                 microEl.textContent = "";
 
-                // Show checklist AFTER completion
-                if (nosoundBox) nosoundBox.classList.add("show");
-
-                // Put a simple post-run line (first line) — optional
-                if (listenLine) listenLine.textContent = postRunLines[0];
-
                 safeEvent("demo_complete", { demo: DEMO_ID, page: PAGE_ID, seconds: total, audio: audioOn ? "on" : "off" });
             }
 
@@ -438,7 +468,6 @@
                     remaining = total;
                     setStepByElapsed(0);
                     updateUI();
-                    if (nosoundBox) nosoundBox.classList.remove("show");
                 }
 
                 running = true;
@@ -446,12 +475,9 @@
 
                 safeEvent("demo_start", { demo: DEMO_ID, page: PAGE_ID, seconds: total, audio: audioOn ? "on" : "off" });
 
-                // Start audio if enabled
                 if (audioOn) {
-                    try {
-                        await audio.play();
-                    } catch (e) {
-                        // If audio fails, force audio off
+                    try { await audio.play(); }
+                    catch (e) {
                         audioOn = false;
                         audioToggle.textContent = "AUDIO: OFF";
                         safeEvent("demo_audio_failed", { demo: DEMO_ID, page: PAGE_ID });
@@ -465,7 +491,6 @@
                     const elapsed = Math.floor((Date.now() - startedAt) / 1000);
                     const newRemaining = Math.max(0, total - elapsed);
 
-                    // Step change detection
                     let stepIndex = 0;
                     for (let i = 0; i < steps.length; i++) {
                         if (elapsed >= steps[i].t) stepIndex = i;
@@ -474,13 +499,6 @@
                     if (stepIndex !== lastStepIndex) {
                         lastStepIndex = stepIndex;
                         setStepByElapsed(elapsed);
-
-                        // If they want audio off, rotate the checklist helper line anyway (still hidden until DONE)
-                        if (!audioOn && listenLine) {
-                            const idx = Math.min(postRunLines.length - 1, stepIndex);
-                            listenLine.textContent = postRunLines[idx];
-                        }
-
                         safeEvent("demo_prompt_change", { demo: DEMO_ID, page: PAGE_ID, step: steps[stepIndex].title });
                     }
 
@@ -499,9 +517,7 @@
                 if (running) return;
                 audioOn = !audioOn;
                 audioToggle.textContent = audioOn ? "AUDIO: ON" : "AUDIO: OFF";
-
                 if (!audioOn) stopAudioHard();
-
                 safeEvent("demo_audio_toggle", { demo: DEMO_ID, page: PAGE_ID, state: audioOn ? "on" : "off" });
             });
 
@@ -525,10 +541,57 @@
                 safeEvent(a.getAttribute("data-track"), { page: PAGE_ID, cta: a.getAttribute("data-cta") || "" });
             });
 
+            // --- Checklist interactivity (localStorage) ---
+            const STORAGE_KEY = "o2_listening_checks_v1";
+            const checkGrid = document.getElementById("checkGrid");
+            const resetChecks = document.getElementById("resetChecks");
+
+            function loadChecks() {
+                let saved = {};
+                try { saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}"); } catch (e) { }
+                if (!checkGrid) return;
+                checkGrid.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                    cb.checked = !!saved[cb.id];
+                    cb.closest(".checkItem")?.classList.toggle("done", cb.checked);
+                });
+            }
+
+            function saveChecks() {
+                if (!checkGrid) return;
+                const data = {};
+                checkGrid.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                    data[cb.id] = cb.checked;
+                });
+                try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch (e) { }
+            }
+
+            if (checkGrid) {
+                checkGrid.addEventListener("change", (e) => {
+                    const cb = e.target.closest('input[type="checkbox"]');
+                    if (!cb) return;
+                    cb.closest(".checkItem")?.classList.toggle("done", cb.checked);
+                    saveChecks();
+                    safeEvent("demo_noaudio_check", { demo: DEMO_ID, page: PAGE_ID, item: cb.id, state: cb.checked ? "checked" : "unchecked" });
+                });
+            }
+
+            if (resetChecks) {
+                resetChecks.addEventListener("click", () => {
+                    if (!checkGrid) return;
+                    checkGrid.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                        cb.checked = false;
+                        cb.closest(".checkItem")?.classList.remove("done");
+                    });
+                    saveChecks();
+                    safeEvent("demo_noaudio_reset", { demo: DEMO_ID, page: PAGE_ID });
+                });
+            }
+
             // Init
             safeEvent("demo_view", { demo: DEMO_ID, page: PAGE_ID });
             setTotalFromSelector();
             reset();
+            loadChecks();
         })();
     </script>
 </body>
