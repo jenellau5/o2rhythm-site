@@ -47,6 +47,12 @@
             font-size: 14px;
         }
 
+        .row {
+            display: grid;
+            gap: 10px;
+            grid-template-columns: 1fr 1fr;
+        }
+
         button {
             width: 100%;
             padding: 14px;
@@ -62,12 +68,6 @@
             background: #222233;
         }
 
-        .row {
-            display: grid;
-            gap: 10px;
-            grid-template-columns: 1fr 1fr;
-        }
-
         label {
             display: block;
             font-size: 12px;
@@ -79,12 +79,6 @@
             width: 100%;
         }
 
-        .hint {
-            font-size: 12px;
-            color: #a6a6b3;
-            margin-top: 10px;
-        }
-
         .status {
             font-size: 12px;
             color: #a6a6b3;
@@ -93,6 +87,12 @@
             justify-content: space-between;
             gap: 10px;
             flex-wrap: wrap;
+        }
+
+        .hint {
+            font-size: 12px;
+            color: #a6a6b3;
+            margin-top: 10px;
         }
 
         .endMsg {
@@ -140,7 +140,7 @@
         <section class="card">
             <div class="brand">O₂ RHYTHM</div>
             <h1>Directional Listening Regulation (60s)</h1>
-            <p>A 60-second spatial awareness reset. Follow the sound as it shifts direction.</p>
+            <p>Follow the sound. The direction is the exercise.</p>
             <p class="hint" style="margin-top:10px;">
                 <strong>Headphones recommended.</strong><br>
                 Directional sound works best when audio is isolated to each ear.
@@ -158,14 +158,13 @@
 
             <div class="status">
                 <div id="status">Status: idle</div>
-                <div id="timer">00:60</div>
+                <div id="timer">01:00</div>
             </div>
 
-            <div class="hint">Flow: Left → Right (gradual) → Center + fade → Right → Left (gradual) → Center + fade
-            </div>
+            <div class="hint">Flow: Left → Right (gradual) → Center low → Right → Left (gradual) → End</div>
 
             <div id="endMsg" class="endMsg" hidden>
-                <strong>Listening regulation ended.</strong>
+                <strong>This listening regulation has ended.</strong>
                 If you need more time, run it again. Otherwise, resume duties.
             </div>
 
@@ -179,76 +178,83 @@
     </main>
 
     <script>
-        // O₂ Rhythm — Directional Listening Regulation (60s)
-        // Desired behavior:
-        // 1) Gradual sweep Left -> Right (no silence)
-        // 2) Return to center + fade down (not dead-silent, just quiet)
-        // 3) Fade back up
-        // 4) Gradual sweep Right -> Left
-        // 5) Center + fade out
-        // End screen message appears.
+        // Key change: TRUE stereo.
+        // We generate TWO different sources:
+        // - Left tone (lower frequency)
+        // - Right tone (higher frequency)
+        // Each is hard-panned to its side.
+        // Then we crossfade gains to create obvious movement.
+        //
+        // Optional "ticks" reinforce direction (brief, ear-specific).
 
         let ctx = null;
         let master = null;
         let running = false;
-
         let stopTimer = null;
         let tickTimer = null;
-        let startWallMs = null;
+        let uiTimer = null;
+        let startWall = null;
 
-        const statusEl = document.getElementById("status");
-        const timerEl = document.getElementById("timer");
-        const endMsgEl = document.getElementById("endMsg");
         const startBtn = document.getElementById("startBtn");
         const stopBtn = document.getElementById("stopBtn");
         const volSlider = document.getElementById("vol");
+        const statusEl = document.getElementById("status");
+        const timerEl = document.getElementById("timer");
+        const endMsgEl = document.getElementById("endMsg");
 
-        function setStatus(msg) {
-            statusEl.textContent = `Status: ${msg}`;
-        }
+        function setStatus(msg) { statusEl.textContent = `Status: ${msg}`; }
+        function showEnd() { endMsgEl.hidden = false; }
+        function hideEnd() { endMsgEl.hidden = true; }
 
-        function setTimerLeft(secondsLeft) {
+        function fmtTime(secondsLeft) {
             const s = Math.max(0, Math.ceil(secondsLeft));
-            timerEl.textContent = `00:${String(s).padStart(2, "0")}`;
+            const mm = String(Math.floor(s / 60)).padStart(2, "0");
+            const ss = String(s % 60).padStart(2, "0");
+            return `${mm}:${ss}`;
         }
 
-        function safeVal(v) {
-            return Math.max(v, 0.0001);
-        }
-
-        function makeNoiseBuffer(audioCtx, seconds = 2) {
-            const rate = audioCtx.sampleRate;
-            const frameCount = Math.floor(rate * seconds);
-            const buffer = audioCtx.createBuffer(1, frameCount, rate);
-            const data = buffer.getChannelData(0);
-            for (let i = 0; i < frameCount; i++) {
-                data[i] = (Math.random() * 2 - 1) * 0.18; // softer than before
-            }
-            return buffer;
-        }
+        function safe(v) { return Math.max(v, 0.0001); }
 
         function rampExpo(param, t0, t1, from, to) {
-            param.setValueAtTime(safeVal(from), t0);
-            param.exponentialRampToValueAtTime(safeVal(to), t1);
+            param.setValueAtTime(safe(from), t0);
+            param.exponentialRampToValueAtTime(safe(to), t1);
         }
-
-        function rampLinear(param, t0, t1, from, to) {
+        function rampLin(param, t0, t1, from, to) {
             param.setValueAtTime(from, t0);
             param.linearRampToValueAtTime(to, t1);
         }
 
-        function showEndMessage() {
-            endMsgEl.hidden = false;
-        }
+        function scheduleTick(atTime, side) {
+            // A short ear-specific click to make direction unmistakable.
+            // side: "L" or "R"
+            if (!ctx || !master) return;
 
-        function hideEndMessage() {
-            endMsgEl.hidden = true;
+            const osc = ctx.createOscillator();
+            osc.type = "square";
+            osc.frequency.value = 900; // click-ish
+
+            const g = ctx.createGain();
+            g.gain.value = 0.0001;
+
+            const pan = ctx.createStereoPanner();
+            pan.pan.value = (side === "L") ? -1 : 1;
+
+            osc.connect(g);
+            g.connect(pan);
+            pan.connect(master);
+
+            osc.start(atTime);
+
+            // Fast click envelope (~40ms)
+            rampExpo(g.gain, atTime, atTime + 0.01, 0.0001, 0.05);
+            rampExpo(g.gain, atTime + 0.01, atTime + 0.04, 0.05, 0.0001);
+
+            osc.stop(atTime + 0.06);
         }
 
         async function startReset() {
             if (running) return;
-
-            hideEndMessage();
+            hideEnd();
 
             ctx = new (window.AudioContext || window.webkitAudioContext)();
             if (ctx.state === "suspended") await ctx.resume();
@@ -259,107 +265,138 @@
 
             const total = 60;
             setStatus("running (60s)");
-            setTimerLeft(total);
+            timerEl.textContent = "01:00";
 
-            startWallMs = Date.now();
-            tickTimer = setInterval(() => {
-                const elapsed = (Date.now() - startWallMs) / 1000;
-                setTimerLeft(total - elapsed);
-            }, 250);
+            startWall = Date.now();
+            uiTimer = setInterval(() => {
+                const elapsed = (Date.now() - startWall) / 1000;
+                timerEl.textContent = fmtTime(total - elapsed);
+            }, 200);
 
             const now = ctx.currentTime;
 
-            // Master output
+            // Master
             master = ctx.createGain();
             master.gain.value = Number(volSlider.value);
             master.connect(ctx.destination);
 
-            // Tone
-            const toneOsc = ctx.createOscillator();
-            toneOsc.type = "sine";
-            toneOsc.frequency.value = 170; // slightly higher, still calm
+            // Two different tones so L/R is obvious
+            const leftOsc = ctx.createOscillator();
+            leftOsc.type = "sine";
+            leftOsc.frequency.value = 165; // left = lower
 
-            const toneGain = ctx.createGain();
-            toneGain.gain.value = 0.0001;
+            const rightOsc = ctx.createOscillator();
+            rightOsc.type = "triangle";
+            rightOsc.frequency.value = 245; // right = higher + different timbre
 
-            // Noise bed (filtered)
-            const noiseSrc = ctx.createBufferSource();
-            noiseSrc.buffer = makeNoiseBuffer(ctx, 2);
-            noiseSrc.loop = true;
+            // Gains for crossfading
+            const leftGain = ctx.createGain();
+            const rightGain = ctx.createGain();
+            leftGain.gain.value = 0.0001;
+            rightGain.gain.value = 0.0001;
 
-            const noiseLP = ctx.createBiquadFilter();
-            noiseLP.type = "lowpass";
-            noiseLP.frequency.value = 900;
-            noiseLP.Q.value = 0.7;
+            // Hard pan each source
+            const leftPan = ctx.createStereoPanner();
+            leftPan.pan.value = -1;
 
-            const noiseGain = ctx.createGain();
-            noiseGain.gain.value = 0.0001;
+            const rightPan = ctx.createStereoPanner();
+            rightPan.pan.value = 1;
 
-            // Stereo panner
-            const panner = ctx.createStereoPanner();
+            // Gentle common bed to avoid "empty silence" (centered, low)
+            const bedOsc = ctx.createOscillator();
+            bedOsc.type = "sine";
+            bedOsc.frequency.value = 90;
+
+            const bedGain = ctx.createGain();
+            bedGain.gain.value = 0.0001;
+
+            const bedPan = ctx.createStereoPanner();
+            bedPan.pan.value = 0;
 
             // Routing
-            toneOsc.connect(toneGain);
-            toneGain.connect(panner);
+            leftOsc.connect(leftGain);
+            leftGain.connect(leftPan);
+            leftPan.connect(master);
 
-            noiseSrc.connect(noiseLP);
-            noiseLP.connect(noiseGain);
-            noiseGain.connect(panner);
+            rightOsc.connect(rightGain);
+            rightGain.connect(rightPan);
+            rightPan.connect(master);
 
-            panner.connect(master);
+            bedOsc.connect(bedGain);
+            bedGain.connect(bedPan);
+            bedPan.connect(master);
 
-            // Start sources
-            toneOsc.start(now);
-            noiseSrc.start(now);
+            // Start
+            leftOsc.start(now);
+            rightOsc.start(now);
+            bedOsc.start(now);
 
-            // Levels (tuned to avoid harshness)
-            const TONE_ON = 0.085;
-            const NOISE_ON = 0.045;
-            const TONE_LOW = 0.020;   // "quiet" phase, not silence
-            const NOISE_LOW = 0.010;
+            // Levels (tune here if needed)
+            const ON = 0.10;      // main ear tone level
+            const LOW = 0.02;     // low phase
+            const BED_ON = 0.025; // constant bed while active
+            const BED_LOW = 0.01;
 
-            // ===== Schedule timeline =====
-            // 0–2: fade in at LEFT
-            // 2–22: gradual pan LEFT -> RIGHT (20s)
-            // 22–28: center + fade down (6s)
-            // 28–30: fade back up on RIGHT (2s)
-            // 30–50: gradual pan RIGHT -> LEFT (20s)
-            // 50–60: center + fade out (10s)
+            // ===== Timeline =====
+            // 0–3: Fade in LEFT only (bed on)
+            // 3–23: Crossfade LEFT -> RIGHT (gradual, obvious)
+            // 23–28: Center low (both low, bed low)
+            // 28–31: Fade in RIGHT only
+            // 31–51: Crossfade RIGHT -> LEFT (gradual)
+            // 51–60: Center + fade out
 
-            // Start hard-left during fade-in
-            panner.pan.setValueAtTime(-0.95, now + 0);
+            // 0–3: left in, right off, bed on
+            rampExpo(leftGain.gain, now + 0, now + 3, 0.0001, ON);
+            rampExpo(rightGain.gain, now + 0, now + 3, 0.0001, 0.0001);
+            rampExpo(bedGain.gain, now + 0, now + 3, 0.0001, BED_ON);
 
-            // Fade in (0–2)
-            rampExpo(toneGain.gain, now + 0, now + 2, 0.0001, TONE_ON);
-            rampExpo(noiseGain.gain, now + 0, now + 2, 0.0001, NOISE_ON);
+            // 3–23: crossfade left -> right
+            rampLin(leftGain.gain, now + 3, now + 23, ON, 0.0001);
+            rampLin(rightGain.gain, now + 3, now + 23, 0.0001, ON);
 
-            // Pan sweep LEFT -> RIGHT (2–22)
-            rampLinear(panner.pan, now + 2, now + 22, -0.95, 0.95);
+            // ticks during first sweep (helps a lot)
+            // every ~4 seconds, tick on whichever side is dominant at that moment
+            for (let t = 5; t <= 21; t += 4) {
+                // early = left, late = right
+                const side = (t < 14) ? "L" : "R";
+                scheduleTick(now + t, side);
+            }
 
-            // Return to center + fade down (22–28)
-            rampLinear(panner.pan, now + 22, now + 24, 0.95, 0.0);
-            rampExpo(toneGain.gain, now + 22, now + 28, TONE_ON, TONE_LOW);
-            rampExpo(noiseGain.gain, now + 22, now + 28, NOISE_ON, NOISE_LOW);
+            // 23–28: center low (both low), bed low (not dead silent)
+            rampExpo(leftGain.gain, now + 23, now + 28, safe(leftGain.gain.value), LOW);
+            rampExpo(rightGain.gain, now + 23, now + 28, safe(rightGain.gain.value), LOW);
+            rampExpo(bedGain.gain, now + 23, now + 28, BED_ON, BED_LOW);
 
-            // Fade back up on RIGHT (28–30) then start at right
-            panner.pan.setValueAtTime(0.95, now + 28);
-            rampExpo(toneGain.gain, now + 28, now + 30, TONE_LOW, TONE_ON);
-            rampExpo(noiseGain.gain, now + 28, now + 30, NOISE_LOW, NOISE_ON);
+            // 28–31: right back up (right-only feel), left stays low
+            rampExpo(rightGain.gain, now + 28, now + 31, LOW, ON);
+            rampExpo(leftGain.gain, now + 28, now + 31, LOW, 0.0001);
+            rampExpo(bedGain.gain, now + 28, now + 31, BED_LOW, BED_ON);
 
-            // Pan sweep RIGHT -> LEFT (30–50)
-            rampLinear(panner.pan, now + 30, now + 50, 0.95, -0.95);
+            // 31–51: crossfade right -> left
+            rampLin(rightGain.gain, now + 31, now + 51, ON, 0.0001);
+            rampLin(leftGain.gain, now + 31, now + 51, 0.0001, ON);
 
-            // Center + fade out (50–60)
-            rampLinear(panner.pan, now + 50, now + 52, -0.95, 0.0);
-            rampExpo(toneGain.gain, now + 50, now + 60, TONE_ON, 0.0001);
-            rampExpo(noiseGain.gain, now + 50, now + 60, NOISE_ON, 0.0001);
+            // ticks during second sweep
+            for (let t = 33; t <= 49; t += 4) {
+                const side = (t < 42) ? "R" : "L";
+                scheduleTick(now + t, side);
+            }
 
-            // Finish + cleanup
+            // 51–60: center + fade out
+            // bring both briefly to low center, then fade everything out.
+            rampExpo(leftGain.gain, now + 51, now + 54, safe(leftGain.gain.value), LOW);
+            rampExpo(rightGain.gain, now + 51, now + 54, safe(rightGain.gain.value), LOW);
+            rampExpo(bedGain.gain, now + 51, now + 54, BED_ON, BED_LOW);
+
+            rampExpo(leftGain.gain, now + 56, now + 60, LOW, 0.0001);
+            rampExpo(rightGain.gain, now + 56, now + 60, LOW, 0.0001);
+            rampExpo(bedGain.gain, now + 56, now + 60, BED_LOW, 0.0001);
+
+            // End
             stopTimer = setTimeout(() => finishReset(), (total + 0.2) * 1000);
         }
 
         function finishReset() {
-            // Normal end (not user stop)
             if (!running) return;
 
             running = false;
@@ -367,25 +404,10 @@
             stopBtn.disabled = true;
 
             setStatus("complete");
-            setTimerLeft(0);
-            showEndMessage();
+            timerEl.textContent = "00:00";
+            showEnd();
 
-            if (tickTimer) {
-                clearInterval(tickTimer);
-                tickTimer = null;
-            }
-
-            if (stopTimer) {
-                clearTimeout(stopTimer);
-                stopTimer = null;
-            }
-
-            try {
-                if (ctx) ctx.close();
-            } catch (e) { /* ignore */ }
-
-            ctx = null;
-            master = null;
+            cleanupAudio();
         }
 
         function stopReset() {
@@ -396,28 +418,23 @@
             stopBtn.disabled = true;
 
             setStatus("stopped");
-            // Do NOT show completion message on manual stop
-            hideEndMessage();
+            // Only show end message on completion, not manual stop.
+            hideEnd();
 
-            if (tickTimer) {
-                clearInterval(tickTimer);
-                tickTimer = null;
-            }
+            cleanupAudio();
+        }
 
-            if (stopTimer) {
-                clearTimeout(stopTimer);
-                stopTimer = null;
-            }
+        function cleanupAudio() {
+            if (uiTimer) { clearInterval(uiTimer); uiTimer = null; }
+            if (stopTimer) { clearTimeout(stopTimer); stopTimer = null; }
 
-            try {
-                if (ctx) ctx.close();
-            } catch (e) { /* ignore */ }
+            try { if (ctx) ctx.close(); } catch (e) { }
 
             ctx = null;
             master = null;
+            startWall = null;
         }
 
-        // UI
         startBtn.addEventListener("click", startReset);
         stopBtn.addEventListener("click", stopReset);
 
