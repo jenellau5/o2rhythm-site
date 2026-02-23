@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Demo — No-Breath Name 5 • O₂ Rhythm</title>
-    <meta name="description" content="45-second no-breath cognitive reset demo for high-stress operations." />
+    <title>Demo — Listening Reset • O₂ Rhythm</title>
+    <meta name="description" content="1–2 minute listening regulation demo for high-stress operations." />
     <link rel="stylesheet" href="/assets/style.css" />
 
     <style>
@@ -21,24 +21,28 @@
 
         .kicker {
             font-size: 12px;
-            letter-spacing: 0.12em;
-            opacity: 0.8;
+            letter-spacing: .12em;
+            opacity: .8;
             text-transform: uppercase;
         }
 
         .sub {
             margin: 0;
-            opacity: 0.85;
+            opacity: .85;
         }
 
         .hint {
             margin: 8px 0 0 0;
-            opacity: 0.75;
+            opacity: .78;
             font-size: 13px;
             line-height: 1.35;
         }
 
-        /* Use your existing ring visuals, but we’ll drive it ourselves */
+        .hint strong {
+            opacity: .95;
+            font-weight: 700;
+        }
+
         .promptBox {
             display: grid;
             gap: 10px;
@@ -48,13 +52,13 @@
 
         .promptTitle {
             font-size: 18px;
-            letter-spacing: 0.02em;
+            letter-spacing: .02em;
             margin: 0;
         }
 
         .promptText {
             margin: 0;
-            opacity: 0.92;
+            opacity: .92;
             font-size: 16px;
             line-height: 1.35;
             min-height: 44px;
@@ -62,7 +66,7 @@
 
         .micro {
             margin: 0;
-            opacity: 0.75;
+            opacity: .75;
             font-size: 12px;
             line-height: 1.35;
         }
@@ -92,27 +96,91 @@
             padding: 12px 14px;
             border-radius: 12px;
             text-decoration: none;
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, .18);
+            background: rgba(255, 255, 255, .08);
             color: inherit;
             font-weight: 600;
-            letter-spacing: 0.02em;
+            letter-spacing: .02em;
         }
 
         .ctaBtn:hover {
-            background: rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, .12);
         }
 
         .fineprint {
             font-size: 12px;
-            opacity: 0.7;
+            opacity: .7;
             line-height: 1.35;
             margin-top: 10px;
         }
 
-        /* Make START feel obvious */
         .start {
             min-width: 140px;
+        }
+
+        /* Small control row for duration */
+        .controlRow {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            margin: 10px 0 0 0;
+        }
+
+        .controlRow label {
+            font-size: 12px;
+            letter-spacing: .08em;
+            opacity: .8;
+            text-transform: uppercase;
+        }
+
+        .select {
+            padding: 10px 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, .18);
+            background: rgba(255, 255, 255, .08);
+            color: inherit;
+        }
+
+        /* No-sound box */
+        .nosoundBox {
+            margin-top: 12px;
+            border: 1px solid rgba(255, 255, 255, .18);
+            background: rgba(255, 255, 255, .06);
+            border-radius: 14px;
+            padding: 12px;
+            text-align: left;
+            display: none;
+        }
+
+        .nosoundBox.show {
+            display: block;
+        }
+
+        .nosoundTitle {
+            margin: 0 0 8px 0;
+            font-size: 13px;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            opacity: .85;
+        }
+
+        .listenList {
+            margin: 0;
+            padding-left: 16px;
+            opacity: .9;
+            font-size: 14px;
+            line-height: 1.4;
+            display: grid;
+            gap: 6px;
+        }
+
+        .listenLine {
+            margin: 10px 0 0 0;
+            opacity: .85;
+            font-size: 13px;
+            line-height: 1.35;
         }
     </style>
 
@@ -128,14 +196,25 @@
 
 <body>
     <main class="wrap">
-        <section class="card protocol" data-demo="nonbreath_name5" data-total="45">
+        <section class="card protocol" data-demo="listening_reset" data-total="120">
             <div class="brand">O₂ RHYTHM</div>
 
             <div class="demoTop">
-                <div class="kicker">DEMO • NO-BREATH</div>
-                <h1 style="margin:0;">NAME 5</h1>
-                <p class="sub">~45 sec • grounding without breathwork</p>
-                <p class="hint">For people who won’t do breathing protocols. Eyes open. Stay operational.</p>
+                <div class="kicker">DEMO • LISTENING REGULATION</div>
+                <h1 style="margin:0;">LISTENING RESET</h1>
+                <p class="sub">Choose 1:00 or 2:00 • eyes open • stay operational</p>
+                <p class="hint"><strong>Headphones recommended</strong> for full effect. If you can’t use sound, switch
+                    to “NO-SOUND” and run it visually.</p>
+            </div>
+
+            <div class="controlRow" aria-label="Demo controls">
+                <label for="durationSel">Duration</label>
+                <select id="durationSel" class="select">
+                    <option value="60">1:00</option>
+                    <option value="120" selected>2:00</option>
+                </select>
+
+                <button id="soundToggle" class="toggle" type="button">MODE: AUDIO</button>
             </div>
 
             <div class="ringbox">
@@ -147,18 +226,29 @@
                 <div class="pacer">
                     <div class="center">
                         <button id="startBtn" class="start" type="button">START</button>
-                        <div id="timer" class="timer">0:45</div>
+                        <div id="timer" class="timer">2:00</div>
+
                         <div class="promptBox" aria-live="polite">
                             <p class="promptTitle" id="promptTitle">Ready</p>
-                            <p class="promptText" id="promptText">Press START.</p>
+                            <p class="promptText" id="promptText">Select duration. Press START.</p>
                             <p class="micro" id="promptMicro"></p>
                         </div>
+
+                        <div id="nosoundBox" class="nosoundBox" aria-live="polite">
+                            <p class="nosoundTitle">NO-SOUND OPTION</p>
+                            <ul class="listenList">
+                                <li>Nearest sound</li>
+                                <li>Farthest sound</li>
+                                <li>Mechanical hum (HVAC/computer/radio)</li>
+                                <li>Human sound (footsteps/voices) — without tracking content</li>
+                                <li>One repeating pattern (beep, click, fan cycle)</li>
+                                <li>Silence gap (even half a second)</li>
+                            </ul>
+                            <p class="listenLine" id="listenLine">Listen for the nearest sound.</p>
+                        </div>
+
                     </div>
                 </div>
-            </div>
-
-            <div class="toggleRow">
-                <button id="soundToggle" class="toggle" type="button">SOUND: OFF</button>
             </div>
 
             <div class="pillrow">
@@ -172,65 +262,75 @@
                     Bring O₂ Rhythm to My Agency
                 </a>
             </div>
-            </div>
-            This is a demo preview. Deployments can include non-breath options for adoption and compliance.
-            </div>
-            </div>
 
+            <div class="fineprint">
+                This is a demo preview. Deployments can include listening protocols + no-sound fallbacks for adoption
+                and compliance.
+            </div>
         </section>
     </main>
 
     <script>
         (function () {
-            const total = 45;
+            const DEMO_ID = "listening_reset";
+            const PAGE_ID = "demo_listening";
 
             const startBtn = document.getElementById("startBtn");
             const timerEl = document.getElementById("timer");
             const soundBtn = document.getElementById("soundToggle");
+            const durationSel = document.getElementById("durationSel");
 
             const titleEl = document.getElementById("promptTitle");
             const textEl = document.getElementById("promptText");
             const microEl = document.getElementById("promptMicro");
 
             const progressEl = document.getElementById("progress");
+            const nosoundBox = document.getElementById("nosoundBox");
+            const listenLine = document.getElementById("listenLine");
 
-            // Ring math (matches your SVG circle r=100)
+            // Audio file (update path if needed)
+            const AUDIO_SRC = "/assets/audio/demo-8d.mp3";
+            const audio = new Audio(AUDIO_SRC);
+            audio.preload = "auto";
+            audio.loop = true; // we’ll stop it on completion
+            audio.volume = 1.0;
+
+            // Ring math (SVG circle r=100)
             const r = 100;
             const circumference = 2 * Math.PI * r;
             progressEl.style.strokeDasharray = `${circumference}`;
             progressEl.style.strokeDashoffset = `${circumference}`;
 
+            let total = 120;
             let running = false;
             let remaining = total;
             let tickInterval = null;
-            let soundOn = false;
 
-            // Prompts: timed segments (seconds)
-            const steps = [
-                { t: 0, title: "NAME 5", text: "Name 5 things you can see.", micro: "Scan the scene. No rushing." },
-                { t: 10, title: "NAME 4", text: "Name 4 things you can hear.", micro: "Near sounds. Far sounds." },
-                { t: 20, title: "NAME 3", text: "Name 3 physical sensations.", micro: "Feet. Hands. Jaw." },
-                { t: 30, title: "NAME 2", text: "Name 2 priorities for the next 60 seconds.", micro: "What matters right now?" },
-                { t: 40, title: "FINISH", text: "One steady blink. Reset your posture.", micro: "Then move." }
+            // Modes
+            // "audio" = plays mp3 + prompts
+            // "nosound" = no audio, show checklist + rotating listen line
+            let mode = "audio";
+
+            // Listen-line rotation (no-sound)
+            const listenPrompts = [
+                "Nearest sound. Label it once. Then let it be.",
+                "Farthest sound you can detect. Don’t chase it.",
+                "Mechanical hum. Find the steady layer underneath.",
+                "One repeating pattern. Count 5 repeats.",
+                "Silence gap. Notice even half a second.",
+                "Return to the nearest sound. Reset posture."
             ];
 
-            // Simple beep (no external audio file)
-            let audioCtx = null;
-            function beep() {
-                if (!soundOn) return;
-                try {
-                    audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
-                    const o = audioCtx.createOscillator();
-                    const g = audioCtx.createGain();
-                    o.type = "sine";
-                    o.frequency.value = 880;
-                    g.gain.value = 0.04;
-                    o.connect(g);
-                    g.connect(audioCtx.destination);
-                    o.start();
-                    setTimeout(() => { o.stop(); }, 120);
-                } catch (e) { /* ignore */ }
-            }
+            // Timed prompts (seconds). Works for both modes.
+            // Note: we’ll scale logic by elapsed time; these are generic checkpoints.
+            const steps = [
+                { t: 0, title: "SETTLE", text: "Eyes open. Drop shoulders.", micro: "Stay operational. No deep breathing required." },
+                { t: 10, title: "NEAR", text: "Pick the nearest sound.", micro: "Label it once. Then stop analyzing." },
+                { t: 30, title: "FAR", text: "Pick the farthest sound.", micro: "Distance creates space fast." },
+                { t: 50, title: "STEADY", text: "Find a steady mechanical hum.", micro: "Fan. HVAC. Computer." },
+                { t: 75, title: "PATTERN", text: "Find one repeating pattern.", micro: "Beep. Click. Footsteps." },
+                { t: 105, title: "RETURN", text: "Return to the nearest sound.", micro: "Posture reset. Back to task." }
+            ];
 
             function safeEvent(name, params) {
                 try { gtag("event", name, params || {}); } catch (e) { }
@@ -243,31 +343,51 @@
             }
 
             function setStepByElapsed(elapsed) {
-                // elapsed = seconds since start
                 let current = steps[0];
-                for (const st of steps) {
-                    if (elapsed >= st.t) current = st;
-                }
+                for (const st of steps) if (elapsed >= st.t) current = st;
+
                 titleEl.textContent = current.title;
                 textEl.textContent = current.text;
                 microEl.textContent = current.micro || "";
+
+                // No-sound rotating line (every ~10s)
+                if (mode === "nosound" && listenLine) {
+                    const idx = Math.min(listenPrompts.length - 1, Math.floor(elapsed / 10));
+                    listenLine.textContent = listenPrompts[idx];
+                }
             }
 
             function updateUI() {
                 timerEl.textContent = fmt(remaining);
-
-                const progress = (total - remaining) / total; // 0..1
+                const progress = (total - remaining) / total;
                 const offset = circumference * (1 - progress);
                 progressEl.style.strokeDashoffset = `${offset}`;
             }
 
+            function setTotalFromSelector() {
+                const v = parseInt(durationSel.value, 10);
+                total = Number.isFinite(v) ? v : 120;
+                remaining = total;
+                updateUI();
+                timerEl.textContent = fmt(total);
+                safeEvent("demo_duration_set", { demo: DEMO_ID, page: PAGE_ID, seconds: total });
+            }
+
             function reset() {
                 running = false;
-                remaining = total;
                 clearInterval(tickInterval);
                 tickInterval = null;
+
+                // Stop audio hard
+                try {
+                    audio.pause();
+                    audio.currentTime = 0;
+                } catch (e) { }
+
                 startBtn.disabled = false;
                 startBtn.textContent = "START";
+
+                remaining = total;
                 setStepByElapsed(0);
                 updateUI();
             }
@@ -276,8 +396,13 @@
                 running = false;
                 clearInterval(tickInterval);
                 tickInterval = null;
+
                 remaining = 0;
                 updateUI();
+
+                // Stop audio
+                try { audio.pause(); } catch (e) { }
+
                 startBtn.disabled = false;
                 startBtn.textContent = "RESTART";
 
@@ -285,14 +410,13 @@
                 textEl.textContent = "Return to task. You’re back online.";
                 microEl.textContent = "";
 
-                safeEvent("demo_complete", { demo: "nonbreath_name5", page: "demo_nonbreath" });
-                beep();
+                safeEvent("demo_complete", { demo: DEMO_ID, page: PAGE_ID, seconds: total, mode });
             }
 
-            function start() {
+            async function start() {
                 if (running) return;
 
-                // If they hit RESTART, reset first
+                // Restart path
                 if (remaining === 0) {
                     remaining = total;
                     setStepByElapsed(0);
@@ -302,7 +426,21 @@
                 running = true;
                 startBtn.disabled = true;
 
-                safeEvent("demo_start", { demo: "nonbreath_name5", page: "demo_nonbreath" });
+                safeEvent("demo_start", { demo: DEMO_ID, page: PAGE_ID, seconds: total, mode });
+
+                // Start audio only if in audio mode
+                if (mode === "audio") {
+                    try {
+                        // user-gesture should allow play
+                        await audio.play();
+                    } catch (e) {
+                        // If play fails (autoplay restriction), force no-sound mode
+                        mode = "nosound";
+                        soundBtn.textContent = "MODE: NO-SOUND";
+                        nosoundBox.classList.add("show");
+                        safeEvent("demo_audio_failed", { demo: DEMO_ID, page: PAGE_ID });
+                    }
+                }
 
                 const startedAt = Date.now();
                 let lastStepIndex = -1;
@@ -319,10 +457,9 @@
                     if (stepIndex !== lastStepIndex) {
                         lastStepIndex = stepIndex;
                         setStepByElapsed(elapsed);
-                        beep();
                         safeEvent("demo_prompt_change", {
-                            demo: "nonbreath_name5",
-                            page: "demo_nonbreath",
+                            demo: DEMO_ID,
+                            page: PAGE_ID,
                             step: steps[stepIndex].title
                         });
                     }
@@ -337,43 +474,47 @@
                 }, 250);
             }
 
-            // Sound toggle
-            if (soundBtn) {
-                soundBtn.addEventListener("click", () => {
-                    soundOn = !soundOn;
-                    soundBtn.textContent = soundOn ? "SOUND: ON" : "SOUND: OFF";
-                    safeEvent("demo_sound_toggle", {
-                        demo: "nonbreath_name5",
-                        page: "demo_nonbreath",
-                        state: soundOn ? "on" : "off"
-                    });
-                    if (soundOn) beep();
-                });
-            }
+            // Mode toggle
+            soundBtn.addEventListener("click", () => {
+                // Don’t allow switching mid-run (keeps it clean)
+                if (running) return;
+
+                mode = (mode === "audio") ? "nosound" : "audio";
+                soundBtn.textContent = (mode === "audio") ? "MODE: AUDIO" : "MODE: NO-SOUND";
+
+                if (mode === "nosound") nosoundBox.classList.add("show");
+                else nosoundBox.classList.remove("show");
+
+                safeEvent("demo_mode_toggle", { demo: DEMO_ID, page: PAGE_ID, mode });
+                setStepByElapsed(0);
+            });
+
+            // Duration select
+            durationSel.addEventListener("change", () => {
+                if (running) return;
+                setTotalFromSelector();
+                reset();
+            });
 
             // Start button
-            if (startBtn) {
-                startBtn.addEventListener("click", () => {
-                    // If not running and remaining 0, allow restart
-                    if (!running && remaining === 0) {
-                        reset();
-                    }
-                    start();
-                });
-            }
+            startBtn.addEventListener("click", () => {
+                if (!running && remaining === 0) reset();
+                start();
+            });
 
             // Link tracking
             document.addEventListener("click", (e) => {
                 const a = e.target.closest("a[data-track]");
                 if (!a) return;
                 safeEvent(a.getAttribute("data-track"), {
-                    page: "demo_nonbreath",
+                    page: PAGE_ID,
                     cta: a.getAttribute("data-cta") || ""
                 });
             });
 
-            // Initial view event + UI state
-            safeEvent("demo_view", { demo: "nonbreath_name5", page: "demo_nonbreath" });
+            // Init
+            safeEvent("demo_view", { demo: DEMO_ID, page: PAGE_ID });
+            setTotalFromSelector();
             reset();
         })();
     </script>
