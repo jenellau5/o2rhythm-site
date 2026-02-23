@@ -26,8 +26,21 @@
             <div class="brand">O₂ RHYTHM</div>
 
             <h1>Walking Reset</h1>
-            <p class="sub">Walking Meditation • 3 min</p>
+            <p class="sub" id="subline">Walking Meditation • 3 min</p>
             <p class="sub" style="margin-top:-10px;">Use: on break • after a rough interaction • before going home</p>
+
+            <!-- NEW: instructions (top copy you requested) -->
+            <p class="sub" style="margin-top:10px; line-height:1.35;" id="walkInstruction">
+                Walk until the music stops. Clear your mind and just walk.
+                If you cannot listen to the music, use this as a timer and go for a walk and notice things around you.
+            </p>
+
+            <!-- NEW: duration options -->
+            <div class="toggleRow" style="margin-top:10px;">
+                <button class="toggle" type="button" data-dur="60" id="dur1">WALK: 1 MIN</button>
+                <button class="toggle" type="button" data-dur="180" id="dur3">WALK: 3 MIN</button>
+                <button class="toggle" type="button" data-dur="600" id="dur10">WALK: 10 MIN</button>
+            </div>
 
             <div class="ringbox">
                 <svg class="progressRing" viewBox="0 0 220 220" aria-hidden="true">
@@ -61,8 +74,9 @@
                 </a>
             </div>
 
-            <!-- Audio element must be OUTSIDE the script -->
-            <audio id="walkMusic" preload="auto" loop>
+            <!-- Audio element -->
+            <!-- IMPORTANT: remove loop. We control stop + fade in JS. -->
+            <audio id="walkMusic" preload="auto">
                 <source src="/assets/audio/walking-loop.mp3" type="audio/mpeg">
             </audio>
 
@@ -70,14 +84,45 @@
     </main>
 
     <script>
-        // Walking Reset — timed prompts (non-breath)
-        const totalSeconds = 180;
-        const steps = [
-            { t: 0, text: "WALK STEADY. EYES FORWARD. JAW RELAXED. UNTIL THE MUSIC STOPS" },
-            { t: 45, text: "SOFTEN HANDS + SHOULDERS. RELEASE GRIP." },
-            { t: 90, text: "EYES FORWARD. JAW RELAXED." },
-            { t: 135, text: "ONCE THE MUSIC IS DONE: TAKE A DEEP BREATH IN AND A LONG EXHALE RETURN TO YOUR TASK" },
-        ];
+        // -----------------------------
+        // Walking Reset — multi-duration + fade out + no autoplay
+        // -----------------------------
+
+        // Audio sources you said you have
+        const AUDIO_5MIN = "/assets/audio/walking-loop.mp3";    // ~300s
+        const AUDIO_10MIN = "/assets/audio/walking-loop2.mp3";  // ~600s
+
+        // Default duration
+        let totalSeconds = 180;
+
+        // Steps per duration (kept simple + operational)
+        function stepsFor(duration) {
+            if (duration === 60) {
+                return [
+                    { t: 0, text: "WALK STEADY. CLEAR YOUR MIND. JUST WALK." },
+                    { t: 30, text: "NOTICE 3 THINGS: LIGHT • SOUND • TEMPERATURE." },
+                    { t: 55, text: "WHEN IT ENDS: DEEP INHALE. LONG EXHALE. RETURN CLEAN." },
+                ];
+            }
+            if (duration === 600) {
+                return [
+                    { t: 0, text: "WALK STEADY. EYES FORWARD. JAW RELAXED. UNTIL THE MUSIC STOPS." },
+                    { t: 120, text: "SOFTEN HANDS + SHOULDERS. RELEASE GRIP." },
+                    { t: 300, text: "NOTICE WHAT’S AROUND YOU. SHAPES. COLORS. MOVEMENT." },
+                    { t: 480, text: "LAST MINUTES: SLOW THE MIND. KEEP THE WALK EASY." },
+                    { t: 590, text: "WHEN IT ENDS: DEEP INHALE. LONG EXHALE. RETURN TO TASK." },
+                ];
+            }
+            // 3 min
+            return [
+                { t: 0, text: "WALK STEADY. EYES FORWARD. JAW RELAXED. UNTIL THE MUSIC STOPS." },
+                { t: 45, text: "SOFTEN HANDS + SHOULDERS. RELEASE GRIP." },
+                { t: 90, text: "EYES FORWARD. JAW RELAXED." },
+                { t: 135, text: "ONCE THE MUSIC IS DONE: DEEP INHALE. LONG EXHALE. RETURN TO TASK." },
+            ];
+        }
+
+        let steps = stepsFor(totalSeconds);
 
         let running = false;
         let remaining = totalSeconds;
@@ -85,6 +130,9 @@
 
         let soundOn = false;
         let musicOn = false;
+
+        // Track elapsed so we can sync audio if user toggles music ON mid-run
+        let elapsedNow = 0;
 
         const startBtn = document.getElementById("startBtn");
         const timerEl = document.getElementById("timer");
@@ -94,8 +142,17 @@
         const soundToggle = document.getElementById("soundToggle");
         const musicToggle = document.getElementById("musicToggle");
 
+        const sublineEl = document.getElementById("subline");
+
+        const durButtons = [
+            document.getElementById("dur1"),
+            document.getElementById("dur3"),
+            document.getElementById("dur10"),
+        ];
+
         const musicEl = document.getElementById("walkMusic");
-        musicEl.volume = 0.22; // professional low volume
+        const BASE_VOL = 0.22;
+        musicEl.volume = BASE_VOL;
 
         // progress ring
         const circle = document.querySelector("circle.progress");
@@ -137,19 +194,68 @@
             return cur;
         }
 
-        async function playMusicIfOn() {
-            if (!musicOn) return;
-            try { await musicEl.play(); } catch (_) { }
+        function audioSrcForDuration(duration) {
+            return (duration === 600) ? AUDIO_10MIN : AUDIO_5MIN;
         }
 
-        function stopMusic() {
-            try {
+        function setAudioSourceForDuration(duration) {
+            const wanted = audioSrcForDuration(duration);
+            // Only swap if needed
+            if (!musicEl.currentSrc || !musicEl.currentSrc.includes(wanted)) {
                 musicEl.pause();
-                musicEl.currentTime = 0;
+                musicEl.src = wanted;
+                musicEl.load();
+            }
+        }
+
+        async function playMusicSynced() {
+            if (!musicOn) return;
+            try {
+                // Ensure correct file
+                setAudioSourceForDuration(totalSeconds);
+
+                // Sync playhead with elapsed time (cap to file length safety)
+                const t = Math.max(0, Math.min(elapsedNow, totalSeconds));
+                if (isFinite(musicEl.duration) && musicEl.duration > 0) {
+                    musicEl.currentTime = Math.min(t, musicEl.duration - 0.25);
+                } else {
+                    musicEl.currentTime = t;
+                }
+
+                musicEl.volume = BASE_VOL;
+                await musicEl.play();
             } catch (_) { }
         }
 
-        function stopRun(status) {
+        function hardStopMusic() {
+            try {
+                musicEl.pause();
+                musicEl.currentTime = 0;
+                musicEl.volume = BASE_VOL;
+            } catch (_) { }
+        }
+
+        function fadeOutAndStop(fadeSeconds = 6) {
+            try {
+                const startVol = musicEl.volume;
+                const steps = Math.max(1, fadeSeconds * 20); // 20 ticks/sec
+                let i = 0;
+
+                const iv = setInterval(() => {
+                    i++;
+                    const p = i / steps;
+                    musicEl.volume = Math.max(0, startVol * (1 - p));
+                    if (i >= steps) {
+                        clearInterval(iv);
+                        hardStopMusic();
+                    }
+                }, 50);
+            } catch (_) {
+                hardStopMusic();
+            }
+        }
+
+        function stopRun(status, doFade = false) {
             running = false;
             startBtn.textContent = "START";
             labelEl.textContent = status;
@@ -157,17 +263,49 @@
             if (tick) clearInterval(tick);
             tick = null;
 
-            stopMusic();
+            if (doFade && musicOn) {
+                fadeOutAndStop(6);
+            } else {
+                hardStopMusic();
+            }
+        }
+
+        function setDuration(seconds) {
+            // Don’t let them switch durations mid-run (it causes messy state)
+            if (running) return;
+
+            totalSeconds = seconds;
+            remaining = totalSeconds;
+            elapsedNow = 0;
+
+            steps = stepsFor(totalSeconds);
+            timerEl.textContent = fmt(remaining);
+            promptEl.textContent = "";
+            labelEl.textContent = "READY";
+            setProgress(0);
+
+            const label = (seconds === 60) ? "1 min" : (seconds === 180) ? "3 min" : "10 min";
+            sublineEl.textContent = `Walking Meditation • ${label}`;
+
+            // Prep the right audio file (but DO NOT PLAY)
+            setAudioSourceForDuration(totalSeconds);
+
+            // UI state for selected duration (simple)
+            durButtons.forEach(btn => btn.classList.remove("isOn"));
+            const activeBtn = (seconds === 60) ? durButtons[0] : (seconds === 180) ? durButtons[1] : durButtons[2];
+            activeBtn.classList.add("isOn");
         }
 
         async function startStop() {
             if (running) {
-                stopRun("STOPPED");
+                stopRun("STOPPED", false);
                 return;
             }
 
             // reset each time you start
             remaining = totalSeconds;
+            elapsedNow = 0;
+
             timerEl.textContent = fmt(remaining);
             setProgress(0);
 
@@ -177,27 +315,31 @@
             promptEl.textContent = stepText(0);
 
             beep();
-            await playMusicIfOn();
+
+            // Music only starts HERE (not when you toggle it on)
+            await playMusicSynced();
 
             tick = setInterval(() => {
                 if (!running) return;
 
                 remaining -= 1;
-                const elapsed = totalSeconds - remaining;
+                elapsedNow = totalSeconds - remaining;
 
                 timerEl.textContent = fmt(remaining);
-                promptEl.textContent = stepText(elapsed);
-                setProgress(Math.min(1, elapsed / totalSeconds));
+                promptEl.textContent = stepText(elapsedNow);
+                setProgress(Math.min(1, elapsedNow / totalSeconds));
 
-                if (steps.some(s => s.t === elapsed)) beep();
+                if (steps.some(s => s.t === elapsedNow)) beep();
 
                 if (remaining <= 0) {
-                    stopRun("DONE");
+                    // DONE: fade out
+                    stopRun("DONE", true);
                     beep();
                 }
             }, 1000);
         }
 
+        // --- events ---
         startBtn.addEventListener("click", startStop);
 
         soundToggle.addEventListener("click", () => {
@@ -206,16 +348,32 @@
             if (soundOn) beep();
         });
 
+        // IMPORTANT: this should NOT autoplay unless we are already running
         musicToggle.addEventListener("click", async () => {
             musicOn = !musicOn;
             musicToggle.textContent = `MUSIC: ${musicOn ? "ON" : "OFF"}`;
 
-            if (musicOn) {
-                await playMusicIfOn();
-            } else {
-                stopMusic();
+            if (!musicOn) {
+                hardStopMusic();
+                return;
+            }
+
+            // If they toggle music ON while already running, start it synced.
+            if (running) {
+                await playMusicSynced();
             }
         });
+
+        // Duration buttons
+        durButtons.forEach(btn => {
+            btn.addEventListener("click", () => {
+                const sec = Number(btn.dataset.dur);
+                setDuration(sec);
+            });
+        });
+
+        // init defaults
+        setDuration(180);
     </script>
 </body>
 
