@@ -13,7 +13,7 @@
     <meta property="og:description"
         content="QR-based protocols for real operations. No app. No login. Track adoption." />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="/assets/img/deskhero.png" />
+    <meta property="og:image" content="/assets/img/desk-hero.png" />
 
     <style>
         :root {
@@ -26,6 +26,7 @@
             --muted2: rgba(233, 233, 239, .60);
             --shadow: 0 18px 55px rgba(0, 0, 0, .42);
             --radius: 20px;
+            --radius2: 14px;
         }
 
         * {
@@ -110,6 +111,7 @@
             width: 120px;
             height: auto;
             object-fit: contain;
+            display: block;
         }
 
         .brand span {
@@ -161,6 +163,7 @@
             font-weight: 850;
             background: rgba(255, 255, 255, .02);
             transition: transform .12s ease, opacity .12s ease, border-color .12s ease;
+            cursor: pointer;
         }
 
         .btn:hover {
@@ -249,7 +252,7 @@
             margin-top: 14px;
         }
 
-        /* feature badges (NOT button-looking) */
+        /* feature badges */
         .pillRow {
             display: flex;
             gap: 10px;
@@ -365,7 +368,7 @@
             }
         }
 
-        /* ENVIRONMENT BLOCKS (smaller images + more columns so it doesn’t feel huge) */
+        /* ENVIRONMENT BLOCKS */
         .envBlock {
             margin-top: 14px;
             padding: 16px;
@@ -412,7 +415,7 @@
         .envCard {
             border: 1px solid rgba(255, 255, 255, .10);
             background: rgba(17, 19, 26, .78);
-            border-radius: 14px;
+            border-radius: var(--radius2);
             overflow: hidden;
             display: flex;
             flex-direction: column;
@@ -425,14 +428,21 @@
             border-color: rgba(255, 255, 255, .18);
         }
 
+        /* FIX: less aggressive cropping + better framing */
         .envImg img {
             width: 100%;
-            height: 110px;
-            /* key: SMALLER */
+            height: 150px;
             object-fit: cover;
-            object-position: center;
+            object-position: center 35%;
             display: block;
             opacity: .95;
+            background: #000;
+        }
+
+        @media (max-width: 920px) {
+            .envImg img {
+                height: 170px;
+            }
         }
 
         .envBody {
@@ -464,6 +474,7 @@
             height: auto;
             display: block;
             object-fit: contain;
+            background: #000;
         }
 
         /* demo */
@@ -549,6 +560,83 @@
             max-width: 82ch;
         }
 
+        /* Pilot intake embed */
+        .pilotFormWrap {
+            margin-top: 14px;
+            overflow: hidden;
+            border-radius: var(--radius);
+            border: 1px solid var(--line);
+            background: rgba(255, 255, 255, .02);
+        }
+
+        .pilotFormHead {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--line);
+            background: rgba(17, 19, 26, .55);
+        }
+
+        .pilotFormHead h3 {
+            margin: 0 0 6px;
+            font-size: 15px;
+        }
+
+        .pilotFormHead p {
+            margin: 0;
+            color: rgba(233, 233, 239, .70);
+            font-size: 13px;
+            line-height: 1.6;
+            max-width: 92ch;
+        }
+
+        .pilotSteps {
+            margin-top: 10px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .stepTag {
+            border: 1px solid rgba(255, 255, 255, .10);
+            background: rgba(255, 255, 255, .01);
+            padding: 7px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            color: rgba(233, 233, 239, .78);
+        }
+
+        .pilotFormWrap iframe {
+            display: block;
+            width: 100%;
+            height: 1200px;
+            border: 0;
+            background: #fff;
+        }
+
+        .pilotFormFoot {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+            padding: 12px 16px;
+            border-top: 1px solid var(--line);
+            background: rgba(17, 19, 26, .55);
+        }
+
+        .pilotFootTitle {
+            font-weight: 900;
+            font-size: 12px;
+            letter-spacing: .10em;
+            text-transform: uppercase;
+            color: rgba(233, 233, 239, .88);
+        }
+
+        .pilotFootText {
+            margin-top: 4px;
+            color: rgba(233, 233, 239, .70);
+            font-size: 13px;
+        }
+
         /* footer */
         .footer {
             margin-top: 18px;
@@ -577,9 +665,9 @@
                 <a href="#how">How it works</a>
                 <a href="#where">Where it fits</a>
                 <a href="#demo">Demo</a>
-                <a href="#pilot">Pilot</a>
+                <a href="#pilot-intake">Pilot</a>
                 <a href="#faq">FAQ</a>
-                <a class="btn btnPrimary" href="#contact">Bring to my agency</a>
+                <a class="btn btnPrimary" href="#pilot-intake">Bring to my agency</a>
             </nav>
         </div>
     </header>
@@ -608,8 +696,8 @@
 
                 <div class="row">
                     <a class="btn btnPrimary" href="#demo">Try the demo</a>
-                    <a class="btn" href="#pilot">Request pilot</a>
-                    <a class="btn" href="#contact">Contact</a>
+                    <a class="btn" href="#pilot-intake">Request pilot</a>
+                    <a class="btn" href="#questions">Questions</a>
                 </div>
 
                 <div class="pillRow" aria-label="Key features">
@@ -687,6 +775,7 @@
                     </article>
                 </div>
             </div>
+
             <!-- Block 2 -->
             <div class="envBlock">
                 <div class="envHead">
@@ -790,6 +879,7 @@
                     </article>
                 </div>
             </div>
+
             <!-- Block 4 -->
             <div class="envBlock">
                 <div class="envHead">
@@ -844,308 +934,319 @@
                     </article>
                 </div>
             </div>
-            <!-- OUTCOMES -->
-            <section class="section" aria-label="Outcomes">
-                <div class="grid3">
+        </section>
+
+        <!-- OUTCOMES -->
+        <section class="section" aria-label="Outcomes">
+            <div class="grid3">
+                <div class="tile">
+                    <h3>Faster downshift</h3>
+                    <p class="hint">Reduce how long the body stays activated after high-acuity moments.</p>
+                </div>
+                <div class="tile">
+                    <h3>Stability under load</h3>
+                    <p class="hint">Support regulation mid-shift: console, bay, unit, briefing, post-incident.</p>
+                </div>
+                <div class="tile">
+                    <h3>Measurable adoption</h3>
+                    <p class="hint">Track usage by environment so leadership sees what’s actually being used.</p>
+                </div>
+            </div>
+
+            <div class="grid2" style="margin-top:14px;">
+                <div class="tile">
+                    <h3>What it is</h3>
+                    <ul>
+                        <li><strong>QR access</strong> to short regulation protocols (30–120 sec)</li>
+                        <li><strong>Environment menus</strong> (console, bay, unit, briefing, classroom, DT, break room)
+                        </li>
+                        <li><strong>Built for cognitive load</strong> and rapid recovery between demands</li>
+                    </ul>
+                </div>
+                <div class="tile">
+                    <h3>What it isn’t</h3>
+                    <ul>
+                        <li>Not a meditation app</li>
+                        <li>Not “wellness programming”</li>
+                        <li>Not 20-minute sessions</li>
+                        <li>Not dependent on motivation or perfect compliance</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- HOW IT WORKS -->
+        <section id="how" class="section" aria-label="How it works">
+            <div class="card">
+                <h2>How it works</h2>
+                <p class="hint">One loop. Low friction. Built for repeat use.</p>
+                <div class="media howGraphic" style="margin-top:14px;">
+                    <img src="/assets/img/how-it-works.png"
+                        alt="Scan → short protocol → back to task → adoption tracked" />
+                </div>
+            </div>
+        </section>
+
+        <!-- WHERE IT FITS -->
+        <section id="where" class="section" aria-label="Where it fits">
+            <div class="grid2">
+                <div class="card">
+                    <h2>Where it fits</h2>
+                    <p class="hint">You don’t sell “breathing.” You sell placement + use cases that match reality.</p>
+
+                    <ul>
+                        <li><strong>Dispatch:</strong> console, break room, quiet room</li>
+                        <li><strong>EMS / Paramedic:</strong> station bay, unit, supply room</li>
+                        <li><strong>Fire:</strong> bay, turnout area, day room</li>
+                        <li><strong>Police:</strong> patrol car, briefing, report writing</li>
+                        <li><strong>Corrections:</strong> control room, sally port, break area</li>
+                        <li><strong>Training:</strong> classroom, DT / scenario lane, post-scenario reset</li>
+                    </ul>
+
+                    <p class="hint" style="margin-top:12px;">
+                        Adoption is placement + relevance. If the menu doesn’t match the environment, it becomes wall
+                        clutter.
+                    </p>
+                </div>
+
+                <div class="media mediaTall">
+                    <img src="/assets/img/icons.png" alt="O₂ Rhythm icons and environments" />
+                </div>
+            </div>
+        </section>
+
+        <!-- DEMO -->
+        <section id="demo" class="section" aria-label="Demo">
+            <div class="card">
+                <h2>Try the demo</h2>
+                <p class="hint">Scan the QR or open the demo page. No login. Same experience your team gets during
+                    pilot.</p>
+
+                <div class="demoWrap">
                     <div class="tile">
-                        <h3>Faster downshift</h3>
-                        <p class="hint">Reduce how long the body stays activated after high-acuity moments.</p>
+                        <h3>Live demo</h3>
+                        <p class="hint">Short protocols designed for fast downshift and immediate return to task.</p>
+
+                        <ul>
+                            <li>30–120 second options</li>
+                            <li>Guided + silent options</li>
+                            <li>Built for console / bay / unit / field / training</li>
+                        </ul>
+
+                        <div class="row">
+                            <a class="btn btnPrimary" href="https://o2rhythm.com/demo/" target="_blank"
+                                rel="noopener">Open demo</a>
+                            <a class="btn" href="#pilot-intake">Request pilot</a>
+                        </div>
+
+                        <p class="hint" style="margin-top:12px;">
+                            Tip: print the QR and place it where it will actually be used.
+                        </p>
                     </div>
-                    <div class="tile">
-                        <h3>Stability under load</h3>
-                        <p class="hint">Support regulation mid-shift console, bay, unit, briefing, post-incident.</p>
-                    </div>
-                    <div class="tile">
-                        <h3>Measurable adoption</h3>
-                        <p class="hint">Track usage by environment so leadership sees what’s actually being used.</p>
+
+                    <div class="demoQR" aria-label="Demo QR code">
+                        <a href="https://o2rhythm.com/demo/" target="_blank" rel="noopener"
+                            aria-label="Open demo by clicking QR">
+                            <img src="/assets/img/demo-qr.png" alt="O₂ Rhythm demo QR code" />
+                        </a>
+                        <div class="capline">DEMO • LIVE</div>
+                        <p class="hint" style="margin-top:8px; text-align:center;">https://o2rhythm.com/demo/</p>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- PILOT -->
+        <section id="pilot" class="section" aria-label="Pilot">
+            <div class="card">
+                <h2>60-day pilot</h2>
+                <p class="hint">A real test with usage data. Not opinions.</p>
 
                 <div class="grid2" style="margin-top:14px;">
                     <div class="tile">
-                        <h3>What it is</h3>
+                        <h3>What’s included</h3>
                         <ul>
-                            <li><strong>QR access</strong> to short regulation protocols (30–120 sec)</li>
-                            <li><strong>Environment menus</strong> (console, bay, unit, briefing, classroom, DT, break
-                                room)
+                            <li><strong>Start:</strong> 1–3 environments (example: console + break room + quiet room)
                             </li>
-                            <li><strong>Built for cognitive load</strong> and rapid recovery between demands</li>
+                            <li><strong>Onboarding:</strong> 10–15 min champion/supervisor intro</li>
+                            <li><strong>Reporting:</strong> day 30 check-in + day 60 summary + recommended adjustments
+                            </li>
+                            <li><strong>Founder pricing:</strong> pilot agencies can lock founder pricing when
+                                continuing after pilot</li>
                         </ul>
                     </div>
+
                     <div class="tile">
-                        <h3>What it isn’t</h3>
+                        <h3>What leadership sees</h3>
                         <ul>
-                            <li>Not a meditation app</li>
-                            <li>Not “wellness programming”</li>
-                            <li>Not 20-minute sessions</li>
-                            <li>Not dependent on motivation or perfect compliance</li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-
-            <!-- HOW IT WORKS -->
-            <section id="how" class="section" aria-label="How it works">
-                <div class="card">
-                    <h2>How it works</h2>
-                    <p class="hint">One loop. Low friction. Built for repeat use.</p>
-                    <div class="media howGraphic" style="margin-top:14px;">
-                        <img src="/assets/img/how-it-works.png"
-                            alt="Scan → short protocol → back to task → adoption tracked" />
-                    </div>
-                </div>
-            </section>
-
-            <!-- WHERE IT FITS -->
-            <section id="where" class="section" aria-label="Where it fits">
-                <div class="grid2">
-                    <div class="card">
-                        <h2>Where it fits</h2>
-                        <p class="hint">You don’t sell “breathing.” You sell placement + use cases that match reality.
-                        </p>
-
-                        <ul>
-                            <li><strong>Dispatch:</strong> console, break room, quiet room</li>
-                            <li><strong>EMS / Paramedic:</strong> station bay, unit, supply room</li>
-                            <li><strong>Fire:</strong> bay, turnout area, day room</li>
-                            <li><strong>Police:</strong> patrol car, briefing, report writing</li>
-                            <li><strong>Corrections:</strong> control room, sally port, break area</li>
-                            <li><strong>Training:</strong> classroom, DT / scenario lane, post-scenario reset</li>
+                            <li>Usage by environment (adoption clarity)</li>
+                            <li>Repeat usage trends</li>
+                            <li>What placements are working</li>
+                            <li>What needs adjustment (menu + placement + champions)</li>
                         </ul>
 
-                        <p class="hint" style="margin-top:12px;">
-                            Adoption is placement + relevance. The menu has to match the environment or it becomes wall
-                            clutter.
-                        </p>
-                    </div>
-
-                    <div class="media mediaTall">
-                        <img src="/assets/img/icons.png" alt="O₂ Rhythm icons and environments" />
-                    </div>
-                </div>
-            </section>
-
-            <!-- DEMO -->
-            <section id="demo" class="section" aria-label="Demo">
-                <div class="card">
-                    <h2>Try the demo</h2>
-                    <p class="hint">Scan the QR or open the demo page. No login. Same experience your team gets during
-                        pilot.</p>
-
-                    <div class="demoWrap">
-                        <div class="tile">
-                            <h3>Live demo</h3>
-                            <p class="hint">Short protocols designed for fast downshift and immediate return to task.
-                            </p>
-
-                            <ul>
-                                <li>30–120 second options</li>
-                                <li>Guided + silent options</li>
-                                <li>Built for console / bay / unit / field / training</li>
-                            </ul>
-
-                            <div class="row">
-                                <a class="btn btnPrimary" href="https://o2rhythm.com/demo/" target="_blank"
-                                    rel="noopener">Open demo</a>
-                                <a class="btn" href="#contact">Bring this to my agency</a>
-                            </div>
-
-                            <p class="hint" style="margin-top:12px;">Tip: print the QR and place it where it will
-                                actually
-                                be used.</p>
+                        <div class="row">
+                            <a class="btn btnPrimary" href="#pilot-intake">Start pilot intake</a>
+                            <a class="btn"
+                                href="mailto:hello.rhythmo2@gmail.com?subject=O2%20Rhythm%20Pilot%20Question">Email a
+                                question</a>
                         </div>
 
-                        <div class="demoQR" aria-label="Demo QR code">
-                            <a href="https://o2rhythm.com/demo/" target="_blank" rel="noopener"
-                                aria-label="Open demo by clicking QR">
-                                <img src="/assets/img/demo-qr.png" alt="O₂ Rhythm demo QR code" />
+                        <p class="hint" style="margin-top:10px;">
+                            If you want a pilot, submit the intake. If you have a constraint (IT, policy, timing), email
+                            it.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- PILOT INTAKE FORM -->
+                <div id="pilot-intake" class="pilotFormWrap" aria-label="Pilot intake form">
+                    <div class="pilotFormHead">
+                        <h3>Pilot intake</h3>
+                        <p>
+                            Complete this intake to initiate a 60-day operational evaluation.
+                            You will receive a structured follow-up within one business day.
+                        </p>
+                        <div class="pilotSteps" aria-label="What happens after submission">
+                            <span class="stepTag">Review intake</span>
+                            <span class="stepTag">5–10 min call</span>
+                            <span class="stepTag">Select 1–3 environments</span>
+                            <span class="stepTag">Deploy + onboard</span>
+                        </div>
+                    </div>
+
+                    <iframe
+                        src="https://docs.google.com/forms/d/e/1FAIpQLSfwEqUgFUVnxZaedbylobO2rGHBOZy_Aj_qiGeo1WuD7We7zw/viewform?embedded=true"
+                        loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="O2 Rhythm Pilot Intake Form">
+                        Loading…
+                    </iframe>
+
+                    <div class="pilotFormFoot">
+                        <div>
+                            <div class="pilotFootTitle">Questions / time-sensitive</div>
+                            <div class="pilotFootText">Email: <strong>hello.rhythmo2@gmail.com</strong></div>
+                        </div>
+                        <div>
+                            <a class="btn"
+                                href="mailto:hello.rhythmo2@gmail.com?subject=O2%20Rhythm%20Pilot%20Question">Email a
+                                question</a>
+                        </div>
+                    </div>
+                </div>
+
+                <p class="hint" style="margin-top:12px;">
+                    IT-friendly: no installs, no accounts, no personal data required. Can be hosted on your domain if
+                    needed.
+                </p>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section id="faq" class="section" aria-label="FAQ">
+            <div class="card">
+                <h2>FAQ</h2>
+                <p class="hint">Clear answers. No fluff.</p>
+
+                <div class="faq">
+                    <details>
+                        <summary>How is pricing determined?</summary>
+                        <p>
+                            Pricing is based on scope: <strong>number of environments</strong> (console/bay/unit/etc.),
+                            <strong>number of QR placements</strong>, and your <strong>update cadence tier</strong>
+                            (monthly vs quarterly).
+                            Larger deployments and custom requests change scope.
+                        </p>
+                    </details>
+
+                    <details>
+                        <summary>Is it customizable for my agency/team?</summary>
+                        <p>
+                            Yes. Menus are built around <strong>your environments</strong> and operational reality.
+                            Dispatch differs from patrol. EMS differs from corrections. Training differs from
+                            post-incident.
+                            The system stays consistent; the menus are tailored.
+                        </p>
+                    </details>
+
+                    <details>
+                        <summary>Do people need an app or login?</summary>
+                        <p>No. QR → page opens. That’s the point.</p>
+                    </details>
+
+                    <details>
+                        <summary>How do you keep it from becoming ignored wall clutter?</summary>
+                        <p>
+                            Placement + relevance + champions + measurable usage. If adoption is low, you’ll see it
+                            quickly and adjust what’s needed.
+                        </p>
+                    </details>
+
+                    <details>
+                        <summary>How often do you update content?</summary>
+                        <p>
+                            Updates are provided <strong>monthly or quarterly depending on tier</strong>. If something
+                            operational changes
+                            (policy, environment, critical incident need), additional updates can be made when needed.
+                        </p>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <!-- QUESTIONS / CONTACT -->
+        <section id="questions" class="section" aria-label="Questions">
+            <div class="card">
+                <h2>Questions</h2>
+                <p class="hint">
+                    If you are unsure whether this fits your environment, email your basics. If you want a pilot, use
+                    the intake above.
+                </p>
+
+                <div class="grid2" style="margin-top:14px;">
+                    <div class="tile">
+                        <h3>Email</h3>
+                        <p class="hint">
+                            Include: agency name, discipline, approximate headcount, environments to start (1–3), and
+                            what you want to improve.
+                        </p>
+
+                        <div class="row">
+                            <a class="btn btnPrimary"
+                                href="mailto:hello.rhythmo2@gmail.com?subject=O2%20Rhythm%20Question">
+                                Email
                             </a>
-                            <div class="capline">DEMO • LIVE</div>
-                            <p class="hint" style="margin-top:8px; text-align:center;">https://o2rhythm.com/demo/</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- PILOT -->
-            <section id="pilot" class="section" aria-label="Pilot">
-                <div class="card">
-                    <h2>60-day pilot</h2>
-                    <p class="hint">A real test with usage data not opinions.</p>
-
-                    <div class="grid2" style="margin-top:14px;">
-                        <div class="tile">
-                            <h3>What’s included</h3>
-                            <ul>
-                                <li><strong>Start:</strong> 1–3 environments (example: console + break room + quiet
-                                    room)
-                                </li>
-                                <li><strong>Onboarding:</strong> 10–15 min champion/supervisor intro</li>
-                                <li><strong>Reporting:</strong> day 30 check-in + day 60 summary + recommended
-                                    adjustments
-                                </li>
-                                <li><strong>Founder pricing:</strong> pilot agencies can lock founder pricing when
-                                    continuing after pilot</li>
-                            </ul>
+                            <a class="btn" href="#pilot-intake">Pilot intake</a>
                         </div>
 
-                        <div class="tile">
-                            <h3>What leadership sees</h3>
-                            <ul>
-                                <li>Usage by environment (adoption clarity)</li>
-                                <li>Repeat usage trends</li>
-                                <li>What placements are working</li>
-                                <li>What needs adjustment (menu + placement + champions)</li>
-                            </ul>
-                            <div class="row">
-                                <a class="btn btnPrimary" href="#contact">Request pilot</a>
-                                <a class="btn" href="#faq">Read FAQ</a>
-                            </div>
-                        </div>
+                        <p class="hint" style="margin-top:10px;">
+                            Email: <strong>hello.rhythmo2@gmail.com</strong>
+                        </p>
                     </div>
 
-                    <p class="hint" style="margin-top:12px;">
-                        IT-friendly: no installs, no accounts, no personal data required. Can be hosted on your domain
-                        if
-                        needed.
-                    </p>
-                </div>
-            </section>
-
-            <!-- FAQ -->
-            <section id="faq" class="section" aria-label="FAQ">
-                <div class="card">
-                    <h2>FAQ</h2>
-                    <p class="hint">Clear answers. No fluff.</p>
-
-                    <div class="faq">
-                        <details>
-                            <summary>How is pricing determined?</summary>
-                            <p>
-                                Pricing is based on scope: <strong>number of environments</strong>
-                                (console/bay/unit/etc.),
-                                <strong>number of QR placements</strong>, and your <strong>update cadence tier</strong>
-                                (monthly vs quarterly).
-                                Larger deployments and custom requests change scope.
-                            </p>
-                        </details>
-
-                        <details>
-                            <summary>Is it customizable for my agency/team?</summary>
-                            <p>
-                                Yes. Menus are built around <strong>your environments</strong> and operational reality.
-                                Dispatch differs from patrol. EMS differs from corrections. Training differs from
-                                post-incident.
-                                The system stays consistent the menus are tailored.
-                            </p>
-                        </details>
-
-                        <details>
-                            <summary>Do people need an app or login?</summary>
-                            <p>No. QR → page opens. That’s the point.</p>
-                        </details>
-
-                        <details>
-                            <summary>How do you keep it from becoming ignored wall clutter?</summary>
-                            <p>
-                                Placement + relevance + champions + measurable usage. If adoption is low, you’ll see it
-                                quickly and adjust what’s needed.
-                            </p>
-                        </details>
-
-                        <details>
-                            <summary>How often do you update content?</summary>
-                            <p>
-                                Updates are provided <strong>monthly or quarterly depending on tier</strong>. If
-                                something
-                                operational changes
-                                (policy, environment, critical incident need), additional updates can be made when
-                                needed.
-                            </p>
-                        </details>
+                    <div class="tile">
+                        <h3>Next steps</h3>
+                        <ul>
+                            <li>Review intake</li>
+                            <li>5–10 minute call</li>
+                            <li>Pick 1–3 environments</li>
+                            <li>Deploy QR + onboard champions</li>
+                            <li>Day 30 check-in + day 60 summary</li>
+                        </ul>
+                        <p class="hint" style="margin-top:10px;">Start small. Prove adoption. Then scale.</p>
                     </div>
                 </div>
-            </section>
 
-            <!-- CONTACT -->
-            <section id="contact" class="section" aria-label="Contact">
-                <div class="card">
-                    <h2>Bring O₂ Rhythm to your agency</h2>
-                    <p class="hint">Email your basics. I’ll tell you quickly if it’s a fit.</p>
-
-                    <div class="grid2" style="margin-top:14px;">
-                        <div class="tile">
-                            <h3>Email</h3>
-                            <p class="hint">
-                                Include: agency name, discipline, approximate headcount, environments to start (1–3),
-                                and
-                                what you want to improve.
-                            </p>
-
-                            <div class="row">
-                                <a class="btn btnPrimary"
-                                    href="mailto:hello.rhythmo2@gmail.com?subject=O2%20Rhythm%20Pilot%20Request">
-                                    Email me
-                                </a>
-                            </div>
-
-                            <p class="hint" style="margin-top:10px;">Email: <strong>hello.rhythmo2@gmail.com</strong>
-                            </p>
-                        </div>
-
-                        <div class="tile">
-                            <h3>Next steps</h3>
-                            <ul>
-                                <li>5–10 minute call</li>
-                                <li>Pick 1–3 environments</li>
-                                <li>Deploy QR + onboard champions</li>
-                                <li>Day 30 check-in + day 60 summary</li>
-                            </ul>
-                            <p class="hint" style="margin-top:10px;">Start small. Prove adoption. Then scale.</p>
-                        </div>
-                    </div>
-
-                    <footer class="footer">
-                        <div>© <span id="y"></span> O₂ Rhythm</div>
-                        <div>Dispatch • EMS • Fire • Law Enforcement • Corrections • Training</div>
-                    </footer>
-                </div>
-            </section>
+                <footer class="footer">
+                    <div>© <span id="y"></span> O₂ Rhythm</div>
+                    <div>Dispatch • EMS • Fire • Law Enforcement • Corrections • Training</div>
+                </footer>
+            </div>
+        </section>
 
     </main>
 
     <script>
         document.getElementById("y").textContent = new Date().getFullYear();
-
-        const subject = "O2 Rhythm Pilot Request";
-        const body =
-            `Agency/Organization:
-Discipline (dispatch / EMS / fire / LE / corrections / training):
-Primary contact name + role:
-Email / phone:
-Approx headcount:
-Environments to deploy first (1-3):
-Approx # of QR placements:
-What are you trying to improve? (recovery, shift stress, retention, post-incident downshift):
-Preferred update tier (monthly / quarterly):
-Anything else we should know?`;
-
-        // Copy button = plain text (no encoding)
-        document.getElementById("copyTemplate")?.addEventListener("click", async () => {
-            try {
-                await navigator.clipboard.writeText(`Subject: ${subject}\n\n${body}`);
-                const b = document.getElementById("copyTemplate");
-                b.textContent = "Copied ✅";
-                setTimeout(() => b.textContent = "Copy intake template", 1600);
-            } catch {
-                alert("Copy failed. You can copy from the page source.");
-            }
-        });
-
-        // Email button = properly encoded ONCE
-        const mailto = `mailto:hello.rhythmo2@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        const emailBtn = document.getElementById("emailDraft");
-        if (emailBtn) emailBtn.setAttribute("href", mailto);
     </script>
 
 </body>
