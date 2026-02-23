@@ -18,7 +18,7 @@
     </script>
 
     <style>
-        /* Minimal additions that won't fight your main stylesheet */
+        /* Small additions that won't fight /assets/style.css */
         .captionBox {
             margin-top: 14px;
             padding: 14px;
@@ -87,13 +87,33 @@
             margin-bottom: 6px;
             letter-spacing: .02em;
         }
+
+        .mixRow {
+            margin-top: 10px;
+            display: grid;
+            gap: 10px;
+        }
+
+        .mixLabel {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        input[type="range"].mix {
+            width: 100%;
+        }
     </style>
 </head>
 
 <body data-agency="academy" data-environment="training">
     <main class="wrap">
         <section class="card protocol" data-agency="academy" data-environment="training"
-            data-protocol-id="academy_physical_regulation_bodyscan_136">
+            data-protocol-id="academy_physical_regulation_bodyscan">
 
             <div class="brand">O₂ RHYTHM</div>
 
@@ -112,7 +132,6 @@
                         <button id="startBtn" class="start" type="button">START</button>
                         <div id="timer" class="timer">2:16</div>
                         <div id="phaseLabel" class="phaseLabel">READY</div>
-                        <div id="prompt" class="prompt"></div>
                     </div>
                 </div>
             </div>
@@ -122,7 +141,21 @@
                 <button id="bgToggle" class="toggle" type="button">MUSIC: ON</button>
             </div>
 
-            <!-- On-screen words for no-headphones / loud environments -->
+            <!-- Quick mix control: fixes "music louder than voice" -->
+            <div class="mixRow">
+                <div class="mixLabel">
+                    <span>Music level</span>
+                    <span id="musicPct">8%</span>
+                </div>
+                <input id="musicLevel" class="mix" type="range" min="0" max="0.25" step="0.01" value="0.08" />
+                <div class="mixLabel">
+                    <span>Voice level</span>
+                    <span id="voicePct">100%</span>
+                </div>
+                <input id="voiceLevel" class="mix" type="range" min="0" max="1" step="0.01" value="1.00" />
+            </div>
+
+            <!-- On-screen words (single location only) -->
             <div class="captionBox">
                 <div class="captionLabel">On-screen guide</div>
                 <div id="captionText">Close your eyes. Sit upright. Feet on the floor.</div>
@@ -131,8 +164,8 @@
                 </div>
                 <div class="tinyRow">
                     <button id="replayBtn" class="tinyBtn" type="button">Replay</button>
-                    <button id="skip10Btn" class="tinyBtn" type="button">+10 sec</button>
                     <button id="back10Btn" class="tinyBtn" type="button">-10 sec</button>
+                    <button id="skip10Btn" class="tinyBtn" type="button">+10 sec</button>
                 </div>
             </div>
 
@@ -146,25 +179,24 @@
             </div>
 
             <div class="feedback">
-                <a class="feedback-link" href="feedback.html?src=academy&protocol=physical-reset-body-scan"
-                    target="_blank">
+                <a class="feedback-link" href="feedback.html?src=academy&protocol=physical-body-scan" target="_blank">
                     Feedback (30 seconds)
                 </a>
             </div>
 
-            <!-- Audio (hidden UI, controlled by JS) -->
+            <!-- Audio (controlled by JS) -->
             <audio id="voiceTrack" preload="auto" src="/assets/audio/bodyscan.mp3"></audio>
             <audio id="bgTrack" preload="auto" src="/assets/audio/bodyscan-background.mp3" loop></audio>
-
         </section>
     </main>
 
     <script>
         // ============================================================
-        // Physical Regulation — Active Body Scan (Audio-driven)
-        // - Plays voice + background simultaneously
-        // - Progress ring and timer reflect actual duration
-        // - On-screen prompts for no-headphones environments
+        // O₂ Rhythm — Physical Regulation • Active Body Scan
+        // Audio-driven (voice + background simultaneously)
+        // - ONE text location: On-screen guide only
+        // - Progress ring + timer tied to actual audio duration
+        // - Built-in mix sliders to fix "music louder than voice"
         // ============================================================
 
         const voice = document.getElementById("voiceTrack");
@@ -173,7 +205,6 @@
         const startBtn = document.getElementById("startBtn");
         const timerEl = document.getElementById("timer");
         const labelEl = document.getElementById("phaseLabel");
-        const promptEl = document.getElementById("prompt");
         const captionEl = document.getElementById("captionText");
         const endMsgEl = document.getElementById("endMsg");
 
@@ -184,35 +215,40 @@
         const skip10Btn = document.getElementById("skip10Btn");
         const back10Btn = document.getElementById("back10Btn");
 
-        // Default volumes (tune these)
+        const musicLevel = document.getElementById("musicLevel");
+        const voiceLevel = document.getElementById("voiceLevel");
+        const musicPct = document.getElementById("musicPct");
+        const voicePct = document.getElementById("voicePct");
+
+        // Default: keep music VERY low because your background file is mastered loud
         let soundOn = true;
         let musicOn = true;
-        bg.volume = 0.12;      // very low background music
-        voice.volume = 1.0;    // full voice
-        bg.muted = false;
-        voice.muted = false;
 
-        // Prompts: simpler than your recorded script (but similar)
-        // Timings are approximate; adjust whenever you want.
+        voice.volume = Number(voiceLevel.value);   // default 1.00
+        bg.volume = Number(musicLevel.value);      // default 0.08 (8%)
+        voice.muted = false;
+        bg.muted = false;
+
+        // Simplified on-screen cues (not identical to the recording)
+        // Adjust timings whenever you want.
         const cues = [
             { t: 0, text: "Close your eyes. Sit upright. Feet on the floor." },
             { t: 8, text: "Inhale through your nose. Slow exhale through your mouth." },
             { t: 18, text: "Jaw: unclench. Let your tongue rest." },
             { t: 30, text: "Head: slow roll. Right → forward → left → center." },
-            { t: 48, text: "Shoulders: shrug up… then drop. Do it once more." },
+            { t: 48, text: "Shoulders: shrug up… then drop. Repeat once." },
             { t: 70, text: "Hands: shake them out. Open the fingers." },
             { t: 86, text: "Fists: squeeze for 3… then release." },
-            { t: 102, text: "Feet: press into the floor. Stomp once. Then again." },
-            { t: 118, text: "Toes: wiggle. Feel the ground under you." },
-            { t: 128, text: "One inhale. Long exhale. Awake. Grounded. Ready." },
+            { t: 102, text: "Feet: press down. Stomp once. Then again." },
+            { t: 118, text: "Toes: wiggle. Feel the ground." },
+            { t: 128, text: "Inhale. Long exhale. Awake. Grounded. Ready." },
         ];
 
-        // Duration: use metadata if available; fallback to 136s
-        let duration = 136;
+        let duration = 136; // fallback (2:16)
         let running = false;
         let raf = null;
 
-        // Progress ring
+        // progress ring
         const circle = document.querySelector("circle.progress");
         const r = 100;
         const circ = 2 * Math.PI * r;
@@ -238,16 +274,19 @@
             return cur;
         }
 
-        function showEnd() {
-            endMsgEl.style.display = "block";
-        }
-        function hideEnd() {
-            endMsgEl.style.display = "none";
+        function showEnd() { endMsgEl.style.display = "block"; }
+        function hideEnd() { endMsgEl.style.display = "none"; }
+
+        function applyMix() {
+            voice.volume = Number(voiceLevel.value);
+            bg.volume = Number(musicLevel.value);
+
+            voicePct.textContent = `${Math.round(voice.volume * 100)}%`;
+            musicPct.textContent = `${Math.round(bg.volume * 100)}%`;
         }
 
         function syncBgToVoice() {
-            // Keep background aligned to voice time (best-effort).
-            // Some browsers drift; we nudge if it gets too far off.
+            // Best-effort alignment
             const diff = Math.abs((bg.currentTime || 0) - (voice.currentTime || 0));
             if (diff > 0.25) {
                 try { bg.currentTime = voice.currentTime; } catch (_) { }
@@ -266,8 +305,9 @@
             voice.muted = !soundOn;
             bg.muted = (!soundOn) || (!musicOn);
 
-            // Some mobile browsers require play() be called directly from click
-            // We do best-effort, background may start a fraction late; we resync
+            applyMix();
+
+            // Start both (some browsers may delay bg; we resync continuously)
             try { await bg.play(); } catch (_) { /* ignore */ }
             try { await voice.play(); } catch (_) { /* ignore */ }
 
@@ -295,17 +335,12 @@
             const remain = Math.max(0, duration - t);
 
             timerEl.textContent = fmt(remain);
-            const pct = duration > 0 ? Math.min(1, t / duration) : 0;
-            setProgress(pct);
+            setProgress(duration > 0 ? Math.min(1, t / duration) : 0);
 
-            const txt = cueText(t);
-            promptEl.textContent = txt;
-            captionEl.textContent = txt;
+            captionEl.textContent = cueText(t);
 
-            // Keep background aligned
             syncBgToVoice();
 
-            // End handling
             if (duration > 0 && t >= duration - 0.05) {
                 stopRun("DONE");
                 showEnd();
@@ -325,9 +360,7 @@
         async function startStop() {
             if (running) {
                 stopRun("STOPPED");
-                try {
-                    gtag("event", "protocol_stop", { protocol: "physical_body_scan" });
-                } catch (_) { }
+                try { gtag("event", "protocol_stop", { protocol: "physical_body_scan" }); } catch (_) { }
                 return;
             }
 
@@ -335,8 +368,8 @@
             startBtn.textContent = "STOP";
             labelEl.textContent = "RUNNING";
 
-            // If audio ended previously, restart from 0
-            if (voice.ended || (voice.currentTime >= (duration - 0.05))) {
+            // If it ended previously, restart
+            if (voice.ended || (voice.currentTime >= duration - 0.05)) {
                 voice.currentTime = 0;
                 bg.currentTime = 0;
                 setProgress(0);
@@ -344,51 +377,48 @@
 
             await playBoth(false);
 
-            try {
-                gtag("event", "protocol_start", { protocol: "physical_body_scan" });
-            } catch (_) { }
-
+            try { gtag("event", "protocol_start", { protocol: "physical_body_scan" }); } catch (_) { }
             raf = requestAnimationFrame(updateLoop);
         }
 
-        // Load metadata to get true duration
+        function jump(seconds) {
+            const t = Math.max(0, Math.min(duration, (voice.currentTime || 0) + seconds));
+            voice.currentTime = t;
+            try { bg.currentTime = t; } catch (_) { }
+
+            timerEl.textContent = fmt(Math.max(0, duration - t));
+            setProgress(duration > 0 ? Math.min(1, t / duration) : 0);
+            captionEl.textContent = cueText(t);
+        }
+
+        // Metadata -> accurate duration
         voice.addEventListener("loadedmetadata", () => {
             if (Number.isFinite(voice.duration) && voice.duration > 0) {
                 duration = Math.round(voice.duration);
                 timerEl.textContent = fmt(duration);
             }
+            captionEl.textContent = cueText(0);
         });
 
-        // If the user scrubs (via our skip buttons) keep things synced
-        function jump(seconds) {
-            const t = Math.max(0, Math.min(duration, (voice.currentTime || 0) + seconds));
-            voice.currentTime = t;
-            try { bg.currentTime = t; } catch (_) { }
-            // Force UI update immediately
-            const remain = Math.max(0, duration - t);
-            timerEl.textContent = fmt(remain);
-            const pct = duration > 0 ? Math.min(1, t / duration) : 0;
-            setProgress(pct);
-            const txt = cueText(t);
-            promptEl.textContent = txt;
-            captionEl.textContent = txt;
-        }
+        // If voice is paused/ended by OS controls, keep UI sane
+        voice.addEventListener("pause", () => {
+            if (running && !voice.ended) {
+                labelEl.textContent = "PAUSED";
+            }
+        });
 
-        // Buttons
+        // UI hooks
         startBtn.addEventListener("click", startStop);
 
         soundToggle.addEventListener("click", async () => {
             soundOn = !soundOn;
             soundToggle.textContent = `SOUND: ${soundOn ? "ON" : "OFF"}`;
 
-            // Muting keeps sync; doesn't pause.
             voice.muted = !soundOn;
             bg.muted = (!soundOn) || (!musicOn);
 
-            if (soundOn && running) {
-                // Some browsers require a fresh play after muting changes
-                await playBoth(false);
-            }
+            // If turning sound back on while running, nudge play
+            if (soundOn && running) await playBoth(false);
         });
 
         bgToggle.addEventListener("click", async () => {
@@ -397,32 +427,27 @@
 
             bg.muted = (!soundOn) || (!musicOn);
 
-            if (running && soundOn) {
-                await playBoth(false);
-            }
+            if (running && soundOn) await playBoth(false);
         });
 
         replayBtn.addEventListener("click", async () => {
-            jump(-(voice.currentTime || 0)); // back to 0
-            if (!running) {
-                // show "ready" state
-                labelEl.textContent = "READY";
-                timerEl.textContent = fmt(duration);
-                setProgress(0);
-                promptEl.textContent = cueText(0);
-                captionEl.textContent = cueText(0);
-                hideEnd();
-                return;
-            }
-            await playBoth(true);
+            jump(-(voice.currentTime || 0));
+            labelEl.textContent = running ? "RUNNING" : "READY";
+            hideEnd();
+
+            if (running) await playBoth(true);
         });
 
         skip10Btn.addEventListener("click", () => jump(10));
         back10Btn.addEventListener("click", () => jump(-10));
 
-        // Initialize UI
+        // Mix controls
+        musicLevel.addEventListener("input", applyMix);
+        voiceLevel.addEventListener("input", applyMix);
+        applyMix();
+
+        // Initial UI state
         timerEl.textContent = fmt(duration);
-        promptEl.textContent = cueText(0);
         captionEl.textContent = cueText(0);
     </script>
 </body>
