@@ -12,7 +12,49 @@
             --ring: #ffffff;
         }
 
-        /* keep if you want this protocol ring white */
+        .modeRow {
+            margin-top: 16px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .toggle.active {
+            background: rgba(255, 255, 255, 0.14);
+        }
+
+        .promptBox {
+            margin-top: 16px;
+            padding: 14px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.03);
+            max-width: 420px;
+            margin-left: auto;
+            margin-right: auto;
+            font-size: 14px;
+            line-height: 1.35;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .promptLabel {
+            font-size: 12px;
+            letter-spacing: .18em;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        .infoBox {
+            margin-top: 18px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.4;
+        }
+
+        .infoBox strong {
+            font-weight: 600;
+        }
     </style>
 
     <!-- GA4 -->
@@ -28,14 +70,22 @@
 <body data-agency="academy" data-environment="training">
     <main class="wrap">
         <section class="card protocol" data-protocol data-agency="academy" data-environment="training"
-            data-protocol-id="academy_oxygen_regulation_hold_60" data-title="OXYGEN (HOLD)" data-total="60"
-            data-inhale="4" data-hold1="2" data-exhale="6" data-hold2="2" data-paced="60" data-settle="0">
+            data-protocol-id="academy_oxygen_regulation_hold_45" data-title="OXYGEN (HOLD)" data-total="45"
+            data-inhale="4" data-hold1="2" data-exhale="4" data-hold2="2" data-paced="45" data-settle="0">
 
             <div class="brand">O₂ RHYTHM</div>
 
-            <h1>Oxygen Regulation (Hold) • Breathing Meditation </h1>
-            <p class="sub">60 sec • inhale / hold / exhale / hold</p>
-            <p class="sub" style="margin-top:-10px;">Use: after a tense moment • before contact • before going home</p>
+            <h1>Oxygen Regulation • Hold Pattern</h1>
+            <p class="sub">45 sec • 4 in / 2 hold / 4 out / 2 hold</p>
+            <p class="sub" style="margin-top:-10px;">
+                Use: right after a spike • before you say or send something • before walking into contact
+            </p>
+
+            <!-- MODE TOGGLE -->
+            <div class="modeRow">
+                <button id="modeAudio" class="toggle active" type="button">MODE: AUDIO</button>
+                <button id="modeNoAudio" class="toggle" type="button">MODE: NO AUDIO</button>
+            </div>
 
             <div class="ringbox">
                 <svg class="progressRing" viewBox="0 0 220 220" aria-hidden="true">
@@ -46,9 +96,8 @@
                 <div id="pacer" class="pacer">
                     <div class="center">
                         <button id="startBtn" class="start" type="button">START</button>
-                        <div id="timer" class="timer">1:00</div>
-
-                        <div id="phaseLabel" class="phaseLabel"></div>
+                        <div id="timer" class="timer">0:45</div>
+                        <div id="phaseLabel" class="phaseLabel">READY</div>
                         <div id="count" class="count"></div>
                         <div id="dots" class="phaseDots"></div>
                     </div>
@@ -57,6 +106,28 @@
 
             <div class="toggleRow">
                 <button id="soundToggle" class="toggle" type="button">SOUND: OFF</button>
+            </div>
+
+            <!-- On‑screen guide for NO AUDIO -->
+            <div id="noAudioGuide" class="promptBox" style="display:none;">
+                <div class="promptLabel">No‑audio guide</div>
+                <div>
+                    Inhale through your nose for a count of 4.
+                    Hold your breath for 2.
+                    Exhale through your mouth for 4.
+                    Hold empty for 2.
+                    Repeat that 4 / 2 / 4 / 2 pattern until the timer ends.
+                    As you hit each hold, notice your shoulders and jaw and let them soften a notch.
+                </div>
+            </div>
+
+            <!-- Why this regulation is for -->
+            <div class="infoBox">
+                <strong>What this regulation is for:</strong>
+                This is a short “hard brake” for your system. The brief holds at the top and bottom of the breath help
+                interrupt
+                a surge of adrenaline or anger, so you’re less likely to react on impulse and more able to choose your
+                next move.
             </div>
 
             <div class="navrow">
@@ -68,12 +139,33 @@
                     Feedback (30 seconds)
                 </a>
             </div>
-
-
         </section>
     </main>
 
     <script src="/assets/protocol.js"></script>
+    <script>
+        // Mode toggle to show/hide no‑audio guide; protocol.js still runs the timing.
+        const modeAudioBtn = document.getElementById("modeAudio");
+        const modeNoAudioBtn = document.getElementById("modeNoAudio");
+        const noAudioGuide = document.getElementById("noAudioGuide");
+
+        function setMode(mode) {
+            if (mode === "audio") {
+                modeAudioBtn.classList.add("active");
+                modeNoAudioBtn.classList.remove("active");
+                noAudioGuide.style.display = "none";
+            } else {
+                modeNoAudioBtn.classList.add("active");
+                modeAudioBtn.classList.remove("active");
+                noAudioGuide.style.display = "block";
+            }
+        }
+
+        modeAudioBtn.addEventListener("click", () => setMode("audio"));
+        modeNoAudioBtn.addEventListener("click", () => setMode("noaudio"));
+
+        setMode("audio");
+    </script>
 </body>
 
 </html>
