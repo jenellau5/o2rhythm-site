@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Demo Main O₂ Rhythm</title>
+    <title>Demo • Operational Micro‑Regulation — O₂ Rhythm</title>
     <meta name="description"
-        content="Try a 30–45 second operational micro-regulation demo. Built for dispatch, EMS, fire, law enforcement. No app. No login." />
+        content="Try 30–120 second operational micro‑regulation demos. Built for dispatch, EMS, fire, law enforcement, and corrections. No app. No login." />
     <link rel="stylesheet" href="/assets/style.css" />
 
     <style>
@@ -14,7 +14,6 @@
             --ring: #ffffff;
         }
 
-        /* Light demo-specific layout, keeps your global style intact */
         .demoHeader {
             display: grid;
             gap: 10px;
@@ -170,10 +169,9 @@
 
             <header class="demoHeader">
                 <div class="kicker">DEMO</div>
-                <h1 style="margin:0;">Try it in 30–45 seconds</h1>
+                <h1 style="margin:0;">Try operational micro‑regulation</h1>
                 <p class="lede">
-                    This is operational micro-regulation: short, contextual, and usable on shift.
-                    No app. No login. Scan → run → done.
+                    Three quick protocols built for real shifts. No app. No login. Scan → run → back to work.
                 </p>
 
                 <div class="tagRow" aria-label="demo-tags">
@@ -191,40 +189,40 @@
 
                 <!-- DESK -->
                 <article class="demoTile">
-                    <h2>DESK RESET 45</h2>
-                    <p>Downshift fast after a stressful call. Built for headset + screens + cognitive load.</p>
+                    <h2>Desk Reset 45</h2>
+                    <p>Downshift fast after a stressful call. Built for headset, screens, and heavy cognitive load.</p>
                     <div class="ctaRow">
                         <a class="primaryBtn" href="/demo/desk.html" data-track="demo_select" data-demo="desk_reset45">
                             Start Desk Demo
                         </a>
                     </div>
-                    <p class="mini">45 sec • recovery + composure</p>
+                    <p class="mini">45 sec • 4 in / 6 out • recovery before the next call.[web:8][web:110]</p>
                 </article>
 
                 <!-- VEHICLE -->
                 <article class="demoTile">
-                    <h2>VEHICLE PRE-ARRIVAL 30</h2>
-                    <p>Stabilize before stepping out. Not relaxation. Regulation under motion + noise.</p>
+                    <h2>Vehicle Pre‑Arrival 30</h2>
+                    <p>Steady your state between dispatch and the door. Eyes up, hands ready, still operational.</p>
                     <div class="ctaRow">
                         <a class="primaryBtn" href="/demo/vehicle.html" data-track="demo_select"
                             data-demo="vehicle_prearrival30">
                             Start Vehicle Demo
                         </a>
                     </div>
-                    <p class="mini">30 sec • composure before action</p>
+                    <p class="mini">30 sec • 3 in / 3 out • composure before stepping out.[web:8][web:110]</p>
                 </article>
 
-                <!-- NON-BREATH -->
+                <!-- LISTENING -->
                 <article class="demoTile">
-                    <h2>NO-BREATH NAME 5</h2>
-                    <p>For people who won’t do breathwork. A fast cognitive reset that still works.</p>
+                    <h2>Listening Reset</h2>
+                    <p>Use sound, not breath, to pull attention out of the last call and back into the room.</p>
                     <div class="ctaRow">
-                        <a class="primaryBtn" href="/demo/nonbreath.html" data-track="demo_select"
-                            data-demo="nonbreath_name5">
-                            Start No-Breath Demo
+                        <a class="primaryBtn" href="/demo/listening.html" data-track="demo_select"
+                            data-demo="listening_reset">
+                            Start Listening Demo
                         </a>
                     </div>
-                    <p class="mini">~45 sec • grounding without breathing cues</p>
+                    <p class="mini">1–2 min • headphone‑optional listening regulation.[web:8][web:95][web:110]</p>
                 </article>
 
             </section>
@@ -234,20 +232,16 @@
             <section class="foot" aria-label="bring-to-agency">
                 <h2 style="margin:0; font-size:18px;">Want this in your agency?</h2>
                 <p style="margin:0; opacity:0.85;">
-                    Rhythm O₂ deploys via QR in minutes. Environments can be customized (desk, vehicle, breakroom, bay,
-                    quiet room).
-                    Adoption can be tracked.
+                    O₂ Rhythm deploys via QR in minutes. Protocols can be tuned for desk, vehicle, bay, breakroom, or
+                    quiet room,
+                    and usage can be tracked over time.[web:8]
                 </p>
 
                 <div class="ctaRow">
-
-                    <div class="miniCta" style="margin-top:40px; text-align:center;">
-                        <a class="ctaBtn" href="../index.html#pilot-intake" data-track="cta_click"
-                            data-cta="bring_to_agency_from_demo">
-                            Bring O₂ Rhythm to My Agency
-                        </a>
-                    </div>
-
+                    <a class="primaryBtn" href="../index.html#pilot-intake" data-track="cta_click"
+                        data-cta="bring_to_agency_from_demo">
+                        Bring O₂ Rhythm to My Agency
+                    </a>
 
                     <a class="secondaryBtn" href="/" data-track="nav_click" data-cta="back_home">
                         Back to site
@@ -255,8 +249,9 @@
                 </div>
 
                 <p class="mini">
-                    Note: This is a demo preview. Field deployments typically use separate QR codes per environment to
-                    eliminate extra taps.
+                    Note: This is a single‑page demo hub. Live deployments usually use separate QR codes per environment
+                    to
+                    eliminate extra taps and keep usage truly in‑the‑moment.[web:8]
                 </p>
             </section>
 
@@ -274,10 +269,9 @@
                 const demo = a.getAttribute("data-demo");
                 const cta = a.getAttribute("data-cta");
 
-                const params = {};
+                const params = { page: "demo_index" };
                 if (demo) params.demo = demo;
                 if (cta) params.cta = cta;
-                params.page = "demo_index";
 
                 try {
                     gtag("event", eventName, params);
