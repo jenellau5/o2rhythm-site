@@ -8,9 +8,8 @@
 
     <link rel="stylesheet" href="/assets/style.css" />
 
-    <!-- Local-only polish for the Sound Scan checklist (so you don't have to touch style.css) -->
+    <!-- Local-only polish for the Sound Scan checklist (no change to global CSS) -->
     <style>
-        /* Sound Scan */
         .soundScan {
             margin-top: 16px;
             padding: 14px;
@@ -107,7 +106,6 @@
             opacity: .7;
         }
 
-        /* Checked state */
         .scanItem input:checked+.scanPill {
             border-color: rgba(255, 255, 255, .45);
             background: rgba(255, 255, 255, .08);
@@ -131,9 +129,19 @@
             font-size: .9rem;
         }
 
-        /* Keep CLEAR button looking like your site pills */
         .soundScanFooter .pill {
             padding: 10px 14px;
+        }
+
+        .infoBox {
+            margin-top: 18px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.4;
+        }
+
+        .infoBox strong {
+            font-weight: 600;
         }
     </style>
 
@@ -155,22 +163,18 @@
             <div class="brand">O₂ RHYTHM</div>
 
             <h1>Walking Regulation</h1>
-            <p class="sub" id="subline">Walking Meditation • 3 min</p>
-            <p class="sub" style="margin-top:-10px;">Use: on break • after a rough interaction • before going home</p>
-
-            <!-- Top instruction (keep this, remove the giant prompts under the circle) -->
-            <p class="sub" style="margin-top:10px; line-height:1.35;">
-                Walk until the music stops. Clear your mind and just walk.
-                If you cannot listen to the music, use this as a timer and go for a walk and notice things around you.
+            <p class="sub" id="subline">Walking Regulation • 3 min</p>
+            <p class="sub" style="margin-top:-10px;">
+                Use: on break • after a rough interaction • before going home
             </p>
 
-            <!-- Duration options -->
-            <div class="toggleRow" style="margin-top:10px;">
-                <button class="toggle" type="button" data-dur="60" id="dur1">WALK: 1 MIN</button>
-                <button class="toggle" type="button" data-dur="180" id="dur3">WALK: 3 MIN</button>
-                <button class="toggle" type="button" data-dur="600" id="dur10">WALK: 10 MIN</button>
-            </div>
+            <p class="sub" style="margin-top:10px; line-height:1.35;">
+                Walk at a steady pace until the timer ends. Let the music run in the background and just walk.
+                No headphones? Use the timer and the Sound Scan below to keep your attention in the environment, not the
+                last call.
+            </p>
 
+            <!-- Single standard duration (3 min) -->
             <div class="ringbox">
                 <svg class="progressRing" viewBox="0 0 220 220" aria-hidden="true">
                     <circle class="progress-bg" cx="110" cy="110" r="100"></circle>
@@ -182,9 +186,6 @@
                         <button id="startBtn" class="start" type="button">START</button>
                         <div id="timer" class="timer">3:00</div>
                         <div id="phaseLabel" class="phaseLabel">READY</div>
-
-                        <!-- REMOVED: big prompt text under the circle -->
-                        <!-- <div id="prompt" class="prompt"></div> -->
                     </div>
                 </div>
             </div>
@@ -194,10 +195,10 @@
                 <button id="musicToggle" class="toggle" type="button">MUSIC: OFF</button>
             </div>
 
-            <!-- Sound Scan (no headphones) — cleaned up and styled -->
+            <!-- Sound Scan (no headphones) -->
             <div class="soundScan" id="soundScan" aria-label="Sound scan checklist">
                 <div class="soundScanHead">
-                    <div class="soundScanTitle">No headphones? Sound Scan</div>
+                    <div class="soundScanTitle">Sound Scan (no headphones)</div>
                     <div class="soundScanMeta">
                         <span><span id="scanCount">0</span> checked</span>
                         <button class="pill" type="button" id="scanClear">Clear</button>
@@ -286,6 +287,23 @@
                                 class="scanMark">✓</span></span>
                     </label>
                 </div>
+
+                <div class="soundScanFooter">
+                    <div class="mini">
+                        Use this while you walk if you can’t use music. The goal is to notice what’s around you, not
+                        replay the last call.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Why this regulation is for -->
+            <div class="infoBox">
+                <strong>What this regulation is for:</strong>
+                This is a short movement reset. Walking at a steady pace and letting your attention move through the
+                sounds
+                around you helps bleed off some adrenaline and pull you out of tunnel vision, so you can come back to
+                work or
+                home a little less loaded.[web:8][web:95]
             </div>
 
             <div class="navrow">
@@ -300,19 +318,15 @@
             </div>
 
             <!-- Audio (NO loop; controlled in JS) -->
-            <audio id="walkMusic" preload="auto"></audio>
-
+            <audio id="walkMusic" preload="auto" src="/assets/audio/walking-loop.mp3"></audio>
         </section>
     </main>
 
     <script>
-        // -----------------------------
-        // Walking Reset — multi-duration + fade out + no autoplay
-        // -----------------------------
-        const AUDIO_5MIN = "/assets/audio/walking-loop.mp3";     // ~300s
-        const AUDIO_10MIN = "/assets/audio/walking-loop2.mp3";   // ~600s
+        // Walking Regulation — fixed 3‑minute walk with optional music and Sound Scan
 
-        let totalSeconds = 180; // default
+        const TOTAL_SECONDS = 180; // 3:00 standard
+        let totalSeconds = TOTAL_SECONDS;
         let running = false;
         let remaining = totalSeconds;
         let tick = null;
@@ -324,16 +338,8 @@
         const startBtn = document.getElementById("startBtn");
         const timerEl = document.getElementById("timer");
         const labelEl = document.getElementById("phaseLabel");
-
         const soundToggle = document.getElementById("soundToggle");
         const musicToggle = document.getElementById("musicToggle");
-        const sublineEl = document.getElementById("subline");
-
-        const durButtons = [
-            document.getElementById("dur1"),
-            document.getElementById("dur3"),
-            document.getElementById("dur10"),
-        ];
 
         const musicEl = document.getElementById("walkMusic");
         const BASE_VOL = 0.22;
@@ -345,7 +351,6 @@
         const circ = 2 * Math.PI * r;
         circle.style.strokeDasharray = `${circ} ${circ}`;
         circle.style.strokeDashoffset = `${circ}`;
-
         function setProgress(pct) {
             circle.style.strokeDashoffset = (circ - (pct * circ));
         }
@@ -371,32 +376,15 @@
             setTimeout(() => { o.stop(); ctx.close(); }, 80);
         }
 
-        function audioSrcForDuration(duration) {
-            return (duration === 600) ? AUDIO_10MIN : AUDIO_5MIN;
-        }
-
-        function setAudioSourceForDuration(duration) {
-            const wanted = audioSrcForDuration(duration);
-            if (musicEl.src && musicEl.src.includes(wanted)) return;
-            try {
-                musicEl.pause();
-                musicEl.src = wanted;
-                musicEl.load();
-            } catch (_) { }
-        }
-
-        async function playMusicSynced() {
+        async function playMusic() {
             if (!musicOn) return;
             try {
-                setAudioSourceForDuration(totalSeconds);
-
                 const t = Math.max(0, Math.min(elapsedNow, totalSeconds));
                 if (isFinite(musicEl.duration) && musicEl.duration > 0) {
                     musicEl.currentTime = Math.min(t, Math.max(0, musicEl.duration - 0.25));
                 } else {
                     musicEl.currentTime = t;
                 }
-
                 musicEl.volume = BASE_VOL;
                 await musicEl.play();
             } catch (_) { }
@@ -442,27 +430,6 @@
             else hardStopMusic();
         }
 
-        function setDuration(seconds) {
-            if (running) return;
-
-            totalSeconds = seconds;
-            remaining = totalSeconds;
-            elapsedNow = 0;
-
-            timerEl.textContent = fmt(remaining);
-            labelEl.textContent = "READY";
-            setProgress(0);
-
-            const label = (seconds === 60) ? "1 min" : (seconds === 180) ? "3 min" : "10 min";
-            sublineEl.textContent = `Walking Meditation • ${label}`;
-
-            setAudioSourceForDuration(totalSeconds);
-
-            durButtons.forEach(btn => btn.classList.remove("isOn"));
-            const activeBtn = (seconds === 60) ? durButtons[0] : (seconds === 180) ? durButtons[1] : durButtons[2];
-            activeBtn.classList.add("isOn");
-        }
-
         async function startStop() {
             if (running) {
                 stopRun("STOPPED", false);
@@ -471,7 +438,6 @@
 
             remaining = totalSeconds;
             elapsedNow = 0;
-
             timerEl.textContent = fmt(remaining);
             setProgress(0);
 
@@ -480,9 +446,7 @@
             labelEl.textContent = "RUNNING";
 
             beep();
-
-            // Music starts ONLY on START
-            await playMusicSynced();
+            await playMusic();
 
             tick = setInterval(() => {
                 if (!running) return;
@@ -493,8 +457,9 @@
                 timerEl.textContent = fmt(remaining);
                 setProgress(Math.min(1, elapsedNow / totalSeconds));
 
-                // Optional: tiny beeps at 1/2 and near-end for awareness (kept off unless SOUND on)
-                if (elapsedNow === Math.floor(totalSeconds / 2) || elapsedNow === totalSeconds - 10) beep();
+                if (elapsedNow === Math.floor(totalSeconds / 2) || elapsedNow === totalSeconds - 10) {
+                    beep();
+                }
 
                 if (remaining <= 0) {
                     stopRun("DONE", true);
@@ -503,7 +468,6 @@
             }, 1000);
         }
 
-        // events
         startBtn.addEventListener("click", startStop);
 
         soundToggle.addEventListener("click", () => {
@@ -512,31 +476,19 @@
             if (soundOn) beep();
         });
 
-        // IMPORTANT: no autoplay unless already running
         musicToggle.addEventListener("click", async () => {
             musicOn = !musicOn;
             musicToggle.textContent = `MUSIC: ${musicOn ? "ON" : "OFF"}`;
-
             if (!musicOn) {
                 hardStopMusic();
                 return;
             }
-
             if (running) {
-                await playMusicSynced();
+                await playMusic();
             }
         });
 
-        durButtons.forEach(btn => {
-            btn.addEventListener("click", () => {
-                const sec = Number(btn.dataset.dur);
-                setDuration(sec);
-            });
-        });
-
-        // -----------------------------
-        // Sound Scan checklist — clean + persistent
-        // -----------------------------
+        // Sound Scan checklist persistence
         const scanKey = "o2r_walk_scan";
         const scanBoxes = Array.from(document.querySelectorAll('#soundScan input[type="checkbox"][data-scan]'));
         const scanCountEl = document.getElementById("scanCount");
@@ -573,7 +525,8 @@
         });
 
         // init
-        setDuration(180);
+        remaining = totalSeconds;
+        timerEl.textContent = fmt(remaining);
         loadScanState();
     </script>
 </body>
