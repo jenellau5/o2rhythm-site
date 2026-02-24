@@ -132,7 +132,7 @@
             <div class="brand">O₂ RHYTHM</div>
 
             <h1>Listening Regulation</h1>
-            <p class="sub">1:59 • left / right • near / far</p>
+            <p class="sub">2:00 • 8D headphone reset</p>
             <p class="sub" style="margin-top:-10px;">
                 Use: between calls • after noise and chaos • when you feel checked‑out or stuck in your head
             </p>
@@ -154,7 +154,7 @@
                     <div class="pacer">
                         <div class="center">
                             <button id="startBtn" class="start" type="button">START</button>
-                            <div id="timer" class="timer">1:59</div>
+                            <div id="timer" class="timer">2:00</div>
                             <div id="phaseLabel" class="phaseLabel">READY</div>
                         </div>
                     </div>
@@ -167,7 +167,7 @@
                 <div class="promptBox">
                     <div class="promptLabel">On‑screen cue</div>
                     <div id="promptText">
-                        Follow the sound. Notice which ear feels louder right now.
+                        Follow the sound as it moves. Let your attention ride left, right, and center.
                     </div>
                 </div>
 
@@ -235,11 +235,11 @@
             <!-- WHY THIS MATTERS -->
             <div class="infoBox">
                 <strong>What this regulation is for:</strong>
-                This is a short listening reset. Tracking a sound as it moves from ear to ear pulls your attention out
-                of the last
-                call and back into the room. Noticing near and far sounds helps your nervous system stand down a notch
-                while you
-                stay alert enough to work.
+                This is a short listening reset. Tracking a sound as it moves from ear to ear pulls your attention away
+                from the
+                last call and back into the room. A couple of minutes of focused listening can help your nervous system
+                stand
+                down a notch while you stay alert enough to work.[web:8][web:95][web:110]
             </div>
 
             <div class="navrow">
@@ -253,8 +253,8 @@
                 </a>
             </div>
 
-            <!-- Audio file -->
-            <audio id="voiceTrack" preload="auto" src="/assets/audio/listening-regulation.mp3"></audio>
+            <!-- 8D Audio file -->
+            <audio id="voiceTrack" preload="auto" src="/assets/audio/listening-regulation8d.mp3"></audio>
         </section>
     </main>
 
@@ -275,7 +275,7 @@
         const stepList = document.getElementById("stepList");
         const noAudioDone = document.getElementById("noAudioDone");
 
-        let duration = 119; // 1:59 fallback
+        let duration = 120; // 2:00 fallback
         let running = false;
         let soundOn = true;
         let raf = null;
@@ -298,14 +298,11 @@
             return `${m}:${String(rem).padStart(2, "0")}`;
         }
 
-        // simple cue timeline (adjust times after you record, if needed)
+        // Minimal cue timeline: start, mid, near‑end
         const cues = [
-            { t: 0, text: "Follow the sound. Notice which ear feels louder right now." },
-            { t: 20, text: "Keep tracking left and right. Notice your shoulders as you listen." },
-            { t: 40, text: "Shift to near sounds in the room. List a few in your head." },
-            { t: 60, text: "Now include farther sounds: hallway, outside, HVAC, traffic." },
-            { t: 90, text: "Notice one constant sound and one that comes and goes." },
-            { t: 110, text: "Let your shoulders drop a notch. One steady breath in, longer breath out." }
+            { t: 0, text: "Follow the sound as it moves. Let your attention ride left, right, and center." },
+            { t: 60, text: "Notice your shoulders and jaw. Let them drop a notch as you keep listening." },
+            { t: 105, text: "Stay with the sound for these last few breaths, then get ready to return to task." }
         ];
 
         function cueText(t) {
