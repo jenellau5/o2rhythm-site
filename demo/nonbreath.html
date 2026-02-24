@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Demo Listening Reset • O₂ Rhythm</title>
+    <title>Demo • Listening Reset — O₂ Rhythm</title>
     <meta name="description" content="1–2 minute listening regulation demo for high-stress operations." />
     <link rel="stylesheet" href="/assets/style.css" />
 
@@ -81,7 +81,6 @@
             margin: 0 auto;
         }
 
-        /* Static text only (no changing prompts) */
         .promptBox {
             display: grid;
             gap: 10px;
@@ -152,7 +151,19 @@
             min-width: 140px;
         }
 
-        /* --- NO AUDIO CHECKLIST (always bottom, clean) --- */
+        .infoBox {
+            margin-top: 16px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.4;
+            text-align: center;
+        }
+
+        .infoBox strong {
+            font-weight: 600;
+        }
+
+        /* --- NO AUDIO CHECKLIST --- */
         .noAudio {
             margin-top: 18px;
             border-top: 1px solid rgba(255, 255, 255, .10);
@@ -254,9 +265,9 @@
 
             <div class="demoTop">
                 <div class="kicker">DEMO • LISTENING REGULATION</div>
-                <h1 style="margin:0;">LISTENING RESET</h1>
+                <h1 style="margin:0;">Listening Reset</h1>
                 <p class="sub">Choose 1:00 or 2:00 • eyes open • stay operational</p>
-                <p class="hint"><strong>Headphones recommended</strong> for full effect.</p>
+                <p class="hint"><strong>Headphones recommended</strong> for full effect; can be run without audio.</p>
             </div>
 
             <div class="controlRow" aria-label="Demo controls">
@@ -280,7 +291,6 @@
                         <button id="startBtn" class="start" type="button">START</button>
                         <div id="timer" class="timer">2:00</div>
 
-                        <!-- STATIC (no changing prompts) -->
                         <div class="promptBox" aria-live="polite">
                             <p class="promptTitle" id="promptTitle">LISTEN</p>
                             <p class="promptText" id="promptText">Let the audio run. Stay eyes-open and operational.</p>
@@ -290,9 +300,17 @@
                 </div>
             </div>
 
+            <div class="infoBox">
+                <strong>What this demo is for:</strong>
+                A brief listening regulation that pulls attention away from the last call and back into the present
+                environment
+                using a simple “follow the sound” task.[web:8][web:95][web:110]
+            </div>
+
             <div class="pillrow">
                 <a class="pill" href="/demo/" data-track="nav_click" data-cta="demo_home">All demos</a>
-                <a class="pill" href="/demo/desk.html" data-track="nav_click" data-cta="back_to_desk">Back: Desk</a>
+                <a class="pill" href="/demo/desk.html" data-track="nav_click" data-cta="back_to_desk">Back: Desk
+                    reset</a>
             </div>
 
             <div class="miniCta">
@@ -302,7 +320,7 @@
                 </a>
             </div>
 
-            <!-- NO AUDIO OPTION at the bottom, always visible -->
+            <!-- NO AUDIO OPTION -->
             <div class="noAudio" id="no-audio">
                 <div class="noAudioHead">
                     <p class="noAudioTitle">NO AUDIO</p>
@@ -315,11 +333,11 @@
                     <div class="checkItem"><input id="c3" type="checkbox" /><label for="c3">Mechanical hum
                             (HVAC/computer/radio)</label></div>
                     <div class="checkItem"><input id="c4" type="checkbox" /><label for="c4">Human sound
-                            (footsteps/voices) — no content</label></div>
+                            (footsteps/voices) — ignore content</label></div>
                     <div class="checkItem"><input id="c5" type="checkbox" /><label for="c5">One repeating pattern (beep,
                             click, fan cycle)</label></div>
-                    <div class="checkItem"><input id="c6" type="checkbox" /><label for="c6">Silence gap (even half a
-                            second)</label></div>
+                    <div class="checkItem"><input id="c6" type="checkbox" /><label for="c6">Brief silence gap (even half
+                            a second)</label></div>
                 </div>
             </div>
 
@@ -335,21 +353,17 @@
             const timerEl = document.getElementById("timer");
             const audioToggle = document.getElementById("audioToggle");
             const durationSel = document.getElementById("durationSel");
-
             const titleEl = document.getElementById("promptTitle");
             const textEl = document.getElementById("promptText");
             const microEl = document.getElementById("promptMicro");
-
             const progressEl = document.getElementById("progress");
 
-            // Audio file
             const AUDIO_SRC = "/assets/audio/demo-8d.mp3";
             const audio = new Audio(AUDIO_SRC);
             audio.preload = "auto";
             audio.loop = true;
             audio.volume = 1.0;
 
-            // Ring math
             const r = 100;
             const circumference = 2 * Math.PI * r;
             progressEl.style.strokeDasharray = `${circumference}`;
@@ -373,7 +387,7 @@
 
             function updateUI() {
                 timerEl.textContent = fmt(remaining);
-                const progress = (total - remaining) / total; // 0..1
+                const progress = (total - remaining) / total;
                 const offset = circumference * (1 - progress);
                 progressEl.style.strokeDashoffset = `${offset}`;
             }
@@ -391,18 +405,17 @@
             }
 
             function setStaticCopy(state) {
-                // state: "ready" | "running" | "done"
                 if (state === "ready") {
                     titleEl.textContent = "LISTEN";
                     textEl.textContent = "Let the audio run. Stay eyes-open and operational.";
                     microEl.textContent = "";
                 } else if (state === "running") {
                     titleEl.textContent = "LISTEN";
-                    textEl.textContent = "Stay with the sound. No analysis.";
+                    textEl.textContent = "Stay with the sound. No analysis, no story.";
                     microEl.textContent = "";
                 } else {
                     titleEl.textContent = "DONE";
-                    textEl.textContent = "Return to task. You’re back online.";
+                    textEl.textContent = "Return to task. You’re back in this room.";
                     microEl.textContent = "";
                 }
             }
@@ -434,13 +447,17 @@
                 startBtn.textContent = "RESTART";
 
                 setStaticCopy("done");
-                safeEvent("demo_complete", { demo: DEMO_ID, page: PAGE_ID, seconds: total, audio: audioOn ? "on" : "off" });
+                safeEvent("demo_complete", {
+                    demo: DEMO_ID,
+                    page: PAGE_ID,
+                    seconds: total,
+                    audio: audioOn ? "on" : "off"
+                });
             }
 
             async function start() {
                 if (running) return;
 
-                // restart path
                 if (remaining === 0) {
                     remaining = total;
                     updateUI();
@@ -450,7 +467,12 @@
                 startBtn.disabled = true;
                 setStaticCopy("running");
 
-                safeEvent("demo_start", { demo: DEMO_ID, page: PAGE_ID, seconds: total, audio: audioOn ? "on" : "off" });
+                safeEvent("demo_start", {
+                    demo: DEMO_ID,
+                    page: PAGE_ID,
+                    seconds: total,
+                    audio: audioOn ? "on" : "off"
+                });
 
                 if (audioOn) {
                     try { await audio.play(); }
@@ -475,13 +497,16 @@
                 }, 250);
             }
 
-            // Audio toggle (no mid-run switching)
             audioToggle.addEventListener("click", () => {
                 if (running) return;
                 audioOn = !audioOn;
                 audioToggle.textContent = audioOn ? "AUDIO: ON" : "AUDIO: OFF";
                 if (!audioOn) stopAudioHard();
-                safeEvent("demo_audio_toggle", { demo: DEMO_ID, page: PAGE_ID, state: audioOn ? "on" : "off" });
+                safeEvent("demo_audio_toggle", {
+                    demo: DEMO_ID,
+                    page: PAGE_ID,
+                    state: audioOn ? "on" : "off"
+                });
             });
 
             durationSel.addEventListener("change", () => {
@@ -495,14 +520,16 @@
                 start();
             });
 
-            // Link tracking
             document.addEventListener("click", (e) => {
                 const a = e.target.closest("a[data-track]");
                 if (!a) return;
-                safeEvent(a.getAttribute("data-track"), { page: PAGE_ID, cta: a.getAttribute("data-cta") || "" });
+                safeEvent(a.getAttribute("data-track"), {
+                    page: PAGE_ID,
+                    cta: a.getAttribute("data-cta") || ""
+                });
             });
 
-            // Checklist interactivity (localStorage)
+            // Checklist persistence
             const STORAGE_KEY = "o2_listening_checks_v1";
             const checkGrid = document.getElementById("checkGrid");
             const resetChecks = document.getElementById("resetChecks");
@@ -530,7 +557,12 @@
                     if (!cb) return;
                     cb.closest(".checkItem")?.classList.toggle("done", cb.checked);
                     saveChecks();
-                    safeEvent("demo_noaudio_check", { demo: DEMO_ID, page: PAGE_ID, item: cb.id, state: cb.checked ? "checked" : "unchecked" });
+                    safeEvent("demo_noaudio_check", {
+                        demo: DEMO_ID,
+                        page: PAGE_ID,
+                        item: cb.id,
+                        state: cb.checked ? "checked" : "unchecked"
+                    });
                 });
             }
 
