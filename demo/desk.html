@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Demo Desk Reset 45 • O₂ Rhythm</title>
-    <meta name="description" content="45-second desk reset demo for dispatch and high-cognitive load environments." />
+    <title>Demo • Desk Reset 45 — O₂ Rhythm</title>
+    <meta name="description" content="45‑second desk reset demo for dispatch and other high‑cognitive load roles." />
     <link rel="stylesheet" href="/assets/style.css" />
 
     <style>
@@ -13,7 +13,6 @@
             --ring: #ffffff;
         }
 
-        /* Small demo-only adjustments */
         .demoTop {
             display: grid;
             gap: 6px;
@@ -74,6 +73,17 @@
             line-height: 1.35;
             margin-top: 10px;
         }
+
+        .infoBox {
+            margin-top: 18px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.4;
+        }
+
+        .infoBox strong {
+            font-weight: 600;
+        }
     </style>
 
     <!-- Google tag (gtag.js) -->
@@ -95,9 +105,9 @@
             <div class="brand">O₂ RHYTHM</div>
 
             <div class="demoTop">
-                <div class="kicker">DEMO • DESK</div>
-                <h1 style="margin:0;">RESET 45</h1>
-                <p class="sub">45 sec • after a stressful call</p>
+                <div class="kicker">DEMO • DESK RESET</div>
+                <h1 style="margin:0;">Reset 45</h1>
+                <p class="sub">45 sec • after a stressful call or screen‑heavy block</p>
             </div>
 
             <div class="ringbox">
@@ -110,7 +120,6 @@
                     <div class="center">
                         <button id="startBtn" class="start" type="button">START</button>
                         <div id="timer" class="timer">0:45</div>
-
                         <div id="phaseLabel" class="phaseLabel"></div>
                         <div id="count" class="count"></div>
                         <div id="dots" class="phaseDots"></div>
@@ -122,19 +131,30 @@
                 <button id="soundToggle" class="toggle" type="button">SOUND: OFF</button>
             </div>
 
-            <!-- Demo navigation (minimal) -->
-            <div class="pillrow">
-                <a class="pill" href="/demo/" data-track="nav_click" data-cta="demo_home">All demos</a>
-                <a class="pill" href="/demo/vehicle.html" data-track="nav_click" data-cta="next_vehicle">Next:
-                    Vehicle</a>
+            <div class="infoBox">
+                <strong>What this demo is for:</strong>
+                A 45‑second 4‑in / 6‑out breathing reset to drop tension a notch and clear the head before the next
+                call, email,
+                or contact.[web:8][web:110]
             </div>
 
-            <div class="miniCta" style="margin-top:40px; text-align:center;">
+            <!-- Demo navigation -->
+            <div class="pillrow">
+                <a class="pill" href="/demo/" data-track="nav_click" data-cta="demo_home">All demos</a>
+                <a class="pill" href="/demo/vehicle.html" data-track="nav_click" data-cta="next_vehicle">Next: Vehicle
+                    reset</a>
+            </div>
+
+            <div class="miniCta" style="margin-top:32px; text-align:center;">
                 <a class="ctaBtn" href="../index.html#pilot-intake" data-track="cta_click"
                     data-cta="bring_to_agency_from_demo">
                     Bring O₂ Rhythm to My Agency
                 </a>
-            </div>
+                <p class="fineprint">
+                    This is a single protocol demo. Full deployments include additional breathing, body, listening, and
+                    walking
+                    regulations tuned for dispatch, patrol, fire, EMS, and corrections.[web:8]
+                </p>
             </div>
 
         </section>
@@ -147,26 +167,23 @@
         (function () {
             const startBtn = document.getElementById("startBtn");
             const soundBtn = document.getElementById("soundToggle");
-            const protocolEl = document.querySelector("[data-protocol]");
+            const timerEl = document.getElementById("timer");
 
             function safeEvent(name, params) {
                 try { gtag("event", name, params || {}); } catch (e) { }
             }
 
-            // Start click
             if (startBtn) {
                 startBtn.addEventListener("click", () => {
                     safeEvent("demo_start", {
                         demo: "desk_reset45",
                         page: "demo_desk"
                     });
-                }, { once: false });
+                });
             }
 
-            // Sound toggle click
             if (soundBtn) {
                 soundBtn.addEventListener("click", () => {
-                    // Read current label for context
                     const label = (soundBtn.textContent || "").trim();
                     safeEvent("demo_sound_toggle", {
                         demo: "desk_reset45",
@@ -176,7 +193,6 @@
                 });
             }
 
-            // Generic link tracking on this page
             document.addEventListener("click", (e) => {
                 const a = e.target.closest("a[data-track]");
                 if (!a) return;
@@ -186,9 +202,6 @@
                 });
             });
 
-            // Completion: best-effort observer
-            // Assumes protocol.js updates timer to 0:00 at end.
-            const timerEl = document.getElementById("timer");
             if (timerEl) {
                 let fired = false;
                 const obs = new MutationObserver(() => {
@@ -204,7 +217,6 @@
                 obs.observe(timerEl, { childList: true, characterData: true, subtree: true });
             }
 
-            // Page view hint (optional explicit event)
             safeEvent("demo_view", { demo: "desk_reset45", page: "demo_desk" });
         })();
     </script>
