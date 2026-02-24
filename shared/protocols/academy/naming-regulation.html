@@ -41,6 +41,95 @@
     .toggleRow {
       margin-top: 12px;
     }
+
+    .modeRow {
+      margin-top: 14px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .toggle.active {
+      background: rgba(255, 255, 255, 0.14);
+    }
+
+    .stepList {
+      margin-top: 10px;
+    }
+
+    .stepItem {
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+      margin-bottom: 8px;
+      font-size: 14px;
+      line-height: 1.35;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .stepItem input[type="checkbox"] {
+      margin-top: 3px;
+    }
+
+    .stepItem strong {
+      font-weight: 600;
+    }
+
+    .captionBox {
+      margin-top: 14px;
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .captionLabel {
+      font-size: 12px;
+      letter-spacing: .18em;
+      color: rgba(255, 255, 255, 0.6);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .captionSub {
+      margin-top: 8px;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.6);
+      line-height: 1.35;
+    }
+
+    .endMsg {
+      margin-top: 12px;
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.03);
+      color: rgba(255, 255, 255, 0.92);
+      line-height: 1.35;
+      display: none;
+      font-size: 14px;
+    }
+
+    .endMsg strong {
+      display: block;
+      margin-bottom: 6px;
+      letter-spacing: .02em;
+    }
+
+    .infoBox {
+      margin-top: 18px;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.4;
+    }
+
+    .infoBox strong {
+      font-weight: 600;
+    }
+
+    .ringbox {
+      margin: 24px auto 0;
+    }
   </style>
 </head>
 
@@ -52,27 +141,96 @@
       <div class="brand">O₂ RHYTHM</div>
 
       <h1>Naming Regulation</h1>
-      <p class="sub">Naming Meditation • 45 sec</p>
+      <p class="sub">45 seconds • “name it to tame it” reset</p>
       <p class="sub" style="margin-top:-10px;">Use: before speaking • after high emotions • when reactive</p>
 
-      <div class="ringbox">
-        <svg class="progressRing" viewBox="0 0 220 220" aria-hidden="true">
-          <circle class="progress-bg" cx="110" cy="110" r="100"></circle>
-          <circle class="progress" cx="110" cy="110" r="100"></circle>
-        </svg>
+      <!-- MODE TOGGLE -->
+      <div class="modeRow">
+        <button id="modeAudio" class="toggle active" type="button">MODE: AUDIO / TIMER</button>
+        <button id="modeNoAudio" class="toggle" type="button">MODE: NO AUDIO</button>
+      </div>
 
-        <div class="pacer">
-          <div class="center">
-            <button id="startBtn" class="start" type="button">START</button>
-            <div id="timer" class="timer">0:45</div>
-            <div id="phaseLabel" class="phaseLabel">READY</div>
-            <div id="prompt" class="prompt"></div>
+      <!-- ========== AUDIO / TIMER MODE ========== -->
+      <div id="audioMode">
+        <div class="ringbox">
+          <svg class="progressRing" viewBox="0 0 220 220" aria-hidden="true">
+            <circle class="progress-bg" cx="110" cy="110" r="100"></circle>
+            <circle class="progress" cx="110" cy="110" r="100"></circle>
+          </svg>
+
+          <div class="pacer">
+            <div class="center">
+              <button id="startBtn" class="start" type="button">START</button>
+              <div id="timer" class="timer">0:45</div>
+              <div id="phaseLabel" class="phaseLabel">READY</div>
+              <div id="prompt" class="prompt"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="toggleRow">
+          <button id="soundToggle" class="toggle" type="button">SOUND: OFF</button>
+        </div>
+
+        <div id="endMsg" class="endMsg">
+          <strong>Cycle complete.</strong>
+          You named it, located it, and gave your brain one slow breath before you respond.
+        </div>
+      </div>
+
+      <!-- ========== NO‑AUDIO TAP‑THROUGH MODE ========== -->
+      <div id="noAudioMode" style="display:none; margin-top:22px;">
+        <div class="captionBox">
+          <div class="captionLabel">No‑audio version</div>
+          <p class="captionSub">
+            Silent environment? Tap each box once you’ve done that step. Take your time; this still works even if it
+            runs longer than 45 seconds.
+          </p>
+
+          <div id="stepList" class="stepList">
+            <label class="stepItem">
+              <input type="checkbox" data-step="emotion" />
+              <span><strong>1. Name the emotion.</strong> “Angry.” “Rushed.” “Anxious.” “Shut down.” One word is
+                enough.</span>
+            </label>
+
+            <label class="stepItem">
+              <input type="checkbox" data-step="body" />
+              <span><strong>2. Where is it in your body?</strong> Jaw, chest, throat, stomach, hands, or somewhere
+                else.</span>
+            </label>
+
+            <label class="stepItem">
+              <input type="checkbox" data-step="see" />
+              <span><strong>3. Three things you see.</strong> Quickly name them in your head.</span>
+            </label>
+
+            <label class="stepItem">
+              <input type="checkbox" data-step="feel" />
+              <span><strong>4. Two things you feel.</strong> Clothing, gear, chair, steering wheel, floor, or air on
+                your skin.</span>
+            </label>
+
+            <label class="stepItem">
+              <input type="checkbox" data-step="breath" />
+              <span><strong>5. One slow breath.</strong> In through your nose, longer breath out through your
+                mouth.</span>
+            </label>
+          </div>
+
+          <div id="noAudioDone" class="endMsg" style="margin-top:12px; display:none;">
+            <strong>Naming regulation complete.</strong>
+            You’ve shifted from pure reaction to a little more control. Now choose your next move.
           </div>
         </div>
       </div>
 
-      <div class="toggleRow">
-        <button id="soundToggle" class="toggle" type="button">SOUND: OFF</button>
+      <!-- WHAT THIS IS FOR -->
+      <div class="infoBox">
+        <strong>What this regulation is for:</strong>
+        This is a quick way to dump some charge out of a hot emotion. Naming what you feel and where it lives in your
+        body helps your brain shift out of “automatic” and back toward decision‑making before you speak or
+        act.[web:41][web:45]
       </div>
 
       <div class="navrow">
@@ -90,6 +248,7 @@
 
   <script>
     // Naming Regulation — Emotion + Body + Sensory + Breath (45 seconds)
+
     const totalSeconds = 45;
     const steps = [
       { t: 0, text: "NAME THE EMOTION. ANGRY / RUSHED / ANXIOUS." },
@@ -109,6 +268,14 @@
     const labelEl = document.getElementById("phaseLabel");
     const promptEl = document.getElementById("prompt");
     const soundToggle = document.getElementById("soundToggle");
+    const endMsgEl = document.getElementById("endMsg");
+
+    const modeAudioBtn = document.getElementById("modeAudio");
+    const modeNoAudioBtn = document.getElementById("modeNoAudio");
+    const audioMode = document.getElementById("audioMode");
+    const noAudioMode = document.getElementById("noAudioMode");
+    const scanForm = document.getElementById("stepList");
+    const noAudioDone = document.getElementById("noAudioDone");
 
     // progress ring
     const circle = document.querySelector("circle.progress");
@@ -156,6 +323,7 @@
       labelEl.textContent = status;
       if (tick) clearInterval(tick);
       tick = null;
+      endMsgEl.style.display = status === "DONE" ? "block" : "none";
     }
 
     function startStop() {
@@ -168,6 +336,7 @@
       remaining = totalSeconds;
       timerEl.textContent = fmt(remaining);
       setProgress(0);
+      endMsgEl.style.display = "none";
 
       running = true;
       startBtn.textContent = "STOP";
@@ -202,6 +371,36 @@
       soundToggle.textContent = `SOUND: ${soundOn ? "ON" : "OFF"}`;
       if (soundOn) beep();
     });
+
+    // MODE SWITCHING
+    function setMode(mode) {
+      if (mode === "audio") {
+        audioMode.style.display = "";
+        noAudioMode.style.display = "none";
+        modeAudioBtn.classList.add("active");
+        modeNoAudioBtn.classList.remove("active");
+      } else {
+        audioMode.style.display = "none";
+        noAudioMode.style.display = "";
+        modeNoAudioBtn.classList.add("active");
+        modeAudioBtn.classList.remove("active");
+        if (running) stopRun("STOPPED");
+      }
+    }
+
+    modeAudioBtn.addEventListener("click", () => setMode("audio"));
+    modeNoAudioBtn.addEventListener("click", () => setMode("noaudio"));
+
+    // No‑audio completion logic
+    if (scanForm) {
+      scanForm.addEventListener("change", () => {
+        const boxes = scanForm.querySelectorAll('input[type="checkbox"]');
+        const allChecked = Array.from(boxes).every(cb => cb.checked);
+        noAudioDone.style.display = allChecked ? "block" : "none";
+      });
+    }
+
+    setMode("audio");
   </script>
 </body>
 
