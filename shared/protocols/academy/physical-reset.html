@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Physical Regulation O₂ Rhythm</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>O₂ Rhythm — Active Body Scan</title>
 
     <link rel="stylesheet" href="/assets/style.css" />
 
@@ -19,6 +19,7 @@
 
     <style>
         /* Small additions that won't fight /assets/style.css */
+
         .captionBox {
             margin-top: 14px;
             padding: 14px;
@@ -39,7 +40,7 @@
             font-size: 15px;
             line-height: 1.35;
             color: rgba(255, 255, 255, 0.92);
-            min-height: 2.2em;
+            min-height: 2.4em;
         }
 
         .captionSub {
@@ -80,6 +81,7 @@
             color: rgba(255, 255, 255, 0.92);
             line-height: 1.35;
             display: none;
+            font-size: 14px;
         }
 
         .endMsg strong {
@@ -107,6 +109,46 @@
         input[type="range"].mix {
             width: 100%;
         }
+
+        .modeRow {
+            margin-top: 16px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .toggle.active {
+            background: rgba(255, 255, 255, 0.14);
+        }
+
+        .bodyStep {
+            display: flex;
+            gap: 8px;
+            align-items: flex-start;
+            margin-bottom: 8px;
+            font-size: 14px;
+            line-height: 1.35;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .bodyStep input[type="checkbox"] {
+            margin-top: 3px;
+        }
+
+        .bodyStep strong {
+            font-weight: 600;
+        }
+
+        .infoBox {
+            margin-top: 18px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.4;
+        }
+
+        .infoBox strong {
+            font-weight: 600;
+        }
     </style>
 </head>
 
@@ -118,61 +160,153 @@
             <div class="brand">O₂ RHYTHM</div>
 
             <h1>Physical Regulation • Active Body Scan</h1>
-            <p class="sub">2:16 • jaw / neck / shoulders / hands / feet</p>
-            <p class="sub" style="margin-top:-10px;">Use: when tense • after emotional situations • before/after high
-                risk interactions • before going home</p>
+            <p class="sub">~2 minutes • head‑to‑toe tension check</p>
+            <p class="sub" style="margin-top:-10px;">
+                Use: when tense • after hard calls • before/after high‑risk interactions • before going home
+            </p>
 
-            <div class="ringbox">
-                <svg class="progressRing" viewBox="0 0 220 220" aria-hidden="true">
-                    <circle class="progress-bg" cx="110" cy="110" r="100"></circle>
-                    <circle class="progress" cx="110" cy="110" r="100"></circle>
-                </svg>
+            <!-- MODE TOGGLE -->
+            <div class="modeRow">
+                <button id="modeAudio" class="toggle active" type="button">MODE: AUDIO</button>
+                <button id="modeNoAudio" class="toggle" type="button">MODE: NO AUDIO</button>
+            </div>
 
-                <div class="pacer">
-                    <div class="center">
-                        <button id="startBtn" class="start" type="button">START</button>
-                        <div id="timer" class="timer">2:16</div>
-                        <div id="phaseLabel" class="phaseLabel">READY</div>
+            <!-- ========== AUDIO MODE ========== -->
+            <div id="audioMode">
+                <div class="ringbox">
+                    <svg class="progressRing" viewBox="0 0 220 220" aria-hidden="true">
+                        <circle class="progress-bg" cx="110" cy="110" r="100"></circle>
+                        <circle class="progress" cx="110" cy="110" r="100"></circle>
+                    </svg>
+
+                    <div class="pacer">
+                        <div class="center">
+                            <button id="startBtn" class="start" type="button">START</button>
+                            <div id="timer" class="timer">2:16</div>
+                            <div id="phaseLabel" class="phaseLabel">READY</div>
+                        </div>
                     </div>
                 </div>
+
+                <div class="toggleRow">
+                    <button id="soundToggle" class="toggle" type="button">SOUND: ON</button>
+                    <button id="bgToggle" class="toggle" type="button">MUSIC: ON</button>
+                </div>
+
+                <div class="mixRow">
+                    <div class="mixLabel">
+                        <span>Music level</span>
+                        <span id="musicPct">8%</span>
+                    </div>
+                    <input id="musicLevel" class="mix" type="range" min="0" max="0.25" step="0.01" value="0.08" />
+
+                    <div class="mixLabel">
+                        <span>Voice level</span>
+                        <span id="voicePct">100%</span>
+                    </div>
+                    <input id="voiceLevel" class="mix" type="range" min="0" max="1" step="0.01" value="1.00" />
+                </div>
+
+                <div class="captionBox">
+                    <div class="captionLabel">On‑screen guide</div>
+                    <div id="captionText">
+                        Take a steady breath in through your nose. Slow breath out through your mouth.
+                    </div>
+                    <div class="captionSub">
+                        Headphones recommended. If you can’t use audio, switch to NO AUDIO mode and tap through the body
+                        areas.
+                    </div>
+                    <div class="tinyRow">
+                        <button id="replayBtn" class="tinyBtn" type="button">Replay</button>
+                        <button id="back10Btn" class="tinyBtn" type="button">-10 sec</button>
+                        <button id="skip10Btn" class="tinyBtn" type="button">+10 sec</button>
+                    </div>
+                </div>
+
+                <div id="endMsg" class="endMsg">
+                    <strong>Body scan complete.</strong>
+                    You don’t have to feel “great,” just a bit less loaded than when you started. If you need more, run
+                    it again.
+                </div>
             </div>
 
-            <div class="toggleRow">
-                <button id="soundToggle" class="toggle" type="button">SOUND: ON</button>
-                <button id="bgToggle" class="toggle" type="button">MUSIC: ON</button>
+            <!-- ========== NO‑AUDIO INTERACTIVE MODE ========== -->
+            <div id="noAudioMode" style="display:none; margin-top:22px;">
+                <p class="sub">
+                    No audio? Follow the prompts and tap each box once you’ve checked that area.
+                </p>
+
+                <form id="scanForm" class="captionBox" style="margin-top:10px;">
+                    <div class="captionLabel">Step‑through body scan</div>
+
+                    <label class="bodyStep">
+                        <input type="checkbox" data-part="breath" />
+                        <span><strong>Breath:</strong> Take a steady breath in through your nose, slow breath out
+                            through your mouth.</span>
+                    </label>
+
+                    <label class="bodyStep">
+                        <input type="checkbox" data-part="posture" />
+                        <span><strong>Posture:</strong> Notice the weight of your body. If standing, feel your feet on
+                            the ground. If sitting, feel the contact with the chair or seat.</span>
+                    </label>
+
+                    <label class="bodyStep">
+                        <input type="checkbox" data-part="legs" />
+                        <span><strong>Feet & lower legs:</strong> Notice any tightness or heaviness. On your next
+                            exhale, let them soften just a little.</span>
+                    </label>
+
+                    <label class="bodyStep">
+                        <input type="checkbox" data-part="thighs" />
+                        <span><strong>Thighs, hips, glutes:</strong> Feel the weight they’re carrying, the pressure into
+                            the seat or into your boots. Let those muscles relax a notch.</span>
+                    </label>
+
+                    <label class="bodyStep">
+                        <input type="checkbox" data-part="core" />
+                        <span><strong>Stomach & lower back:</strong> Notice if your core is still braced like you’re
+                            mid‑call. As you breathe out, let this area ease up slightly.</span>
+                    </label>
+
+                    <label class="bodyStep">
+                        <input type="checkbox" data-part="chest" />
+                        <span><strong>Chest & upper back:</strong> Feel your ribs move as you breathe. If your shoulders
+                            are high, let them drop down and back a little on the exhale.</span>
+                    </label>
+
+                    <label class="bodyStep">
+                        <input type="checkbox" data-part="hands" />
+                        <span><strong>Hands & forearms:</strong> Notice how they’re resting or gripping. Loosen your
+                            grip so your hands are just supported by what they’re touching.</span>
+                    </label>
+
+                    <label class="bodyStep">
+                        <input type="checkbox" data-part="face" />
+                        <span><strong>Neck, jaw, face:</strong> Let your jaw be softer, teeth slightly apart. Smooth the
+                            muscles around your eyes and across your forehead.</span>
+                    </label>
+
+                    <label class="bodyStep">
+                        <input type="checkbox" data-part="whole" />
+                        <span><strong>Whole body:</strong> Take one more steady breath in, and a slightly longer breath
+                            out. Notice where there is still tension, and let a little of it drain off with your next
+                            exhale.</span>
+                    </label>
+
+                    <div id="noAudioDone" class="endMsg" style="margin-top:12px; display:none;">
+                        <strong>Scan complete.</strong>
+                        You don’t have to feel “perfect,” just a bit more regulated than when you started.
+                    </div>
+                </form>
             </div>
 
-            <!-- Quick mix control: fixes "music louder than voice" -->
-            <div class="mixRow">
-                <div class="mixLabel">
-                    <span>Music level</span>
-                    <span id="musicPct">8%</span>
-                </div>
-                <input id="musicLevel" class="mix" type="range" min="0" max="0.25" step="0.01" value="0.08" />
-                <div class="mixLabel">
-                    <span>Voice level</span>
-                    <span id="voicePct">100%</span>
-                </div>
-                <input id="voiceLevel" class="mix" type="range" min="0" max="1" step="0.01" value="1.00" />
-            </div>
-
-            <!-- On-screen words (single location only) -->
-            <div class="captionBox">
-                <div class="captionLabel">On-screen guide</div>
-                <div id="captionText">Close your eyes. Sit upright. Feet on the floor.</div>
-                <div class="captionSub">
-                    If you can’t use headphones, follow the prompts here. Keep movements small and controlled.
-                </div>
-                <div class="tinyRow">
-                    <button id="replayBtn" class="tinyBtn" type="button">Replay</button>
-                    <button id="back10Btn" class="tinyBtn" type="button">-10 sec</button>
-                    <button id="skip10Btn" class="tinyBtn" type="button">+10 sec</button>
-                </div>
-            </div>
-
-            <div id="endMsg" class="endMsg">
-                <strong>This regulation has ended.</strong>
-                If you need more time, run it again. Otherwise, resume duties.
+            <!-- WHAT THIS IS FOR -->
+            <div class="infoBox">
+                <strong>What this body scan is for:</strong>
+                This is a quick head‑to‑toe check for tension and overload. It helps you:
+                notice where stress is sitting in your body, turn the volume down a notch, and reset between calls so
+                you can keep working without running on fumes.
             </div>
 
             <div class="navrow">
@@ -194,10 +328,7 @@
     <script>
         // ============================================================
         // O₂ Rhythm — Physical Regulation • Active Body Scan
-        // Audio-driven (voice + background simultaneously)
-        // - ONE text location: On-screen guide only
-        // - Progress ring + timer tied to actual audio duration
-        // - Built-in mix sliders to fix "music louder than voice"
+        // Audio mode + no‑audio interactive mode
         // ============================================================
 
         const voice = document.getElementById("voiceTrack");
@@ -221,31 +352,35 @@
         const musicPct = document.getElementById("musicPct");
         const voicePct = document.getElementById("voicePct");
 
-        // Default: keep music VERY low because your background file is mastered loud
+        const audioMode = document.getElementById("audioMode");
+        const noAudioMode = document.getElementById("noAudioMode");
+        const modeAudioBtn = document.getElementById("modeAudio");
+        const modeNoAudioBtn = document.getElementById("modeNoAudio");
+        const scanForm = document.getElementById("scanForm");
+        const noAudioDone = document.getElementById("noAudioDone");
+
         let soundOn = true;
         let musicOn = true;
 
-        voice.volume = Number(voiceLevel.value);   // default 1.00
-        bg.volume = Number(musicLevel.value);      // default 0.08 (8%)
+        voice.volume = Number(voiceLevel.value);
+        bg.volume = Number(musicLevel.value);
         voice.muted = false;
         bg.muted = false;
 
-        // Simplified on-screen cues (not identical to the recording)
-        // Adjust timings whenever you want.
+        // Cues loosely aligned to script; tweak once audio is final
         const cues = [
-            { t: 0, text: "Close your eyes. Sit upright. Feet on the floor." },
-            { t: 8, text: "Inhale through your nose. Slow exhale through your mouth." },
-            { t: 18, text: "Jaw: unclench. Let your tongue rest." },
-            { t: 30, text: "Head: slow roll. Right → forward → left → center." },
-            { t: 48, text: "Shoulders: shrug up… then drop. Repeat once." },
-            { t: 70, text: "Hands: shake them out. Open the fingers." },
-            { t: 86, text: "Fists: squeeze for 3… then release." },
-            { t: 102, text: "Feet: press down. Stomp once. Then again." },
-            { t: 118, text: "Toes: wiggle. Feel the ground." },
-            { t: 128, text: "Inhale. Long exhale. Awake. Grounded. Ready." },
+            { t: 0, text: "Take a steady breath in through your nose. Slow breath out through your mouth." },
+            { t: 10, text: "Notice the weight of your body. Feet on the ground or contact with the seat." },
+            { t: 24, text: "Feet and lower legs: notice tightness or heaviness. Let them soften a little." },
+            { t: 38, text: "Thighs, hips, glutes: feel the weight they’re carrying. Let them relax a notch." },
+            { t: 52, text: "Stomach and lower back: if your core is still braced, let it ease up slightly." },
+            { t: 66, text: "Chest and upper back: feel your ribs move. Let your shoulders drop a little." },
+            { t: 80, text: "Hands and forearms: notice your grip. Loosen so your hands are just supported." },
+            { t: 94, text: "Neck, jaw, face: soften your jaw, smooth your forehead and around your eyes." },
+            { t: 108, text: "Whole body: one more steady breath in, longer breath out. Let some tension drain off." }
         ];
 
-        let duration = 136; // fallback (2:16)
+        let duration = 136; // will be updated from audio metadata
         let running = false;
         let raf = null;
 
@@ -281,13 +416,11 @@
         function applyMix() {
             voice.volume = Number(voiceLevel.value);
             bg.volume = Number(musicLevel.value);
-
             voicePct.textContent = `${Math.round(voice.volume * 100)}%`;
             musicPct.textContent = `${Math.round(bg.volume * 100)}%`;
         }
 
         function syncBgToVoice() {
-            // Best-effort alignment
             const diff = Math.abs((bg.currentTime || 0) - (voice.currentTime || 0));
             if (diff > 0.25) {
                 try { bg.currentTime = voice.currentTime; } catch (_) { }
@@ -296,22 +429,15 @@
 
         async function playBoth(fromStart = false) {
             hideEnd();
-
             if (fromStart) {
                 voice.currentTime = 0;
                 bg.currentTime = 0;
             }
-
-            // Apply mute states
             voice.muted = !soundOn;
             bg.muted = (!soundOn) || (!musicOn);
-
             applyMix();
-
-            // Start both (some browsers may delay bg; we resync continuously)
-            try { await bg.play(); } catch (_) { /* ignore */ }
-            try { await voice.play(); } catch (_) { /* ignore */ }
-
+            try { await bg.play(); } catch (_) { }
+            try { await voice.play(); } catch (_) { }
             syncBgToVoice();
         }
 
@@ -331,15 +457,11 @@
 
         function updateLoop() {
             if (!running) return;
-
             const t = voice.currentTime || 0;
             const remain = Math.max(0, duration - t);
-
             timerEl.textContent = fmt(remain);
             setProgress(duration > 0 ? Math.min(1, t / duration) : 0);
-
             captionEl.textContent = cueText(t);
-
             syncBgToVoice();
 
             if (duration > 0 && t >= duration - 0.05) {
@@ -364,20 +486,16 @@
                 try { gtag("event", "protocol_stop", { protocol: "physical_body_scan" }); } catch (_) { }
                 return;
             }
-
             running = true;
             startBtn.textContent = "STOP";
             labelEl.textContent = "RUNNING";
 
-            // If it ended previously, restart
             if (voice.ended || (voice.currentTime >= duration - 0.05)) {
                 voice.currentTime = 0;
                 bg.currentTime = 0;
                 setProgress(0);
             }
-
             await playBoth(false);
-
             try { gtag("event", "protocol_start", { protocol: "physical_body_scan" }); } catch (_) { }
             raf = requestAnimationFrame(updateLoop);
         }
@@ -386,13 +504,11 @@
             const t = Math.max(0, Math.min(duration, (voice.currentTime || 0) + seconds));
             voice.currentTime = t;
             try { bg.currentTime = t; } catch (_) { }
-
             timerEl.textContent = fmt(Math.max(0, duration - t));
             setProgress(duration > 0 ? Math.min(1, t / duration) : 0);
             captionEl.textContent = cueText(t);
         }
 
-        // Metadata -> accurate duration
         voice.addEventListener("loadedmetadata", () => {
             if (Number.isFinite(voice.duration) && voice.duration > 0) {
                 duration = Math.round(voice.duration);
@@ -401,33 +517,25 @@
             captionEl.textContent = cueText(0);
         });
 
-        // If voice is paused/ended by OS controls, keep UI sane
         voice.addEventListener("pause", () => {
             if (running && !voice.ended) {
                 labelEl.textContent = "PAUSED";
             }
         });
 
-        // UI hooks
         startBtn.addEventListener("click", startStop);
-
         soundToggle.addEventListener("click", async () => {
             soundOn = !soundOn;
             soundToggle.textContent = `SOUND: ${soundOn ? "ON" : "OFF"}`;
-
             voice.muted = !soundOn;
             bg.muted = (!soundOn) || (!musicOn);
-
-            // If turning sound back on while running, nudge play
             if (soundOn && running) await playBoth(false);
         });
 
         bgToggle.addEventListener("click", async () => {
             musicOn = !musicOn;
             bgToggle.textContent = `MUSIC: ${musicOn ? "ON" : "OFF"}`;
-
             bg.muted = (!soundOn) || (!musicOn);
-
             if (running && soundOn) await playBoth(false);
         });
 
@@ -435,21 +543,47 @@
             jump(-(voice.currentTime || 0));
             labelEl.textContent = running ? "RUNNING" : "READY";
             hideEnd();
-
             if (running) await playBoth(true);
         });
 
         skip10Btn.addEventListener("click", () => jump(10));
         back10Btn.addEventListener("click", () => jump(-10));
 
-        // Mix controls
         musicLevel.addEventListener("input", applyMix);
         voiceLevel.addEventListener("input", applyMix);
         applyMix();
-
-        // Initial UI state
         timerEl.textContent = fmt(duration);
         captionEl.textContent = cueText(0);
+
+        // MODE SWITCHING
+        function setMode(mode) {
+            if (mode === "audio") {
+                audioMode.style.display = "";
+                noAudioMode.style.display = "none";
+                modeAudioBtn.classList.add("active");
+                modeNoAudioBtn.classList.remove("active");
+            } else {
+                audioMode.style.display = "none";
+                noAudioMode.style.display = "";
+                modeNoAudioBtn.classList.add("active");
+                modeAudioBtn.classList.remove("active");
+                if (running) stopRun("STOPPED");
+            }
+        }
+
+        modeAudioBtn.addEventListener("click", () => setMode("audio"));
+        modeNoAudioBtn.addEventListener("click", () => setMode("noaudio"));
+
+        // No‑audio completion logic
+        if (scanForm) {
+            scanForm.addEventListener("change", () => {
+                const boxes = scanForm.querySelectorAll('input[type="checkbox"]');
+                const allChecked = Array.from(boxes).every(cb => cb.checked);
+                noAudioDone.style.display = allChecked ? "block" : "none";
+            });
+        }
+
+        setMode("audio");
     </script>
 </body>
 
