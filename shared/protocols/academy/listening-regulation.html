@@ -1,12 +1,11 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Listening Regulation O₂ Rhythm</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>O₂ Rhythm — Listening Regulation</title>
 
-    <!-- Match the rest of your protocols -->
     <link rel="stylesheet" href="/assets/style.css" />
 
     <!-- GA4 -->
@@ -19,33 +18,79 @@
     </script>
 
     <style>
-        /* light add-ons only */
-        .choiceRow {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
+        .modeRow {
+            margin-top: 16px;
+            display: flex;
             gap: 10px;
-            margin-top: 12px;
+            flex-wrap: wrap;
         }
 
-        .choiceBtn {
-            width: 100%;
-            padding: 12px 10px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            background: rgba(255, 255, 255, 0.04);
+        .toggle.active {
+            background: rgba(255, 255, 255, 0.14);
+        }
+
+        .ringbox {
+            margin: 24px auto 0;
+        }
+
+        .promptBox {
+            margin-top: 16px;
+            padding: 14px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.03);
+            max-width: 420px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .promptLabel {
+            font-size: 12px;
+            letter-spacing: .18em;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+
+        #promptText {
+            font-size: 15px;
+            line-height: 1.35;
             color: rgba(255, 255, 255, 0.92);
-            cursor: pointer;
-            font-size: 13px;
-            letter-spacing: .02em;
+            min-height: 2.4em;
         }
 
-        .choiceBtn:hover {
-            background: rgba(255, 255, 255, 0.07);
+        .noAudioBox {
+            margin-top: 18px;
+            padding: 14px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.03);
         }
 
-        .choiceBtn.active {
-            background: rgba(255, 255, 255, 0.10);
-            border-color: rgba(255, 255, 255, 0.22);
+        .captionLabel {
+            font-size: 12px;
+            letter-spacing: .18em;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .stepItem {
+            display: flex;
+            gap: 8px;
+            align-items: flex-start;
+            margin-bottom: 8px;
+            font-size: 14px;
+            line-height: 1.35;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .stepItem input[type="checkbox"] {
+            margin-top: 3px;
+        }
+
+        .stepItem strong {
+            font-weight: 600;
         }
 
         .endMsg {
@@ -57,6 +102,7 @@
             color: rgba(255, 255, 255, 0.92);
             line-height: 1.35;
             display: none;
+            font-size: 14px;
         }
 
         .endMsg strong {
@@ -64,47 +110,136 @@
             margin-bottom: 6px;
             letter-spacing: .02em;
         }
+
+        .infoBox {
+            margin-top: 18px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.4;
+        }
+
+        .infoBox strong {
+            font-weight: 600;
+        }
     </style>
 </head>
 
 <body data-agency="academy" data-environment="training">
     <main class="wrap">
-        <section class="card protocol" data-protocol-id="academy_listening_directional">
+        <section class="card protocol" data-agency="academy" data-environment="training"
+            data-protocol-id="listening-regulation">
 
             <div class="brand">O₂ RHYTHM</div>
 
-            <h1>Listening Regulation • Directional Audio</h1>
-            <p class="sub">Choose 1 min / 2 min / 3 min • headphones recommended</p>
-            <p class="sub" style="margin-top:-10px;">Use: overload • noise reactivity • pre-contact focus</p>
+            <h1>Listening Regulation</h1>
+            <p class="sub">1:59 • left / right • near / far</p>
+            <p class="sub" style="margin-top:-10px;">
+                Use: between calls • after noise and chaos • when you feel checked‑out or stuck in your head
+            </p>
 
-            <div class="ringbox">
-                <svg class="progressRing" viewBox="0 0 220 220" aria-hidden="true">
-                    <circle class="progress-bg" cx="110" cy="110" r="100"></circle>
-                    <circle class="progress" cx="110" cy="110" r="100"></circle>
-                </svg>
+            <!-- MODE TOGGLE -->
+            <div class="modeRow">
+                <button id="modeAudio" class="toggle active" type="button">MODE: AUDIO</button>
+                <button id="modeNoAudio" class="toggle" type="button">MODE: NO AUDIO</button>
+            </div>
 
-                <div class="pacer">
-                    <div class="center">
-                        <button id="startBtn" class="start" type="button">START</button>
-                        <div id="timer" class="timer">1:00</div>
-                        <div id="phaseLabel" class="phaseLabel">READY</div>
+            <!-- ========== AUDIO MODE ========== -->
+            <div id="audioMode">
+                <div class="ringbox">
+                    <svg class="progressRing" viewBox="0 0 220 220" aria-hidden="true">
+                        <circle class="progress-bg" cx="110" cy="110" r="100"></circle>
+                        <circle class="progress" cx="110" cy="110" r="100"></circle>
+                    </svg>
+
+                    <div class="pacer">
+                        <div class="center">
+                            <button id="startBtn" class="start" type="button">START</button>
+                            <div id="timer" class="timer">1:59</div>
+                            <div id="phaseLabel" class="phaseLabel">READY</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="toggleRow">
+                    <button id="soundToggle" class="toggle" type="button">SOUND: ON</button>
+                </div>
+
+                <div class="promptBox">
+                    <div class="promptLabel">On‑screen cue</div>
+                    <div id="promptText">
+                        Follow the sound. Notice which ear feels louder right now.
+                    </div>
+                </div>
+
+                <div id="endMsg" class="endMsg">
+                    <strong>Listening regulation complete.</strong>
+                    You just pulled your attention back into this room and dropped the volume on the last call. From
+                    here, choose
+                    your next move with a little more control.
+                </div>
+            </div>
+
+            <!-- ========== NO‑AUDIO MODE ========== -->
+            <div id="noAudioMode" style="display:none; margin-top:22px;">
+                <div class="noAudioBox">
+                    <div class="captionLabel">No‑audio version</div>
+                    <p style="font-size:13px; color:rgba(255,255,255,0.7); margin-bottom:10px;">
+                        No headphones or sound? Use the room. Follow these steps and tap each box when you’ve done it.
+                    </p>
+
+                    <div id="stepList">
+                        <label class="stepItem">
+                            <input type="checkbox" data-step="sides" />
+                            <span><strong>1. Left vs right.</strong> For a few seconds, notice which side feels louder
+                                or more active — left ear/shoulder or right ear/shoulder.</span>
+                        </label>
+
+                        <label class="stepItem">
+                            <input type="checkbox" data-step="near" />
+                            <span><strong>2. Near sounds.</strong> Pick 3–5 sounds that are close to you: your
+                                breathing, clothing, chair, keyboard, radios in your space.</span>
+                        </label>
+
+                        <label class="stepItem">
+                            <input type="checkbox" data-step="far" />
+                            <span><strong>3. Far sounds.</strong> Pick 3–5 sounds that are farther away: hallway, other
+                                units, traffic, HVAC, outside noise.</span>
+                        </label>
+
+                        <label class="stepItem">
+                            <input type="checkbox" data-step="constant" />
+                            <span><strong>4. Constant vs changing.</strong> Find one sound that stays mostly constant
+                                and one that comes and goes. Track both for a few breaths.</span>
+                        </label>
+
+                        <label class="stepItem">
+                            <input type="checkbox" data-step="body" />
+                            <span><strong>5. Shoulder / jaw check.</strong> Notice your shoulders and jaw while you
+                                listen. Drop your shoulders a notch and let your jaw soften.</span>
+                        </label>
+
+                        <label class="stepItem">
+                            <input type="checkbox" data-step="breath" />
+                            <span><strong>6. One steady breath.</strong> In through your nose, longer breath out through
+                                your mouth, then refocus on your task.</span>
+                        </label>
+                    </div>
+
+                    <div id="noAudioDone" class="endMsg">
+                        <strong>Listening regulation complete.</strong>
+                        You’re a little less locked onto the last call and more tuned into where you are now.
                     </div>
                 </div>
             </div>
 
-            <div class="choiceRow" aria-label="Duration selection">
-                <button class="choiceBtn active" type="button" data-seconds="60" id="opt60">1 MIN</button>
-                <button class="choiceBtn" type="button" data-seconds="120" id="opt120">2 MIN</button>
-                <button class="choiceBtn" type="button" data-seconds="192" id="opt192">3 MIN</button>
-            </div>
-
-            <div class="toggleRow" style="margin-top:12px;">
-                <button id="soundToggle" class="toggle" type="button">SOUND: ON</button>
-            </div>
-
-            <div id="endMsg" class="endMsg">
-                <strong>This listening regulation has ended.</strong>
-                If you need more time, run it again. Otherwise, resume duties.
+            <!-- WHY THIS MATTERS -->
+            <div class="infoBox">
+                <strong>What this regulation is for:</strong>
+                This is a short listening reset. Tracking a sound as it moves from ear to ear pulls your attention out
+                of the last
+                call and back into the room. Noticing near and far sounds helps your nervous system stand down a notch
+                while you
+                stay alert enough to work.[web:8][web:95][web:110]
             </div>
 
             <div class="navrow">
@@ -112,35 +247,38 @@
             </div>
 
             <div class="feedback">
-                <a class="feedback-link" href="feedback.html?src=academy&protocol=listening-directional" target="_blank"
+                <a class="feedback-link" href="feedback.html?src=academy&protocol=listening-regulation" target="_blank"
                     rel="noopener">
                     Feedback (30 seconds)
                 </a>
             </div>
 
-            <!-- Audio -->
-            <audio id="track" preload="auto" src="/assets/audio/directional-listening.mp3"></audio>
-
+            <!-- Audio file -->
+            <audio id="voiceTrack" preload="auto" src="/assets/audio/listening-regulation.mp3"></audio>
         </section>
     </main>
 
     <script>
-        // ============================================================
-        // Listening Regulation — Directional Audio (MP3)
-        // - User chooses 1/2/3 min
-        // - Fades out smoothly at end (no abrupt stop)
-        // - Uses your existing ring/timer look
-        // ============================================================
-
-        const track = document.getElementById("track");
+        const voice = document.getElementById("voiceTrack");
 
         const startBtn = document.getElementById("startBtn");
         const timerEl = document.getElementById("timer");
         const labelEl = document.getElementById("phaseLabel");
-        const endMsgEl = document.getElementById("endMsg");
+        const promptEl = document.getElementById("promptText");
         const soundToggle = document.getElementById("soundToggle");
+        const endMsgEl = document.getElementById("endMsg");
 
-        const choiceBtns = Array.from(document.querySelectorAll(".choiceBtn"));
+        const modeAudioBtn = document.getElementById("modeAudio");
+        const modeNoAudioBtn = document.getElementById("modeNoAudio");
+        const audioMode = document.getElementById("audioMode");
+        const noAudioMode = document.getElementById("noAudioMode");
+        const stepList = document.getElementById("stepList");
+        const noAudioDone = document.getElementById("noAudioDone");
+
+        let duration = 119; // 1:59 fallback
+        let running = false;
+        let soundOn = true;
+        let raf = null;
 
         // progress ring
         const circle = document.querySelector("circle.progress");
@@ -153,136 +291,53 @@
         }
         setProgress(0);
 
-        // Duration options
-        // File is 3:12 = 192 seconds
-        const MAX_LEN = 192;
-        let selectedSeconds = 60;
-
-        // Sound + volume handling
-        let soundOn = true;
-        track.volume = 1.0;
-        track.muted = false;
-
-        // Run state
-        let running = false;
-        let raf = null;
-        let fadeTimer = null;
-        let endAt = 0;         // target end time in seconds (audio timeline)
-        let endScheduled = false;
-
-        const FADE_SECONDS = 2.0;  // smooth fade at end
-
         function fmt(sec) {
-            const s = Math.max(0, Math.ceil(sec));
+            const s = Math.max(0, Math.floor(sec));
             const m = Math.floor(s / 60);
             const rem = s % 60;
             return `${m}:${String(rem).padStart(2, "0")}`;
         }
 
-        function showEnd() { endMsgEl.style.display = "block"; }
-        function hideEnd() { endMsgEl.style.display = "none"; }
+        // simple cue timeline (adjust times after you record, if needed)
+        const cues = [
+            { t: 0, text: "Follow the sound. Notice which ear feels louder right now." },
+            { t: 20, text: "Keep tracking left and right. Notice your shoulders as you listen." },
+            { t: 40, text: "Shift to near sounds in the room. List a few in your head." },
+            { t: 60, text: "Now include farther sounds: hallway, outside, HVAC, traffic." },
+            { t: 90, text: "Notice one constant sound and one that comes and goes." },
+            { t: 110, text: "Let your shoulders drop a notch. One steady breath in, longer breath out." }
+        ];
 
-        function setActiveChoice(btn) {
-            choiceBtns.forEach(b => b.classList.remove("active"));
-            btn.classList.add("active");
-            selectedSeconds = Number(btn.dataset.seconds) || 60;
-
-            // Update timer display if idle
-            if (!running) {
-                timerEl.textContent = fmt(selectedSeconds);
-                setProgress(0);
-                labelEl.textContent = "READY";
-                hideEnd();
+        function cueText(t) {
+            let cur = cues[0].text;
+            for (const c of cues) {
+                if (t >= c.t) cur = c.text;
             }
+            return cur;
         }
 
-        // Prevent changing duration mid-run (keeps behavior predictable)
-        function lockChoices(lock) {
-            choiceBtns.forEach(b => b.disabled = lock);
-            choiceBtns.forEach(b => b.style.opacity = lock ? "0.6" : "1");
-        }
-
-        function stopInternal(status, showEndMsg) {
+        function stopRun(status) {
             running = false;
-            endScheduled = false;
-
             startBtn.textContent = "START";
             labelEl.textContent = status;
-
             if (raf) cancelAnimationFrame(raf);
             raf = null;
-
-            if (fadeTimer) {
-                clearInterval(fadeTimer);
-                fadeTimer = null;
-            }
-
-            try { track.pause(); } catch (_) { }
-
-            // Reset volume so next run isn't stuck quiet
-            track.volume = soundOn ? 1.0 : 1.0;
-
-            lockChoices(false);
-
-            if (showEndMsg) showEnd();
-            else hideEnd();
-        }
-
-        function scheduleFadeOut() {
-            if (fadeTimer) return;
-
-            // Fade out over FADE_SECONDS using small steps
-            const steps = 20;
-            const stepMs = (FADE_SECONDS * 1000) / steps;
-            const startVol = track.volume;
-            let i = 0;
-
-            fadeTimer = setInterval(() => {
-                i++;
-                const pct = i / steps;
-                const v = Math.max(0, startVol * (1 - pct));
-                track.volume = v;
-
-                if (i >= steps) {
-                    clearInterval(fadeTimer);
-                    fadeTimer = null;
-
-                    // Pause once silent, then mark complete
-                    try { track.pause(); } catch (_) { }
-                    track.currentTime = 0; // reset for next run
-                    track.volume = soundOn ? 1.0 : 1.0;
-
-                    setProgress(1);
-                    timerEl.textContent = "00:00";
-                    stopInternal("DONE", true);
-
-                    try {
-                        gtag("event", "protocol_complete", {
-                            protocol: "listening_directional",
-                            duration_selected: selectedSeconds,
-                            agency: document.body.dataset.agency || "",
-                            environment: document.body.dataset.environment || ""
-                        });
-                    } catch (_) { }
-                }
-            }, stepMs);
+            try { voice.pause(); } catch (_) { }
+            endMsgEl.style.display = status === "DONE" ? "block" : "none";
         }
 
         function updateLoop() {
             if (!running) return;
+            const t = soundOn && !isNaN(voice.currentTime) ? voice.currentTime : 0;
+            const remain = Math.max(0, duration - t);
 
-            const t = track.currentTime || 0;
-
-            // Remaining is based on selected duration, not file length
-            const remain = Math.max(0, selectedSeconds - t);
             timerEl.textContent = fmt(remain);
+            setProgress(Math.min(1, t / duration));
+            promptEl.textContent = cueText(t);
 
-            setProgress(Math.min(1, t / selectedSeconds));
-
-            // When we hit the selected duration, fade out (do not abruptly stop)
-            if (!endScheduled && t >= Math.max(0, selectedSeconds - FADE_SECONDS)) {
-                endScheduled = true;
-                scheduleFadeOut();
+            if (remain <= 0 || (soundOn && voice.ended)) {
+                stopRun("DONE");
+                return;
             }
 
             raf = requestAnimationFrame(updateLoop);
@@ -290,61 +345,73 @@
 
         async function startStop() {
             if (running) {
-                stopInternal("STOPPED", false);
-                try { gtag("event", "protocol_stop", { protocol: "listening_directional", duration_selected: selectedSeconds }); } catch (_) { }
+                stopRun("STOPPED");
                 return;
             }
 
-            hideEnd();
-
-            // Ensure selected duration never exceeds file length
-            selectedSeconds = Math.min(selectedSeconds, MAX_LEN);
-
-            // Reset track
-            track.currentTime = 0;
-            track.volume = 1.0;
-            track.muted = !soundOn;
+            endMsgEl.style.display = "none";
+            try { voice.currentTime = 0; } catch (_) { }
+            timerEl.textContent = fmt(duration);
+            setProgress(0);
+            promptEl.textContent = cueText(0);
 
             running = true;
             startBtn.textContent = "STOP";
             labelEl.textContent = "RUNNING";
-            lockChoices(true);
 
-            try {
-                await track.play();
-            } catch (_) {
-                // If play fails (autoplay restrictions), revert state cleanly
-                stopInternal("READY", false);
-                return;
+            if (soundOn) {
+                try { await voice.play(); } catch (_) { }
             }
-
-            try {
-                gtag("event", "protocol_start", {
-                    protocol: "listening_directional",
-                    duration_selected: selectedSeconds
-                });
-            } catch (_) { }
 
             raf = requestAnimationFrame(updateLoop);
         }
 
-        // SOUND toggle
+        startBtn.addEventListener("click", startStop);
+
         soundToggle.addEventListener("click", () => {
             soundOn = !soundOn;
             soundToggle.textContent = `SOUND: ${soundOn ? "ON" : "OFF"}`;
-            track.muted = !soundOn;
+            if (!soundOn) {
+                try { voice.pause(); } catch (_) { }
+            }
         });
 
-        // Choice buttons
-        choiceBtns.forEach(btn => btn.addEventListener("click", () => setActiveChoice(btn)));
+        voice.addEventListener("loadedmetadata", () => {
+            if (Number.isFinite(voice.duration) && voice.duration > 0) {
+                duration = Math.round(voice.duration);
+                timerEl.textContent = fmt(duration);
+            }
+        });
 
-        // Start/Stop
-        startBtn.addEventListener("click", startStop);
+        // mode switching
+        function setMode(mode) {
+            if (mode === "audio") {
+                audioMode.style.display = "";
+                noAudioMode.style.display = "none";
+                modeAudioBtn.classList.add("active");
+                modeNoAudioBtn.classList.remove("active");
+            } else {
+                audioMode.style.display = "none";
+                noAudioMode.style.display = "";
+                modeNoAudioBtn.classList.add("active");
+                modeAudioBtn.classList.remove("active");
+                if (running) stopRun("STOPPED");
+            }
+        }
 
-        // Initial UI
-        timerEl.textContent = fmt(selectedSeconds);
-        labelEl.textContent = "READY";
-        hideEnd();
+        modeAudioBtn.addEventListener("click", () => setMode("audio"));
+        modeNoAudioBtn.addEventListener("click", () => setMode("noaudio"));
+
+        // no‑audio completion
+        if (stepList) {
+            stepList.addEventListener("change", () => {
+                const boxes = stepList.querySelectorAll('input[type="checkbox"]');
+                const allChecked = Array.from(boxes).every(cb => cb.checked);
+                noAudioDone.style.display = allChecked ? "block" : "none";
+            });
+        }
+
+        setMode("audio");
     </script>
 </body>
 
