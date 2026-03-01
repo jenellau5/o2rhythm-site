@@ -942,6 +942,36 @@
                 </div>
             </div>
         </section>
+        <script>
+            // Handle pilot form submit without leaving the page
+            const pilotForm = document.getElementById('pilot-form');
+            const pilotMessage = document.getElementById('pilot-message');
+
+            if (pilotForm) {
+                pilotForm.addEventListener('submit', function (e) {
+                    e.preventDefault();
+
+                    const formData = new FormData(pilotForm);
+
+                    fetch(pilotForm.action, {
+                        method: 'POST',
+                        body: formData,
+                        mode: 'no-cors'
+                    }).then(function () {
+                        pilotForm.reset();
+                        if (pilotMessage) {
+                            pilotMessage.style.display = 'block';
+                        }
+                    }).catch(function () {
+                        // even if there is an error, at least do not leave them on a blank OK page
+                        if (pilotMessage) {
+                            pilotMessage.textContent = 'We had trouble submitting. Please email hello.o2rhythm@gmail.com.';
+                            pilotMessage.style.display = 'block';
+                        }
+                    });
+                });
+            }
+        </script>
 
         <!-- DEMO & CONTACT -->
         <section id="contact" class="section" aria-label="Demo and contact">
@@ -994,9 +1024,10 @@
                                 structure the call around it.
                             </p>
 
-                            <form
+                            <form id="pilot-form"
                                 action="https://script.google.com/macros/s/AKfycbxTps_2ZCOKlpRxRj_yObNcppWM2zFvkLyDx054bKEHE2PDSrEMRh5MhjWnrAnZLuEv/exec"
                                 method="POST" class="form">
+
                                 <label>
                                     <span>Agency or organization</span>
                                     <input type="text" name="agency" required />
@@ -1023,7 +1054,9 @@
 
                                 <button class="btn btnPrimary" type="submit">Request pilot call</button>
                             </form>
-
+                            <p class="hint" id="pilot-message" style="margin-top:10px; display:none;">
+                                Thanks for reaching out. We received your pilot request and will reply by email.
+                            </p>
                             <p class="hint" style="margin-top:10px;">
                                 Prefer email? Reach us at
                                 <a href="mailto:hello.o2rhythm@gmail.com">hello.o2rhythm@gmail.com</a>.
