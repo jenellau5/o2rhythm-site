@@ -8,12 +8,12 @@
     <title>Operational Regulation System for First Responders | O₂ Rhythm</title>
 
     <meta name="description"
-        content="On-shift nervous system regulation for dispatch, EMS, fire, law enforcement, and corrections. QR-based micro-regulation drills that down-regulate in 30–120 seconds without apps or logins." />
+        content="On-shift nervous system regulation for dispatch, EMS, fire, law enforcement, and corrections. QR-based micro-regulation drills that down-regulate in 30 to 120 seconds without apps or logins." />
 
     <!-- Open Graph -->
     <meta property="og:title" content="Operational Regulation System for First Responders | O₂ Rhythm" />
     <meta property="og:description"
-        content="QR-based micro-regulation drills for high-stress responders. Run down-regulation protocols in 30–120 seconds during live operations, with adoption tracked by environment." />
+        content="QR-based micro-regulation drills for high-stress responders. Run short resets during live operations, with adoption tracked by environment." />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="https://o2rhythm.com/assets/img/desk-hero.png" />
     <meta property="og:url" content="https://o2rhythm.com/" />
@@ -62,22 +62,6 @@
         a {
             color: inherit;
         }
-
-        .qrWrap {
-            display: flex;
-            justify-content: flex-start;
-            margin: 10px 0 6px;
-        }
-
-        .qrWrap img {
-            width: 140px;
-            height: 140px;
-            object-fit: contain;
-            border-radius: 12px;
-            border: 1px solid var(--line);
-            background: #000;
-        }
-
 
         /* layout */
         .wrap {
@@ -463,8 +447,6 @@
             }
         }
 
-
-
         .envBody {
             padding: 10px;
             display: grid;
@@ -500,9 +482,9 @@
         /* demo */
         .demoWrap {
             display: grid;
-            grid-template-columns: 1.1fr .9fr;
+            grid-template-columns: 1fr 1fr;
             gap: 14px;
-            align-items: stretch;
+            align-items: flex-start;
             margin-top: 14px;
         }
 
@@ -510,6 +492,21 @@
             .demoWrap {
                 grid-template-columns: 1fr;
             }
+        }
+
+        .qrWrap {
+            display: flex;
+            justify-content: flex-start;
+            margin: 10px 0 6px;
+        }
+
+        .qrWrap img {
+            width: 140px;
+            height: 140px;
+            object-fit: contain;
+            border-radius: 12px;
+            border: 1px solid var(--line);
+            background: #000;
         }
 
         /* form */
@@ -593,10 +590,9 @@
 
         .faqItem.active .faqIcon {
             transform: rotate(45deg);
-            /* turns + into × */
         }
 
-
+        /* footer */
         footer {
             border-top: 1px solid var(--line);
             padding: 16px 0 30px;
@@ -647,17 +643,17 @@
             <div class="wrap heroInner">
                 <div class="heroCard" id="product">
                     <p class="kicker">Operational regulation system</p>
-                    <h1>On‑shift nervous system regulation for high‑stress responders</h1>
+                    <h1>On-shift nervous system regulation for high-stress responders</h1>
                     <p class="sub">
-                        O₂ Rhythm places QR‑based micro‑regulation drills where activation actually happens-consoles,
-                        bays, units,
-                        control rooms-so crews can scan, reset, and get back to task in 30–120 seconds.
+                        O₂ Rhythm places QR-based micro-regulation drills where activation actually happens - consoles,
+                        bays, units
+                        and control rooms - so crews can scan, reset and get back to task in 30 to 120 seconds.
                     </p>
 
                     <div class="pillRow">
                         <div class="pill"><strong>No app.</strong> No logins, no passwords.</div>
-                        <div class="pill"><strong>Environment‑specific.</strong> Menus tuned to dispatch, EMS, fire, law
-                            enforcement, corrections.</div>
+                        <div class="pill"><strong>Environment specific.</strong> Menus tuned to dispatch, EMS, fire, law
+                            enforcement and corrections.</div>
                         <div class="pill"><strong>Adoption tracked.</strong> Usage tied to each placement.</div>
                     </div>
 
@@ -677,21 +673,21 @@
                 <div class="card">
                     <h2>How it fits into a shift</h2>
                     <p class="sub">
-                        O₂ Rhythm is built to live inside operations, not next to them. Crews don’t leave the floor, log
-                        into an app,
-                        or sit through a long session-they scan, run a short protocol, and go back to work.
+                        O₂ Rhythm lives inside operations, not next to them. Crews do not leave the floor, log into an
+                        app
+                        or sit through a long session. They scan, run a short protocol and go back to work.
                     </p>
 
                     <ul class="hint">
                         <li>Placement plan matched to your environments and workflow.</li>
-                        <li>Menus tuned to high‑acuity calls, stacked workload, and post‑incident reset.</li>
-                        <li>Short drills that can be run solo or as part of briefing, debrief, or training blocks.</li>
+                        <li>Menus tuned to high acuity calls, stacked workload and post incident reset.</li>
+                        <li>Short drills that can be run solo or as part of briefing, debrief or training blocks.</li>
                     </ul>
                 </div>
 
                 <div class="media howGraphic">
                     <img src="/assets/img/how-it-works.png"
-                        alt="Scan → short protocol → back to task → adoption tracked" />
+                        alt="Scan, short protocol, back to task, adoption tracked" />
                 </div>
             </div>
         </section>
@@ -702,9 +698,9 @@
                 <div class="card">
                     <h2>Built for real environments, not wellness rooms</h2>
                     <p class="sub">
-                        O₂ Rhythm is deployed where activation actually happens-consoles, bays, units, and control
-                        rooms-so crews can
-                        scan, reset, and get back to task without leaving the floor.
+                        O₂ Rhythm is deployed where activation actually happens - consoles, bays, units and control
+                        rooms - so crews
+                        can scan, reset and get back to task without leaving the floor.
                     </p>
 
                     <div class="envBlock">
@@ -716,10 +712,10 @@
                                 <div class="envBody">
                                     <div class="envTitle">Dispatch / 911</div>
                                     <div class="envWhy">
-                                        Console, quiet room, and break‑area placements to down‑regulate after stacked
-                                        calls and critical events.
+                                        Console, quiet room and break area placements to drop residual activation after
+                                        stacked calls and critical events.
                                     </div>
-                                    <div class="envMeta">PSAPs, call‑takers, and radio operators.</div>
+                                    <div class="envMeta">PSAPs, call takers and radio operators.</div>
                                 </div>
                             </div>
 
@@ -730,10 +726,10 @@
                                 <div class="envBody">
                                     <div class="envTitle">EMS / Paramedic</div>
                                     <div class="envWhy">
-                                        Station‑bay and unit placements crews can hit between calls without logging into
-                                        anything.
+                                        Station bay and unit placements that crews can hit between calls without logging
+                                        into anything.
                                     </div>
-                                    <div class="envMeta">Medic units, fire‑based EMS, transport services.</div>
+                                    <div class="envMeta">Medic units, fire based EMS and transport services.</div>
                                 </div>
                             </div>
 
@@ -744,10 +740,10 @@
                                 <div class="envBody">
                                     <div class="envTitle">Fire</div>
                                     <div class="envWhy">
-                                        Bay, turnout, and day‑room protocols that match turnout rhythm and post‑incident
+                                        Bay, turnout and day room protocols that match turnout rhythm and post incident
                                         reset.
                                     </div>
-                                    <div class="envMeta">Engine, truck, and wildland companies.</div>
+                                    <div class="envMeta">Engine, truck and wildland companies.</div>
                                 </div>
                             </div>
 
@@ -756,12 +752,12 @@
                                     <img src="/assets/img/police-qruse.png" alt="Law enforcement environment" />
                                 </div>
                                 <div class="envBody">
-                                    <div class="envTitle">Law Enforcement</div>
+                                    <div class="envTitle">Law enforcement</div>
                                     <div class="envWhy">
-                                        Patrol car, briefing, and report‑writing resets that can be run in minutes
+                                        Patrol car, briefing and report writing resets that can be run in minutes
                                         without drawing attention.
                                     </div>
-                                    <div class="envMeta">Patrol, investigations, specialty units.</div>
+                                    <div class="envMeta">Patrol, investigations and specialty units.</div>
                                 </div>
                             </div>
 
@@ -772,30 +768,31 @@
                                 <div class="envBody">
                                     <div class="envTitle">Corrections</div>
                                     <div class="envWhy">
-                                        Control‑room and sally‑port placements to clear physiology after uses of force
-                                        and high‑acuity events.
+                                        Control room and sally port placements to clear physiology after uses of force
+                                        and high acuity events.
                                     </div>
-                                    <div class="envMeta">Jails, prisons, juvenile facilities.</div>
+                                    <div class="envMeta">Jails, prisons and juvenile facilities.</div>
                                 </div>
                             </div>
 
                             <div class="envCard">
                                 <div class="envImg">
-                                    <img src="/assets/img/post-classroomqr.png" alt="Training environment" />
+                                    <img src="/assets/img/post-classroomqr.png"
+                                        alt="Training and academy environment" />
                                 </div>
                                 <div class="envBody">
-                                    <div class="envTitle">Training & Academy</div>
+                                    <div class="envTitle">Training and academy</div>
                                     <div class="envWhy">
-                                        Classroom and scenario‑lane protocols that teach crews to regulate under load,
-                                        not just on a mat.
+                                        Classroom and scenario lane protocols that teach crews to regulate under load,
+                                        not just in a quiet room.
                                     </div>
-                                    <div class="envMeta">Academies, in‑service, simulation centers.</div>
+                                    <div class="envMeta">Academies, in service training and simulation centers.</div>
                                 </div>
                             </div>
                         </div>
 
                         <p class="hint" style="margin-top:14px;">
-                            Adoption is placement plus relevance. Menus are customized by environment so QR codes never
+                            Adoption is placement plus relevance. Menus are customized by environment so QR codes do not
                             turn into wall clutter.
                         </p>
                     </div>
@@ -816,11 +813,10 @@
                         </button>
                         <div class="faqAnswer">
                             <p>
-                                No. Some protocols use breath, but the core of O₂ Rhythm is short, environment‑specific
-                                drills designed
-                                for consoles, bays, units, and control rooms. Crews are taught to regulate in the same
-                                conditions they work in,
-                                not on a mat in a quiet room.
+                                No. Some protocols use breath, but the core of O₂ Rhythm is short, environment specific
+                                drills for consoles,
+                                bays, units and control rooms. Crews learn to regulate in the same conditions they work
+                                in, not on a mat in a separate space.
                             </p>
                         </div>
                     </div>
@@ -832,10 +828,9 @@
                         </button>
                         <div class="faqAnswer">
                             <p>
-                                Most protocols run 30–120 seconds. The goal is a measurable down‑shift that fits between
-                                calls, after a
-                                critical event, or before returning to the floor—not a 20‑minute session that pulls
-                                people off the line.
+                                Most protocols run 30 to 120 seconds. The goal is a clear down shift that fits between
+                                calls, after a critical event
+                                or before returning to the floor, not a long session that pulls people off the line.
                             </p>
                         </div>
                     </div>
@@ -848,37 +843,82 @@
                         <div class="faqAnswer">
                             <p>
                                 No. Crews scan a QR code or tap a link posted in their environment. There are no
-                                usernames, passwords,
-                                or downloads to manage.
+                                usernames, passwords or downloads to manage.
                             </p>
                         </div>
                     </div>
 
                     <div class="faqItem">
                         <button class="faqQuestion" type="button">
-                            What does “adoption tracked by environment” mean?
+                            What does adoption tracked by environment mean?
                             <span class="faqIcon">+</span>
                         </button>
                         <div class="faqAnswer">
                             <p>
-                                Each placement has its own QR, so usage is tied to that console, bay, unit, or room. You
-                                can see where
-                                protocols are actually being used and adjust placements or menus accordingly.
+                                Each placement has its own QR, so usage is tied to that console, bay, unit or room.
+                                Leadership sees which environments are
+                                actually using the tool and can adjust placements or menus with real data instead of
+                                guesses.
                             </p>
                         </div>
                     </div>
 
                     <div class="faqItem">
                         <button class="faqQuestion" type="button">
-                            How do we start a pilot?
+                            What data do chiefs and directors actually see?
                             <span class="faqIcon">+</span>
                         </button>
                         <div class="faqAnswer">
                             <p>
-                                Open the demo, then use the pilot form below to share your environments and objectives.
-                                We’ll propose a
-                                60–90 day pilot outline, including placement plan, recommended protocols, and simple
-                                adoption metrics.
+                                You see simple counts and trends by environment, not individual medical records or
+                                mental health notes. There is no PHI.
+                                The focus is on which placements are being used and when, so you can decide where to
+                                expand or adjust.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="faqItem">
+                        <button class="faqQuestion" type="button">
+                            How does this fit with what we already do?
+                            <span class="faqIcon">+</span>
+                        </button>
+                        <div class="faqAnswer">
+                            <p>
+                                O₂ Rhythm does not replace EAP, peer support, chaplains or other wellness work. It gives
+                                those efforts
+                                an operational tool that lives on shift, so regulation can happen between calls and
+                                contacts, not just in scheduled sessions.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="faqItem">
+                        <button class="faqQuestion" type="button">
+                            What does a pilot cost and how is it licensed?
+                            <span class="faqIcon">+</span>
+                        </button>
+                        <div class="faqAnswer">
+                            <p>
+                                Pricing depends on scope, number of environments and agency size. Pilots are typically
+                                scoped for 60 to 90 days
+                                with a small number of environments, then rolled into an annual agreement if the fit is
+                                right. We cover details on the first call.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="faqItem">
+                        <button class="faqQuestion" type="button">
+                            How much work is this for our team to implement?
+                            <span class="faqIcon">+</span>
+                        </button>
+                        <div class="faqAnswer">
+                            <p>
+                                Most pilots are led by a small champion group such as a director, training lead or
+                                wellness lead.
+                                Setup usually involves a short planning call, printing placements and a 10 to 20 minute
+                                orientation for supervisors or peer support.
                             </p>
                         </div>
                     </div>
@@ -890,10 +930,11 @@
                         </button>
                         <div class="faqAnswer">
                             <p>
-                                Yes. We partner with agencies, associations, and training organizations to embed O₂
+                                Yes. We partner with agencies, associations and training organizations to embed O₂
                                 Rhythm into existing wellness,
-                                resilience, peer support, and academy curricula. Use the pilot form to flag
-                                “partnership” and we’ll set up a call.
+                                resilience, peer support and academy curricula. Note that you are interested in
+                                partnership when you use the pilot form,
+                                and we will shape the conversation around that.
                             </p>
                         </div>
                     </div>
@@ -902,82 +943,95 @@
             </div>
         </section>
 
-
         <!-- DEMO & CONTACT -->
-        <div class="tile">
-            <h3>Live demo</h3>
-            <p class="hint">
-                Scan the QR or open the demo page. No login, no app, same experience your team gets during pilot.
-            </p>
+        <section id="contact" class="section" aria-label="Demo and contact">
+            <div class="wrap">
+                <div class="card">
+                    <h2>See O₂ Rhythm in action</h2>
+                    <p class="hint">
+                        Open the same demo your crews would use on shift, then schedule a short call to map placements
+                        and a pilot that fits your agency.
+                    </p>
 
-            <div class="qrWrap">
-                <img src="/assets/img/demo-qr.png" alt="QR code to open the O₂ Rhythm live demo" />
+                    <div class="demoWrap">
+                        <!-- Left: QR and demo details -->
+                        <div class="tile">
+                            <h3>Live demo</h3>
+                            <p class="hint">
+                                Scan the QR or open the demo page. No login, no app and no password. This is the same
+                                experience your team would use in a pilot.
+                            </p>
+
+                            <div class="qrWrap">
+                                <img src="/assets/img/demo-qr.png" alt="QR code to open the O₂ Rhythm live demo" />
+                            </div>
+
+                            <ul class="hint">
+                                <li>30 to 120 second protocols.</li>
+                                <li>Guided and silent options.</li>
+                                <li>Menus tailored to dispatch, EMS, fire, law enforcement and corrections.</li>
+                            </ul>
+
+                            <div class="row">
+                                <a class="btn btnPrimary" href="https://o2rhythm.com/demo/" target="_blank"
+                                    rel="noopener">
+                                    Open demo
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Right: pilot form -->
+                        <div class="tile" id="pilot-intake">
+                            <h3>Talk about a pilot</h3>
+                            <p class="hint">
+                                Share your environment mix and current wellness or regulation tools. We will outline a
+                                60 to 90 day pilot
+                                with clear placements and adoption metrics.
+                            </p>
+
+                            <p class="hint" style="margin-top:8px;">
+                                Interested in partnership or program integration? Mention that in the notes and we will
+                                structure the call around it.
+                            </p>
+
+                            <form
+                                action="https://script.google.com/macros/s/AKfycbxTps_2ZCOKlpRxRj_yObNcppWM2zFvkLyDx054bKEHE2PDSrEMRh5MhjWnrAnZLuEv/exec"
+                                method="POST" class="form">
+                                <label>
+                                    <span>Agency or organization</span>
+                                    <input type="text" name="agency" required />
+                                </label>
+                                <label>
+                                    <span>Email</span>
+                                    <input type="email" name="email" required />
+                                </label>
+                                <label>
+                                    <span>Role</span>
+                                    <input type="text" name="role"
+                                        placeholder="Chief, director, training, wellness, peer support, etc." />
+                                </label>
+                                <label>
+                                    <span>Environments to focus on</span>
+                                    <textarea name="environments" rows="3"
+                                        placeholder="Dispatch, EMS, fire, law enforcement, corrections, training..."></textarea>
+                                </label>
+                                <label>
+                                    <span>Anything we should know?</span>
+                                    <textarea name="notes" rows="3"
+                                        placeholder="Current initiatives, specific incidents, staffing, constraints, partnership ideas..."></textarea>
+                                </label>
+
+                                <button class="btn btnPrimary" type="submit">Request pilot call</button>
+                            </form>
+
+                            <p class="hint" style="margin-top:10px;">
+                                Prefer email? Reach us at
+                                <a href="mailto:hello.o2rhythm@gmail.com">hello.o2rhythm@gmail.com</a>.
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <ul class="hint">
-                <li>30–120 second protocols.</li>
-                <li>Guided and silent options.</li>
-                <li>Menus tailored to dispatch, EMS, fire, law enforcement, and corrections.</li>
-            </ul>
-
-            <div class="row">
-                <a class="btn btnPrimary" href="https://o2rhythm.com/demo/" target="_blank" rel="noopener">
-                    Open demo
-                </a>
-            </div>
-        </div>
-        <p class="hint" style="margin-top:8px;">
-            Interested in partnership or integrating O₂ Rhythm into an existing program? Note that in the form and we’ll
-            structure the conversation around that.
-        </p>
-
-        <div class="tile" id="pilot-intake">
-            <h3>Talk about a pilot</h3>
-            <p class="hint">
-                Share your environment mix and current wellness/regulation tools. We’ll outline a 60–90
-                day pilot with
-                clear placements and adoption metrics.
-            </p>
-
-            <form
-                action="https://script.google.com/macros/s/AKfycbxTps_2ZCOKlpRxRj_yObNcppWM2zFvkLyDx054bKEHE2PDSrEMRh5MhjWnrAnZLuEv/exec"
-                method="POST" class="form">
-                <label>
-                    <span>Agency / organization</span>
-                    <input type="text" name="agency" required />
-                </label>
-                <label>
-                    <span>Email</span>
-                    <input type="email" name="email" required />
-                </label>
-                <label>
-                    <span>Role</span>
-                    <input type="text" name="role"
-                        placeholder="Chief, director, training, wellness, peer support, etc." />
-                </label>
-                <label>
-                    <span>Environments to focus on</span>
-                    <textarea name="environments" rows="3"
-                        placeholder="Dispatch, EMS, fire, law enforcement, corrections, training…"></textarea>
-                </label>
-                <label>
-                    <span>Anything we should know?</span>
-                    <textarea name="notes" rows="3"
-                        placeholder="Current initiatives, specific incidents, staffing, or constraints."></textarea>
-                </label>
-
-                <button class="btn btnPrimary" type="submit">Request pilot call</button>
-            </form>
-
-
-            <p class="hint" style="margin-top:10px;">
-                Prefer email? Reach us at
-                <a href="mailto:hello.o2rhythm@gmail.com">hello.o2rhythm@gmail.com</a>.
-            </p>
-        </div>
-        </div>
-        </div>
-        </div>
         </section>
     </main>
 
@@ -1004,19 +1058,16 @@
                 var item = this.parentElement;
                 var open = item.classList.contains('active');
 
-                // close all
                 document.querySelectorAll('.faqItem').forEach(function (i) {
                     i.classList.remove('active');
                 });
 
-                // toggle current
                 if (!open) {
                     item.classList.add('active');
                 }
             });
         });
     </script>
-
 </body>
 
 </html>
