@@ -27,9 +27,6 @@
         gtag('config', 'G-5NKZ7XYYWF');
     </script>
 
-    <!-- your existing <style> block stays here, unchanged -->
-
-
     <style>
         :root {
             --bg: #0b0c10;
@@ -398,30 +395,14 @@
             background: rgba(255, 255, 255, .01);
         }
 
-        .envHead h3 {
-            margin: 0 0 6px;
-            font-size: 15px;
-            letter-spacing: -.01em;
-        }
-
-        .envHead .hint {
-            max-width: 92ch;
-        }
-
         .envGrid {
             margin-top: 12px;
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(3, 1fr);
             gap: 10px;
         }
 
         @media (max-width: 1100px) {
-            .envGrid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
-        @media (max-width: 920px) {
             .envGrid {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -512,742 +493,403 @@
             }
         }
 
-        .demoQR {
-            display: grid;
-            place-items: center;
-            padding: 12px;
-            background: rgba(255, 255, 255, .02);
-            border: 1px solid rgba(255, 255, 255, .10);
-            border-radius: 18px;
-        }
-
-        .demoQR img {
-            width: min(360px, 86%);
-            height: auto;
-            display: block;
-            border-radius: 12px;
-            background: #fff;
-        }
-
-        .capline {
-            margin-top: 10px;
-            font-weight: 950;
-            letter-spacing: .10em;
-            text-transform: uppercase;
-            color: rgba(233, 233, 239, .88);
-            font-size: 12px;
-            text-align: center;
-        }
-
-        /* lists */
-        ul {
-            margin: 10px 0 0;
-            padding-left: 18px;
-            color: rgba(233, 233, 239, .70);
-            font-size: 13px;
-            line-height: 1.85;
-        }
-
-        li {
-            margin: 6px 0;
-        }
-
-        /* faq */
-        .faq {
+        /* form */
+        .form {
             display: grid;
             gap: 10px;
-            margin-top: 14px;
+            margin-top: 10px;
         }
 
-        details {
-            background: var(--panel);
-            border: 1px solid var(--line);
-            border-radius: var(--radius);
-            padding: 14px 16px;
-        }
-
-        summary {
-            cursor: pointer;
-            font-weight: 900;
-            color: rgba(233, 233, 239, .94);
-        }
-
-        details p {
-            margin: 10px 0 0;
-            color: rgba(233, 233, 239, .70);
-            font-size: 13px;
-            line-height: 1.65;
-            max-width: 82ch;
-        }
-
-        /* footer */
-        .footer {
-            margin-top: 18px;
-            padding-top: 18px;
-            border-top: 1px solid var(--line);
-            color: rgba(233, 233, 239, .60);
+        .form label {
+            display: grid;
+            gap: 4px;
             font-size: 12px;
-            display: flex;
-            justify-content: space-between;
-            gap: 12px;
-            flex-wrap: wrap;
+            color: var(--muted2);
         }
 
-        @media (max-width: 560px) {
+        .form input,
+        .form textarea {
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, .18);
+            padding: 8px 10px;
+            background: rgba(0, 0, 0, .35);
+            color: var(--text);
+            font: inherit;
+            resize: vertical;
+        }
 
-            .hint,
-            .sub,
-            ul {
-                font-size: 14px;
-                line-height: 1.8;
-            }
+        .form input:focus,
+        .form textarea:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, .36);
+        }
 
-            .section {
-                padding: 32px 0;
-            }
+        /* FAQ */
+        .faqItem {
+            border-top: 1px solid var(--line);
+            padding-top: 10px;
+            margin-top: 10px;
+        }
+
+        footer {
+            border-top: 1px solid var(--line);
+            padding: 16px 0 30px;
+            margin-top: 20px;
+            font-size: 12px;
+            color: rgba(233, 233, 239, .65);
+        }
+
+        footer a {
+            text-decoration: none;
+            color: rgba(233, 233, 239, .85);
+        }
+
+        footer a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 
 <body>
-
     <!-- TOP BAR -->
     <header class="topbar">
         <div class="wrap topbar__inner">
-            <a class="brand" href="#top" aria-label="Go to top">
-                <img src="/assets/img/logo-1.png" alt="O₂ Rhythm" />
-                <span>O₂ RHYTHM</span>
+            <a class="brand" href="#top">
+                <img src="/assets/img/logo.png" alt="O₂ Rhythm logo" />
+                <span>RHYTHM O₂</span>
             </a>
-
             <nav>
                 <a href="#product">Product</a>
                 <a href="#environments">Environments</a>
-                <a href="#why">Why it works</a>
+                <a href="#how">How it works</a>
                 <a href="#faq">FAQ</a>
                 <a href="#contact">Contact</a>
-                <a href="https://www.linkedin.com/company/rhythm-o2/" target="_blank" rel="noopener">
-                    LinkedIn
-                </a>
-                <a href="https://www.instagram.com/o2rhythm/" target="_blank" rel="noopener">
-                    Instagram
-                </a>
+                <a href="https://www.linkedin.com/company/rhythm-o2/" target="_blank" rel="noopener">LinkedIn</a>
+                <a href="https://www.instagram.com/o2rhythm/" target="_blank" rel="noopener">Instagram</a>
             </nav>
-
         </div>
     </header>
 
     <!-- HERO -->
-    <section id="top" class="hero" aria-label="O₂ Rhythm hero">
-        <div class="heroMedia">
-            <img src="/assets/img/desk-hero.png" alt="O₂ Rhythm used at a desk environment" />
-        </div>
-        <div class="heroOverlay" aria-hidden="true"></div>
-
-        <div class="heroInner">
-            <div class="heroCard">
-                <div class="kicker">SCAN • RESET • RETURN TO TASK • ADOPTION TRACKED</div>
-                <h1>On‑Shift Nervous System Regulation for High‑Stress Responders</h1>
-
-                <p class="sub">
-                    QR-based micro‑regulation for <strong>dispatch, EMS, fire, law enforcement, and
-                        corrections</strong>.
-                    <strong>30–120 second</strong> resets. No app. No login.
-                </p>
-
-                <p class="hint" style="margin-top:10px;">
-                    Scan the QR → run a short reset → go back to work. Built for between calls, between contacts,
-                    between runs.
-                </p>
-
-                <div class="row">
-                    <a class="btn btnPrimary" href="#demo">Try the live demo</a>
-                    <a class="btn" href="#pilot-intake">Request 60‑day pilot</a>
-                    <a class="btn" href="#questions">Ask a question</a>
-                </div>
-
-                <div class="pillRow" aria-label="Key features">
-                    <span class="pill"><strong>30–120 sec</strong> protocols</span>
-                    <span class="pill"><strong>No app</strong> • no login</span>
-                    <span class="pill"><strong>Environment menus</strong></span>
-                    <span class="pill"><strong>Usage analytics</strong></span>
-                </div>
+    <main id="top">
+        <section class="hero" aria-label="O₂ Rhythm overview">
+            <div class="heroMedia">
+                <img src="/assets/img/desk-hero.png" alt="First responder console with O₂ Rhythm QR codes" />
             </div>
-        </div>
-    </section>
+            <div class="heroOverlay"></div>
 
-    <main class="wrap">
-
-        <!-- WHERE IT GETS USED -->
-        <section class="section" aria-label="Where it gets used">
-            <div class="card">
-                <h2>Where it gets used</h2>
-                <p class="hint">
-                    O₂ Rhythm isn’t generic breathing. It is a reset system placed inside the environments where stress
-                    spikes. Each environment gets a menu that matches the moment and the job.
-                </p>
-            </div>
-
-            <!-- Dispatch + Console -->
-            <div class="envBlock">
-                <div class="envHead">
-                    <h3>Dispatch + Console Environments</h3>
-                    <p class="hint">
-                        For after a high‑acuity call, after a difficult caller, or before you pick up the next line.
-                        Designed for a fast downshift without losing operational readiness.
+            <div class="wrap heroInner">
+                <div class="heroCard" id="product">
+                    <p class="kicker">Operational regulation system</p>
+                    <h1>On‑shift nervous system regulation for high‑stress responders</h1>
+                    <p class="sub">
+                        O₂ Rhythm places QR‑based micro‑regulation drills where activation actually happens—consoles,
+                        bays, units,
+                        control rooms—so crews can scan, reset, and get back to task in 30–120 seconds.
                     </p>
-                </div>
 
-                <div class="envGrid">
-                    <article class="envCard">
-                        <div class="envImg">
-                            <img src="/assets/img/desk-qr2.png" alt="QR placement near a dispatch console" />
-                        </div>
-                        <div class="envBody">
-                            <div class="envTitle">Console Reset</div>
-                            <div class="envWhy">
-                                Fast resets that drop lingering activation and bring attention back online.
-                            </div>
-                            <div class="envMeta">Placement: console edge • monitor stand • headset station</div>
-                        </div>
-                    </article>
+                    <div class="pillRow">
+                        <div class="pill"><strong>No app.</strong> No logins, no passwords.</div>
+                        <div class="pill"><strong>Environment‑specific.</strong> Menus tuned to dispatch, EMS, fire, law
+                            enforcement, corrections.</div>
+                        <div class="pill"><strong>Adoption tracked.</strong> Usage tied to each placement.</div>
+                    </div>
 
-                    <article class="envCard">
-                        <div class="envImg">
-                            <img src="/assets/img/deskhero.png"
-                                alt="Dispatcher workstation with O₂ Rhythm active on phone" />
-                        </div>
-                        <div class="envBody">
-                            <div class="envTitle">Between‑Call Reset</div>
-                            <div class="envWhy">
-                                Built for “I have 60 seconds before the next thing hits.”
-                            </div>
-                            <div class="envMeta">Placement: phone stand • CAD station • supervisor desk</div>
-                        </div>
-                    </article>
-
-                    <article class="envCard">
-                        <div class="envImg">
-                            <img src="/assets/img/breakroom-2.png" alt="Quiet room QR placement" />
-                        </div>
-                        <div class="envBody">
-                            <div class="envTitle">Quiet Room Reset</div>
-                            <div class="envWhy">
-                                A controlled downshift when you can step away briefly without shutting down.
-                            </div>
-                            <div class="envMeta">Placement: entry wall • side table • near exit</div>
-                        </div>
-                    </article>
-
-                    <article class="envCard">
-                        <div class="envImg">
-                            <img src="/assets/img/supervisor-reset.png"
-                                alt="QR placement visible from multiple positions" />
-                        </div>
-                        <div class="envBody">
-                            <div class="envTitle">Supervisor Reset</div>
-                            <div class="envWhy">
-                                Short resets for supervisors who carry everyone else’s calls and decisions.
-                            </div>
-                            <div class="envMeta">Placement: supervisor console • office • briefing space</div>
-                        </div>
-                    </article>
-                </div>
-            </div>
-
-            <!-- Police + Corrections -->
-            <div class="envBlock">
-                <div class="envHead">
-                    <h3>Police + Corrections</h3>
-                    <p class="hint">
-                        For pre‑contact readiness, post‑contact recovery, and maintaining nervous system stability
-                        during sustained operational demand.
-                    </p>
-                </div>
-
-                <div class="envGrid">
-                    <article class="envCard">
-                        <div class="envImg">
-                            <img src="/assets/img/admin-qr.png" alt="QR placard on report writing desk" />
-                        </div>
-                        <div class="envBody">
-                            <div class="envTitle">Briefing / Report Reset</div>
-                            <div class="envWhy">
-                                Stabilize before the next contact or clear activation after a difficult one.
-                            </div>
-                            <div class="envMeta">Placement: briefing room • report desk • locker area</div>
-                        </div>
-                    </article>
-
-                    <article class="envCard">
-                        <div class="envImg">
-                            <img src="/assets/img/police-qruse.png" alt="Phone scanning QR inside patrol unit" />
-                        </div>
-                        <div class="envBody">
-                            <div class="envTitle">In‑Unit Reset</div>
-                            <div class="envWhy">
-                                Designed for use in the car. No privacy required. No gear removal.
-                            </div>
-                            <div class="envMeta">Placement: MDT mount • visor card • center console</div>
-                        </div>
-                    </article>
-
-                    <article class="envCard">
-                        <div class="envImg">
-                            <img src="/assets/img/corrections-qr.png" alt="Corrections control room QR placement" />
-                        </div>
-                        <div class="envBody">
-                            <div class="envTitle">Control Room Reset</div>
-                            <div class="envWhy">
-                                Prevent arousal from stacking across the shift, especially after incidents.
-                            </div>
-                            <div class="envMeta">Placement: control desk • sally port • staff entry</div>
-                        </div>
-                    </article>
-
-                    <article class="envCard">
-                        <div class="envImg">
-                            <img src="/assets/img/quiet-room.png" alt="Small staff decompression room" />
-                        </div>
-                        <div class="envBody">
-                            <div class="envTitle">Decompression Room Reset</div>
-                            <div class="envWhy">
-                                Short, structured downshift that fits within policy and time limits.
-                            </div>
-                            <div class="envMeta">Placement: wellness / decompression spaces</div>
-                        </div>
-                    </article>
-                </div>
-            </div>
-
-            <!-- Fire + EMS -->
-            <div class="envBlock">
-                <div class="envHead">
-                    <h3>Fire + EMS / Paramedic</h3>
-                    <p class="hint">
-                        Built for post‑run recovery, pre‑arrival readiness, and switching from adrenaline back to clean
-                        focus.
-                    </p>
-                </div>
-
-                <div class="envGrid">
-                    <article class="envCard">
-                        <div class="envImg">
-                            <img src="/assets/img/fire-qr.png" alt="Fire station QR placement in the apparatus bay" />
-                        </div>
-                        <div class="envBody">
-                            <div class="envTitle">Bay / Turnout Reset</div>
-                            <div class="envWhy">
-                                Downshift without losing readiness. Recover faster between tones.
-                            </div>
-                            <div class="envMeta">Placement: bay entry • turnout racks • day room</div>
-                        </div>
-                    </article>
-
-                    <article class="envCard">
-                        <div class="envImg">
-                            <img src="/assets/img/emt-qr.png" alt="QR placement inside an ambulance for quick resets" />
-                        </div>
-                        <div class="envBody">
-                            <div class="envTitle">Rig Reset</div>
-                            <div class="envWhy">
-                                Quick reset after handoff, after charting, or pre‑arrival to steady hands and attention.
-                            </div>
-                            <div class="envMeta">Placement: inside unit • bench wall • supply cabinet</div>
-                        </div>
-                    </article>
-
-                    <article class="envCard">
-                        <div class="envImg">
-                            <img src="/assets/img/qr-break-room.png" alt="QR placement in a station break room" />
-                        </div>
-                        <div class="envBody">
-                            <div class="envTitle">Station Reset</div>
-                            <div class="envWhy">
-                                Low‑friction recovery during station time. Not a long wellness session.
-                            </div>
-                            <div class="envMeta">Placement: fridge • coffee station • crew doorway</div>
-                        </div>
-                    </article>
-
-                    <article class="envCard">
-                        <div class="envImg">
-                            <img src="/assets/img/bunkroom.png" alt="QR visible in leadership office" />
-                        </div>
-                        <div class="envBody">
-                            <div class="envTitle">Officer / Chief Reset</div>
-                            <div class="envWhy">
-                                Simple protocols for leadership working in meetings, command, and after‑action.
-                            </div>
-                            <div class="envMeta">Placement: offices • bunk room hallways • meeting rooms</div>
-                        </div>
-                    </article>
-                </div>
-            </div>
-
-            <!-- Academy + Training -->
-            <div class="envBlock">
-                <div class="envHead">
-                    <h3>Academy + Training Environments</h3>
-                    <p class="hint">
-                        For pre‑scenario readiness, post‑scenario recovery, and keeping learning online under stress
-                        exposure. Built to integrate into instruction without turning training into therapy.
-                    </p>
-                </div>
-
-                <div class="envGrid">
-                    <article class="envCard">
-                        <div class="envImg">
-                            <img src="/assets/img/post-liveclassroom.png"
-                                alt="Academy classroom slide with a small QR code for a pre-scenario reset" />
-                        </div>
-                        <div class="envBody">
-                            <div class="envTitle">Pre‑Scenario Reset</div>
-                            <div class="envWhy">
-                                Clear mental noise and stabilize breathing before you step into the next evolution.
-                            </div>
-                            <div class="envMeta">Placement: slide deck • briefing screen • classroom front</div>
-                        </div>
-                    </article>
-
-                    <article class="envCard">
-                        <div class="envImg">
-                            <img src="/assets/img/post-dt.png" alt="Defensive tactics room QR placement near mats" />
-                        </div>
-                        <div class="envBody">
-                            <div class="envTitle">DT / Mat Room Reset</div>
-                            <div class="envWhy">
-                                Bring arousal down enough to learn, retain, and recover—without killing intensity.
-                            </div>
-                            <div class="envMeta">Placement: mat edge • water station • exit door</div>
-                        </div>
-                    </article>
-
-                    <article class="envCard">
-                        <div class="envImg">
-                            <img src="/assets/img/post-classroomqr.png"
-                                alt="Training room QR placard mounted on a wall" />
-                        </div>
-                        <div class="envBody">
-                            <div class="envTitle">Post‑Evolution Reset</div>
-                            <div class="envWhy">
-                                Dump adrenaline after reps so debriefs land and performance improves across the day.
-                            </div>
-                            <div class="envMeta">Placement: debrief room • hallway exit • locker corridor</div>
-                        </div>
-                    </article>
-
-                    <article class="envCard">
-                        <div class="envImg">
-                            <img src="/assets/img/instructor-qr.png" alt="Instructor office with QR" />
-                        </div>
-                        <div class="envBody">
-                            <div class="envTitle">Instructor Reset</div>
-                            <div class="envWhy">
-                                Short resets for cadre running high‑stress blocks back‑to‑back.
-                            </div>
-                            <div class="envMeta">Placement: instructor desk • control booth • hallway</div>
-                        </div>
-                    </article>
-                </div>
-            </div>
-        </section>
-
-        <!-- OUTCOMES -->
-        <section class="section" aria-label="Outcomes">
-            <div class="grid3">
-                <div class="tile">
-                    <h3>Faster downshift</h3>
-                    <p class="hint">Reduce how long the body stays activated after high‑acuity moments.</p>
-                </div>
-                <div class="tile">
-                    <h3>Stability under load</h3>
-                    <p class="hint">Support regulation mid‑shift: console, bay, unit, briefing, post‑incident.</p>
-                </div>
-                <div class="tile">
-                    <h3>Measurable adoption</h3>
-                    <p class="hint">Track usage by environment so leadership sees what is actually being used.</p>
-                </div>
-            </div>
-
-            <div class="grid2" style="margin-top:14px;">
-                <div class="tile">
-                    <h3>What it is</h3>
-                    <ul>
-                        <li><strong>QR access</strong> to short regulation protocols (30–120 sec).</li>
-                        <li><strong>Environment menus</strong> for console, bay, unit, briefing, classroom, DT, and
-                            break room.</li>
-                        <li><strong>Built for cognitive load</strong> and rapid recovery between demands.</li>
-                    </ul>
-                </div>
-                <div class="tile">
-                    <h3>What it isn’t</h3>
-                    <ul>
-                        <li>Not a meditation app.</li>
-                        <li>Not “wellness programming.”</li>
-                        <li>Not 20‑minute sessions.</li>
-                        <li>Not dependent on motivation or perfect compliance.</li>
-                    </ul>
+                    <div class="row">
+                        <a class="btn btnPrimary" href="https://o2rhythm.com/demo/" target="_blank" rel="noopener">
+                            Open live demo
+                        </a>
+                        <a class="btn" href="#contact">Talk about a pilot</a>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- HOW IT WORKS -->
-        <section id="how" class="section" aria-label="How it works">
-            <div class="card">
-                <h2>How it works</h2>
-                <p class="hint">
-                    One loop. Low friction. Built for repeat use. Operators scan a QR, run a 30–120 second reset,
-                    and go back to work; leadership sees where and how often it is used.
-                </p>
+        <section id="how" class="section" aria-label="How O₂ Rhythm works">
+            <div class="wrap grid2">
+                <div class="card">
+                    <h2>How it fits into a shift</h2>
+                    <p class="sub">
+                        O₂ Rhythm is built to live inside operations, not next to them. Crews don’t leave the floor, log
+                        into an app,
+                        or sit through a long session—they scan, run a short protocol, and go back to work.
+                    </p>
 
-                <div class="media howGraphic" style="margin-top:14px;">
+                    <ul class="hint">
+                        <li>Placement plan matched to your environments and workflow.</li>
+                        <li>Menus tuned to high‑acuity calls, stacked workload, and post‑incident reset.</li>
+                        <li>Short drills that can be run solo or as part of briefing, debrief, or training blocks.</li>
+                    </ul>
+                </div>
+
+                <div class="media howGraphic">
                     <img src="/assets/img/how-it-works.png"
                         alt="Scan → short protocol → back to task → adoption tracked" />
                 </div>
             </div>
         </section>
 
-        <!-- WHERE IT FITS -->
-        <section id="where" class="section" aria-label="Where it fits">
-            <div class="grid2">
+        <!-- ENVIRONMENTS -->
+        <section id="environments" class="section" aria-label="Environments">
+            <div class="wrap">
                 <div class="card">
-                    <h2>Where it fits</h2>
-                    <p class="hint">
-                        You are not selling breathing. You are selling specific placements and use cases that match
-                        their shift.
+                    <h2>Built for real environments, not wellness rooms</h2>
+                    <p class="sub">
+                        O₂ Rhythm is deployed where activation actually happens—consoles, bays, units, and control
+                        rooms—so crews can
+                        scan, reset, and get back to task without leaving the floor.
                     </p>
 
-                    <ul>
-                        <li><strong>Dispatch:</strong> console, break room, quiet room.</li>
-                        <li><strong>EMS / Paramedic:</strong> station bay, unit, supply room.</li>
-                        <li><strong>Fire:</strong> bay, turnout area, day room.</li>
-                        <li><strong>Police:</strong> patrol car, briefing, report writing.</li>
-                        <li><strong>Corrections:</strong> control room, sally port, break area.</li>
-                        <li><strong>Training:</strong> classroom, DT / scenario lane, post‑scenario reset.</li>
-                    </ul>
+                    <div class="envBlock">
+                        <div class="envGrid">
+                            <div class="envCard">
+                                <div class="envImg">
+                                    <img src="/assets/img/dispatch.jpg" alt="Dispatch environment" />
+                                </div>
+                                <div class="envBody">
+                                    <div class="envTitle">Dispatch / 911</div>
+                                    <div class="envWhy">
+                                        Console, quiet room, and break‑area placements to down‑regulate after stacked
+                                        calls and critical events.
+                                    </div>
+                                    <div class="envMeta">PSAPs, call‑takers, and radio operators.</div>
+                                </div>
+                            </div>
 
-                    <p class="hint" style="margin-top:12px;">
-                        Adoption is placement plus relevance. If the menu does not match the environment, it becomes
-                        wall clutter.
-                    </p>
-                </div>
+                            <div class="envCard">
+                                <div class="envImg">
+                                    <img src="/assets/img/ems.jpg" alt="EMS environment" />
+                                </div>
+                                <div class="envBody">
+                                    <div class="envTitle">EMS / Paramedic</div>
+                                    <div class="envWhy">
+                                        Station‑bay and unit placements crews can hit between calls without logging into
+                                        anything.
+                                    </div>
+                                    <div class="envMeta">Medic units, fire‑based EMS, transport services.</div>
+                                </div>
+                            </div>
 
-                <div class="media mediaTall">
-                    <img src="/assets/img/icons.png" alt="O₂ Rhythm icons and environments" />
-                </div>
-            </div>
-        </section>
+                            <div class="envCard">
+                                <div class="envImg">
+                                    <img src="/assets/img/fire.jpg" alt="Fire environment" />
+                                </div>
+                                <div class="envBody">
+                                    <div class="envTitle">Fire</div>
+                                    <div class="envWhy">
+                                        Bay, turnout, and day‑room protocols that match turnout rhythm and post‑incident
+                                        reset.
+                                    </div>
+                                    <div class="envMeta">Engine, truck, and wildland companies.</div>
+                                </div>
+                            </div>
 
-        <!-- DEMO -->
-        <section id="demo" class="section" aria-label="Demo">
-            <div class="card">
-                <h2>Try the demo</h2>
-                <p class="hint">
-                    Scan the QR or open the demo page. No login. Same experience your team gets during pilot.
-                </p>
+                            <div class="envCard">
+                                <div class="envImg">
+                                    <img src="/assets/img/police.jpg" alt="Law enforcement environment" />
+                                </div>
+                                <div class="envBody">
+                                    <div class="envTitle">Law Enforcement</div>
+                                    <div class="envWhy">
+                                        Patrol car, briefing, and report‑writing resets that can be run in minutes
+                                        without drawing attention.
+                                    </div>
+                                    <div class="envMeta">Patrol, investigations, specialty units.</div>
+                                </div>
+                            </div>
 
-                <div class="demoWrap">
-                    <div class="tile">
-                        <h3>Live demo</h3>
-                        <p class="hint">
-                            Short protocols designed for fast downshift and immediate return to task.
-                        </p>
+                            <div class="envCard">
+                                <div class="envImg">
+                                    <img src="/assets/img/corrections.jpg" alt="Corrections environment" />
+                                </div>
+                                <div class="envBody">
+                                    <div class="envTitle">Corrections</div>
+                                    <div class="envWhy">
+                                        Control‑room and sally‑port placements to clear physiology after uses of force
+                                        and high‑acuity events.
+                                    </div>
+                                    <div class="envMeta">Jails, prisons, juvenile facilities.</div>
+                                </div>
+                            </div>
 
-                        <ul>
-                            <li>30–120 second options.</li>
-                            <li>Guided and silent options.</li>
-                            <li>Built for console, bay, unit, field, and training environments.</li>
-                        </ul>
-
-                        <div class="row">
-                            <a class="btn btnPrimary" href="https://o2rhythm.com/demo/" target="_blank"
-                                rel="noopener">Open demo</a>
-                            <a class="btn" href="#pilot-intake">Request pilot</a>
+                            <div class="envCard">
+                                <div class="envImg">
+                                    <img src="/assets/img/training.jpg" alt="Training environment" />
+                                </div>
+                                <div class="envBody">
+                                    <div class="envTitle">Training & Academy</div>
+                                    <div class="envWhy">
+                                        Classroom and scenario‑lane protocols that teach crews to regulate under load,
+                                        not just on a mat.
+                                    </div>
+                                    <div class="envMeta">Academies, in‑service, simulation centers.</div>
+                                </div>
+                            </div>
                         </div>
 
-
-                    </div>
-
-                    <div class="demoQR" aria-label="Demo QR code">
-                        <a href="https://o2rhythm.com/demo/" target="_blank" rel="noopener"
-                            aria-label="Open demo by clicking QR">
-                            <img src="/assets/img/demo-qr.png" alt="O₂ Rhythm demo QR code" />
-                        </a>
-                        <div class="capline">DEMO • LIVE</div>
-                        <p class="hint" style="margin-top:8px; text-align:center;">https://o2rhythm.com/demo/</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 60-DAY PILOT -->
-        <section id="pilot" class="section" aria-label="Pilot">
-            <div class="card">
-                <h2>60‑day pilot</h2>
-                <p class="hint">
-                    A real test with usage data — not opinions.
-                </p>
-
-                <div class="grid2" style="margin-top:14px;">
-                    <div class="tile">
-                        <h3>What is included</h3>
-                        <ul>
-                            <li><strong>Start:</strong> 1–3 environments.</li>
-                            <li><strong>Onboarding:</strong> 10–15 minute champion/supervisor intro.</li>
-                            <li><strong>Reporting:</strong> day‑30 check‑in and day‑60 summary.</li>
-                            <li><strong>Founder pricing:</strong> pilot agencies can lock founder pricing when
-                                continuing.</li>
-                        </ul>
-                    </div>
-
-                    <div class="tile">
-                        <h3>What leadership sees</h3>
-                        <ul>
-                            <li>Usage by environment (adoption clarity).</li>
-                            <li>Repeat usage trends over time.</li>
-                            <li>Which placements are working.</li>
-                            <li>What needs adjustment (menu, placement, champions).</li>
-                        </ul>
-
-                        <div class="row">
-                            <a class="btn btnPrimary" href="#pilot-intake">Start pilot intake</a>
-                            <a class="btn"
-                                href="mailto:hello.rhythmo2@gmail.com?subject=O2%20Rhythm%20Pilot%20Question">Email a
-                                question</a>
-                        </div>
-
-                        <p class="hint" style="margin-top:10px;">
-                            No installs. No accounts. No personal data required. If it is not getting used, you will see
-                            that too.
+                        <p class="hint" style="margin-top:14px;">
+                            Adoption is placement plus relevance. Menus are customized by environment so QR codes never
+                            turn into wall clutter.
                         </p>
                     </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- PILOT INTAKE (button, not embedded) -->
-        <section id="pilot-intake" class="section" aria-label="Pilot intake">
-            <div class="card">
-                <h2>Pilot intake</h2>
-                <p class="hint">
-                    Submit the intake to initiate a 60‑day evaluation. You will receive a structured follow‑up within
-                    one business day.
-                </p>
-
-                <div class="pillRow" style="margin-top:12px;">
-                    <span class="pill"><strong>Review intake</strong></span>
-                    <span class="pill"><strong>5–10 min call</strong></span>
-                    <span class="pill"><strong>Select 1–3 environments</strong></span>
-                    <span class="pill"><strong>Deploy + onboard</strong></span>
-                </div>
-
-                <div class="row" style="margin-top:18px;">
-                    <a class="btn btnPrimary" href="https://forms.gle/Mn5XrNXTBEzxo4JG8" target="_blank" rel="noopener">
-                        Open pilot intake form
-                    </a>
-                    <a class="btn" href="mailto:hello.rhythmo2@gmail.com?subject=O2%20Rhythm%20Pilot%20Question">
-                        Email a question
-                    </a>
                 </div>
             </div>
         </section>
 
         <!-- FAQ -->
         <section id="faq" class="section" aria-label="Frequently asked questions">
-            <div class="card">
-                <h2>FAQ</h2>
-                <p class="hint">
-                    Straight answers for chiefs, supervisors, training staff, and wellness teams.
-                </p>
+            <div class="wrap">
+                <div class="card">
+                    <h2>FAQ</h2>
 
-                <div class="faq">
-                    <details>
-                        <summary>Is this therapy or treatment?</summary>
-                        <p>
-                            No. O₂ Rhythm is not therapy and is not a treatment for mental health conditions. It is a
-                            set of short, skills‑based breathing and regulation drills designed to support operational
-                            readiness and recovery between demands. It can sit alongside peer support, EAP, and clinical
-                            resources your agency already uses.
+                    <div class="faqItem">
+                        <h3>Is this just breathing exercises?</h3>
+                        <p class="hint">
+                            No. Some protocols use breath, but the core of O₂ Rhythm is short, environment‑specific
+                            drills designed
+                            for consoles, bays, units, and control rooms. Crews are taught to regulate in the same
+                            conditions they work in,
+                            not on a mat in a quiet room.
                         </p>
-                    </details>
+                    </div>
 
-                    <details>
-                        <summary>How long does a reset take?</summary>
-                        <p>
-                            Most protocols run between 30 and 120 seconds. They are built to fit into the gaps that
-                            actually exist on shift: between calls, after a bad one, before briefing, or while you are
-                            staged and waiting.
+                    <div class="faqItem">
+                        <h3>How long does a protocol take?</h3>
+                        <p class="hint">
+                            Most protocols run 30–120 seconds. The goal is a measurable down‑shift that fits between
+                            calls, after a
+                            critical event, or before returning to the floor—not a 20‑minute session that pulls people
+                            off the line.
                         </p>
-                    </details>
+                    </div>
 
-                    <details>
-                        <summary>Do people need an app or account?</summary>
-                        <p>
-                            No. Operators scan a QR with the camera they already use. There are no logins, no downloads,
-                            and no personal accounts for them to manage.
+                    <div class="faqItem">
+                        <h3>Do crews need an app or login?</h3>
+                        <p class="hint">
+                            No. Crews scan a QR code or tap a link posted in their environment. There are no usernames,
+                            passwords,
+                            or downloads to manage.
                         </p>
-                    </details>
+                    </div>
 
-                    <details>
-                        <summary>What data do you collect?</summary>
-                        <p>
-                            Usage is tracked at the environment/menu level so you can see what is being used and where.
-                            Personal identifying information is not required for operators to access protocols.
+                    <div class="faqItem">
+                        <h3>What does “adoption tracked by environment” mean?</h3>
+                        <p class="hint">
+                            Each placement has its own QR, so usage is tied to that console, bay, unit, or room. You can
+                            see where
+                            protocols are actually being used and adjust placements or menus accordingly.
                         </p>
-                    </details>
+                    </div>
 
-                    <details>
-                        <summary>Who usually sponsors a pilot?</summary>
-                        <p>
-                            Most pilots are sponsored by a mix of operations, training, wellness/peer support, and
-                            leadership who want a tool that fits into real work instead of adding another program to the
-                            calendar.
+                    <div class="faqItem">
+                        <h3>How do we start a pilot?</h3>
+                        <p class="hint">
+                            Open the demo, then use the pilot form below to share your environments and objectives.
+                            We’ll propose a
+                            60–90 day pilot outline, including placement plan, recommended protocols, and simple
+                            adoption metrics.
                         </p>
-                    </details>
-
-                    <details id="questions">
-                        <summary>Can we see example placements and menus?</summary>
-                        <p>
-                            Yes. During the pilot intake process you can request sample placement plans and environment
-                            menus for dispatch, patrol, fire/EMS, corrections, and training. Those examples help tailor
-                            QR locations and language to your agency.
-                        </p>
-                    </details>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- QUESTIONS / FOOTER -->
-        <section class="section" aria-label="Questions">
-            <div class="card">
-                <h2>Questions</h2>
-                <p class="hint">
-                    If you have questions about deployment, pricing, IT requirements, or fit, email directly. For pilot
-                    requests, use the intake form above.
-                </p>
+        <!-- DEMO & CONTACT -->
+        <section id="contact" class="section" aria-label="Demo and contact">
+            <div class="wrap">
+                <div class="card">
+                    <h2>See O₂ Rhythm in action</h2>
+                    <p class="hint">
+                        Open the live demo your crews would use on shift, then schedule a short call to map placements
+                        and a pilot
+                        that fits your environment.
+                    </p>
 
-                <div class="row" style="margin-top:14px;">
-                    <a class="btn btnPrimary" href="mailto:hello.rhythmo2@gmail.com?subject=O2%20Rhythm%20Inquiry">
-                        Email
-                    </a>
-                    <a class="btn" href="#pilot-intake">Pilot intake</a>
-                </div>
+                    <div class="demoWrap">
+                        <div class="tile">
+                            <h3>Live demo</h3>
+                            <p class="hint">
+                                Scan the QR or open the demo page. No login, no app, same experience your team gets
+                                during pilot.
+                            </p>
 
-                <p class="hint" style="margin-top:12px;">
-                    Email: <strong>hello.rhythmo2@gmail.com</strong>
-                </p>
+                            <ul class="hint">
+                                <li>30–120 second protocols.</li>
+                                <li>Guided and silent options.</li>
+                                <li>Menus tailored to dispatch, EMS, fire, law enforcement, and corrections.</li>
+                            </ul>
 
-                <div class="footer">
-                    <div>© <span id="y"></span> O₂ Rhythm • Micro‑regulation for first responders</div>
-                    <div>Dispatch • EMS • Fire • Law Enforcement • Corrections • Training</div>
+                            <div class="row">
+                                <a class="btn btnPrimary" href="https://o2rhythm.com/demo/" target="_blank"
+                                    rel="noopener">
+                                    Open demo
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="tile" id="pilot-intake">
+                            <h3>Talk about a pilot</h3>
+                            <p class="hint">
+                                Share your environment mix and current wellness/regulation tools. We’ll outline a 60–90
+                                day pilot with
+                                clear placements and adoption metrics.
+                            </p>
+
+                            <form action="https://formspree.io/f/your-form-id" method="POST" class="form">
+                                <label>
+                                    <span>Agency / organization</span>
+                                    <input type="text" name="agency" required />
+                                </label>
+                                <label>
+                                    <span>Email</span>
+                                    <input type="email" name="email" required />
+                                </label>
+                                <label>
+                                    <span>Role</span>
+                                    <input type="text" name="role"
+                                        placeholder="Chief, director, training, wellness, peer support, etc." />
+                                </label>
+                                <label>
+                                    <span>Environments to focus on</span>
+                                    <textarea name="environments" rows="3"
+                                        placeholder="Dispatch, EMS, fire, law enforcement, corrections, training…"></textarea>
+                                </label>
+                                <label>
+                                    <span>Anything we should know?</span>
+                                    <textarea name="notes" rows="3"
+                                        placeholder="Current initiatives, specific incidents, staffing, or constraints."></textarea>
+                                </label>
+
+                                <button class="btn btnPrimary" type="submit">Request pilot call</button>
+                            </form>
+
+                            <p class="hint" style="margin-top:10px;">
+                                Prefer email? Reach us at
+                                <a href="mailto:hello@o2rhythm.com">hello@o2rhythm.com</a>.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
-
     </main>
 
+    <footer>
+        <div class="wrap">
+            <p>
+                © <span id="year"></span> O₂ Rhythm. All rights reserved.
+                &middot;
+                <a href="https://www.linkedin.com/company/rhythm-o2/" target="_blank" rel="noopener">LinkedIn</a>
+                &middot;
+                <a href="https://www.instagram.com/o2rhythm/" target="_blank" rel="noopener">Instagram</a>
+            </p>
+        </div>
+    </footer>
+
     <script>
-        document.getElementById("y").textContent = new Date().getFullYear();
+        // Auto-set year in footer
+        document.getElementById('year').textContent = new Date().getFullYear();
     </script>
 </body>
 
