@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Conference Walking Regulation — O₂ Rhythm</title>
+    <meta name="description" content="3‑minute walking regulation demo for dispatch‑focused conference booth. Optional music; stop when ready." />
+    <link rel="stylesheet" href="/assets/style.css" />
+
+    <style>
+        .soundScan {
+            margin-top: 16px;
+            padding: 14px;
+            border: 1px solid rgba(255, 255, 255, .12);
+            border-radius: 16px;
+            background: rgba(255, 255, 255, .03);
+        }
+
+        .soundScanHead {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .soundScanTitle {
+            font-weight: 800;
+            letter-spacing: .8px;
+            text-transform: uppercase;
+            font-size: .95rem;
+            opacity: .95;
+        }
+
+        .soundScanMeta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: .8;
+            font-size: .9rem;
+        }
+
+        .soundScanGrid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        @media (min-width: 560px) {
+            .soundScanGrid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        .scanItem {
+            position: relative;
+            display: block;
+            user-select: none;
+        }
+
+        .scanItem input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .scanPill {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, .14);
+            background: rgba(0, 0, 0, .18);
+            cursor: pointer;
+            transition: transform .06s ease, border-color .12s ease, background .12s ease, opacity .12s ease;
+        }
+
+        .scanPill:hover {
+            border-color: rgba(255, 255, 255, .28);
+        }
+
+        .scanPill:active {
+            transform: scale(.99);
+        }
+
+        .scanText {
+            font-weight: 650;
+            letter-spacing: .2px;
+            font-size: .95rem;
+            opacity: .95;
+            line-height: 1.1;
+        }
+
+        .scanMark {
+            width: 18px;
+            height: 18px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, .25);
+            display: grid;
+            place-items: center;
+            font-size: 12px;
+            opacity: .7;
+        }
+
+        .scanItem input:checked+.scanPill {
+            border-color: rgba(255, 255, 255, .45);
+            background: rgba(255, 255, 255, .08);
+        }
+
+        .scanItem input:checked+.scanPill .scanMark {
+            opacity: 1;
+            border-color: rgba(255, 255, 255, .65);
+        }
+
+        .soundScanFooter {
+            display: flex;
+        }
+
+        /* miniCTA/button styling matched with other conference demos */
+        .miniCta {
+            display: grid;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .ctaBtn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 14px;
+            border-radius: 12px;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: rgba(255, 255, 255, 0.08);
+            color: inherit;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
+        .ctaBtn:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .pillrow {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+
+        .pillrow a {
+            text-decoration: none;
+        }
+    </style>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5NKZ7XYYWF"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-5NKZ7XYYWF', { page_title: document.title, page_path: location.pathname });
+    </script>
+</head>
+
+<body data-agency="public" data-environment="conf_dispatch_walk">
+    <main class="wrap">
+        <section class="card protocol" data-agency="public" data-environment="conf_dispatch_walk" data-protocol-id="conf-walking" data-total="180">
+
+            <div class="brand">O₂ RHYTHM</div>
+
+            <h1>Walking Regulation</h1>
+            <p class="sub" id="subline">Walking Regulation • 3 min</p>
+            <p class="sub" style="margin-top:-10px;">
+                Use: on break • after a rough interaction • before going home (dispatch conference demo)
+            </p>
+
+            <p class="sub" style="margin-top:10px; line-height:1.35;">
+                Walk at a steady pace until the timer ends. Let the music run in the background and just walk.
+                No headphones? Use the timer and the Sound Scan below to keep your attention in the environment, not the
+                last call. A stop button appears once you start; works with or without audio. Choose between one, two,
+                or three minutes depending on how much time you have on the floor.
+            </p>
+
+            <!-- duration picker for conference -->
+            <div class="durationRow" style="margin-bottom:12px;">
+                <label for="durationSelect" style="font-size:13px;">Duration:</label>
+                <select id="durationSelect" style="margin-left:6px;padding:4px 6px;border-radius:6px;background:rgba(255,255,255,.08);color:inherit;border:1px solid rgba(255,255,255,.18);">
+                    <option value="60">1&nbsp;min</option>
+                    <option value="120">2&nbsp;min</option>
+                    <option value="180" selected>3&nbsp;min</option>
+                </select>
+            </div>
+            <!-- Single standard duration (3 min) -->
+            <div class="ringbox">
+                <svg class="progressRing" viewBox="0 0 220 220" aria-hidden="true">
+                    <circle class="progress-bg" cx="110" cy="110" r="100"></circle>
+                    <circle class="progress" cx="110" cy="110" r="100"></circle>
+                </svg>
+
+                <div class="pacer">
+                    <div class="center">
+                        <button id="startBtn" class="start" type="button">START</button>
+                        <div id="timer" class="timer">3:00</div>
+                        <div id="phaseLabel" class="phaseLabel">READY</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="toggleRow">
+                <button id="soundToggle" class="toggle" type="button">SOUND: OFF</button>
+                <button id="musicToggle" class="toggle" type="button">MUSIC: OFF</button>
+            </div>
+
+            <!-- Booth scan for conference floor -->
+            <div class="soundScan" id="soundScan" aria-label="Booth scan checklist">
+                <div class="soundScanHead">
+                    <div class="soundScanTitle">BOOTH SCAN</div>
+                    <div class="soundScanMeta">(look around)</div>
+                </div>
+                <div class="soundScanGrid">
+                    <label class="scanItem"><input type="checkbox" /><span class="scanPill"><span class="scanText">someone drinking coffee</span><span class="scanMark"></span></span></label>
+                    <label class="scanItem"><input type="checkbox" /><span class="scanPill"><span class="scanText">drinking fountain</span><span class="scanMark"></span></span></label>
+                    <label class="scanItem"><input type="checkbox" /><span class="scanPill"><span class="scanText">an employee</span><span class="scanMark"></span></span></label>
+                    <label class="scanItem"><input type="checkbox" /><span class="scanPill"><span class="scanText">someone wearing heels</span><span class="scanMark"></span></span></label>
+                    <label class="scanItem"><input type="checkbox" /><span class="scanPill"><span class="scanText">a chair</span><span class="scanMark"></span></span></label>
+                    <label class="scanItem"><input type="checkbox" /><span class="scanPill"><span class="scanText">a table</span><span class="scanMark"></span></span></label>
+                    <label class="scanItem"><input type="checkbox" /><span class="scanPill"><span class="scanText">someone wearing red</span><span class="scanMark"></span></span></label>
+                    <label class="scanItem"><input type="checkbox" /><span class="scanPill"><span class="scanText">music playing</span><span class="scanMark"></span></span></label>
+                    <label class="scanItem"><input type="checkbox" /><span class="scanPill"><span class="scanText">3 booths of interest</span><span class="scanMark"></span></span></label>
+                    <label class="scanItem"><input type="checkbox" /><span class="scanPill"><span class="scanText">bathroom signs</span><span class="scanMark"></span></span></label>
+                    <label class="scanItem"><input type="checkbox" /><span class="scanPill"><span class="scanText">someone smiling</span><span class="scanMark"></span></span></label>
+                </div>
+            </div>
+
+            <div class="infoBox">
+                <strong>What this regulation is for:</strong>
+                This is a short movement reset. Walking at a steady pace and letting your attention move through the
+                environment helps bleed off some adrenaline and pull you out of tunnel vision, so you can come back to
+                work or
+                home a little less loaded. The scan checklist can be adjusted for dispatch or any other setting.
+            </div>
+
+            <div class="navrow">
+                <a class="pill" href="index.html" data-track="nav_click" data-cta="conf_demo_home">Menu</a>
+                <a class="pill" href="desk-45.html" data-track="nav_click" data-cta="prev_desk45">Back: Desk 45</a>
+            </div>
+
+            <div class="feedback" style="margin-top:12px;text-align:center;">
+                <p>Please give us some feedback to help improve these demos.</p>
+                <a class="feedback-link" href="/shared/protocols/feedback.html?src=conf&protocol=conf-walking" target="_blank" rel="noopener">
+                    Feedback (30 seconds)
+                </a>
+            </div>
+
+            <div class="miniCta" style="margin-top:32px; text-align:center;">
+                <a class="ctaBtn" href="../index.html#pilot-intake" data-track="cta_click"
+                    data-cta="bring_to_agency_from_conf">
+                    Bring O₂ Rhythm to My Agency
+                </a>
+            </div>
+
+            <!-- Audio (NO loop; controlled in JS) -->
+            <audio id="walkMusic" preload="auto" src="/assets/audio/walking-loop.mp3"></audio>
+        </section>
+    </main>
+
+    <script>
+        // use shared protocol.js for timing/stop support; duration choice via query parameter
+        (function () {
+            const params = new URLSearchParams(location.search);
+            const dur = params.get('dur');
+            const page = document.querySelector('[data-protocol]');
+            if (page && dur) {
+                page.dataset.total = dur;
+            }
+        })();
+
+        // reload logic for duration selector
+        document.addEventListener('DOMContentLoaded', () => {
+            const durationSelect = document.getElementById('durationSelect');
+            if (durationSelect) {
+                durationSelect.addEventListener('change', () => {
+                    const params = new URLSearchParams(location.search);
+                    params.set('dur', durationSelect.value);
+                    location.search = params.toString();
+                });
+            }
+        });
+
+        function safeEvent(name, params) {
+            try { gtag('event', name, params || {}); } catch (e) { }
+        }
+        safeEvent('conf_demo_view', { demo: 'walking', page: 'conf_walk' });
+    </script>
+    <script src="/assets/protocol.js"></script>
+</body>
+</html>

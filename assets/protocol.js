@@ -311,8 +311,7 @@
         if (running) return;
 
         running = true;
-        startBtn.disabled = true;
-        startBtn.textContent = "RUNNING";
+        startBtn.textContent = "STOP"; // label becomes stop while running
 
         ga("protocol_start", { total_seconds: total });
 
@@ -330,7 +329,20 @@
         runSession();
     }
 
-    startBtn.addEventListener("click", start);
+    function stop() {
+        if (!running) return;
+        ga("protocol_stop", { seconds_remaining: timeLeft });
+        clearAll();
+        resetUI();
+    }
+
+    startBtn.addEventListener("click", () => {
+        if (running) {
+            stop();
+        } else {
+            start();
+        }
+    });
 
     // Init
     timerEl.textContent = fmt(total);

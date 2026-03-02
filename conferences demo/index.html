@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Conference Booth Demos — O₂ Rhythm</title>
+    <meta name="description" content="A handful of short micro‑regulation protocols to run from the conference booth. No app, no login." />
+    <link rel="stylesheet" href="/assets/style.css" />
+
+    <style>
+        /* reuse a small subset of demo/index styles */
+        .demoHeader {
+            display: grid;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .kicker {
+            font-size: 12px;
+            letter-spacing: 0.12em;
+            opacity: 0.8;
+            text-transform: uppercase;
+        }
+
+        .lede {
+            margin: 0;
+            opacity: 0.9;
+        }
+
+        .grid3 {
+            display: grid;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        @media (min-width: 820px) {
+            .grid3 {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+        }
+
+        .demoTile {
+            display: grid;
+            gap: 10px;
+            padding: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .demoTile h2 {
+            margin: 0;
+            font-size: 18px;
+            letter-spacing: 0.02em;
+        }
+
+        .demoTile p {
+            margin: 0;
+            opacity: 0.85;
+            font-size: 14px;
+            line-height: 1.35;
+        }
+
+        .ctaRow {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+            align-items: center;
+        }
+
+        .primaryBtn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 14px;
+            border-radius: 12px;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: rgba(255, 255, 255, 0.08);
+            color: inherit;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
+        .primaryBtn:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .tagRow {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            font-size: 12px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            opacity: 0.9;
+            white-space: nowrap;
+        }
+
+    </style>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5NKZ7XYYWF"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-5NKZ7XYYWF');
+    </script>
+</head>
+
+<body>
+    <main class="wrap">
+        <section class="card">
+            <div class="brand">O₂ RHYTHM</div>
+
+            <header class="demoHeader">
+                <div class="kicker">CONFERENCE BOOTH (dispatch)</div>
+                <h1 style="margin:0;">Quick dispatch demos</h1>
+                <p class="lede">
+                    Two short micro‑regulations you can scan and run from the dispatch‑focused booth. 30‑60 seconds each and they can be used with or without audio.
+                </p>
+
+                <div class="tagRow" aria-label="tags" style="justify-content:center;">
+                    <span class="tag">Dispatch</span>
+                    <span class="tag">EMS</span>
+                    <span class="tag">Fire</span>
+                    <span class="tag">Law enforcement</span>
+                </div>
+            </header>
+
+            <div class="divider"></div>
+
+            <section class="grid3" aria-label="options">
+
+                <!-- OXYGEN 30 -->
+                <article class="demoTile">
+                    <h2>Oxygen 30</h2>
+                    <p>Short oxygen regulation to drop tension quickly. 30‑second paced breathing with optional holds.</p>
+                    <div class="ctaRow">
+                        <a class="primaryBtn" href="oxygen-30.html" data-track="conf_demo_select"
+                            data-demo="oxygen30">
+                            Run Oxygen 30
+                        </a>
+                    </div>
+                    <p class="mini">30 sec • 4 in / (2 hold) / 4 out • simple paced breath</p>
+                </article>
+
+                <!-- DESK 45 -->
+                <article class="demoTile">
+                    <h2>Desk 45</h2>
+                    <p>A familiar 45‑second desk reset, suitable for dispatch workstations.
+                    </p>
+                    <div class="ctaRow">
+                        <a class="primaryBtn" href="desk-45.html" data-track="conf_demo_select"
+                            data-demo="desk45">
+                            Run Desk 45
+                        </a>
+                    </div>
+                    <p class="mini">45 sec • 4 in / 6 out • after a tough call</p>
+                </article>
+
+                <!-- WALKING REGULATION from academy -->
+                <article class="demoTile">
+                    <h2>Walking Regulation</h2>
+                    <p>Three‑minute walking meditation with optional music. You can listen while you browse the booth – works with or without audio.</p>
+                    <div class="ctaRow">
+                        <a class="primaryBtn" href="walking.html" data-track="conf_demo_select"
+                            data-demo="walking">
+                            Run Walking Demo
+                        </a>
+                    </div>
+                    <p class="mini">3 min • movement + optional audio • steady pace</p>
+                </article>
+
+            </section>
+        </section>
+    </main>
+</body>
+
+</html>

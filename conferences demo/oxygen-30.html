@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Demo • Conference Oxygen 30 — O₂ Rhythm</title>
+    <meta name="description" content="30‑second oxygen regulation demo for conference booth." />
+    <link rel="stylesheet" href="/assets/style.css" />
+
+    <style>
+        :root {
+            --ring: #ffffff;
+        }
+
+        .demoTop {
+            display: grid;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+
+        .kicker {
+            font-size: 12px;
+            letter-spacing: 0.12em;
+            opacity: 0.8;
+            text-transform: uppercase;
+        }
+
+        .sub {
+            margin: 0;
+            opacity: 0.85;
+        }
+
+        .miniCta {
+            display: grid;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .ctaBtn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 14px;
+            border-radius: 12px;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: rgba(255, 255, 255, 0.08);
+            color: inherit;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+        }
+
+        .ctaBtn:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .pillrow {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+
+        .pillrow a {
+            text-decoration: none;
+        }
+
+        .fineprint {
+            font-size: 12px;
+            opacity: 0.7;
+            line-height: 1.35;
+            margin-top: 10px;
+        }
+
+        .infoBox {
+            margin-top: 18px;
+            font-size: 13px;
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.4;
+        }
+
+        .infoBox strong {
+            font-weight: 600;
+        }
+    </style>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5NKZ7XYYWF"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-5NKZ7XYYWF');
+    </script>
+</head>
+
+<body>
+    <main class="wrap">
+        <section class="card protocol" data-protocol data-agency="public" data-environment="conf_oxygen"
+            data-protocol-id="oxygen30" data-title="OXYGEN" data-total="30" data-inhale="4" data-hold1="2"
+            data-exhale="4" data-hold2="0" data-paced="25" data-settle="5">
+
+            <div class="brand">O₂ RHYTHM</div>
+
+            <div class="demoTop">
+                <div class="kicker">CONFERENCE • OXYGEN</div>
+                <h1 style="margin:0;">30‑second Oxygen</h1>
+                <p class="sub">A quick paced-breath regulation to oxygenate and settle tension (holds added). Stop button appears once you begin; sound optional.</p>
+            </div>
+
+            <div class="ringbox">
+                <svg class="progressRing" viewBox="0 0 220 220" aria-hidden="true">
+                    <circle class="progress-bg" cx="110" cy="110" r="100"></circle>
+                    <circle class="progress" cx="110" cy="110" r="100"></circle>
+                </svg>
+
+                <div id="pacer" class="pacer">
+                    <div class="center">
+                        <button id="startBtn" class="start" type="button">START</button>
+                        <div id="timer" class="timer">0:30</div>
+                        <div id="phaseLabel" class="phaseLabel"></div>
+                        <div id="count" class="count"></div>
+                        <div id="dots" class="phaseDots"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="toggleRow">
+                <button id="soundToggle" class="toggle" type="button">SOUND: OFF</button>
+            </div>
+
+            <div class="infoBox">
+                <strong>What this demo is for:</strong>
+                A short oxygen regulation to be run at a booth, station, or on the way to a call. Fast-paced breathing to increase airflow.  Can be used with or without audio, and a stop button is available once you start.
+            <!-- Demo navigation -->
+            <div class="pillrow">
+                <a class="pill" href="index.html" data-track="nav_click" data-cta="conf_demo_home">Menu</a>
+                <a class="pill" href="desk-45.html" data-track="nav_click" data-cta="next_desk45">Next: Desk 45</a>
+            </div>
+
+            <div class="feedback" style="margin-top:12px;text-align:center;">
+                <p>Please give us some feedback to help improve these demos.</p>
+                <a class="feedback-link" href="/shared/protocols/feedback.html?src=conf&protocol=conf-oxygen30" target="_blank" rel="noopener">
+                    Feedback (30 seconds)
+                </a>
+            </div>
+
+            <div class="miniCta" style="margin-top:32px; text-align:center;">
+                <a class="ctaBtn" href="../index.html#pilot-intake" data-track="cta_click"
+                    data-cta="bring_to_agency_from_conf">
+                    Bring O₂ Rhythm to My Agency
+                </a>
+            </div>
+
+        </section>
+    </main>
+
+    <script src="/assets/protocol.js"></script>
+    <script>
+        // simple GA tracking, same as other demos
+        (function () {
+            const startBtn = document.getElementById("startBtn");
+            const soundBtn = document.getElementById("soundToggle");
+            const timerEl = document.getElementById("timer");
+
+            function safeEvent(name, params) {
+                try { gtag("event", name, params || {}); } catch (e) { }
+            }
+
+            if (startBtn) {
+                startBtn.addEventListener("click", () => {
+                    safeEvent("conf_demo_start", {
+                        demo: "oxygen30",
+                        page: "conf_oxygen"
+                    });
+                });
+            }
+
+            if (soundBtn) {
+                soundBtn.addEventListener("click", () => {
+                    const label = (soundBtn.textContent || "").trim();
+                    safeEvent("conf_demo_sound_toggle", {
+                        demo: "oxygen30",
+                        page: "conf_oxygen",
+                        state: label.includes("ON") ? "on" : (label.includes("OFF") ? "off" : "unknown")
+                    });
+                });
+            }
+
+            document.addEventListener("click", (e) => {
+                const a = e.target.closest("a[data-track]");
+                if (!a) return;
+                safeEvent(a.getAttribute("data-track"), {
+                    page: "conf_oxygen"
+                });
+            });
+        })();
+    </script>
+</body>
+
+</html>
