@@ -183,20 +183,23 @@
 
             <p class="sub" style="margin-top:10px; line-height:1.35;">
                 Walk at a steady pace until the timer ends. There are two modes:
-                <ul style="margin:6px 0 0 20px; padding:0; line-height:1.4;">
-                    <li><strong>Audio</strong>: the walking music will play and the timer follows whichever duration you pick –
-                        the music stops when the clock reaches zero.</li>
-                    <li><strong>No audio</strong>: the music is suppressed and the <em>Booth Scan</em> checklist appears below.  
-                        Check off items as you move until the timer expires.</li>
-                </ul>
-                Choose a length (1‑3 min) before you start; you can switch modes at any time.  A stop button shows once you
-                start so you can end early, and the timer works in both modes.
+            <ul style="margin:6px 0 0 20px; padding:0; line-height:1.4;">
+                <li><strong>Audio</strong>: the walking music will play and the timer follows whichever duration you
+                    pick –
+                    the music stops when the clock reaches zero.</li>
+                <li><strong>No audio</strong>: the music is suppressed and the <em>Booth Scan</em> checklist appears
+                    below.
+                    Check off items as you move until the timer expires.</li>
+            </ul>
+            Choose a length (1‑3 min) before you start; you can switch modes at any time. A stop button shows once you
+            start so you can end early, and the timer works in both modes.
             </p>
 
             <!-- audio/no-audio selector -->
             <div class="modeRow" style="margin-bottom:12px;">
                 <label for="audioMode" style="font-size:13px;">Mode:</label>
-                <select id="audioMode" style="margin-left:6px;padding:4px 6px;border-radius:6px;background:rgba(255,255,255,.08);color:inherit;border:1px solid rgba(255,255,255,.18);">
+                <select id="audioMode"
+                    style="margin-left:6px;padding:4px 6px;border-radius:6px;background:rgba(255,255,255,.08);color:inherit;border:1px solid rgba(255,255,255,.18);">
                     <option value="audio" selected>Audio</option>
                     <option value="noaudio">No audio</option>
                 </select>
@@ -205,7 +208,8 @@
             <!-- duration picker for conference -->
             <div class="durationRow" style="margin-bottom:12px;">
                 <label for="durationSelect" style="font-size:13px;">Duration:</label>
-                <select id="durationSelect" style="margin-left:6px;padding:4px 6px;border-radius:6px;background:rgba(255,255,255,.08);color:inherit;border:1px solid rgba(255,255,255,.18);">
+                <select id="durationSelect"
+                    style="margin-left:6px;padding:4px 6px;border-radius:6px;background:rgba(255,255,255,.08);color:inherit;border:1px solid rgba(255,255,255,.18);">
                     <option value="60">1&nbsp;min</option>
                     <option value="120">2&nbsp;min</option>
                     <option value="180" selected>3&nbsp;min</option>
@@ -359,12 +363,12 @@
             try {
                 musicEl.currentTime = 0;
                 musicEl.volume = BASE_VOL;
-                musicEl.play().catch(() => {});
-            } catch (_) {}
+                musicEl.play().catch(() => { });
+            } catch (_) { }
         }
         function stopMusic() {
             if (!musicEl) return;
-            try { musicEl.pause(); musicEl.currentTime = 0; } catch (_){ }
+            try { musicEl.pause(); musicEl.currentTime = 0; } catch (_) { }
         }
 
         const musicToggle = document.getElementById('musicToggle');
