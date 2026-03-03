@@ -184,7 +184,8 @@
             <p class="sub" style="margin-top:10px; line-height:1.35;">
                 Walk at a steady pace until the timer ends. There are two modes:
             <ul style="margin:6px 0 0 20px; padding:0; line-height:1.4;">
-                <li><strong>Audio</strong>: the walking music will play and the timer follows whichever duration you
+                <li><strong>Audio</strong>: the walking music will play (no extra toggles) and the timer follows
+                    whichever duration you
                     pick –
                     the music stops when the clock reaches zero.</li>
                 <li><strong>No audio</strong>: the music is suppressed and the <em>Booth Scan</em> checklist appears
@@ -227,14 +228,13 @@
                         <button id="startBtn" class="start" type="button">START</button>
                         <div id="timer" class="timer">3:00</div>
                         <div id="phaseLabel" class="phaseLabel">READY</div>
+                        <!-- protocol.js requires these even though walking doesn't use them -->
+                        <div id="count" class="count" style="display:none;"></div>
+                        <div id="dots" class="phaseDots" style="display:none;"></div>
                     </div>
                 </div>
             </div>
 
-            <div class="toggleRow">
-                <button id="soundToggle" class="toggle" type="button">SOUND: OFF</button>
-                <button id="musicToggle" class="toggle" type="button">MUSIC: OFF</button>
-            </div>
 
             <!-- Booth scan for conference floor -->
             <div class="soundScan" id="soundScan" aria-label="Booth scan checklist">
@@ -312,6 +312,14 @@
             if (page && dur) {
                 page.dataset.total = dur;
             }
+            // mirror selected value so dropdown shows current duration
+            const durationSelect = document.getElementById('durationSelect');
+            if (durationSelect && dur) {
+                durationSelect.value = dur;
+                // also update the subtitle text if needed
+                const sub = document.getElementById('subline');
+                if (sub) sub.textContent = `Walking Regulation • ${Math.floor(dur / 60)} min`;
+            }
         })();
 
         // duration selector (no DOMContentLoaded, element already present)
@@ -325,18 +333,20 @@
         }
 
         // audio/no-audio mode logic
+        // stubbed music controls; real functions defined later so updateMode won't error
+        function playMusic() { }
+        function stopMusic() { }
         const audioMode = document.getElementById('audioMode');
         const scanSection = document.getElementById('soundScan');
-        const musicToggleBtn = document.getElementById('musicToggle');
         function updateMode() {
             if (!audioMode) return;
             const mode = audioMode.value;
             if (mode === 'noaudio') {
                 if (scanSection) scanSection.style.display = '';
-                if (musicToggleBtn) musicToggleBtn.style.display = 'none';
+                // ensure music stops immediately when switching to no-audio
+                stopMusic();
             } else {
                 if (scanSection) scanSection.style.display = 'none';
-                if (musicToggleBtn) musicToggleBtn.style.display = '';
             }
         }
         if (audioMode) {
@@ -350,16 +360,14 @@
         safeEvent('conf_demo_view', { demo: 'walking', page: 'conf_walk' });
     </script>
     <script src="/assets/protocol.js"></script>
-    <!-- additional scripts for music toggle and playback -->
+    <!-- music handling -->
     <script>
-        // music helpers borrowed from academy walking page
         const musicEl = document.getElementById("walkMusic");
-        let musicOn = false;
         const BASE_VOL = 0.22;
         if (musicEl) musicEl.volume = BASE_VOL;
 
         function playMusic() {
-            if (!musicOn || !musicEl) return;
+            if (!musicEl) return;
             try {
                 musicEl.currentTime = 0;
                 musicEl.volume = BASE_VOL;
@@ -371,35 +379,12 @@
             try { musicEl.pause(); musicEl.currentTime = 0; } catch (_) { }
         }
 
-        const musicToggle = document.getElementById('musicToggle');
-        if (musicToggle) {
-            musicToggle.addEventListener('click', () => {
-                musicOn = !musicOn;
-                musicToggle.textContent = musicOn ? 'MUSIC: ON' : 'MUSIC: OFF';
-                if (audioMode && audioMode.value === 'audio' && musicOn) {
-                    playMusic();
-                } else {
-                    stopMusic();
-                }
-            });
-        }
-
-        // keep music in sync with start/stop button from protocol.js
-        const startBtn = document.getElementById('startBtn');
-        if (startBtn) {
-            startBtn.addEventListener('click', () => {
-                if (audioMode && audioMode.value === 'audio' && musicOn) {
-                    // if starting, play; if stopping, stop
-                    if (startBtn.textContent.trim().startsWith('STOP')) {
-                        playMusic();
-                    } else {
-                        stopMusic();
-                    }
-                } else {
-                    stopMusic();
-                }
-            });
-        }
+        document.addEventListener('protocolStarted', () => {
+            if (audioMode && audioMode.value === 'audio') playMusic();
+        });
+        document.addEventListener('protocolStopped', () => {
+            stopMusic();
+        });
     </script>
 </body>
 

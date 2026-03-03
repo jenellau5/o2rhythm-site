@@ -114,6 +114,13 @@
     // --- SOUND: ON/OFF (session remembered) ---
     const SS_SOUND = "o2_sound_enabled";
     let soundEnabled = sessionStorage.getItem(SS_SOUND) === "1";
+    // default to on for conference environment so users hear cues without toggling
+    if (!soundEnabled) {
+        const env = page.dataset.environment || "";
+        if (env.startsWith("conf_")) {
+            soundEnabled = true;
+        }
+    }
 
     let audioCtx = null;
     function ensureAudioContext() {
@@ -224,6 +231,7 @@
             // Sound cues (simple)
             if (label === "INHALE") playTone(440, Math.max(0.18, seconds * 0.85));
             if (label === "EXHALE") playTone(220, Math.max(0.18, seconds * 0.85));
+            if (label === "HOLD") playTone(330, Math.max(0.18, seconds * 0.85));
 
             let t = 0;
             countEl.textContent = "1";
@@ -313,6 +321,9 @@
         running = true;
         startBtn.textContent = "STOP"; // label becomes stop while running
 
+        // notify listeners (walking page hooks into this)
+        document.dispatchEvent(new CustomEvent('protocolStarted'));
+
         ga("protocol_start", { total_seconds: total });
 
         timeLeft = total;
@@ -331,6 +342,7 @@
 
     function stop() {
         if (!running) return;
+        document.dispatchEvent(new CustomEvent('protocolStopped'));
         ga("protocol_stop", { seconds_remaining: timeLeft });
         clearAll();
         resetUI();
