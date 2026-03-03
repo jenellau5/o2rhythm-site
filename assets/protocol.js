@@ -5,6 +5,7 @@
 */
 (function () {
     const page = document.querySelector("[data-protocol]");
+    console.log("protocol.js loaded, page element:", page);
     if (!page) return;
 
     // --- Required elements ---
@@ -19,7 +20,11 @@
     // --- Optional element (sound toggle) ---
     const soundToggleBtn = document.getElementById("soundToggle");
 
-    if (!startBtn || !timerEl || !pacerEl || !progressCircle || !phaseLabelEl || !dotsEl || !countEl) return;
+    console.log("protocol.js elements", { startBtn, timerEl, pacerEl, progressCircle, phaseLabelEl, dotsEl, countEl });
+    if (!startBtn || !timerEl || !pacerEl || !progressCircle || !phaseLabelEl || !dotsEl || !countEl) {
+        console.warn("protocol.js missing required elements, aborting");
+        return;
+    }
 
     // --- Config from data-* ---
     const total = Number(page.dataset.total || 60);
@@ -317,6 +322,7 @@
 
     function start() {
         if (running) return;
+        console.log("protocol start invoked");
 
         running = true;
         startBtn.textContent = "STOP"; // label becomes stop while running
@@ -334,6 +340,8 @@
             timeLeft -= 1;
             timerEl.textContent = fmt(Math.max(0, timeLeft));
             setOverallProgress(Math.max(0, timeLeft));
+            // notify tick with remaining seconds
+            document.dispatchEvent(new CustomEvent('protocolTick', { detail: { timeLeft } }));
             if (timeLeft <= 0) endSession();
         }, 1000);
 
@@ -342,6 +350,7 @@
 
     function stop() {
         if (!running) return;
+        console.log("protocol stop invoked");
         document.dispatchEvent(new CustomEvent('protocolStopped'));
         ga("protocol_stop", { seconds_remaining: timeLeft });
         clearAll();

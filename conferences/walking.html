@@ -10,117 +10,6 @@
     <link rel="stylesheet" href="/assets/style.css" />
 
     <style>
-        .soundScan {
-            margin-top: 16px;
-            padding: 14px;
-            border: 1px solid rgba(255, 255, 255, .12);
-            border-radius: 16px;
-            background: rgba(255, 255, 255, .03);
-        }
-
-        .soundScanHead {
-            display: flex;
-            align-items: baseline;
-            justify-content: space-between;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-
-        .soundScanTitle {
-            font-weight: 800;
-            letter-spacing: .8px;
-            text-transform: uppercase;
-            font-size: .95rem;
-            opacity: .95;
-        }
-
-        .soundScanMeta {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            opacity: .8;
-            font-size: .9rem;
-        }
-
-        .soundScanGrid {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 10px;
-        }
-
-        @media (min-width: 560px) {
-            .soundScanGrid {
-                grid-template-columns: repeat(3, minmax(0, 1fr));
-            }
-        }
-
-        .scanItem {
-            position: relative;
-            display: block;
-            user-select: none;
-        }
-
-        .scanItem input {
-            position: absolute;
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .scanPill {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            padding: 10px 12px;
-            border-radius: 14px;
-            border: 1px solid rgba(255, 255, 255, .14);
-            background: rgba(0, 0, 0, .18);
-            cursor: pointer;
-            transition: transform .06s ease, border-color .12s ease, background .12s ease, opacity .12s ease;
-        }
-
-        .scanPill:hover {
-            border-color: rgba(255, 255, 255, .28);
-        }
-
-        .scanPill:active {
-            transform: scale(.99);
-        }
-
-        .scanText {
-            font-weight: 650;
-            letter-spacing: .2px;
-            font-size: .95rem;
-            opacity: .95;
-            line-height: 1.1;
-        }
-
-        .scanMark {
-            width: 18px;
-            height: 18px;
-            border-radius: 6px;
-            border: 1px solid rgba(255, 255, 255, .25);
-            display: grid;
-            place-items: center;
-            font-size: 12px;
-            opacity: .7;
-        }
-
-        .scanItem input:checked+.scanPill {
-            border-color: rgba(255, 255, 255, .45);
-            background: rgba(255, 255, 255, .08);
-        }
-
-        .scanItem input:checked+.scanPill .scanMark {
-            opacity: 1;
-            border-color: rgba(255, 255, 255, .65);
-        }
-
-        .soundScanFooter {
-            display: flex;
-        }
-
-        /* miniCTA/button styling matched with other conference demos */
         .miniCta {
             display: grid;
             gap: 10px;
@@ -145,17 +34,6 @@
         .ctaBtn:hover {
             background: rgba(255, 255, 255, 0.12);
         }
-
-        .pillrow {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-top: 12px;
-        }
-
-        .pillrow a {
-            text-decoration: none;
-        }
     </style>
 
     <!-- Google tag (gtag.js) -->
@@ -170,7 +48,7 @@
 
 <body data-agency="public" data-environment="conf_dispatch_walk">
     <main class="wrap">
-        <section class="card protocol" data-agency="public" data-environment="conf_dispatch_walk"
+        <section class="card protocol" data-protocol data-agency="public" data-environment="conf_dispatch_walk"
             data-protocol-id="conf-walking" data-total="180">
 
             <div class="brand">O₂ RHYTHM</div>
@@ -270,19 +148,10 @@
                 </div>
             </div>
 
-            <div class="infoBox">
-                <strong>What this regulation is for:</strong>
-                This is a short movement reset. Walking at a steady pace and letting your attention move through the
-                environment helps bleed off some adrenaline and pull you out of tunnel vision, so you can come back to
-                work or
-                home a little less loaded. The scan checklist can be adjusted for dispatch or any other setting.
-            </div>
 
             <div class="navrow">
                 <a class="pill" href="index.html" data-track="nav_click" data-cta="conf_demo_home">Menu</a>
-                <a class="pill" href="desk-45.html" data-track="nav_click" data-cta="prev_desk45">Back: Desk 45</a>
             </div>
-
             <div class="feedback" style="margin-top:12px;text-align:center;">
                 <p>Please give us some feedback to help improve these demos.</p>
                 <a class="feedback-link" href="/shared/protocols/feedback.html?src=conf&protocol=conf-walking"
@@ -290,39 +159,33 @@
                     Feedback (30 seconds)
                 </a>
             </div>
-
             <div class="miniCta" style="margin-top:32px; text-align:center;">
                 <a class="ctaBtn" href="../index.html#pilot-intake" data-track="cta_click"
                     data-cta="bring_to_agency_from_conf">
                     Bring O₂ Rhythm to My Agency
                 </a>
             </div>
-
             <!-- Audio (NO loop; controlled in JS) -->
             <audio id="walkMusic" preload="auto" src="/assets/audio/walking-loop.mp3"></audio>
         </section>
     </main>
 
     <script>
-        // use shared protocol.js for timing/stop support; duration choice via query parameter
+        // ---- utility / page initialization ----
+        // mirror query parameter into data-total and duration dropdown
         (function () {
             const params = new URLSearchParams(location.search);
             const dur = params.get('dur');
             const page = document.querySelector('[data-protocol]');
-            if (page && dur) {
-                page.dataset.total = dur;
-            }
-            // mirror selected value so dropdown shows current duration
+            if (page && dur) page.dataset.total = dur;
             const durationSelect = document.getElementById('durationSelect');
             if (durationSelect && dur) {
                 durationSelect.value = dur;
-                // also update the subtitle text if needed
                 const sub = document.getElementById('subline');
                 if (sub) sub.textContent = `Walking Regulation • ${Math.floor(dur / 60)} min`;
             }
         })();
 
-        // duration selector (no DOMContentLoaded, element already present)
         const durationSelect = document.getElementById('durationSelect');
         if (durationSelect) {
             durationSelect.addEventListener('change', () => {
@@ -332,10 +195,7 @@
             });
         }
 
-        // audio/no-audio mode logic
-        // stubbed music controls; real functions defined later so updateMode won't error
-        function playMusic() { }
-        function stopMusic() { }
+        // audio / scan mode support
         const audioMode = document.getElementById('audioMode');
         const scanSection = document.getElementById('soundScan');
         function updateMode() {
@@ -343,15 +203,10 @@
             const mode = audioMode.value;
             if (mode === 'noaudio') {
                 if (scanSection) scanSection.style.display = '';
-                // ensure music stops immediately when switching to no-audio
                 stopMusic();
             } else {
                 if (scanSection) scanSection.style.display = 'none';
             }
-        }
-        if (audioMode) {
-            audioMode.addEventListener('change', updateMode);
-            updateMode();
         }
 
         function safeEvent(name, params) {
@@ -359,32 +214,63 @@
         }
         safeEvent('conf_demo_view', { demo: 'walking', page: 'conf_walk' });
     </script>
+
+    <!-- protocol engine -->
     <script src="/assets/protocol.js"></script>
-    <!-- music handling -->
+
+    <!-- music & tick logic -->
     <script>
-        const musicEl = document.getElementById("walkMusic");
+        const musicEl = document.getElementById('walkMusic');
         const BASE_VOL = 0.22;
         if (musicEl) musicEl.volume = BASE_VOL;
 
+        function beep() {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const o = ctx.createOscillator();
+            const g = ctx.createGain();
+            o.type = 'sine';
+            o.frequency.value = 880;
+            g.gain.value = 0.05;
+            o.connect(g);
+            g.connect(ctx.destination);
+            o.start();
+            setTimeout(() => { o.stop(); ctx.close(); }, 80);
+        }
+
         function playMusic() {
+            console.log('playMusic called', { audioMode: audioMode?.value });
             if (!musicEl) return;
             try {
                 musicEl.currentTime = 0;
                 musicEl.volume = BASE_VOL;
-                musicEl.play().catch(() => { });
-            } catch (_) { }
+                musicEl.play().catch((e) => { console.warn('music play failed', e); });
+            } catch (e) { console.warn('playMusic exception', e); }
         }
         function stopMusic() {
+            console.log('stopMusic called');
             if (!musicEl) return;
-            try { musicEl.pause(); musicEl.currentTime = 0; } catch (_) { }
+            try { musicEl.pause(); musicEl.currentTime = 0; } catch (e) { console.warn('stopMusic exception', e); }
         }
 
         document.addEventListener('protocolStarted', () => {
             if (audioMode && audioMode.value === 'audio') playMusic();
         });
-        document.addEventListener('protocolStopped', () => {
-            stopMusic();
+        document.addEventListener('protocolStopped', () => stopMusic());
+
+        document.addEventListener('protocolTick', (e) => {
+            const t = e.detail.timeLeft;
+            const total = Number(document.querySelector('[data-protocol]').dataset.total) || 0;
+            if (t === Math.floor(total / 2) || t === 10) beep();
         });
+
+        if (audioMode) {
+            audioMode.addEventListener('change', updateMode);
+            updateMode();
+        }
+
+        // debug clicks
+        const dbgStart = document.getElementById('startBtn');
+        if (dbgStart) dbgStart.addEventListener('click', () => console.log('walking.html startBtn clicked'));
     </script>
 </body>
 
