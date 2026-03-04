@@ -15,6 +15,7 @@
             display: grid;
             gap: 10px;
             margin-bottom: 14px;
+            text-align: center;
         }
 
         .kicker {
@@ -42,12 +43,42 @@
         }
 
         .demoTile {
+            position: relative;
             display: grid;
             gap: 10px;
             padding: 14px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.14);
             border-radius: 14px;
-            background: rgba(255, 255, 255, 0.03);
+            background: radial-gradient(circle at top left,
+                    rgba(255, 255, 255, 0.06),
+                    rgba(0, 0, 0, 0.45));
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
+            transition: transform 0.12s ease, box-shadow 0.15s ease,
+                border-color 0.15s ease, background 0.2s ease;
+        }
+
+        .demoTile::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            border: 1px solid transparent;
+            pointer-events: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .demoTile:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 22px 50px rgba(0, 0, 0, 0.7);
+            border-color: rgba(0, 220, 160, 0.45);
+            background: radial-gradient(circle at top left,
+                    rgba(0, 255, 200, 0.08),
+                    rgba(0, 0, 0, 0.55));
+        }
+
+        .demoTile:hover::after {
+            border-color: rgba(0, 255, 200, 0.4);
+            box-shadow: 0 0 0 1px rgba(0, 255, 200, 0.45);
         }
 
         .demoTile h2 {
@@ -63,6 +94,11 @@
             line-height: 1.35;
         }
 
+        .demoTile .mini {
+            font-size: 12px;
+            opacity: 0.75;
+        }
+
         .ctaRow {
             display: flex;
             gap: 10px;
@@ -76,24 +112,34 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            padding: 12px 14px;
-            border-radius: 12px;
+            padding: 10px 13px;
+            border-radius: 999px;
             text-decoration: none;
             border: 1px solid rgba(255, 255, 255, 0.18);
             background: rgba(255, 255, 255, 0.08);
             color: inherit;
             font-weight: 600;
-            letter-spacing: 0.02em;
+            font-size: 13px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.18s ease, transform 0.08s ease,
+                box-shadow 0.15s ease, border-color 0.18s ease;
         }
 
         .primaryBtn:hover {
-            background: rgba(255, 255, 255, 0.12);
+            background: rgba(0, 220, 160, 0.9);
+            border-color: rgba(0, 255, 220, 0.95);
+            box-shadow: 0 14px 32px rgba(0, 0, 0, 0.7);
+            transform: translateY(-1px);
+            color: #01140c;
         }
 
         .tagRow {
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
+            justify-content: center;
         }
 
         .tag {
@@ -125,11 +171,11 @@
                 <div class="kicker">CONFERENCE BOOTH (dispatch)</div>
                 <h1 style="margin:0;">Quick dispatch demos</h1>
                 <p class="lede">
-                    Two short micro‑regulations you can scan and run from the dispatch‑focused booth. 30‑60 seconds each
-                    and they can be used with or without audio.
+                    Two short micro‑regulations you can scan and run from the dispatch‑focused booth.
+                    30‑60 seconds each and they can be used with or without audio.
                 </p>
 
-                <div class="tagRow" aria-label="tags" style="justify-content:center;">
+                <div class="tagRow" aria-label="tags">
                     <span class="tag">Dispatch</span>
                     <span class="tag">EMS</span>
                     <span class="tag">Fire</span>
@@ -140,11 +186,11 @@
             <div class="divider"></div>
 
             <section class="grid3" aria-label="options">
-
                 <!-- OXYGEN 30 -->
                 <article class="demoTile">
                     <h2>Oxygen 30</h2>
-                    <p>Short oxygen regulation to drop tension quickly. 30‑second paced breathing with optional holds.
+                    <p>
+                        Short oxygen regulation to drop tension quickly. 30‑second paced breathing with optional holds.
                     </p>
                     <div class="ctaRow">
                         <a class="primaryBtn" href="oxygen-30.html" data-track="conf_demo_select" data-demo="oxygen30">
@@ -157,8 +203,7 @@
                 <!-- DESK 45 -->
                 <article class="demoTile">
                     <h2>Desk 45</h2>
-                    <p>A familiar 45‑second desk reset, suitable for dispatch workstations.
-                    </p>
+                    <p>A familiar 45‑second desk reset, suitable for dispatch workstations.</p>
                     <div class="ctaRow">
                         <a class="primaryBtn" href="desk-45.html" data-track="conf_demo_select" data-demo="desk45">
                             Run Desk 45
@@ -167,11 +212,13 @@
                     <p class="mini">45 sec • 4 in / 6 out • after a tough call</p>
                 </article>
 
-                <!-- WALKING REGULATION from academy -->
+                <!-- WALKING REGULATION -->
                 <article class="demoTile">
                     <h2>Walking Regulation</h2>
-                    <p>Three‑minute walking meditation with optional music. You can listen while you browse the booth –
-                        works with or without audio.</p>
+                    <p>
+                        Three‑minute walking meditation with optional music. Browse the booth or walk the floor –
+                        works with or without audio.
+                    </p>
                     <div class="ctaRow">
                         <a class="primaryBtn" href="walking.html" data-track="conf_demo_select" data-demo="walking">
                             Run Walking Demo
@@ -179,10 +226,27 @@
                     </div>
                     <p class="mini">3 min • movement + optional audio • steady pace</p>
                 </article>
-
             </section>
         </section>
     </main>
+
+    <script>
+        // simple click analytics for which demo gets tapped
+        (function () {
+            function safeEvent(name, params) {
+                try { gtag('event', name, params || {}); } catch (e) { }
+            }
+
+            document.addEventListener('click', (e) => {
+                const link = e.target.closest('a[data-track][data-demo]');
+                if (!link) return;
+                safeEvent(link.getAttribute('data-track'), {
+                    demo: link.getAttribute('data-demo'),
+                    page: 'conf_booth_index'
+                });
+            });
+        })();
+    </script>
 </body>
 
 </html>

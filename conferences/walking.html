@@ -29,10 +29,175 @@
             color: inherit;
             font-weight: 600;
             letter-spacing: 0.02em;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.1s ease, box-shadow 0.15s ease;
         }
 
         .ctaBtn:hover {
-            background: rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.14);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3);
+        }
+
+        /* ==== Booth scan upgrades ==== */
+
+        .soundScan {
+            margin-top: 18px;
+            padding: 14px 14px 16px;
+            border-radius: 14px;
+            background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.12), rgba(0, 0, 0, 0.3));
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(10px);
+        }
+
+        .soundScanHead {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 10px;
+        }
+
+        .soundScanTitle {
+            font-size: 13px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            opacity: 0.9;
+        }
+
+        .soundScanMeta {
+            font-size: 11px;
+            opacity: 0.7;
+        }
+
+        .soundScanHint {
+            font-size: 12px;
+            opacity: 0.8;
+            margin-bottom: 10px;
+        }
+
+        .soundScanGrid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 8px;
+        }
+
+        .scanItem {
+            position: relative;
+            display: block;
+            cursor: pointer;
+        }
+
+        .scanItem input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .scanPill {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+            padding: 8px 10px;
+            border-radius: 999px;
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            font-size: 12px;
+            line-height: 1.3;
+            transition: background 0.18s ease, border-color 0.18s ease, transform 0.1s ease, box-shadow 0.15s ease;
+        }
+
+        .scanText {
+            flex: 1;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+
+        .scanMark {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            opacity: 0.8;
+        }
+
+        .scanItem:hover .scanPill {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.35);
+            transform: translateY(-1px);
+            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.45);
+        }
+
+        .scanItem input:checked+.scanPill {
+            background: linear-gradient(135deg, rgba(0, 220, 130, 0.25), rgba(0, 180, 240, 0.25));
+            border-color: rgba(0, 220, 130, 0.7);
+            box-shadow: 0 0 0 1px rgba(0, 220, 130, 0.4), 0 14px 32px rgba(0, 0, 0, 0.6);
+        }
+
+        .scanItem input:checked+.scanPill .scanText {
+            text-decoration: line-through;
+            opacity: 0.9;
+        }
+
+        .scanItem input:checked+.scanPill .scanMark {
+            background: rgba(0, 220, 130, 0.9);
+            border-color: transparent;
+            color: #02130b;
+            opacity: 1;
+        }
+
+        .scanItem input:checked+.scanPill .scanMark::before {
+            content: "✓";
+        }
+
+        /* Timer / button tweaks */
+
+        #startBtn.start {
+            min-width: 96px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.18s ease, transform 0.08s ease, box-shadow 0.15s ease, border-color 0.18s ease;
+        }
+
+        #startBtn.start:hover {
+            background: rgba(0, 200, 150, 0.85);
+            border-color: rgba(0, 255, 200, 0.9);
+            box-shadow: 0 12px 26px rgba(0, 0, 0, 0.6);
+            transform: translateY(-1px);
+        }
+
+        #startBtn.stop {
+            background: rgba(200, 40, 40, 0.85);
+            border-color: rgba(255, 140, 140, 0.9);
+        }
+
+        #startBtn.stop:hover {
+            background: rgba(240, 60, 60, 0.95);
+        }
+
+        .phaseLabel {
+            margin-top: 6px;
+            font-size: 11px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            opacity: 0.8;
+        }
+
+        .timer {
+            font-variant-numeric: tabular-nums;
         }
     </style>
 
@@ -61,17 +226,16 @@
 
             <p class="sub" style="margin-top:10px; line-height:1.35;">
                 Walk at a steady pace until the timer ends. There are two modes:
+            </p>
             <ul style="margin:6px 0 0 20px; padding:0; line-height:1.4;">
-                <li><strong>Audio</strong>: the walking music will play (no extra toggles) and the timer follows
-                    whichever duration you
-                    pick –
+                <li><strong>Audio</strong>: the walking music will play and the timer follows the duration you pick –
                     the music stops when the clock reaches zero.</li>
                 <li><strong>No audio</strong>: the music is suppressed and the <em>Booth Scan</em> checklist appears
-                    below.
-                    Check off items as you move until the timer expires.</li>
+                    below. Check off items as you move until the timer expires.</li>
             </ul>
-            Choose a length (1‑3 min) before you start; you can switch modes at any time. A stop button shows once you
-            start so you can end early, and the timer works in both modes.
+            <p class="sub" style="margin-top:6px; line-height:1.35;">
+                Choose a length (1‑3 min) before you start; you can switch modes at any time. A stop button shows once
+                you start so you can end early, and the timer works in both modes.
             </p>
 
             <!-- audio/no-audio selector -->
@@ -94,7 +258,8 @@
                     <option value="180" selected>3&nbsp;min</option>
                 </select>
             </div>
-            <!-- Single standard duration (3 min) -->
+
+            <!-- Timer ring -->
             <div class="ringbox">
                 <svg class="progressRing" viewBox="0 0 220 220" aria-hidden="true">
                     <circle class="progress-bg" cx="110" cy="110" r="100"></circle>
@@ -106,13 +271,11 @@
                         <button id="startBtn" class="start" type="button">START</button>
                         <div id="timer" class="timer">3:00</div>
                         <div id="phaseLabel" class="phaseLabel">READY</div>
-                        <!-- protocol.js requires these even though walking doesn't use them -->
                         <div id="count" class="count" style="display:none;"></div>
                         <div id="dots" class="phaseDots" style="display:none;"></div>
                     </div>
                 </div>
             </div>
-
 
             <!-- Booth scan for conference floor -->
             <div class="soundScan" id="soundScan" aria-label="Booth scan checklist">
@@ -120,38 +283,104 @@
                     <div class="soundScanTitle">BOOTH SCAN</div>
                     <div class="soundScanMeta">(look around)</div>
                 </div>
+                <div class="soundScanHint">
+                    Check off items as you notice them while you walk the floor. Take your time.
+                </div>
                 <div class="soundScanGrid">
-                    <label class="scanItem"><input type="checkbox" /><span class="scanPill"><span
-                                class="scanText">someone drinking coffee</span><span
-                                class="scanMark"></span></span></label>
-                    <label class="scanItem"><input type="checkbox" /><span class="scanPill"><span
-                                class="scanText">drinking fountain</span><span class="scanMark"></span></span></label>
-                    <label class="scanItem"><input type="checkbox" /><span class="scanPill"><span class="scanText">an
-                                employee</span><span class="scanMark"></span></span></label>
-                    <label class="scanItem"><input type="checkbox" /><span class="scanPill"><span
-                                class="scanText">someone wearing heels</span><span
-                                class="scanMark"></span></span></label>
-                    <label class="scanItem"><input type="checkbox" /><span class="scanPill"><span class="scanText">a
-                                chair</span><span class="scanMark"></span></span></label>
-                    <label class="scanItem"><input type="checkbox" /><span class="scanPill"><span class="scanText">a
-                                table</span><span class="scanMark"></span></span></label>
-                    <label class="scanItem"><input type="checkbox" /><span class="scanPill"><span
-                                class="scanText">someone wearing red</span><span class="scanMark"></span></span></label>
-                    <label class="scanItem"><input type="checkbox" /><span class="scanPill"><span class="scanText">music
-                                playing</span><span class="scanMark"></span></span></label>
-                    <label class="scanItem"><input type="checkbox" /><span class="scanPill"><span class="scanText">3
-                                booths of interest</span><span class="scanMark"></span></span></label>
-                    <label class="scanItem"><input type="checkbox" /><span class="scanPill"><span
-                                class="scanText">bathroom signs</span><span class="scanMark"></span></span></label>
-                    <label class="scanItem"><input type="checkbox" /><span class="scanPill"><span
-                                class="scanText">someone smiling</span><span class="scanMark"></span></span></label>
+                    <label class="scanItem">
+                        <input type="checkbox" />
+                        <span class="scanPill">
+                            <span class="scanText">someone drinking coffee</span>
+                            <span class="scanMark"></span>
+                        </span>
+                    </label>
+
+                    <label class="scanItem">
+                        <input type="checkbox" />
+                        <span class="scanPill">
+                            <span class="scanText">drinking fountain</span>
+                            <span class="scanMark"></span>
+                        </span>
+                    </label>
+
+                    <label class="scanItem">
+                        <input type="checkbox" />
+                        <span class="scanPill">
+                            <span class="scanText">an employee</span>
+                            <span class="scanMark"></span>
+                        </span>
+                    </label>
+
+                    <label class="scanItem">
+                        <input type="checkbox" />
+                        <span class="scanPill">
+                            <span class="scanText">someone wearing heels</span>
+                            <span class="scanMark"></span>
+                        </span>
+                    </label>
+
+                    <label class="scanItem">
+                        <input type="checkbox" />
+                        <span class="scanPill">
+                            <span class="scanText">a chair</span>
+                            <span class="scanMark"></span>
+                        </span>
+                    </label>
+
+                    <label class="scanItem">
+                        <input type="checkbox" />
+                        <span class="scanPill">
+                            <span class="scanText">a table</span>
+                            <span class="scanMark"></span>
+                        </span>
+                    </label>
+
+                    <label class="scanItem">
+                        <input type="checkbox" />
+                        <span class="scanPill">
+                            <span class="scanText">someone wearing red</span>
+                            <span class="scanMark"></span>
+                        </span>
+                    </label>
+
+                    <label class="scanItem">
+                        <input type="checkbox" />
+                        <span class="scanPill">
+                            <span class="scanText">music playing</span>
+                            <span class="scanMark"></span>
+                        </span>
+                    </label>
+
+                    <label class="scanItem">
+                        <input type="checkbox" />
+                        <span class="scanPill">
+                            <span class="scanText">3 booths of interest</span>
+                            <span class="scanMark"></span>
+                        </span>
+                    </label>
+
+                    <label class="scanItem">
+                        <input type="checkbox" />
+                        <span class="scanPill">
+                            <span class="scanText">bathroom signs</span>
+                            <span class="scanMark"></span>
+                        </span>
+                    </label>
+
+                    <label class="scanItem">
+                        <input type="checkbox" />
+                        <span class="scanPill">
+                            <span class="scanText">someone smiling</span>
+                            <span class="scanMark"></span>
+                        </span>
+                    </label>
                 </div>
             </div>
-
 
             <div class="navrow">
                 <a class="pill" href="index.html" data-track="nav_click" data-cta="conf_demo_home">Menu</a>
             </div>
+
             <div class="feedback" style="margin-top:12px;text-align:center;">
                 <p>Please give us some feedback to help improve these demos.</p>
                 <a class="feedback-link" href="/shared/protocols/feedback.html?src=conf&protocol=conf-walking"
@@ -159,12 +388,14 @@
                     Feedback (30 seconds)
                 </a>
             </div>
+
             <div class="miniCta" style="margin-top:32px; text-align:center;">
                 <a class="ctaBtn" href="../index.html#pilot-intake" data-track="cta_click"
                     data-cta="bring_to_agency_from_conf">
                     Bring O₂ Rhythm to My Agency
                 </a>
             </div>
+
             <!-- Audio (NO loop; controlled in JS) -->
             <audio id="walkMusic" preload="auto" src="/assets/audio/walking-loop.mp3"></audio>
         </section>
@@ -172,7 +403,6 @@
 
     <script>
         // ---- utility / page initialization ----
-        // mirror query parameter into data-total and duration dropdown
         (function () {
             const params = new URLSearchParams(location.search);
             const dur = params.get('dur');
@@ -218,11 +448,36 @@
     <!-- protocol engine -->
     <script src="/assets/protocol.js"></script>
 
-    <!-- music & tick logic -->
+    <!-- music & tick logic + direct timer control -->
     <script>
         const musicEl = document.getElementById('walkMusic');
         const BASE_VOL = 0.22;
         if (musicEl) musicEl.volume = BASE_VOL;
+
+        const startBtn = document.getElementById('startBtn');
+        const timerEl = document.getElementById('timer');
+        const phaseLabel = document.getElementById('phaseLabel');
+        const protocolSection = document.querySelector('[data-protocol]');
+        const progressCircle = document.querySelector('.progress');
+        const radius = 100;
+        const circumference = 2 * Math.PI * radius;
+
+        let running = false;
+        let remaining = 180;
+        let totalTime = 180;
+        let timerId = null;
+
+        if (progressCircle) {
+            progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
+            progressCircle.style.strokeDashoffset = `${circumference}`;
+        }
+
+        function setProgress(timeLeft) {
+            if (!progressCircle || !totalTime) return;
+            const ratio = 1 - timeLeft / totalTime;
+            const offset = circumference * ratio;
+            progressCircle.style.strokeDashoffset = offset;
+        }
 
         function beep() {
             const ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -238,39 +493,102 @@
         }
 
         function playMusic() {
-            console.log('playMusic called', { audioMode: audioMode?.value });
             if (!musicEl) return;
+            if (!audioMode || audioMode.value !== 'audio') return;
             try {
                 musicEl.currentTime = 0;
                 musicEl.volume = BASE_VOL;
-                musicEl.play().catch((e) => { console.warn('music play failed', e); });
-            } catch (e) { console.warn('playMusic exception', e); }
+                musicEl.play().catch(() => { });
+            } catch (e) { }
         }
+
         function stopMusic() {
-            console.log('stopMusic called');
             if (!musicEl) return;
-            try { musicEl.pause(); musicEl.currentTime = 0; } catch (e) { console.warn('stopMusic exception', e); }
+            try { musicEl.pause(); musicEl.currentTime = 0; } catch (e) { }
         }
 
-        document.addEventListener('protocolStarted', () => {
-            if (audioMode && audioMode.value === 'audio') playMusic();
-        });
-        document.addEventListener('protocolStopped', () => stopMusic());
+        function updateTimerLabel() {
+            const m = Math.floor(remaining / 60);
+            const s = remaining % 60;
+            timerEl.textContent = `${m}:${s.toString().padStart(2, '0')}`;
+        }
 
-        document.addEventListener('protocolTick', (e) => {
-            const t = e.detail.timeLeft;
-            const total = Number(document.querySelector('[data-protocol]').dataset.total) || 0;
-            if (t === Math.floor(total / 2) || t === 10) beep();
-        });
+        function startProtocol() {
+            if (running) return;
+            running = true;
+
+            const totalAttr = protocolSection?.dataset.total;
+            totalTime = totalAttr ? Number(totalAttr) : Number(durationSelect?.value || 180);
+            remaining = totalTime;
+            updateTimerLabel();
+            setProgress(remaining);
+
+            if (startBtn) {
+                startBtn.textContent = 'STOP';
+                startBtn.classList.add('stop');
+            }
+            if (phaseLabel) phaseLabel.textContent = 'WALK';
+
+            playMusic();
+
+            timerId = setInterval(() => {
+                remaining -= 1;
+                if (remaining <= 0) {
+                    remaining = 0;
+                    updateTimerLabel();
+                    setProgress(remaining);
+                    beep();
+                    stopProtocol();
+                    return;
+                }
+                updateTimerLabel();
+                setProgress(remaining);
+
+                if (remaining === Math.floor(totalTime / 2) || remaining === 10) {
+                    beep();
+                }
+            }, 1000);
+        }
+
+        function stopProtocol() {
+            if (!running) return;
+            running = false;
+
+            if (timerId) {
+                clearInterval(timerId);
+                timerId = null;
+            }
+
+            stopMusic();
+
+            if (startBtn) {
+                startBtn.textContent = 'START';
+                startBtn.classList.remove('stop');
+            }
+            if (phaseLabel) phaseLabel.textContent = 'READY';
+
+            const totalAttr = protocolSection?.dataset.total;
+            totalTime = totalAttr ? Number(totalAttr) : Number(durationSelect?.value || 180);
+            remaining = totalTime;
+            updateTimerLabel();
+            setProgress(remaining);
+        }
+
+        if (startBtn) {
+            startBtn.addEventListener('click', () => {
+                running ? stopProtocol() : startProtocol();
+            });
+        }
 
         if (audioMode) {
-            audioMode.addEventListener('change', updateMode);
+            audioMode.addEventListener('change', () => {
+                updateMode();
+                if (running && audioMode.value === 'audio') {
+                    playMusic();
+                }
+            });
             updateMode();
         }
-
-        // debug clicks
-        const dbgStart = document.getElementById('startBtn');
-        if (dbgStart) dbgStart.addEventListener('click', () => console.log('walking.html startBtn clicked'));
     </script>
 </body>
 

@@ -50,10 +50,14 @@
             color: inherit;
             font-weight: 600;
             letter-spacing: 0.02em;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.1s ease, box-shadow 0.15s ease;
         }
 
         .ctaBtn:hover {
-            background: rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.14);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3);
         }
 
         .pillrow {
@@ -84,6 +88,79 @@
         .infoBox strong {
             font-weight: 600;
         }
+
+        .toggleRow {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .toggle {
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            background: rgba(0, 0, 0, 0.55);
+            color: inherit;
+            font-size: 12px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.18s ease, border-color 0.18s ease,
+                transform 0.08s ease, box-shadow 0.15s ease;
+        }
+
+        .toggle.on {
+            background: rgba(0, 200, 150, 0.85);
+            border-color: rgba(0, 255, 200, 0.9);
+            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.6);
+        }
+
+        .toggle:hover {
+            transform: translateY(-1px);
+        }
+
+        #startBtn.start {
+            min-width: 96px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.18s ease, transform 0.08s ease,
+                box-shadow 0.15s ease, border-color 0.18s ease;
+        }
+
+        #startBtn.start:hover {
+            background: rgba(0, 200, 150, 0.85);
+            border-color: rgba(0, 255, 200, 0.9);
+            box-shadow: 0 12px 26px rgba(0, 0, 0, 0.6);
+            transform: translateY(-1px);
+        }
+
+        #startBtn.stop {
+            background: rgba(200, 40, 40, 0.85);
+            border-color: rgba(255, 140, 140, 0.9);
+        }
+
+        #startBtn.stop:hover {
+            background: rgba(240, 60, 60, 0.95);
+        }
+
+        .phaseLabel {
+            margin-top: 6px;
+            font-size: 11px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            opacity: 0.8;
+        }
+
+        .timer {
+            font-variant-numeric: tabular-nums;
+        }
     </style>
 
     <!-- Google tag (gtag.js) -->
@@ -96,7 +173,7 @@
     </script>
 </head>
 
-<body>
+<body data-agency="public" data-environment="conf_desk">
     <main class="wrap">
         <section class="card protocol" data-protocol data-agency="public" data-environment="conf_desk"
             data-protocol-id="desk45" data-title="DESK RESET" data-total="45" data-inhale="4" data-hold1="0"
@@ -107,8 +184,10 @@
             <div class="demoTop">
                 <div class="kicker">CONFERENCE • DESK RESET</div>
                 <h1 style="margin:0;">45‑second Desk</h1>
-                <p class="sub">Brief desk reset, same as public demo but in the booth. Can be run with or without sound;
-                    stop button available while running.</p>
+                <p class="sub">
+                    Brief desk reset, same as public demo but in the booth. Can be run with or without sound;
+                    stop button available while running.
+                </p>
             </div>
 
             <div class="ringbox">
@@ -134,8 +213,8 @@
 
             <div class="infoBox">
                 <strong>What this demo is for:</strong>
-                A familiar 45‑second reset to drop tension and clear the head between contacts or calls. Can be used
-                with or without audio; start toggles to stop so you can end early.
+                A familiar 45‑second reset to drop tension and clear the head between contacts or calls.
+                Can be used with or without audio; start toggles to stop so you can end early.
             </div>
 
             <!-- Demo navigation -->
@@ -158,16 +237,16 @@
                     Bring O₂ Rhythm to My Agency
                 </a>
             </div>
-
         </section>
     </main>
 
     <script src="/assets/protocol.js"></script>
+
+    <!-- GA + click tracking -->
     <script>
         (function () {
             const startBtn = document.getElementById("startBtn");
             const soundBtn = document.getElementById("soundToggle");
-            const timerEl = document.getElementById("timer");
 
             function safeEvent(name, params) {
                 try { gtag("event", name, params || {}); } catch (e) { }
@@ -184,11 +263,12 @@
 
             if (soundBtn) {
                 soundBtn.addEventListener("click", () => {
-                    const label = (soundBtn.textContent || "").trim();
+                    const isOn = soundBtn.classList.toggle("on");
+                    soundBtn.textContent = isOn ? "SOUND: ON" : "SOUND: OFF";
                     safeEvent("conf_demo_sound_toggle", {
                         demo: "desk45",
                         page: "conf_desk",
-                        state: label.includes("ON") ? "on" : (label.includes("OFF") ? "off" : "unknown")
+                        state: isOn ? "on" : "off"
                     });
                 });
             }
@@ -201,6 +281,123 @@
                 });
             });
         })();
+    </script>
+
+    <!-- breathing sounds + protocol wiring -->
+    <script>
+        const protoSection = document.querySelector("[data-protocol]");
+        const timerEl = document.getElementById("timer");
+        const phaseLabel = document.getElementById("phaseLabel");
+        const startBtn = document.getElementById("startBtn");
+        const soundToggle = document.getElementById("soundToggle");
+        const progressCircle = document.querySelector(".progress");
+        const radius = 100;
+        const circumference = 2 * Math.PI * radius;
+
+        let total = Number(protoSection?.dataset.total || 45);
+        let remaining = total;
+        let running = false;
+
+        if (progressCircle) {
+            progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
+            progressCircle.style.strokeDashoffset = `${circumference}`;
+        }
+
+        function setProgress(timeLeft) {
+            if (!progressCircle || !total) return;
+            const ratio = 1 - timeLeft / total;
+            const offset = circumference * ratio;
+            progressCircle.style.strokeDashoffset = offset;
+        }
+
+        function updateTimerLabel() {
+            const m = Math.floor(remaining / 60);
+            const s = remaining % 60;
+            timerEl.textContent = `${m}:${s.toString().padStart(2, "0")}`;
+        }
+
+        // Tone generator
+        let audioCtx = null;
+        function ensureCtx() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === "suspended") {
+                audioCtx.resume();
+            }
+        }
+
+        function playTone(freq, duration, volume) {
+            if (!soundToggle || !soundToggle.classList.contains("on")) return;
+            ensureCtx();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.frequency.value = freq;
+            osc.type = "sine";
+            gain.gain.value = volume ?? 0.05;
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            setTimeout(() => {
+                osc.stop();
+            }, duration);
+        }
+
+        function playInhale() { playTone(480, 220, 0.05); }
+        function playHold() { playTone(680, 160, 0.04); }
+        function playExhale() { playTone(320, 260, 0.05); }
+
+        // Protocol lifecycle hooks
+        document.addEventListener("protocolStarted", () => {
+            running = true;
+            total = Number(protoSection?.dataset.total || 45);
+            remaining = total;
+            updateTimerLabel();
+            setProgress(remaining);
+            if (startBtn) {
+                startBtn.textContent = "STOP";
+                startBtn.classList.add("stop");
+            }
+        });
+
+        document.addEventListener("protocolStopped", () => {
+            running = false;
+            if (startBtn) {
+                startBtn.textContent = "START";
+                startBtn.classList.remove("stop");
+            }
+            if (phaseLabel) phaseLabel.textContent = "";
+            // Do NOT reset remaining/progress here; leave ring at 0 until next START.
+        });
+
+        document.addEventListener("protocolTick", (e) => {
+            remaining = e.detail.timeLeft;
+            updateTimerLabel();
+            setProgress(remaining);
+        });
+
+        document.addEventListener("protocolPhase", (e) => {
+            const phase = e.detail.phase; // inhale / exhale / hold1 / hold2
+            if (phaseLabel) {
+                phaseLabel.textContent = String(phase).toUpperCase();
+            }
+            if (phase === "inhale") playInhale();
+            else if (phase === "exhale") playExhale();
+            else if (phase === "hold1" || phase === "hold2") playHold();
+        });
+
+        // Start/stop toggle -> request start/stop from protocol engine
+        if (startBtn) {
+            startBtn.addEventListener("click", () => {
+                if (!running) {
+                    const ev = new CustomEvent("protocolStartRequest", { detail: { id: "desk45" } });
+                    document.dispatchEvent(ev);
+                } else {
+                    const ev = new CustomEvent("protocolStopRequest", { detail: { id: "desk45" } });
+                    document.dispatchEvent(ev);
+                }
+            });
+        }
     </script>
 </body>
 
