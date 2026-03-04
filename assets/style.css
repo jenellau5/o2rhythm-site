@@ -1,6 +1,7 @@
 /* =========================================================
    RHYTHM O₂ — Tactical / Professional UI
    Clean. Controlled. Operational.
+   SINGLE SOURCE OF TRUTH (no duplicate blocks)
 ========================================================= */
 
 * {
@@ -25,6 +26,10 @@
 
     --radius: 14px;
     --radius2: 10px;
+
+    --danger: #c82828;
+    --dangerBorder: rgba(255, 140, 140, .9);
+    --dangerHover: #f03c3c;
 }
 
 html,
@@ -94,7 +99,6 @@ h1 {
     font-size: .88rem;
 }
 
-/* small “boxed note” for translation / guidance */
 .note {
     margin: 12px 0 14px;
     padding: 10px 12px;
@@ -111,7 +115,6 @@ h1 {
     color: #fff;
 }
 
-/* simple divider */
 .divider {
     height: 1px;
     background: rgba(255, 255, 255, .12);
@@ -156,7 +159,7 @@ h1 {
 }
 
 /* =========================================================
-   NAV PILLS (Back / Learn more / Email)
+   NAV PILLS
 ========================================================= */
 
 .navrow {
@@ -187,7 +190,7 @@ h1 {
 }
 
 /* =========================================================
-   PROTOCOL UI (Ring + Pacer)
+   PROTOCOL LAYOUT
 ========================================================= */
 
 .protocol {
@@ -196,21 +199,27 @@ h1 {
     justify-items: center;
 }
 
+/* ===== RING: RESPONSIVE + NO COLLAPSE =====
+   The old bug was: height:auto + absolute svg = container collapses.
+   This fixes it using aspect-ratio and full-size svg.
+*/
 .ringbox {
     position: relative;
-    width: 280px;
-    height: 280px;
+    width: min(280px, 85vw);
+    aspect-ratio: 1 / 1;
+    /* reserves height ALWAYS */
+    margin: 6px auto 10px;
 }
 
 svg.progressRing {
-    width: min(280px, 85vw);
-    height: auto;
+    width: 100%;
+    height: 100%;
+    display: block;
     transform: rotate(-90deg);
-    position: absolute;
-    inset: 0;
     pointer-events: none;
 }
 
+/* Ring strokes */
 .progress-bg {
     fill: none;
     stroke: var(--ring-bg);
@@ -222,14 +231,16 @@ svg.progressRing {
     stroke: var(--ring);
     stroke-width: 8;
     stroke-linecap: round;
+    /* Your JS can override dasharray/dashoffset; these are safe defaults */
     stroke-dasharray: 628;
     stroke-dashoffset: 628;
-    transition: stroke-dashoffset 1s linear;
+    transition: stroke-dashoffset .25s linear;
 }
 
+/* Center disc */
 .pacer {
     position: absolute;
-    inset: 28px;
+    inset: 10%;
     border-radius: 999px;
     border: 1px solid rgba(255, 255, 255, .22);
     background: rgba(255, 255, 255, .01);
@@ -240,11 +251,89 @@ svg.progressRing {
 .center {
     display: grid;
     place-items: center;
-    gap: 12px;
-    padding: 8px;
+    gap: 10px;
+    padding: 10px;
+    width: 100%;
+    max-width: 360px;
 }
 
-/* START button: bold + professional */
+/* Labels */
+.phaseLabel {
+    font-size: .78rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, .78);
+}
+
+.count {
+    font-size: 2.15rem;
+    font-weight: 1000;
+    letter-spacing: 1px;
+    line-height: 1;
+}
+
+.timer {
+    font-size: .9rem;
+    color: var(--muted);
+    letter-spacing: 1px;
+}
+
+/* PROMPTS (below ring, not inside) */
+.prompt {
+    margin: 8px auto 0;
+    padding: 0 14px;
+    max-width: 360px;
+    font-size: clamp(1.05rem, 3.2vw, 1.35rem);
+    line-height: 1.15;
+    font-weight: 950;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-align: center;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+.promptSub {
+    margin-top: 8px;
+    padding: 0 14px;
+    max-width: 360px;
+    font-size: clamp(.95rem, 2.8vw, 1.05rem);
+    line-height: 1.25;
+    color: rgba(255, 255, 255, .82);
+    text-align: center;
+}
+
+/* Phase dots */
+.phaseDots {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+    min-height: 18px;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, .28);
+    background: rgba(255, 255, 255, .06);
+    transition: transform 150ms ease, background 150ms ease, border-color 150ms ease;
+}
+
+.dot.filled {
+    background: rgba(255, 255, 255, .92);
+    border-color: rgba(255, 255, 255, .92);
+    transform: scale(1.12);
+}
+
+/* =========================================================
+   START / STOP BUTTON
+   - START = round
+   - STOP = red + square
+   Works if your button is: <button id="startBtn" class="start">START</button>
+========================================================= */
+
 .start {
     width: 140px;
     height: 140px;
@@ -275,68 +364,19 @@ svg.progressRing {
     cursor: default;
 }
 
-.timer {
-    font-size: .9rem;
-    color: var(--muted);
-    letter-spacing: 1px;
+/* STOP state: red + square */
+.start.stop,
+#startBtn.stop {
+    border-radius: 10px;
+    /* square-ish but still clean */
+    background: rgba(200, 40, 40, .92);
+    border-color: var(--dangerBorder);
+    letter-spacing: 1.6px;
 }
 
-/* Phase label stays “issued” */
-.phaseLabel {
-    font-size: .78rem;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, .78);
-}
-
-.count {
-    font-size: 2.15rem;
-    font-weight: 1000;
-    letter-spacing: 1px;
-    line-height: 1;
-}
-
-/* For non-breath pages: use this class for prompts */
-.prompt {
-    margin-top: 4px;
-    font-size: 1.1rem;
-    font-weight: 950;
-    letter-spacing: 1.2px;
-    text-transform: uppercase;
-    text-align: center;
-    line-height: 1.2;
-}
-
-.promptSub {
-    margin-top: 8px;
-    font-size: 1rem;
-    line-height: 1.35;
-    color: rgba(255, 255, 255, .82);
-    text-align: center;
-}
-
-/* Phase dots */
-.phaseDots {
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-    align-items: center;
-    min-height: 18px;
-}
-
-.dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, .28);
-    background: rgba(255, 255, 255, .06);
-    transition: transform 150ms ease, background 150ms ease, border-color 150ms ease;
-}
-
-.dot.filled {
-    background: rgba(255, 255, 255, .92);
-    border-color: rgba(255, 255, 255, .92);
-    transform: scale(1.12);
+.start.stop:hover,
+#startBtn.stop:hover {
+    background: var(--dangerHover);
 }
 
 /* =========================================================
@@ -348,7 +388,9 @@ svg.progressRing {
     gap: 10px;
     justify-content: center;
     flex-wrap: wrap;
-    margin-top: 8px;
+    margin-top: 14px;
+    /* give space so it never collides with ring */
+    padding-top: 4px;
 }
 
 .toggle {
@@ -376,7 +418,6 @@ svg.progressRing {
     cursor: not-allowed;
 }
 
-/* Feedback */
 .feedback {
     margin-top: 18px;
     text-align: center;
@@ -407,120 +448,15 @@ a:focus-visible {
     outline-offset: 3px;
 }
 
-/* =========================================
-   PROMPT LAYOUT FIX (Academy protocols)
-   Prevent overlap + keep text readable
-========================================= */
-
-.center {
-    width: 100%;
-    max-width: 360px;
-}
-
-/* Reserve space under the ring so prompts don't collide with buttons */
-.protocol {
-    padding-bottom: 10px;
-}
-
-/* Prompt = bold but controlled */
-.prompt {
-    margin-top: 10px;
-    padding: 0 14px;
-    max-width: 360px;
-
-    font-size: clamp(1.05rem, 3.2vw, 1.35rem);
-    line-height: 1.15;
-
-    font-weight: 950;
-    letter-spacing: 1px;
-    /* was too wide */
-    text-transform: uppercase;
-
-    white-space: normal;
-    /* allow wrap */
-    word-break: normal;
-    overflow-wrap: anywhere;
-    /* prevents overflow on long strings */
-
-    text-align: center;
-}
-
-/* If you use promptSub anywhere */
-.promptSub {
-    padding: 0 14px;
-    max-width: 360px;
-    font-size: clamp(.95rem, 2.8vw, 1.05rem);
-    line-height: 1.25;
-}
-
-/* Give the ringbox more breathing room on small screens */
-.ringbox {
-    margin-bottom: 6px;
-    /* responsive ring sizing: shrink on narrow viewports */
-    width: min(280px, 85vw);
-    height: auto;
-}
-
-/* Keep toggle/feedback from getting crowded */
-.toggleRow {
-    margin-top: 10px;
-}
-
-.feedback {
-    margin-top: 14px;
-}
-
 /* =========================================================
-   MOBILE PROMPT FIX — prevents prompt overlapping controls
-   Applies to all protocol pages
+   MOBILE
 ========================================================= */
 
-/* Give the protocol card a little more bottom breathing room */
-.card.protocol {
-    padding-bottom: 18px;
-}
-
-/* Keep the ring + center content from being too tall */
-.ringbox {
-    margin-bottom: 12px;
-}
-
-/* PROMPT: cap size + spacing so it never hits toggles */
-.prompt {
-    margin: 10px auto 0;
-    padding: 0 14px;
-    max-width: 340px;
-
-    font-size: clamp(1.0rem, 3.4vw, 1.2rem);
-    line-height: 1.12;
-
-    font-weight: 900;
-    letter-spacing: .6px;
-    text-transform: uppercase;
-
-    white-space: normal;
-    overflow-wrap: anywhere;
-
-    /* hard guardrail */
-    max-height: 3.6em;
-    /* ~3 lines */
-    overflow: hidden;
-}
-
-/* Push toggle row DOWN so it can’t be covered */
-.toggleRow {
-    margin-top: 18px;
-    padding-top: 6px;
-}
-
-/* square red stop button for all demos */
-#startBtn.stop {
-    border-radius: 6px;
-    /* override pill shape */
-}
-
-/* additional mobile tweaks */
 @media (max-width: 480px) {
+    .wrap {
+        padding: 16px;
+    }
+
     .card {
         padding: 18px 12px;
     }
@@ -530,42 +466,28 @@ a:focus-visible {
     }
 
     .sub {
-        font-size: 0.9rem;
+        font-size: .9rem;
     }
 
-    /* tighten the heading block spacing */
-    .demoTop {
-        gap: 4px;
+    .ringbox {
+        width: min(300px, 88vw);
+        margin: 10px auto 12px;
     }
 
-    .demoTop .kicker {
-        font-size: .85rem;
+    .start {
+        width: 132px;
+        height: 132px;
     }
 
-    /* info box text smaller to reduce crowding */
-    .infoBox {
-        font-size: .88rem;
-    }
-
-    /* reduce button padding slightly on very small screens */
-    .primaryBtn,
-    #startBtn.start,
-    #startBtn.stop {
-        padding: 6px 10px;
+    .toggle {
+        padding: 9px 12px;
+        font-size: .82rem;
     }
 }
 
-/* Make toggles slightly slimmer for small screens */
-.toggle {
-    padding: 9px 12px;
-    font-size: .82rem;
-}
-
-/* iPhone small screens: tighten prompt further */
 @media (max-width: 420px) {
     .prompt {
         font-size: 1.02rem;
         max-width: 320px;
-        max-height: 3.2em;
     }
 }
