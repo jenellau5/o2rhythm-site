@@ -58,10 +58,14 @@
             color: inherit;
             font-weight: 600;
             letter-spacing: 0.02em;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.1s ease, box-shadow 0.15s ease;
         }
 
         .ctaBtn:hover {
             background: rgba(255, 255, 255, 0.12);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3);
         }
 
         .pillrow {
@@ -93,9 +97,77 @@
             font-weight: 600;
         }
 
-        /* Slightly larger START for in‑vehicle use */
-        .start {
+        .toggleRow {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .toggle {
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            background: rgba(0, 0, 0, 0.55);
+            color: inherit;
+            font-size: 12px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.18s ease, border-color 0.18s ease,
+                transform 0.08s ease, box-shadow 0.15s ease;
+        }
+
+        .toggle.on {
+            background: rgba(0, 200, 150, 0.85);
+            border-color: rgba(0, 255, 200, 0.9);
+            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.6);
+        }
+
+        .toggle:hover {
+            transform: translateY(-1px);
+        }
+
+        #startBtn.start {
             min-width: 120px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.18s ease, transform 0.08s ease,
+                box-shadow 0.15s ease, border-color 0.18s ease;
+        }
+
+        #startBtn.start:hover {
+            background: rgba(0, 200, 150, 0.85);
+            border-color: rgba(0, 255, 200, 0.9);
+            box-shadow: 0 12px 26px rgba(0, 0, 0, 0.6);
+            transform: translateY(-1px);
+        }
+
+        #startBtn.stop {
+            background: rgba(200, 40, 40, 0.85);
+            border-color: rgba(255, 140, 140, 0.9);
+        }
+
+        #startBtn.stop:hover {
+            background: rgba(240, 60, 60, 0.95);
+        }
+
+        .phaseLabel {
+            margin-top: 6px;
+            font-size: 11px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            opacity: 0.8;
+        }
+
+        .timer {
+            font-variant-numeric: tabular-nums;
         }
     </style>
 
@@ -109,7 +181,7 @@
     </script>
 </head>
 
-<body>
+<body data-agency="public" data-environment="demo_vehicle">
     <main class="wrap">
         <section class="card protocol" data-protocol data-agency="public" data-environment="demo_vehicle"
             data-protocol-id="vehicle_prearrival30" data-title="PRE-ARRIVAL" data-total="30" data-inhale="3"
@@ -148,8 +220,7 @@
             <div class="infoBox">
                 <strong>What this demo is for:</strong>
                 A 30‑second 3‑in / 3‑out breathing reset to steady your state between dispatch and the door, so you step
-                out
-                a little less amped and a bit more deliberate.
+                out a little less amped and a bit more deliberate.
             </div>
 
             <div class="pillrow">
@@ -165,8 +236,7 @@
                 </a>
                 <p class="fineprint">
                     Designed for patrol, fire, and EMS pre‑arrival. Full deployments add longer protocols and non‑breath
-                    options
-                    for different phases of the call.
+                    options for different phases of the call.
                 </p>
             </div>
 
@@ -176,6 +246,7 @@
     <script src="/assets/protocol.js"></script>
 
     <script>
+        // GA4 click tracking for the demo
         (function () {
             const startBtn = document.getElementById("startBtn");
             const soundBtn = document.getElementById("soundToggle");
@@ -195,11 +266,12 @@
 
             if (soundBtn) {
                 soundBtn.addEventListener("click", () => {
-                    const label = (soundBtn.textContent || "").trim();
+                    const isOn = soundBtn.classList.toggle("on");
+                    soundBtn.textContent = isOn ? "SOUND: ON" : "SOUND: OFF";
                     safeEvent("demo_sound_toggle", {
                         demo: "vehicle_prearrival30",
                         page: "demo_vehicle",
-                        state: label.includes("ON") ? "on" : (label.includes("OFF") ? "off" : "unknown")
+                        state: isOn ? "on" : "off"
                     });
                 });
             }
@@ -223,6 +295,121 @@
                     }
                 });
                 obs.observe(timerEl, { childList: true, characterData: true, subtree: true });
+            }
+        })();
+
+        // Breathing sounds + protocol wiring
+        (function () {
+            const protoSection = document.querySelector("[data-protocol]");
+            const timerEl = document.getElementById("timer");
+            const phaseLabel = document.getElementById("phaseLabel");
+            const startBtn = document.getElementById("startBtn");
+            const soundToggle = document.getElementById("soundToggle");
+            const progressCircle = document.querySelector(".progress");
+            const radius = 100;
+            const circumference = 2 * Math.PI * radius;
+
+            let total = Number(protoSection?.dataset.total || 30);
+            let remaining = total;
+            let running = false;
+
+            if (progressCircle) {
+                progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
+                progressCircle.style.strokeDashoffset = `${circumference}`;
+            }
+
+            function setProgress(timeLeft) {
+                if (!progressCircle || !total) return;
+                const ratio = 1 - timeLeft / total;
+                const offset = circumference * ratio;
+                progressCircle.style.strokeDashoffset = offset;
+            }
+
+            function updateTimerLabel() {
+                const m = Math.floor(remaining / 60);
+                const s = remaining % 60;
+                timerEl.textContent = `${m}:${s.toString().padStart(2, "0")}`;
+            }
+
+            // Tone generator (same as other demos)
+            let audioCtx = null;
+            function ensureCtx() {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (audioCtx.state === "suspended") {
+                    audioCtx.resume();
+                }
+            }
+
+            function playTone(freq, duration, volume) {
+                if (!soundToggle || !soundToggle.classList.contains("on")) return;
+                ensureCtx();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.frequency.value = freq;
+                osc.type = "sine";
+                gain.gain.value = volume ?? 0.05;
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start();
+                setTimeout(() => { osc.stop(); }, duration);
+            }
+
+            function playInhale() { playTone(520, 180, 0.05); } // slightly different tone feel
+            function playHold() { playTone(700, 140, 0.04); }
+            function playExhale() { playTone(340, 220, 0.05); }
+
+            document.addEventListener("protocolStarted", () => {
+                running = true;
+                total = Number(protoSection?.dataset.total || 30);
+                remaining = total;
+                updateTimerLabel();
+                setProgress(remaining);
+                if (startBtn) {
+                    startBtn.textContent = "STOP";
+                    startBtn.classList.remove("start");
+                    startBtn.classList.add("stop");
+                }
+            });
+
+            document.addEventListener("protocolStopped", () => {
+                running = false;
+                if (startBtn) {
+                    startBtn.textContent = "START";
+                    startBtn.classList.remove("stop");
+                    startBtn.classList.add("start");
+                }
+                if (phaseLabel) phaseLabel.textContent = "";
+                // Leave ring/time at end; reset on next start.
+            });
+
+            document.addEventListener("protocolTick", (e) => {
+                remaining = e.detail.timeLeft;
+                updateTimerLabel();
+                setProgress(remaining);
+            });
+
+            document.addEventListener("protocolPhase", (e) => {
+                const phase = e.detail.phase;
+                if (phaseLabel) {
+                    phaseLabel.textContent = String(phase).toUpperCase();
+                }
+                if (phase === "inhale") playInhale();
+                else if (phase === "exhale") playExhale();
+                else if (phase === "hold1" || phase === "hold2") playHold();
+            });
+
+            if (startBtn) {
+                startBtn.addEventListener("click", () => {
+                    if (!running) {
+                        const ev = new CustomEvent("protocolStartRequest", { detail: { id: "vehicle_prearrival30" } });
+                        document.dispatchEvent(ev);
+                    } else {
+                        const ev = new CustomEvent("protocolStopRequest", { detail: { id: "vehicle_prearrival30" } });
+                        document.dispatchEvent(ev);
+                    }
+                });
             }
         })();
     </script>

@@ -18,6 +18,7 @@
             display: grid;
             gap: 10px;
             margin-bottom: 14px;
+            text-align: center;
         }
 
         .kicker {
@@ -32,25 +33,56 @@
             opacity: 0.9;
         }
 
-        .grid3 {
+        .gridDemos {
             display: grid;
             gap: 10px;
             margin-top: 14px;
         }
 
-        @media (min-width: 820px) {
-            .grid3 {
-                grid-template-columns: 1fr 1fr 1fr;
+        /* 1 column on narrow, 2 columns on wider screens */
+        @media (min-width: 720px) {
+            .gridDemos {
+                grid-template-columns: 1fr 1fr;
             }
         }
 
         .demoTile {
+            position: relative;
             display: grid;
             gap: 10px;
             padding: 14px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
             border-radius: 14px;
-            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: radial-gradient(circle at top left,
+                    rgba(255, 255, 255, 0.06),
+                    rgba(0, 0, 0, 0.45));
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
+            transition: transform 0.12s ease, box-shadow 0.15s ease,
+                border-color 0.15s ease, background 0.2s ease;
+        }
+
+        .demoTile::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            border: 1px solid transparent;
+            pointer-events: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .demoTile:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 22px 50px rgba(0, 0, 0, 0.7);
+            border-color: rgba(0, 220, 160, 0.45);
+            background: radial-gradient(circle at top left,
+                    rgba(0, 255, 200, 0.08),
+                    rgba(0, 0, 0, 0.55));
+        }
+
+        .demoTile:hover::after {
+            border-color: rgba(0, 255, 200, 0.4);
+            box-shadow: 0 0 0 1px rgba(0, 255, 200, 0.45);
         }
 
         .demoTile h2 {
@@ -66,10 +98,17 @@
             line-height: 1.35;
         }
 
+        .demoTile .mini {
+            font-size: 12px;
+            opacity: 0.75;
+            margin-top: 6px;
+        }
+
         .tagRow {
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
+            justify-content: center;
         }
 
         .tag {
@@ -94,37 +133,51 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            padding: 12px 14px;
-            border-radius: 12px;
+            padding: 10px 13px;
+            border-radius: 999px;
             text-decoration: none;
             border: 1px solid rgba(255, 255, 255, 0.18);
             background: rgba(255, 255, 255, 0.08);
             color: inherit;
             font-weight: 600;
-            letter-spacing: 0.02em;
+            font-size: 13px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.18s ease, transform 0.08s ease,
+                box-shadow 0.15s ease, border-color 0.18s ease;
         }
 
         .primaryBtn:hover {
-            background: rgba(255, 255, 255, 0.12);
+            background: rgba(0, 220, 160, 0.9);
+            border-color: rgba(0, 255, 220, 0.95);
+            box-shadow: 0 14px 32px rgba(0, 0, 0, 0.7);
+            transform: translateY(-1px);
+            color: #01140c;
         }
 
         .secondaryBtn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 12px 14px;
-            border-radius: 12px;
+            padding: 10px 13px;
+            border-radius: 999px;
             text-decoration: none;
-            border: 1px solid rgba(255, 255, 255, 0.14);
+            border: 1px solid rgba(255, 255, 255, 0.18);
             background: transparent;
             color: inherit;
             opacity: 0.9;
             font-weight: 600;
+            font-size: 13px;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            transition: opacity 0.15s ease, background 0.15s ease, transform 0.08s ease;
         }
 
         .secondaryBtn:hover {
             opacity: 1;
             background: rgba(255, 255, 255, 0.06);
+            transform: translateY(-1px);
         }
 
         .mini {
@@ -171,7 +224,7 @@
                 <div class="kicker">DEMO</div>
                 <h1 style="margin:0;">Try operational micro‑regulation</h1>
                 <p class="lede">
-                    Three quick protocols built for real shifts. No app. No login. Scan → run → back to work.
+                    Four quick protocols built for real shifts. No app. No login. Scan → run → back to work.
                 </p>
 
                 <div class="tagRow" aria-label="demo-tags">
@@ -185,46 +238,68 @@
 
             <div class="divider"></div>
 
-            <section class="grid3" aria-label="demo-options">
-
-                <!-- DESK -->
+            <section class="gridDemos" aria-label="demo-options">
+                <!-- DESK / CONSOLE -->
                 <article class="demoTile">
-                    <h2>Desk Reset 45</h2>
-                    <p>Downshift fast after a stressful call. Built for headset, screens, and heavy cognitive load.</p>
+                    <h2>Desk / console 45</h2>
+                    <p>
+                        Downshift after a stressful call or screen‑heavy block. Built for headsets, screens, and high
+                        cognitive load.
+                    </p>
                     <div class="ctaRow">
                         <a class="primaryBtn" href="/demo/desk.html" data-track="demo_select" data-demo="desk_reset45">
                             Start Desk Demo
                         </a>
                     </div>
-                    <p class="mini">45 sec • 4 in / 6 out • recovery before the next call.</p>
+                    <p class="mini">45 sec • 4 in / 6 out • dispatch, records, admin between calls.</p>
                 </article>
 
-                <!-- VEHICLE -->
+                <!-- VEHICLE / PRE-ARRIVAL -->
                 <article class="demoTile">
-                    <h2>Vehicle Pre‑Arrival 30</h2>
-                    <p>Steady your state between dispatch and the door. Eyes up, hands ready, still operational.</p>
+                    <h2>Vehicle pre‑arrival 30</h2>
+                    <p>
+                        Steady state between dispatch and the door. Eyes up, hands ready, still fully operational.
+                    </p>
                     <div class="ctaRow">
                         <a class="primaryBtn" href="/demo/vehicle.html" data-track="demo_select"
                             data-demo="vehicle_prearrival30">
                             Start Vehicle Demo
                         </a>
                     </div>
-                    <p class="mini">30 sec • 3 in / 3 out • composure before stepping out.</p>
+                    <p class="mini">30 sec • 3 in / 3 out • patrol, EMS, transport before stepping out.</p>
                 </article>
 
-                <!-- LISTENING -->
+                <!-- LISTENING / BREAK ROOM -->
                 <article class="demoTile">
-                    <h2>Listening Reset</h2>
-                    <p>Use sound, not breath, to pull attention out of the last call and back into the room.</p>
+                    <h2>Listening reset</h2>
+                    <p>
+                        Use sound, not breath, to pull attention out of the last call and back into the room or report.
+                    </p>
                     <div class="ctaRow">
                         <a class="primaryBtn" href="/demo/nonbreath.html" data-track="demo_select"
                             data-demo="listening_reset">
                             Start Listening Demo
                         </a>
                     </div>
-                    <p class="mini">1–2 min • headphone‑optional listening regulation.</p>
+                    <p class="mini">1–2 min • audio‑first reset • break room, report writing, control room.</p>
                 </article>
 
+                <!-- WALKING / STATION / YARD -->
+                <article class="demoTile">
+                    <h2>Walking 3 min</h2>
+                    <p>
+                        Short walking reset for station bays, halls, or yards. Use between evolutions, drills, or calls.
+                    </p>
+                    <div class="ctaRow">
+                        <a class="primaryBtn" href="/demo/walking.html" data-track="demo_select"
+                            data-demo="walking_reg3">
+                            Start Walking Demo
+                        </a>
+                    </div>
+                    <p class="mini">
+                        3 min • steady walking • fire/EMS stations, academies, and corrections yards.
+                    </p>
+                </article>
             </section>
 
             <div class="divider"></div>
@@ -232,7 +307,7 @@
             <section class="foot" aria-label="bring-to-agency">
                 <h2 style="margin:0; font-size:18px;">Want this in your agency?</h2>
                 <p style="margin:0; opacity:0.85;">
-                    O₂ Rhythm deploys via QR in minutes. Protocols can be tuned for desk, vehicle, bay, breakroom, or
+                    O₂ Rhythm deploys via QR in minutes. Protocols can be tuned for desk, vehicle, bay, break room, or
                     quiet room,
                     and usage can be tracked over time.
                 </p>
@@ -249,12 +324,10 @@
                 </div>
 
                 <p class="mini">
-                    Note: This is a single‑page demo hub. Live deployments usually use separate QR codes per environment
-                    to
-                    eliminate extra taps and keep usage truly in‑the‑moment.
+                    Note: This is a single‑page demo hub. Live deployments will be customized for your agencies needs.
+                    you can also have seperate QR codes for each environment instead of a meanu.
                 </p>
             </section>
-
         </section>
     </main>
 

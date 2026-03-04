@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Walking Regulation 3 min — O₂ Rhythm</title>
+    <meta name="description"
+        content="3‑minute walking regulation for station bays, hallways, and yards. Built for fire, EMS, corrections, and academies." />
+    <link rel="stylesheet" href="/assets/style.css" />
+
+    <style>
+        .miniCta {
+            display: grid;
+            gap: 10px;
+            margin-top: 14px;
+        }
+
+        .ctaBtn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 14px;
+            border-radius: 12px;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: rgba(255, 255, 255, 0.08);
+            color: inherit;
+            font-weight: 600;
+            letter-spacing: 0.02em;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.1s ease, box-shadow 0.15s ease;
+        }
+
+        .ctaBtn:hover {
+            background: rgba(255, 255, 255, 0.14);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3);
+        }
+
+        /* ==== Environment scan ==== */
+
+        .soundScan {
+            margin-top: 18px;
+            padding: 14px 14px 16px;
+            border-radius: 14px;
+            background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.12), rgba(0, 0, 0, 0.3));
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+            backdrop-filter: blur(10px);
+        }
+
+        .soundScanHead {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 10px;
+        }
+
+        .soundScanTitle {
+            font-size: 13px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            opacity: 0.9;
+        }
+
+        .soundScanMeta {
+            font-size: 11px;
+            opacity: 0.7;
+        }
+
+        .soundScanHint {
+            font-size: 12px;
+            opacity: 0.8;
+            margin-bottom: 10px;
+        }
+
+        .soundScanGrid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 8px;
+        }
+
+        .scanItem {
+            position: relative;
+            display: block;
+            cursor: pointer;
+        }
+
+        .scanItem input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .scanPill {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+            padding: 8px 10px;
+            border-radius: 999px;
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            font-size: 12px;
+            line-height: 1.3;
+            transition: background 0.18s ease, border-color 0.18s ease, transform 0.1s ease, box-shadow 0.15s ease;
+        }
+
+        .scanText {
+            flex: 1;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+
+        .scanMark {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            opacity: 0.8;
+        }
+
+        .scanItem:hover .scanPill {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.35);
+            transform: translateY(-1px);
+            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.45);
+        }
+
+        .scanItem input:checked+.scanPill {
+            background: linear-gradient(135deg, rgba(0, 220, 130, 0.25), rgba(0, 180, 240, 0.25));
+            border-color: rgba(0, 220, 130, 0.7);
+            box-shadow: 0 0 0 1px rgba(0, 220, 130, 0.4), 0 14px 32px rgba(0, 0, 0, 0.6);
+        }
+
+        .scanItem input:checked+.scanPill .scanText {
+            text-decoration: line-through;
+            opacity: 0.9;
+        }
+
+        .scanItem input:checked+.scanPill .scanMark {
+            background: rgba(0, 220, 130, 0.9);
+            border-color: transparent;
+            color: #02130b;
+            opacity: 1;
+        }
+
+        .scanItem input:checked+.scanPill .scanMark::before {
+            content: "✓";
+        }
+
+        /* Timer / button tweaks */
+
+        #startBtn.start {
+            min-width: 96px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.18s ease, transform 0.08s ease, box-shadow 0.15s ease, border-color 0.18s ease;
+        }
+
+        #startBtn.start:hover {
+            background: rgba(0, 200, 150, 0.85);
+            border-color: rgba(0, 255, 200, 0.9);
+            box-shadow: 0 12px 26px rgba(0, 0, 0, 0.6);
+            transform: translateY(-1px);
+        }
+
+        #startBtn.stop {
+            background: rgba(200, 40, 40, 0.85);
+            border-color: rgba(255, 140, 140, 0.9);
+        }
+
+        #startBtn.stop:hover {
+            background: rgba(240, 60, 60, 0.95);
+        }
+
+        .phaseLabel {
+            margin-top: 6px;
+            font-size: 11px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            opacity: 0.8;
+        }
+
+        .timer {
+            font-variant-numeric: tabular-nums;
+        }
+
+        .toggleRow {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .toggle {
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            background: rgba(0, 0, 0, 0.55);
+            color: inherit;
+            font-size: 12px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.18s ease, border-color 0.18s ease,
+                transform 0.08s ease, box-shadow 0.15s ease;
+        }
+
+        .toggle.on {
+            background: rgba(0, 200, 150, 0.85);
+            border-color: rgba(0, 255, 200, 0.9);
+            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.6);
+        }
+
+        .toggle:hover {
+            transform: translateY(-1px);
+        }
+    </style>
+
+    <!-- analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5NKZ7XYYWF"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-5NKZ7XYYWF', { page_title: document.title, page_path: location.pathname });
+    </script>
+</head>
+
+<body data-agency="public" data-environment="demo_walk">
+    <main class="wrap">
+        <section class="card protocol" data-protocol data-agency="public" data-environment="demo_walk"
+            data-protocol-id="walking-field" data-total="180">
+
+            <div class="brand">O₂ RHYTHM</div>
+
+            <h1>Walking Regulation</h1>
+            <p class="sub" id="subline">Walking Regulation • 3 min</p>
+            <p class="sub" style="margin-top:-10px;">
+                Use: between calls or drills • after a rough contact • before heading home.
+            </p>
+
+            <p class="sub" style="margin-top:10px; line-height:1.35;">
+                Walk at a steady, easy pace until the timer ends. Two ways to run it:
+            </p>
+            <ul style="margin:6px 0 0 20px; padding:0; line-height:1.4;">
+                <li><strong>Audio</strong>: music plays while you walk; it stops when the clock hits zero.</li>
+                <li><strong>No audio</strong>: music is off and an <em>Environment Scan</em> checklist appears below.
+                    Check items as you notice them.</li>
+            </ul>
+            <p class="sub" style="margin-top:6px; line-height:1.35;">
+                Pick a length (1‑3 min) before you start. You can switch modes anytime. A stop button lets you end
+                early; the timer works in both modes.
+            </p>
+
+            <!-- mode selector -->
+            <div class="modeRow" style="margin-bottom:12px;">
+                <label for="audioMode" style="font-size:13px;">Mode:</label>
+                <select id="audioMode"
+                    style="margin-left:6px;padding:4px 6px;border-radius:6px;background:rgba(255,255,255,.08);color:inherit;border:1px solid rgba(255,255,255,.18);">
+                    <option value="audio" selected>Audio</option>
+                    <option value="noaudio">No audio</option>
+                </select>
+            </div>
+
+            <!-- duration picker -->
+            <div class="durationRow" style="margin-bottom:12px;">
+                <label for="durationSelect" style="font-size:13px;">Duration:</label>
+                <select id="durationSelect"
+                    style="margin-left:6px;padding:4px 6px;border-radius:6px;background:rgba(255,255,255,.08);color:inherit;border:1px solid rgba(255,255,255,.18);">
+                    <option value="60">1&nbsp;min</option>
+                    <option value="120">2&nbsp;min</option>
+                    <option value="180" selected>3&nbsp;min</option>
+                </select>
+            </div>
+
+            <!-- Timer ring -->
+            <div class="ringbox">
+                <svg class="progressRing" viewBox="0 0 220 220" aria-hidden="true">
+                    <circle class="progress-bg" cx="110" cy="110" r="100"></circle>
+                    <circle class="progress" cx="110" cy="110" r="100"></circle>
+                </svg>
+
+                <div class="pacer">
+                    <div class="center">
+                        <button id="startBtn" class="start" type="button">START</button>
+                        <div id="timer" class="timer">3:00</div>
+                        <div id="phaseLabel" class="phaseLabel">READY</div>
+                        <div id="count" class="count" style="display:none;"></div>
+                        <div id="dots" class="phaseDots" style="display:none;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Environment scan -->
+            <div class="soundScan" id="soundScan" aria-label="Environment scan checklist">
+                <div class="soundScanHead">
+                    <div class="soundScanTitle">ENVIRONMENT SCAN</div>
+                    <div class="soundScanMeta">(while you walk)</div>
+                </div>
+                <div class="soundScanHint">
+                    Check off items as you notice them in the station, hallway, or yard. Let the checklist pull your
+                    attention out of the last call.
+                </div>
+                <div class="soundScanGrid">
+                    <label class="scanItem">
+                        <input type="checkbox" />
+                        <span class="scanPill">
+                            <span class="scanText">exit sign</span>
+                            <span class="scanMark"></span>
+                        </span>
+                    </label>
+                    <label class="scanItem">
+                        <input type="checkbox" />
+                        <span class="scanPill">
+                            <span class="scanText">safety sign (PPE, eyewash, rules)</span>
+                            <span class="scanMark"></span>
+                        </span>
+                    </label>
+                    <label class="scanItem">
+                        <input type="checkbox" />
+                        <span class="scanPill">
+                            <span class="scanText">door that is propped open</span>
+                            <span class="scanMark"></span>
+                        </span>
+                    </label>
+                    <label class="scanItem">
+                        <input type="checkbox" />
+                        <span class="scanPill">
+                            <span class="scanText">clock or digital display</span>
+                            <span class="scanMark"></span>
+                        </span>
+                    </label>
+                    <label class="scanItem">
+                        <input type="checkbox" />
+                        <span class="scanPill">
+                            <span class="scanText">piece of gear on the floor</span>
+                            <span class="scanMark"></span>
+                        </span>
+                    </label>
+                    <label class="scanItem">
+                        <input type="checkbox" />
+                        <span class="scanPill">
+                            <span class="scanText">vehicle or gurney parked</span>
+                            <span class="scanMark"></span>
+                        </span>
+                    </label>
+                    <label class="scanItem">
+                        <input type="checkbox" />
+                        <span class="scanPill">
+                            <span class="scanText">someone talking or laughing</span>
+                            <span class="scanMark"></span>
+                        </span>
+                    </label>
+                    <label class="scanItem">
+                        <input type="checkbox" />
+                        <span class="scanPill">
+                            <span class="scanText">radio or intercom noise</span>
+                            <span class="scanMark"></span>
+                        </span>
+                    </label>
+                    <label class="scanItem">
+                        <input type="checkbox" />
+                        <span class="scanPill">
+                            <span class="scanText">window or doorway to outside</span>
+                            <span class="scanMark"></span>
+                        </span>
+                    </label>
+                    <label class="scanItem">
+                        <input type="checkbox" />
+                        <span class="scanPill">
+                            <span class="scanText">something painted yellow or red</span>
+                            <span class="scanMark"></span>
+                        </span>
+                    </label>
+                    <label class="scanItem">
+                        <input type="checkbox" />
+                        <span class="scanPill">
+                            <span class="scanText">three different floor textures or surfaces</span>
+                            <span class="scanMark"></span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="toggleRow" style="margin-top:16px;">
+                <button id="soundToggle" class="toggle" type="button">SOUND: OFF</button>
+            </div>
+
+            <div class="navrow" style="margin-top:12px;">
+                <a class="pill" href="/demo/" data-track="nav_click" data-cta="demo_home">All demos</a>
+            </div>
+
+            <div class="miniCta" style="margin-top:32px; text-align:center;">
+                <a class="ctaBtn" href="../index.html#pilot-intake" data-track="cta_click"
+                    data-cta="bring_to_agency_from_demo">
+                    Bring O₂ Rhythm to My Agency
+                </a>
+                <p class="fineprint">
+                    Tuned for station bays, halls, and secure yards. Full deployments can use agency‑specific scan lists
+                    and music.
+                </p>
+            </div>
+
+            <audio id="walkMusic" preload="auto" src="/assets/audio/walking-loop.mp3"></audio>
+        </section>
+    </main>
+
+    <script>
+        // apply ?dur= param
+        (function () {
+            const params = new URLSearchParams(location.search);
+            const dur = params.get('dur');
+            const page = document.querySelector('[data-protocol]');
+            if (page && dur) page.dataset.total = dur;
+            const durationSelect = document.getElementById('durationSelect');
+            if (durationSelect && dur) {
+                durationSelect.value = dur;
+                const sub = document.getElementById('subline');
+                if (sub) sub.textContent = `Walking Regulation • ${Math.floor(dur / 60)} min`;
+            }
+        })();
+
+        const durationSelect = document.getElementById('durationSelect');
+        if (durationSelect) {
+            durationSelect.addEventListener('change', () => {
+                const params = new URLSearchParams(location.search);
+                params.set('dur', durationSelect.value);
+                location.search = params.toString();
+            });
+        }
+
+        // audio / scan mode
+        const audioMode = document.getElementById('audioMode');
+        const scanSection = document.getElementById('soundScan');
+        const soundToggle = document.getElementById('soundToggle');
+
+        function updateMode() {
+            if (!audioMode) return;
+            const mode = audioMode.value;
+            if (mode === 'noaudio') {
+                if (scanSection) scanSection.style.display = '';
+            } else {
+                if (scanSection) scanSection.style.display = 'none';
+            }
+        }
+
+        function safeEvent(name, params) {
+            try { gtag('event', name, params || {}); } catch (e) { }
+        }
+        safeEvent('demo_view', { demo: 'walking-field', page: 'demo_walk' });
+    </script>
+
+    <script src="/assets/protocol.js"></script>
+
+    <script>
+        const musicEl = document.getElementById('walkMusic');
+        const BASE_VOL = 0.18;
+        if (musicEl) musicEl.volume = BASE_VOL;
+
+        const startBtn = document.getElementById('startBtn');
+        const timerEl = document.getElementById('timer');
+        const phaseLabel = document.getElementById('phaseLabel');
+        const protocolSection = document.querySelector('[data-protocol]');
+        const progressCircle = document.querySelector('.progress');
+        const radius = 100;
+        const circumference = 2 * Math.PI * radius;
+
+        let running = false;
+        let remaining = 180;
+        let totalTime = 180;
+        let timerId = null;
+
+        if (progressCircle) {
+            progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
+            progressCircle.style.strokeDashoffset = `${circumference}`;
+        }
+
+        function setProgress(timeLeft) {
+            if (!progressCircle || !totalTime) return;
+            const ratio = 1 - timeLeft / totalTime;
+            const offset = circumference * ratio;
+            progressCircle.style.strokeDashoffset = offset;
+        }
+
+        function beep() {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const o = ctx.createOscillator();
+            const g = ctx.createGain();
+            o.type = 'sine';
+            o.frequency.value = 880;
+            g.gain.value = 0.05;
+            o.connect(g);
+            g.connect(ctx.destination);
+            o.start();
+            setTimeout(() => { o.stop(); ctx.close(); }, 80);
+        }
+
+        function playMusic() {
+            if (!musicEl) return;
+            if (!audioMode || audioMode.value !== 'audio') return;
+            try {
+                musicEl.currentTime = 0;
+                musicEl.volume = BASE_VOL;
+                musicEl.play().catch(() => { });
+            } catch (e) { }
+        }
+
+        function stopMusic() {
+            if (!musicEl) return;
+            try { musicEl.pause(); musicEl.currentTime = 0; } catch (e) { }
+        }
+
+        function updateTimerLabel() {
+            const m = Math.floor(remaining / 60);
+            const s = remaining % 60;
+            timerEl.textContent = `${m}:${s.toString().padStart(2, '0')}`;
+        }
+
+        function startWalk() {
+            if (running) return;
+            running = true;
+
+            const totalAttr = protocolSection?.dataset.total;
+            totalTime = totalAttr ? Number(totalAttr) : Number(durationSelect?.value || 180);
+            remaining = totalTime;
+            updateTimerLabel();
+            setProgress(remaining);
+
+            if (startBtn) {
+                startBtn.textContent = 'STOP';
+                startBtn.classList.add('stop');
+            }
+            if (phaseLabel) phaseLabel.textContent = 'WALK';
+
+            playMusic();
+            safeEvent('demo_start', { demo: 'walking-field', page: 'demo_walk' });
+
+            timerId = setInterval(() => {
+                remaining -= 1;
+                if (remaining <= 0) {
+                    remaining = 0;
+                    updateTimerLabel();
+                    setProgress(remaining);
+                    beep();
+                    stopWalk(true);
+                    return;
+                }
+                updateTimerLabel();
+                setProgress(remaining);
+
+                if (remaining === Math.floor(totalTime / 2) || remaining === 10) {
+                    beep();
+                }
+            }, 1000);
+        }
+
+        function stopWalk(completed) {
+            if (!running && !completed) return;
+            running = false;
+
+            if (timerId) {
+                clearInterval(timerId);
+                timerId = null;
+            }
+
+            stopMusic();
+
+            if (startBtn) {
+                startBtn.textContent = 'START';
+                startBtn.classList.remove('stop');
+            }
+
+            const totalAttr = protocolSection?.dataset.total;
+            totalTime = totalAttr ? Number(totalAttr) : Number(durationSelect?.value || 180);
+
+            if (completed) {
+                remaining = totalTime;
+                if (phaseLabel) phaseLabel.textContent = 'DONE';
+                safeEvent('demo_complete', { demo: 'walking-field', page: 'demo_walk', seconds: totalTime });
+            } else {
+                remaining = totalTime;
+                if (phaseLabel) phaseLabel.textContent = 'READY';
+            }
+
+            updateTimerLabel();
+            setProgress(remaining);
+        }
+
+        if (startBtn) {
+            startBtn.addEventListener('click', () => {
+                running ? stopWalk(false) : startWalk();
+            });
+        }
+
+        if (audioMode) {
+            audioMode.addEventListener('change', () => {
+                updateMode();
+                if (running && audioMode.value === 'audio') {
+                    playMusic();
+                }
+            });
+            updateMode();
+        }
+
+        if (soundToggle) {
+            soundToggle.addEventListener('click', () => {
+                const isOn = soundToggle.classList.toggle('on');
+                soundToggle.textContent = isOn ? 'SOUND: ON' : 'SOUND: OFF';
+            });
+        }
+
+        // initial UI
+        updateTimerLabel();
+        setProgress(remaining);
+    </script>
+</body>
+
+</html>

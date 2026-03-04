@@ -3,9 +3,9 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
     <title>Demo • Desk Reset 45 — O₂ Rhythm</title>
-    <meta name="description" content="45‑second desk reset demo for dispatch and other high‑cognitive load roles." />
+    <meta name="description" content="45-second desk reset demo for dispatch and other high-cognitive load roles." />
     <link rel="stylesheet" href="/assets/style.css" />
 
     <style>
@@ -50,10 +50,14 @@
             color: inherit;
             font-weight: 600;
             letter-spacing: 0.02em;
+            cursor: pointer;
+            transition: background .2s ease, transform .1s ease, box-shadow .15s ease;
         }
 
         .ctaBtn:hover {
-            background: rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.14);
+            transform: translateY(-1px);
+            box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3);
         }
 
         .pillrow {
@@ -84,30 +88,127 @@
         .infoBox strong {
             font-weight: 600;
         }
+
+        .toggleRow {
+            margin-top: 10px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .toggle {
+            padding: 6px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            background: rgba(0, 0, 0, 0.55);
+            color: inherit;
+            font-size: 12px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background .18s ease, border-color .18s ease, transform .08s ease, box-shadow .15s ease;
+        }
+
+        .toggle:hover {
+            transform: translateY(-1px);
+        }
+
+        .toggle.on {
+            background: rgba(0, 200, 150, 0.85);
+            border-color: rgba(0, 255, 200, 0.9);
+            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.6);
+        }
+
+        #startBtn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        #startBtn.start {
+            min-width: 96px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            background: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background .18s ease, transform .08s ease, box-shadow .15s ease, border-color .18s ease;
+        }
+
+        #startBtn.start:hover {
+            background: rgba(0, 200, 150, 0.85);
+            border-color: rgba(0, 255, 200, 0.9);
+            box-shadow: 0 12px 26px rgba(0, 0, 0, 0.6);
+            transform: translateY(-1px);
+        }
+
+        #startBtn.stop {
+            min-width: 96px;
+            padding: 8px 12px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 140, 140, 0.95);
+            background: rgba(200, 40, 40, 0.9);
+            color: #fff;
+        }
+
+        #startBtn.stop:hover {
+            background: rgba(240, 60, 60, 0.98);
+            box-shadow: 0 12px 26px rgba(0, 0, 0, 0.6);
+            transform: translateY(-1px);
+        }
+
+        #startBtn .label {
+            font-size: 11px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+        }
+
+        #startBtn .stopIcon {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            border: 2px solid #fff;
+            box-sizing: border-box;
+        }
+
+        .phaseLabel {
+            margin-top: 6px;
+            font-size: 11px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            opacity: 0.8;
+        }
+
+        .timer {
+            font-variant-numeric: tabular-nums;
+        }
     </style>
 
-    <!-- Google tag (gtag.js) -->
+    <!-- GA4 -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-5NKZ7XYYWF"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'G-5NKZ7XYYWF');
+        gtag("js", new Date());
+        gtag("config", "G-5NKZ7XYYWF");
     </script>
 </head>
 
-<body>
+<body data-agency="public" data-environment="demo_desk">
     <main class="wrap">
         <section class="card protocol" data-protocol data-agency="public" data-environment="demo_desk"
             data-protocol-id="desk_reset45" data-title="DESK RESET" data-total="45" data-inhale="4" data-hold1="0"
             data-exhale="6" data-hold2="0" data-paced="30" data-settle="15">
-
             <div class="brand">O₂ RHYTHM</div>
 
             <div class="demoTop">
                 <div class="kicker">DEMO • DESK RESET</div>
                 <h1 style="margin:0;">Reset 45</h1>
-                <p class="sub">45 sec • after a stressful call or screen‑heavy block</p>
+                <p class="sub">45 sec • after a stressful call or screen-heavy block</p>
             </div>
 
             <div class="ringbox">
@@ -118,7 +219,10 @@
 
                 <div id="pacer" class="pacer">
                     <div class="center">
-                        <button id="startBtn" class="start" type="button">START</button>
+                        <button id="startBtn" class="start" type="button">
+                            <span class="label">START</span>
+                        </button>
+
                         <div id="timer" class="timer">0:45</div>
                         <div id="phaseLabel" class="phaseLabel"></div>
                         <div id="count" class="count"></div>
@@ -128,21 +232,19 @@
             </div>
 
             <div class="toggleRow">
+                <!-- protocol.js owns this button’s state + on/off + class -->
                 <button id="soundToggle" class="toggle" type="button">SOUND: OFF</button>
             </div>
 
             <div class="infoBox">
                 <strong>What this demo is for:</strong>
-                A 45‑second 4‑in / 6‑out breathing reset to drop tension a notch and clear the head before the next
-                call, email,
-                or contact.
+                A 45-second 4-in / 6-out breathing reset to drop tension a notch and clear the head before the next
+                call,
+                email, or contact.
             </div>
 
-            <!-- Demo navigation -->
             <div class="pillrow">
                 <a class="pill" href="/demo/" data-track="nav_click" data-cta="demo_home">All demos</a>
-                <a class="pill" href="/demo/vehicle.html" data-track="nav_click" data-cta="next_vehicle">Next: Vehicle
-                    reset</a>
             </div>
 
             <div class="miniCta" style="margin-top:32px; text-align:center;">
@@ -156,68 +258,55 @@
                     regulations tuned for dispatch, patrol, fire, EMS, and corrections.
                 </p>
             </div>
-
         </section>
     </main>
 
+    <!-- Single source of truth -->
     <script src="/assets/protocol.js"></script>
 
+    <!-- GA-only (no UI mirroring, no sound toggling here) -->
     <script>
-        // GA4 click tracking for the demo (start, sound, completion inferred)
         (function () {
-            const startBtn = document.getElementById("startBtn");
-            const soundBtn = document.getElementById("soundToggle");
-            const timerEl = document.getElementById("timer");
-
             function safeEvent(name, params) {
                 try { gtag("event", name, params || {}); } catch (e) { }
             }
 
-            if (startBtn) {
-                startBtn.addEventListener("click", () => {
-                    safeEvent("demo_start", {
-                        demo: "desk_reset45",
-                        page: "demo_desk"
-                    });
-                });
-            }
+            safeEvent("demo_view", { demo: "desk_reset45", page: "demo_desk" });
 
-            if (soundBtn) {
-                soundBtn.addEventListener("click", () => {
-                    const label = (soundBtn.textContent || "").trim();
-                    safeEvent("demo_sound_toggle", {
-                        demo: "desk_reset45",
-                        page: "demo_desk",
-                        state: label.includes("ON") ? "on" : (label.includes("OFF") ? "off" : "unknown")
-                    });
-                });
-            }
-
+            // Track CTA / nav clicks without touching UI
             document.addEventListener("click", (e) => {
                 const a = e.target.closest("a[data-track]");
                 if (!a) return;
                 safeEvent(a.getAttribute("data-track"), {
                     page: "demo_desk",
+                    demo: "desk_reset45",
                     cta: a.getAttribute("data-cta") || ""
                 });
             });
 
-            if (timerEl) {
-                let fired = false;
-                const obs = new MutationObserver(() => {
-                    const t = (timerEl.textContent || "").trim();
-                    if (!fired && (t === "0:00" || t === "00:00")) {
-                        fired = true;
-                        safeEvent("demo_complete", {
-                            demo: "desk_reset45",
-                            page: "demo_desk"
-                        });
-                    }
-                });
-                obs.observe(timerEl, { childList: true, characterData: true, subtree: true });
-            }
+            // Optional: track start/stop/complete via protocol.js lifecycle events
+            document.addEventListener("protocolStarted", () => {
+                safeEvent("demo_start", { demo: "desk_reset45", page: "demo_desk" });
+            });
 
-            safeEvent("demo_view", { demo: "desk_reset45", page: "demo_desk" });
+            document.addEventListener("protocolStopped", () => {
+                safeEvent("demo_stop", { demo: "desk_reset45", page: "demo_desk" });
+            });
+
+            document.addEventListener("protocolTick", (e) => {
+                const t = e?.detail?.timeLeft;
+                if (typeof t === "number" && t <= 0) {
+                    safeEvent("demo_complete", { demo: "desk_reset45", page: "demo_desk" });
+                }
+            });
+
+            // Track sound toggle *click* without changing classes/text (protocol.js handles that)
+            const soundBtn = document.getElementById("soundToggle");
+            if (soundBtn) {
+                soundBtn.addEventListener("click", () => {
+                    safeEvent("demo_sound_click", { demo: "desk_reset45", page: "demo_desk" });
+                });
+            }
         })();
     </script>
 </body>
