@@ -203,8 +203,8 @@ h1 {
 }
 
 svg.progressRing {
-    width: 280px;
-    height: 280px;
+    width: min(280px, 85vw);
+    height: auto;
     transform: rotate(-90deg);
     position: absolute;
     inset: 0;
@@ -456,6 +456,9 @@ a:focus-visible {
 /* Give the ringbox more breathing room on small screens */
 .ringbox {
     margin-bottom: 6px;
+    /* responsive ring sizing: shrink on narrow viewports */
+    width: min(280px, 85vw);
+    height: auto;
 }
 
 /* Keep toggle/feedback from getting crowded */
@@ -508,6 +511,48 @@ a:focus-visible {
 .toggleRow {
     margin-top: 18px;
     padding-top: 6px;
+}
+
+/* square red stop button for all demos */
+#startBtn.stop {
+    border-radius: 6px;
+    /* override pill shape */
+}
+
+/* additional mobile tweaks */
+@media (max-width: 480px) {
+    .card {
+        padding: 18px 12px;
+    }
+
+    h1 {
+        font-size: 1.2rem;
+    }
+
+    .sub {
+        font-size: 0.9rem;
+    }
+
+    /* tighten the heading block spacing */
+    .demoTop {
+        gap: 4px;
+    }
+
+    .demoTop .kicker {
+        font-size: .85rem;
+    }
+
+    /* info box text smaller to reduce crowding */
+    .infoBox {
+        font-size: .88rem;
+    }
+
+    /* reduce button padding slightly on very small screens */
+    .primaryBtn,
+    #startBtn.start,
+    #startBtn.stop {
+        padding: 6px 10px;
+    }
 }
 
 /* Make toggles slightly slimmer for small screens */
