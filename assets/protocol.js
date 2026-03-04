@@ -369,10 +369,23 @@
 
 
     async function runSession() {
+        // If both pacing and settle values are supplied we normally split the session,
+        // but if the configured breathing portion already covers the full total (or
+        // pacing+settle exceeds total) there’s no need for the "steady"/settle phase.
+        // The demo page had a short pace value so the remaining seconds were treated as
+        // steady; removing the attrs or making pace equal total fixes that.
         if (pacedSeconds != null && settleSeconds != null) {
-            await runBreathLoop(pacedSeconds);
-            if (!running || timeLeft <= 0) return;
-            await runSettle(settleSeconds);
+            // defensive: treat negative/NaN as missing
+            const pace = Math.max(0, pacedSeconds);
+            const settle = Math.max(0, settleSeconds);
+            if (pace >= total || pace + settle > total) {
+                // just breathe until timeLeft reaches zero
+                await runBreathLoop();
+            } else {
+                await runBreathLoop(pace);
+                if (!running || timeLeft <= 0) return;
+                await runSettle(settle);
+            }
         } else {
             await runBreathLoop();
         }

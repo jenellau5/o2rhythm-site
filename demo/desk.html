@@ -31,6 +31,13 @@
             opacity: 0.85;
         }
 
+        .why {
+            margin-top: 6px;
+            opacity: 0.85;
+            font-size: 13px;
+            line-height: 1.35;
+        }
+
         .miniCta {
             display: grid;
             gap: 10px;
@@ -118,15 +125,9 @@
             box-shadow: 0 10px 22px rgba(0, 0, 0, 0.6);
         }
 
-        #startBtn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-        }
-
+        /* button styling copied from vehicle demo for consistent look/function */
         #startBtn.start {
-            min-width: 96px;
+            min-width: 120px;
             padding: 8px 12px;
             border-radius: 999px;
             border: 1px solid rgba(255, 255, 255, 0.5);
@@ -136,7 +137,8 @@
             letter-spacing: 0.08em;
             text-transform: uppercase;
             cursor: pointer;
-            transition: background .18s ease, transform .08s ease, box-shadow .15s ease, border-color .18s ease;
+            transition: background 0.18s ease, transform 0.08s ease,
+                box-shadow 0.15s ease, border-color 0.18s ease;
         }
 
         #startBtn.start:hover {
@@ -147,32 +149,12 @@
         }
 
         #startBtn.stop {
-            min-width: 96px;
-            padding: 8px 12px;
-            border-radius: 999px;
-            border: 1px solid rgba(255, 140, 140, 0.95);
-            background: rgba(200, 40, 40, 0.9);
-            color: #fff;
+            background: rgba(200, 40, 40, 0.85);
+            border-color: rgba(255, 140, 140, 0.9);
         }
 
         #startBtn.stop:hover {
-            background: rgba(240, 60, 60, 0.98);
-            box-shadow: 0 12px 26px rgba(0, 0, 0, 0.6);
-            transform: translateY(-1px);
-        }
-
-        #startBtn .label {
-            font-size: 11px;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-        }
-
-        #startBtn .stopIcon {
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            border: 2px solid #fff;
-            box-sizing: border-box;
+            background: rgba(240, 60, 60, 0.95);
         }
 
         .phaseLabel {
@@ -202,13 +184,15 @@
     <main class="wrap">
         <section class="card protocol" data-protocol data-agency="public" data-environment="demo_desk"
             data-protocol-id="desk_reset45" data-title="DESK RESET" data-total="45" data-inhale="4" data-hold1="0"
-            data-exhale="6" data-hold2="0" data-paced="30" data-settle="15">
+            data-exhale="6" data-hold2="0">
             <div class="brand">O₂ RHYTHM</div>
 
             <div class="demoTop">
                 <div class="kicker">DEMO • DESK RESET</div>
                 <h1 style="margin:0;">Reset 45</h1>
                 <p class="sub">45 sec • after a stressful call or screen-heavy block</p>
+                <p class="why">Designed for dispatchers and desk-based staff who need a quick reset between stressful
+                    interactions; it helps drop tension and clear the head before the next task.</p>
             </div>
 
             <div class="ringbox">
@@ -219,9 +203,7 @@
 
                 <div id="pacer" class="pacer">
                     <div class="center">
-                        <button id="startBtn" class="start" type="button">
-                            <span class="label">START</span>
-                        </button>
+                        <button id="startBtn" class="start" type="button">START</button>
 
                         <div id="timer" class="timer">0:45</div>
                         <div id="phaseLabel" class="phaseLabel"></div>
@@ -236,15 +218,18 @@
                 <button id="soundToggle" class="toggle" type="button">SOUND: OFF</button>
             </div>
 
-            <div class="infoBox">
-                <strong>What this demo is for:</strong>
-                A 45-second 4-in / 6-out breathing reset to drop tension a notch and clear the head before the next
-                call,
-                email, or contact.
-            </div>
+
 
             <div class="pillrow">
                 <a class="pill" href="/demo/" data-track="nav_click" data-cta="demo_home">All demos</a>
+            </div>
+
+            <div class="feedback" style="margin-top:12px;text-align:center;">
+                <p>Please give us some feedback to help improve these demos.</p>
+                <a class="feedback-link" href="/shared/protocols/feedback.html?src=demo&protocol=desk_reset45"
+                    target="_blank" rel="noopener">
+                    Feedback (30 seconds)
+                </a>
             </div>
 
             <div class="miniCta" style="margin-top:32px; text-align:center;">
@@ -285,12 +270,25 @@
             });
 
             // Optional: track start/stop/complete via protocol.js lifecycle events
+            const startBtn = document.getElementById("startBtn");
+
             document.addEventListener("protocolStarted", () => {
                 safeEvent("demo_start", { demo: "desk_reset45", page: "demo_desk" });
+                // mirror vehicle demo behaviour: swap classes/text for stop state
+                if (startBtn) {
+                    startBtn.textContent = "STOP";
+                    startBtn.classList.remove("start");
+                    startBtn.classList.add("stop");
+                }
             });
 
             document.addEventListener("protocolStopped", () => {
                 safeEvent("demo_stop", { demo: "desk_reset45", page: "demo_desk" });
+                if (startBtn) {
+                    startBtn.textContent = "START";
+                    startBtn.classList.remove("stop");
+                    startBtn.classList.add("start");
+                }
             });
 
             document.addEventListener("protocolTick", (e) => {

@@ -43,6 +43,13 @@
             line-height: 1.35;
         }
 
+        .why {
+            margin-top: 6px;
+            opacity: 0.85;
+            font-size: 13px;
+            line-height: 1.35;
+        }
+
         .hint strong {
             opacity: .95;
             font-weight: 700;
@@ -341,6 +348,8 @@
                 <div class="kicker">DEMO • LISTENING REGULATION</div>
                 <h1 style="margin:0;">Listening Reset</h1>
                 <p class="sub">Choose 1:00 or 2:00 • eyes open • stay operational</p>
+                <p class="why">Useful when a breathing reset isn't practical; follow the sound to pull your attention
+                    back to the present after a busy call or task.</p>
                 <p class="hint"><strong>Headphones recommended</strong> for full effect; can be run without audio.</p>
             </div>
 
@@ -351,7 +360,12 @@
                     <option value="120" selected>2:00</option>
                 </select>
 
-                <button id="audioToggle" class="toggle on" type="button">AUDIO: ON</button>
+                <!-- audio/no‑audio selector like walking demo -->
+                <label for="audioMode" style="font-size:13px;">Mode:</label>
+                <select id="audioMode" class="select" style="min-width:80px;width:auto;">
+                    <option value="audio" selected>Audio</option>
+                    <option value="noaudio">No audio</option>
+                </select>
             </div>
 
             <div class="ringbox">
@@ -374,25 +388,7 @@
                 </div>
             </div>
 
-            <div class="infoBox">
-                <strong>What this demo is for:</strong>
-                A brief listening regulation that pulls attention away from the last call and back into the present
-                environment
-                using a simple “follow the sound” task.
-            </div>
 
-            <div class="pillrow">
-                <a class="pill" href="/demo/" data-track="nav_click" data-cta="demo_home">All demos</a>
-                <a class="pill" href="/demo/desk.html" data-track="nav_click" data-cta="back_to_desk">Back: Desk
-                    reset</a>
-            </div>
-
-            <div class="miniCta">
-                <a class="ctaBtn" href="../index.html#pilot-intake" data-track="cta_click"
-                    data-cta="bring_to_agency_from_demo">
-                    Bring O₂ Rhythm to My Agency
-                </a>
-            </div>
 
             <!-- NO AUDIO OPTION -->
             <div class="noAudio" id="no-audio">
@@ -429,6 +425,25 @@
                 </div>
             </div>
 
+            <div class="pillrow">
+                <a class="pill" href="/demo/" data-track="nav_click" data-cta="demo_home">All demos</a>
+            </div>
+
+            <div class="feedback" style="margin-top:12px;text-align:center;">
+                <p>Please give us some feedback to help improve these demos.</p>
+                <a class="feedback-link" href="/shared/protocols/feedback.html?src=demo&protocol=listening_reset"
+                    target="_blank" rel="noopener">
+                    Feedback (30 seconds)
+                </a>
+            </div>
+
+            <div class="miniCta">
+                <a class="ctaBtn" href="../index.html#pilot-intake" data-track="cta_click"
+                    data-cta="bring_to_agency_from_demo">
+                    Bring O₂ Rhythm to My Agency
+                </a>
+            </div>
+
         </section>
     </main>
 
@@ -439,12 +454,13 @@
 
             const startBtn = document.getElementById("startBtn");
             const timerEl = document.getElementById("timer");
-            const audioToggle = document.getElementById("audioToggle");
             const durationSel = document.getElementById("durationSel");
+            const audioMode = document.getElementById("audioMode");
             const titleEl = document.getElementById("promptTitle");
             const textEl = document.getElementById("promptText");
             const microEl = document.getElementById("promptMicro");
             const progressEl = document.getElementById("progress");
+            const noAudioSection = document.getElementById("no-audio");
 
             const AUDIO_SRC = "/assets/audio/demo-8d.mp3";
             const audio = new Audio(AUDIO_SRC);
@@ -461,7 +477,7 @@
             let running = false;
             let remaining = total;
             let tickInterval = null;
-            let audioOn = true;
+            let audioOn = true; // will be synced with mode selector
 
             function safeEvent(name, params) {
                 try { gtag("event", name, params || {}); } catch (e) { }
@@ -573,8 +589,6 @@
                     try { await audio.play(); }
                     catch (e) {
                         audioOn = false;
-                        audioToggle.classList.remove("on");
-                        audioToggle.textContent = "AUDIO: OFF";
                         safeEvent("demo_audio_failed", { demo: DEMO_ID, page: PAGE_ID });
                     }
                 }
@@ -592,24 +606,38 @@
                 }, 250);
             }
 
-            audioToggle.addEventListener("click", () => {
-                if (running) return;
-                audioOn = !audioOn;
-                audioToggle.classList.toggle("on", audioOn);
-                audioToggle.textContent = audioOn ? "AUDIO: ON" : "AUDIO: OFF";
+            // audioMode selector handles play/scan mode
+            function updateMode() {
+                if (!audioMode) return;
+                const mode = audioMode.value;
+                audioOn = mode === "audio";
                 if (!audioOn) stopAudioHard();
-                safeEvent("demo_audio_toggle", {
-                    demo: DEMO_ID,
-                    page: PAGE_ID,
-                    state: audioOn ? "on" : "off"
+                if (noAudioSection) {
+                    noAudioSection.style.display = audioOn ? "none" : "";
+                }
+            }
+
+            if (audioMode) {
+                audioMode.addEventListener("change", () => {
+                    updateMode();
+                    safeEvent("demo_audio_mode", {
+                        demo: DEMO_ID,
+                        page: PAGE_ID,
+                        mode: audioMode.value
+                    });
                 });
-            });
+            }
+
+            // initialize visibility
+            updateMode();
 
             durationSel.addEventListener("change", () => {
                 if (running) return;
                 setTotalFromSelector();
                 reset();
             });
+
+            // optionally keep mode when duration changes
 
             startBtn.addEventListener("click", () => {
                 if (!running && remaining === 0) reset();
