@@ -175,7 +175,7 @@
 
 <body data-agency="public" data-environment="conf_desk">
     <main class="wrap">
-        <section class="card protocol" data-protocol data-protocol-id="desk45" data-title="DESK RESET" data-total="45"
+        <section class="card protocol" data-protocol data-agency="public" data-environment="conf_desk" data-protocol-id="desk45" data-title="DESK RESET" data-total="45"
             data-inhale="4" data-hold1="0" data-exhale="6" data-hold2="0" data-paced="45" data-settle="0">
 
             <div class="brand">O₂ RHYTHM</div>
@@ -241,162 +241,63 @@
 
     <script src="/assets/protocol.js"></script>
 
-    <!-- GA + click tracking -->
+    <script src="/assets/protocol.js"></script>
+
+    <!-- GA‑only (no UI mirroring, no sound toggling here) -->
     <script>
         (function () {
-            const startBtn = document.getElementById("startBtn");
-            const soundBtn = document.getElementById("soundToggle");
-
             function safeEvent(name, params) {
                 try { gtag("event", name, params || {}); } catch (e) { }
             }
 
-            if (startBtn) {
-                startBtn.addEventListener("click", () => {
-                    safeEvent("conf_demo_start", {
-                        demo: "desk45",
-                        page: "conf_desk"
-                    });
-                });
-            }
+            safeEvent("conf_demo_view", { demo: "desk45", page: "conf_desk" });
 
-            if (soundBtn) {
-                soundBtn.addEventListener("click", () => {
-                    const isOn = soundBtn.classList.toggle("on");
-                    soundBtn.textContent = isOn ? "SOUND: ON" : "SOUND: OFF";
-                    safeEvent("conf_demo_sound_toggle", {
-                        demo: "desk45",
-                        page: "conf_desk",
-                        state: isOn ? "on" : "off"
-                    });
-                });
-            }
-
+            // Track CTA / nav clicks without touching UI
             document.addEventListener("click", (e) => {
                 const a = e.target.closest("a[data-track]");
                 if (!a) return;
                 safeEvent(a.getAttribute("data-track"), {
-                    page: "conf_desk"
+                    page: "conf_desk",
+                    demo: "desk45",
+                    cta: a.getAttribute("data-cta") || ""
                 });
             });
-        })();
-    </script>
 
-    <!-- breathing sounds + protocol wiring -->
-    <script>
-        const protoSection = document.querySelector("[data-protocol]");
-        const timerEl = document.getElementById("timer");
-        const phaseLabel = document.getElementById("phaseLabel");
-        const startBtn = document.getElementById("startBtn");
-        const soundToggle = document.getElementById("soundToggle");
-        const progressCircle = document.querySelector(".progress");
-        const radius = 100;
-        const circumference = 2 * Math.PI * radius;
+            // Optional: track start/stop/complete via protocol.js lifecycle events
+            const startBtn = document.getElementById("startBtn");
 
-        let total = Number(protoSection?.dataset.total || 45);
-        let remaining = total;
-        let running = false;
-
-        if (progressCircle) {
-            progressCircle.style.strokeDasharray = `${circumference} ${circumference}`;
-            progressCircle.style.strokeDashoffset = `${circumference}`;
-        }
-
-        function setProgress(timeLeft) {
-            if (!progressCircle || !total) return;
-            const ratio = 1 - timeLeft / total;
-            const offset = circumference * ratio;
-            progressCircle.style.strokeDashoffset = offset;
-        }
-
-        function updateTimerLabel() {
-            const m = Math.floor(remaining / 60);
-            const s = remaining % 60;
-            timerEl.textContent = `${m}:${s.toString().padStart(2, "0")}`;
-        }
-
-        // Tone generator
-        let audioCtx = null;
-        function ensureCtx() {
-            if (!audioCtx) {
-                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            }
-            if (audioCtx.state === "suspended") {
-                audioCtx.resume();
-            }
-        }
-
-        function playTone(freq, duration, volume) {
-            if (!soundToggle || !soundToggle.classList.contains("on")) return;
-            ensureCtx();
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.frequency.value = freq;
-            osc.type = "sine";
-            gain.gain.value = volume ?? 0.05;
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            osc.start();
-            setTimeout(() => {
-                osc.stop();
-            }, duration);
-        }
-
-        function playInhale() { playTone(480, 220, 0.05); }
-        function playHold() { playTone(680, 160, 0.04); }
-        function playExhale() { playTone(320, 260, 0.05); }
-
-        // Protocol lifecycle hooks
-        document.addEventListener("protocolStarted", () => {
-            running = true;
-            total = Number(protoSection?.dataset.total || 45);
-            remaining = total;
-            updateTimerLabel();
-            setProgress(remaining);
-            if (startBtn) {
-                startBtn.textContent = "STOP";
-                startBtn.classList.add("stop");
-            }
-        });
-
-        document.addEventListener("protocolStopped", () => {
-            running = false;
-            if (startBtn) {
-                startBtn.textContent = "START";
-                startBtn.classList.remove("stop");
-            }
-            if (phaseLabel) phaseLabel.textContent = "";
-            // Do NOT reset remaining/progress here; leave ring at 0 until next START.
-        });
-
-        document.addEventListener("protocolTick", (e) => {
-            remaining = e.detail.timeLeft;
-            updateTimerLabel();
-            setProgress(remaining);
-        });
-
-        document.addEventListener("protocolPhase", (e) => {
-            const phase = e.detail.phase; // inhale / exhale / hold1 / hold2
-            if (phaseLabel) {
-                phaseLabel.textContent = String(phase).toUpperCase();
-            }
-            if (phase === "inhale") playInhale();
-            else if (phase === "exhale") playExhale();
-            else if (phase === "hold1" || phase === "hold2") playHold();
-        });
-
-        // Start/stop toggle -> request start/stop from protocol engine
-        if (startBtn) {
-            startBtn.addEventListener("click", () => {
-                if (!running) {
-                    const ev = new CustomEvent("protocolStartRequest", { detail: { id: "desk45" } });
-                    document.dispatchEvent(ev);
-                } else {
-                    const ev = new CustomEvent("protocolStopRequest", { detail: { id: "desk45" } });
-                    document.dispatchEvent(ev);
+            document.addEventListener("protocolStarted", () => {
+                safeEvent("conf_demo_start", { demo: "desk45", page: "conf_desk" });
+                if (startBtn) {
+                    startBtn.textContent = "STOP";
+                    startBtn.classList.remove("start");
+                    startBtn.classList.add("stop");
                 }
             });
-        }
+
+            document.addEventListener("protocolStopped", () => {
+                safeEvent("conf_demo_stop", { demo: "desk45", page: "conf_desk" });
+                if (startBtn) {
+                    startBtn.textContent = "START";
+                    startBtn.classList.remove("stop");
+                    startBtn.classList.add("start");
+                }
+            });
+
+            document.addEventListener("protocolTick", (e) => {
+                const t = e?.detail?.timeLeft;
+                if (typeof t === "number" && t <= 0) {
+                    safeEvent("conf_demo_complete", { demo: "desk45", page: "conf_desk" });
+                }
+            });
+
+            const soundBtn = document.getElementById("soundToggle");
+            if (soundBtn) {
+                soundBtn.addEventListener("click", () => {
+                    safeEvent("conf_demo_sound_click", { demo: "desk45", page: "conf_desk" });
+                });
+            }
+        })();
     </script>
 </body>
 
