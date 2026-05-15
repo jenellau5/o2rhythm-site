@@ -1,493 +1,556 @@
-/* =========================================================
-   RHYTHM O₂ — Tactical / Professional UI
-   Clean. Controlled. Operational.
-   SINGLE SOURCE OF TRUTH (no duplicate blocks)
-========================================================= */
+:root {
+    --bg: #08090d;
+    --panel: #111318;
+    --panel-soft: #0d0f14;
+    --text: #f4f4f6;
+    --muted: rgba(244, 244, 246, 0.72);
+    --muted-soft: rgba(244, 244, 246, 0.54);
+    --line: rgba(255, 255, 255, 0.1);
+    --line-strong: rgba(255, 255, 255, 0.18);
+    --radius: 22px;
+    --radius-sm: 14px;
+    --shadow: 0 22px 60px rgba(0, 0, 0, 0.42);
+}
 
 * {
     box-sizing: border-box;
 }
 
-:root {
-    --bg: #000;
-    --fg: #fff;
-
-    --muted: rgba(255, 255, 255, .62);
-    --muted2: rgba(255, 255, 255, .42);
-
-    --panel: rgba(255, 255, 255, .02);
-    --panel2: rgba(255, 255, 255, .035);
-
-    --border: rgba(255, 255, 255, .16);
-    --border2: rgba(255, 255, 255, .26);
-
-    --ring-bg: rgba(255, 255, 255, .10);
-    --ring: #4da3ff;
-
-    --radius: 14px;
-    --radius2: 10px;
-
-    --danger: #c82828;
-    --dangerBorder: rgba(255, 140, 140, .9);
-    --dangerHover: #f03c3c;
-}
-
-html,
-body {
-    height: 100%;
+html {
+    scroll-behavior: smooth;
 }
 
 body {
     margin: 0;
-    background: var(--bg);
-    color: var(--fg);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    background:
+        radial-gradient(800px 460px at 80% 0%, rgba(255, 255, 255, 0.055), transparent 60%),
+        radial-gradient(700px 420px at 12% 10%, rgba(255, 255, 255, 0.035), transparent 60%),
+        var(--bg);
+    color: var(--text);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+img {
+    max-width: 100%;
+    display: block;
 }
 
 a {
     color: inherit;
-    text-decoration: none;
+}
+
+p,
+h1,
+h2,
+h3 {
+    margin-top: 0;
 }
 
 .wrap {
-    min-height: 100%;
-    display: grid;
-    place-items: center;
-    padding: 24px;
+    width: min(1160px, calc(100% - 48px));
+    margin: 0 auto;
 }
 
-/* =========================================================
-   CARD / TYPOGRAPHY
-========================================================= */
-
-.card {
-    width: min(560px, 100%);
-    text-align: center;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 22px 18px;
-    background: var(--panel);
+.narrow {
+    max-width: 820px;
 }
 
-.brand {
-    font-size: .78rem;
-    letter-spacing: 4px;
-    font-weight: 900;
+.topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(8, 9, 13, 0.86);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+}
+
+.navWrap {
+    min-height: 78px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+}
+
+.brand img {
+    width: 150px;
+    height: auto;
+}
+
+.nav {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.nav a {
+    color: rgba(244, 244, 246, 0.68);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 650;
+}
+
+.nav a:hover {
+    color: var(--text);
+}
+
+.hero {
+    position: relative;
+    min-height: 640px;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    border-bottom: 1px solid var(--line);
+}
+
+.heroImage {
+    position: absolute;
+    inset: 0;
+    background: #000;
+}
+
+.heroImage img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.72;
+}
+
+.hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(180deg, rgba(8, 9, 13, 0.08), rgba(8, 9, 13, 0.95)),
+        linear-gradient(90deg, rgba(8, 9, 13, 0.82), rgba(8, 9, 13, 0.3));
+}
+
+.heroContent {
+    position: relative;
+    z-index: 2;
+    max-width: 780px;
+    padding: 0 0 72px;
+}
+
+.eyebrow {
+    margin: 0 0 16px;
+    color: rgba(244, 244, 246, 0.58);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.26em;
     text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 10px;
 }
 
 h1 {
-    margin: 0 0 8px 0;
-    font-size: 1.38rem;
-    font-weight: 900;
-    letter-spacing: 1.2px;
-    text-transform: uppercase;
+    margin-bottom: 22px;
+    font-size: clamp(46px, 6vw, 82px);
+    line-height: 0.98;
+    letter-spacing: -0.055em;
 }
 
-.sub {
-    margin: 0 0 16px 0;
-    color: var(--muted);
+h2 {
+    margin-bottom: 22px;
+    font-size: clamp(34px, 4.5vw, 58px);
+    line-height: 1;
+    letter-spacing: -0.045em;
+}
+
+h3 {
+    margin-bottom: 10px;
+    font-size: 21px;
+    line-height: 1.18;
+    letter-spacing: -0.02em;
+}
+
+.heroText {
+    max-width: 680px;
+    margin-bottom: 16px;
+    color: rgba(244, 244, 246, 0.88);
+    font-size: clamp(20px, 2vw, 26px);
     line-height: 1.45;
-    font-size: .95rem;
 }
 
-.small {
-    margin-top: 16px;
+.heroSub,
+.sectionText,
+.textBlock p {
+    max-width: 720px;
+    margin-bottom: 16px;
     color: var(--muted);
-    font-size: .88rem;
+    font-size: 18px;
+    line-height: 1.65;
 }
 
-.note {
-    margin: 12px 0 14px;
-    padding: 10px 12px;
-    border: 1px solid var(--border);
-    border-radius: var(--radius2);
-    background: var(--panel2);
-    text-align: left;
-    font-size: .92rem;
-    line-height: 1.35;
-    color: rgba(255, 255, 255, .82);
+.heroButtons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 30px;
 }
-
-.note strong {
-    color: #fff;
-}
-
-.divider {
-    height: 1px;
-    background: rgba(255, 255, 255, .12);
-    margin: 14px 0;
-}
-
-/* =========================================================
-   MENU BUTTONS
-========================================================= */
 
 .btn {
-    display: block;
-    padding: 15px 16px;
-    margin: 10px 0;
-    border: 1px solid var(--border);
-    border-radius: var(--radius2);
-    background: rgba(255, 255, 255, .02);
-    text-align: center;
-    font-weight: 950;
-    letter-spacing: 1.3px;
-    text-transform: uppercase;
-    transition: background 120ms ease, border-color 120ms ease, transform 60ms ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 50px;
+    padding: 14px 20px;
+    border-radius: 999px;
+    border: 1px solid var(--line-strong);
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 800;
+    transition: 0.18s ease;
 }
 
 .btn:hover {
-    background: rgba(255, 255, 255, .065);
-    border-color: var(--border2);
+    transform: translateY(-1px);
+    border-color: rgba(255, 255, 255, 0.32);
 }
 
-.btn:active {
-    transform: scale(.995);
+.btnPrimary {
+    background: var(--text);
+    color: #08090d;
+    border-color: transparent;
 }
 
-.btn .sub {
-    display: block;
-    margin: 6px 0 0 0;
-    font-size: .86em;
-    font-weight: 650;
-    text-transform: none;
-    letter-spacing: 0;
-    opacity: .78;
+.section {
+    padding: 76px 0;
+    border-bottom: 1px solid var(--line);
 }
 
-/* =========================================================
-   NAV PILLS
-========================================================= */
-
-.navrow {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    margin-top: 10px;
-    flex-wrap: wrap;
+.soft {
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.01));
 }
 
-.pill {
-    border: 1px solid var(--border);
-    padding: 9px 12px;
-    border-radius: 8px;
-    font-size: .82rem;
-    font-weight: 800;
-    letter-spacing: .9px;
-    text-transform: uppercase;
-    color: var(--muted);
-    background: rgba(255, 255, 255, .02);
-    transition: background 120ms ease, border-color 120ms ease, color 120ms ease;
-}
-
-.pill:hover {
-    background: rgba(255, 255, 255, .06);
-    border-color: var(--border2);
-    color: #fff;
-}
-
-/* =========================================================
-   PROTOCOL LAYOUT
-========================================================= */
-
-.protocol {
+.split {
     display: grid;
-    gap: 14px;
-    justify-items: center;
-}
-
-/* ===== RING: RESPONSIVE + NO COLLAPSE =====
-   The old bug was: height:auto + absolute svg = container collapses.
-   This fixes it using aspect-ratio and full-size svg.
-*/
-.ringbox {
-    position: relative;
-    width: min(280px, 85vw);
-    aspect-ratio: 1 / 1;
-    /* reserves height ALWAYS */
-    margin: 6px auto 10px;
-}
-
-svg.progressRing {
-    width: 100%;
-    height: 100%;
-    display: block;
-    transform: rotate(-90deg);
-    pointer-events: none;
-}
-
-/* Ring strokes */
-.progress-bg {
-    fill: none;
-    stroke: var(--ring-bg);
-    stroke-width: 8;
-}
-
-.progress {
-    fill: none;
-    stroke: var(--ring);
-    stroke-width: 8;
-    stroke-linecap: round;
-    /* Your JS can override dasharray/dashoffset; these are safe defaults */
-    stroke-dasharray: 628;
-    stroke-dashoffset: 628;
-    transition: stroke-dashoffset .25s linear;
-}
-
-/* Center disc */
-.pacer {
-    position: absolute;
-    inset: 10%;
-    border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, .22);
-    background: rgba(255, 255, 255, .01);
-    display: grid;
-    place-items: center;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
 }
 
 .center {
-    display: grid;
-    place-items: center;
-    gap: 10px;
-    padding: 10px;
-    width: 100%;
-    max-width: 360px;
+    text-align: center;
 }
 
-/* Labels */
-.phaseLabel {
-    font-size: .78rem;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    color: rgba(255, 255, 255, .78);
+.centerText {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.count {
-    font-size: 2.15rem;
-    font-weight: 1000;
-    letter-spacing: 1px;
+.centerButtons {
+    justify-content: center;
+}
+
+.simpleTags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 30px;
+}
+
+.simpleTags span {
+    display: inline-flex;
+    align-items: center;
+    padding: 11px 15px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.04);
+    color: rgba(244, 244, 246, 0.82);
+    font-size: 14px;
     line-height: 1;
 }
 
-.timer {
-    font-size: .9rem;
-    color: var(--muted);
-    letter-spacing: 1px;
-}
-
-/* PROMPTS (below ring, not inside) */
-.prompt {
-    margin: 8px auto 0;
-    padding: 0 14px;
-    max-width: 360px;
-    font-size: clamp(1.05rem, 3.2vw, 1.35rem);
-    line-height: 1.15;
-    font-weight: 950;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    text-align: center;
-    white-space: normal;
-    overflow-wrap: anywhere;
-}
-
-.promptSub {
-    margin-top: 8px;
-    padding: 0 14px;
-    max-width: 360px;
-    font-size: clamp(.95rem, 2.8vw, 1.05rem);
-    line-height: 1.25;
-    color: rgba(255, 255, 255, .82);
-    text-align: center;
-}
-
-/* Phase dots */
-.phaseDots {
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-    align-items: center;
-    min-height: 18px;
-}
-
-.dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 999px;
-    border: 1px solid rgba(255, 255, 255, .28);
-    background: rgba(255, 255, 255, .06);
-    transition: transform 150ms ease, background 150ms ease, border-color 150ms ease;
-}
-
-.dot.filled {
-    background: rgba(255, 255, 255, .92);
-    border-color: rgba(255, 255, 255, .92);
-    transform: scale(1.12);
-}
-
-/* =========================================================
-   START / STOP BUTTON
-   - START = round
-   - STOP = red + square
-   Works if your button is: <button id="startBtn" class="start">START</button>
-========================================================= */
-
-.start {
-    width: 140px;
-    height: 140px;
-    border-radius: 999px;
-    border: 2px solid rgba(255, 255, 255, .26);
-    background: rgba(255, 255, 255, .03);
-    color: #fff;
-    font-weight: 950;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    cursor: pointer;
+.steps {
+    margin-top: 42px;
     display: grid;
-    place-items: center;
-    transition: transform 120ms ease, background 120ms ease, border-color 120ms ease;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
 }
 
-.start:hover {
-    background: rgba(255, 255, 255, .06);
-    border-color: rgba(255, 255, 255, .42);
+.steps article {
+    padding: 24px;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.035);
 }
 
-.start:active {
-    transform: scale(.985);
+.steps span {
+    display: inline-block;
+    margin-bottom: 28px;
+    color: rgba(244, 244, 246, 0.38);
+    font-size: 13px;
+    font-weight: 900;
+    letter-spacing: 0.18em;
 }
 
-.start:disabled {
-    opacity: .45;
-    cursor: default;
+.steps p,
+.placeGrid p,
+.pricing p,
+.pricing li {
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.65;
 }
 
-/* STOP state: red + square */
-.start.stop,
-#startBtn.stop {
-    border-radius: 10px;
-    /* square-ish but still clean */
-    background: rgba(200, 40, 40, .92);
-    border-color: var(--dangerBorder);
-    letter-spacing: 1.6px;
+.placeGrid {
+    margin-top: 42px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
 }
 
-.start.stop:hover,
-#startBtn.stop:hover {
-    background: var(--dangerHover);
+.placeGrid article {
+    overflow: hidden;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.035);
 }
 
-/* =========================================================
-   TOGGLES + FEEDBACK
-========================================================= */
-
-.toggleRow {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-top: 14px;
-    /* give space so it never collides with ring */
-    padding-top: 4px;
+.placeGrid img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    opacity: 0.92;
 }
 
-.toggle {
-    border: 1px solid var(--border);
-    padding: 10px 12px;
-    border-radius: 999px;
-    font-size: .85rem;
-    font-weight: 850;
-    letter-spacing: .9px;
+.placeGrid h3,
+.placeGrid p {
+    margin-left: 22px;
+    margin-right: 22px;
+}
+
+.placeGrid h3 {
+    margin-top: 22px;
+    margin-bottom: 8px;
+}
+
+.placeGrid p {
+    margin-bottom: 24px;
+}
+
+.pricing {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr 0.85fr;
+    gap: 18px;
+}
+
+.priceMain,
+.priceSide {
+    padding: 26px;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.035);
+}
+
+.priceMain {
+    background: rgba(255, 255, 255, 0.065);
+    border-color: rgba(255, 255, 255, 0.18);
+}
+
+.priceLabel {
+    margin-bottom: 10px;
+    color: rgba(244, 244, 246, 0.52);
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
+}
+
+.priceMain h3,
+.priceSide h3 {
+    margin-bottom: 12px;
+    font-size: clamp(38px, 4vw, 54px);
+    line-height: 1;
+    letter-spacing: -0.055em;
+}
+
+.pricing ul {
+    margin: 22px 0 0;
+    padding-left: 20px;
+}
+
+.imageCard {
+    overflow: hidden;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+}
+
+.imageCard img {
+    width: 100%;
+    height: 420px;
+    object-fit: cover;
+}
+
+.contact {
+    background:
+        radial-gradient(600px 320px at 50% 0%, rgba(255, 255, 255, 0.08), transparent 65%),
+        var(--bg);
+}
+
+footer {
+    padding: 34px 0;
+    color: var(--muted-soft);
+}
+
+.footerInner {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    font-size: 14px;
+}
+
+.footerInner a {
     color: var(--muted);
-    background: rgba(255, 255, 255, .02);
-    cursor: pointer;
-    transition: background 120ms ease, border-color 120ms ease, color 120ms ease;
+    text-decoration: none;
 }
 
-.toggle:hover {
-    background: rgba(255, 255, 255, .06);
-    border-color: var(--border2);
-    color: #fff;
+.footerInner a:hover {
+    color: var(--text);
 }
 
-.toggle:disabled {
-    opacity: .5;
-    cursor: not-allowed;
-}
-
-.feedback {
-    margin-top: 18px;
-    text-align: center;
-}
-
-.feedback-link {
-    color: var(--muted);
-    text-decoration: underline;
-    text-underline-offset: 4px;
-    font-size: .85rem;
-    font-weight: 800;
-    letter-spacing: .2px;
-}
-
-.feedback-link:hover {
-    color: #fff;
-}
-
-/* =========================================================
-   ACCESSIBILITY
-========================================================= */
-
-.toggle:focus-visible,
-.start:focus-visible,
-.btn:focus-visible,
-a:focus-visible {
-    outline: 2px solid rgba(255, 255, 255, .45);
-    outline-offset: 3px;
-}
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media (max-width: 480px) {
-    .wrap {
-        padding: 16px;
+/* Tablet */
+@media (max-width: 980px) {
+    .nav {
+        display: none;
     }
 
-    .card {
-        padding: 18px 12px;
+    .hero {
+        min-height: 600px;
+    }
+
+    .section {
+        padding: 68px 0;
+    }
+
+    .split,
+    .steps,
+    .placeGrid,
+    .pricing {
+        grid-template-columns: 1fr;
+    }
+
+    .imageCard img {
+        height: 360px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 620px) {
+    .wrap {
+        width: min(100% - 32px, 1160px);
+    }
+
+    .navWrap {
+        min-height: 72px;
+    }
+
+    .brand img {
+        width: 130px;
+    }
+
+    .hero {
+        min-height: 560px;
+    }
+
+    .heroContent {
+        padding-bottom: 56px;
     }
 
     h1 {
-        font-size: 1.2rem;
+        font-size: 46px;
+        letter-spacing: -0.045em;
     }
 
-    .sub {
-        font-size: .9rem;
+    h2 {
+        font-size: 36px;
+        letter-spacing: -0.035em;
     }
 
-    .ringbox {
-        width: min(300px, 88vw);
-        margin: 10px auto 12px;
+    .heroText,
+    .heroSub,
+    .sectionText,
+    .textBlock p {
+        font-size: 17px;
     }
 
-    .start {
-        width: 132px;
-        height: 132px;
+    .section {
+        padding: 56px 0;
     }
 
-    .toggle {
-        padding: 9px 12px;
-        font-size: .82rem;
+    .heroButtons {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    .placeGrid img {
+        height: 190px;
+    }
+
+    .priceMain,
+    .priceSide,
+    .steps article {
+        padding: 22px;
+    }
+
+    .footerInner {
+        flex-direction: column;
     }
 }
 
-@media (max-width: 420px) {
-    .prompt {
-        font-size: 1.02rem;
-        max-width: 320px;
-    }
+.faqList {
+    margin-top: 42px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.faqItem {
+    overflow: hidden;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--line);
+    background: rgba(255, 255, 255, .035);
+}
+
+.faqQuestion {
+    width: 100%;
+    padding: 22px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    background: transparent;
+    border: 0;
+    color: var(--text);
+    text-align: left;
+    cursor: pointer;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.faqQuestion span {
+    color: rgba(244, 244, 246, .46);
+    font-size: 20px;
+    line-height: 1;
+}
+
+.faqAnswer {
+    display: none;
+    padding: 0 24px 24px;
+}
+
+.faqAnswer p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+.faqItem.active .faqAnswer {
+    display: block;
 }

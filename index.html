@@ -5,1136 +5,367 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Operational Regulation System for First Responders | O₂ Rhythm</title>
-    <link rel="canonical" href="https://o2rhythm.com/" />
-
+    <title>O₂ Rhythm | QR-Based Reset Tools</title>
     <meta name="description"
-        content="On-shift nervous system regulation for dispatch, EMS, fire, law enforcement, and corrections. QR-based micro-regulation drills that down-regulate in 30 to 120 seconds without apps or logins." />
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
-    <!-- or for a PNG -->
-    <link rel="icon" href="/assets/favicon.png" type="image/png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="manifest" href="/site.webmanifest">
+        content="O₂ Rhythm provides QR-based reset points for workplaces, waiting rooms, healthcare offices, dispatch centers, and stressful environments." />
 
+    <link rel="canonical" href="https://o2rhythm.com/" />
+    <link rel="icon" href="/assets/favicon.png" type="image/png" />
+    <link rel="stylesheet" href="/assets/style.css" />
 
-    <!-- Open Graph -->
-    <meta property="og:title" content="Operational Regulation System for First Responders | O₂ Rhythm" />
+    <meta property="og:title" content="O₂ Rhythm | QR-Based Reset Tools" />
     <meta property="og:description"
-        content="QR-based micro-regulation drills for high-stress responders. Run short resets during live operations, with adoption tracked by environment." />
+        content="Scan. Reset. Continue. QR-based reset points for work, waiting, and overwhelm." />
     <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://o2rhythm.com/assets/img/desk-hero.png" />
+    <meta property="og:image" content="https://o2rhythm.com/assets/img/qr-reset-hero.png" />
     <meta property="og:url" content="https://o2rhythm.com/" />
-
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-5NKZ7XYYWF"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'G-5NKZ7XYYWF');
-    </script>
-
-    <meta name="theme-color" content="#0b0c10">
-    <meta name="msapplication-TileColor" content="#0b0c10">
-
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0b0c10">
-
-    <style>
-        :root {
-            --bg: #0b0c10;
-            --panel: rgba(17, 19, 26, .96);
-            --line: rgba(255, 255, 255, .10);
-            --line2: rgba(255, 255, 255, .18);
-            --text: #e9e9ef;
-            --muted: rgba(233, 233, 239, .72);
-            --muted2: rgba(233, 233, 239, .60);
-            --shadow: 0 18px 55px rgba(0, 0, 0, .42);
-            --radius: 20px;
-            --radius2: 14px;
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            margin: 0;
-            color: var(--text);
-            background:
-                radial-gradient(1200px 700px at 20% -10%, rgba(255, 255, 255, .06), transparent 60%),
-                radial-gradient(900px 500px at 90% 5%, rgba(255, 255, 255, .04), transparent 55%),
-                var(--bg);
-            font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-        }
-
-        a {
-            color: inherit;
-        }
-
-        /* layout */
-        .wrap {
-            width: min(1160px, 92vw);
-            margin: 0 auto;
-        }
-
-        .section {
-            padding: 40px 0;
-        }
-
-        .grid2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-        }
-
-        .grid3 {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 14px;
-        }
-
-        @media (max-width: 920px) {
-
-            .grid2,
-            .grid3 {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* top bar */
-        .topbar {
-            position: sticky;
-            top: 0;
-            z-index: 50;
-            background: rgba(11, 12, 16, .86);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--line);
-        }
-
-        .topbar__inner {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 14px;
-            padding: 12px 0;
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none;
-            min-width: 180px;
-        }
-
-        .brand img {
-            width: 120px;
-            height: auto;
-            object-fit: contain;
-            display: block;
-        }
-
-        .brand span {
-            font-weight: 900;
-            letter-spacing: .16em;
-            font-size: 12px;
-            opacity: .92;
-            white-space: nowrap;
-        }
-
-        nav {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            flex-wrap: wrap;
-            justify-content: flex-end;
-        }
-
-        nav a {
-            color: rgba(233, 233, 239, .78);
-            text-decoration: none;
-            padding: 8px 10px;
-            border-radius: 999px;
-            border: 1px solid transparent;
-            font-size: 13px;
-        }
-
-        nav a:hover {
-            border-color: var(--line2);
-            color: rgba(233, 233, 239, .96);
-        }
-
-        @media (max-width: 920px) {
-            nav {
-                display: none;
-            }
-        }
-
-        /* buttons */
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 12px 14px;
-            border-radius: 14px;
-            border: 1px solid var(--line2);
-            color: var(--text);
-            text-decoration: none;
-            font-weight: 850;
-            background: rgba(255, 255, 255, .02);
-            transition: transform .12s ease, opacity .12s ease, border-color .12s ease;
-            cursor: pointer;
-        }
-
-        .btn:hover {
-            transform: translateY(-1px);
-            border-color: rgba(255, 255, 255, .28);
-        }
-
-        .btnPrimary {
-            background: #fff;
-            color: #0b0c10;
-            border-color: transparent;
-            box-shadow: 0 10px 26px rgba(0, 0, 0, .35);
-        }
-
-        .btnPrimary:hover {
-            opacity: .92;
-        }
-
-        @media (max-width: 560px) {
-            .row .btn:nth-child(3) {
-                display: none;
-            }
-        }
-
-        /* cards */
-        .card {
-            background: var(--panel);
-            border: 1px solid var(--line);
-            border-radius: var(--radius);
-            padding: 16px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, .35);
-        }
-
-        .tile {
-            background: var(--panel);
-            border: 1px solid var(--line);
-            border-radius: var(--radius);
-            padding: 16px;
-            transition: transform .12s ease, border-color .12s ease;
-        }
-
-        .tile:hover {
-            transform: translateY(-1px);
-            border-color: rgba(255, 255, 255, .16);
-        }
-
-        .kicker {
-            font-size: 12px;
-            letter-spacing: .26em;
-            text-transform: uppercase;
-            color: rgba(233, 233, 239, .72);
-        }
-
-        h1 {
-            margin: 10px 0 8px;
-            font-size: clamp(34px, 4vw, 52px);
-            line-height: 1.03;
-            letter-spacing: -.03em;
-        }
-
-        h2 {
-            margin: 0 0 10px;
-            font-size: 20px;
-            letter-spacing: -.01em;
-        }
-
-        h3 {
-            margin: 0 0 6px;
-            font-size: 15px;
-        }
-
-        .sub {
-            margin: 0;
-            color: var(--muted);
-            font-size: 15px;
-            line-height: 1.65;
-            max-width: 85ch;
-        }
-
-        .hint {
-            margin: 0;
-            color: rgba(233, 233, 239, .63);
-            font-size: 13px;
-            line-height: 1.6;
-        }
-
-        .row {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            align-items: center;
-            margin-top: 14px;
-        }
-
-        /* feature badges */
-        .pillRow {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-top: 14px;
-        }
-
-        .pill {
-            border: 1px solid rgba(255, 255, 255, .10);
-            border-radius: 10px;
-            padding: 8px 10px;
-            font-size: 12px;
-            color: rgba(233, 233, 239, .78);
-            background: rgba(255, 255, 255, .01);
-        }
-
-        .pill strong {
-            color: rgba(233, 233, 239, .92);
-            font-weight: 900;
-        }
-
-        .pill::before {
-            content: "✓";
-            margin-right: 8px;
-            opacity: .75;
-        }
-
-        /* HERO */
-        .hero {
-            position: relative;
-            min-height: clamp(620px, 82vh, 920px);
-            overflow: hidden;
-            border-bottom: 1px solid var(--line);
-        }
-
-        .heroMedia {
-            position: absolute;
-            inset: 0;
-            background: #000;
-        }
-
-        .heroMedia img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-            opacity: .94;
-            filter: contrast(1.06) saturate(1.03);
-            transform: scale(1.01);
-        }
-
-        .heroOverlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(180deg,
-                    rgba(0, 0, 0, .15) 0%,
-                    rgba(0, 0, 0, .38) 45%,
-                    rgba(11, 12, 16, .90) 100%);
-        }
-
-        .heroInner {
-            position: relative;
-            height: 100%;
-            display: flex;
-            align-items: flex-end;
-            padding: 30px 0 30px;
-        }
-
-        .heroCard {
-            width: min(780px, 92vw);
-            margin-left: max(4vw, 18px);
-            background: rgba(15, 16, 20, .52);
-            border: 1px solid rgba(255, 255, 255, .14);
-            border-radius: 22px;
-            padding: 18px;
-            backdrop-filter: blur(7px);
-            box-shadow: var(--shadow);
-        }
-
-        @media (max-width: 920px) {
-            .heroCard {
-                margin: 0 auto;
-            }
-        }
-
-        /* media */
-        .media {
-            border-radius: var(--radius);
-            overflow: hidden;
-            border: 1px solid var(--line);
-            background: #000;
-        }
-
-        .media img {
-            width: 100%;
-            height: 260px;
-            object-fit: cover;
-            display: block;
-            opacity: .95;
-        }
-
-        .mediaTall img {
-            height: 340px;
-        }
-
-        @media (max-width: 920px) {
-            .media img {
-                height: 240px;
-            }
-
-            .mediaTall img {
-                height: 260px;
-            }
-        }
-
-        /* ENVIRONMENT BLOCKS */
-        .envBlock {
-            margin-top: 18px;
-            padding: 16px;
-            border-radius: var(--radius);
-            border: 1px solid var(--line);
-            background: rgba(255, 255, 255, .01);
-        }
-
-        .envGrid {
-            margin-top: 12px;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-        }
-
-        @media (max-width: 1100px) {
-            .envGrid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 560px) {
-            .envGrid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .envCard {
-            border: 1px solid rgba(255, 255, 255, .10);
-            background: rgba(17, 19, 26, .78);
-            border-radius: var(--radius2);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            min-height: 100%;
-            transition: transform .12s ease, border-color .12s ease;
-        }
-
-        .envCard:hover {
-            transform: translateY(-1px);
-            border-color: rgba(255, 255, 255, .18);
-        }
-
-        .envImg img {
-            width: 100%;
-            height: auto;
-            max-height: 220px;
-            object-fit: cover;
-            object-position: center;
-            display: block;
-            opacity: .95;
-            background: #000;
-        }
-
-        @media (max-width: 920px) {
-            .envImg img {
-                max-height: 260px;
-            }
-        }
-
-        .envBody {
-            padding: 10px;
-            display: grid;
-            gap: 5px;
-        }
-
-        .envTitle {
-            font-weight: 950;
-            font-size: 12.5px;
-            color: rgba(233, 233, 239, .95);
-        }
-
-        .envWhy {
-            font-size: 12px;
-            line-height: 1.45;
-            color: rgba(233, 233, 239, .70);
-        }
-
-        .envMeta {
-            font-size: 11px;
-            color: rgba(233, 233, 239, .58);
-        }
-
-        /* how-it-works graphic */
-        .howGraphic img {
-            width: 100%;
-            height: auto;
-            display: block;
-            object-fit: contain;
-            background: #000;
-        }
-
-        /* demo */
-        .demoWrap {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-            align-items: flex-start;
-            margin-top: 14px;
-        }
-
-        @media (max-width: 920px) {
-            .demoWrap {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .qrWrap {
-            display: flex;
-            justify-content: flex-start;
-            margin: 10px 0 6px;
-        }
-
-        .qrWrap img {
-            width: 140px;
-            height: 140px;
-            object-fit: contain;
-            border-radius: 12px;
-            border: 1px solid var(--line);
-            background: #000;
-        }
-
-        /* form */
-        .form {
-            display: grid;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .form label {
-            display: grid;
-            gap: 4px;
-            font-size: 12px;
-            color: var(--muted2);
-        }
-
-        .form input,
-        .form textarea {
-            border-radius: 10px;
-            border: 1px solid rgba(255, 255, 255, .18);
-            padding: 8px 10px;
-            background: rgba(0, 0, 0, .35);
-            color: var(--text);
-            font: inherit;
-            resize: vertical;
-        }
-
-        .form input:focus,
-        .form textarea:focus {
-            outline: none;
-            border-color: rgba(255, 255, 255, .36);
-        }
-
-        /* FAQ */
-        .faqItem {
-            border-top: 1px solid var(--line);
-        }
-
-        .faqQuestion {
-            width: 100%;
-            background: transparent;
-            border: none;
-            color: var(--text);
-            text-align: left;
-            padding: 10px 0;
-            font-size: 14px;
-            font-weight: 600;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        .faqQuestion:focus {
-            outline: 1px solid var(--line2);
-            outline-offset: 2px;
-        }
-
-        .faqIcon {
-            font-size: 18px;
-            margin-left: 10px;
-            opacity: .8;
-            transition: transform .12s ease;
-        }
-
-        .faqAnswer {
-            display: none;
-            padding: 0 0 10px;
-            font-size: 13px;
-            color: var(--muted);
-        }
-
-        .faqAnswer p {
-            margin: 0;
-            line-height: 1.6;
-        }
-
-        .faqItem.active .faqAnswer {
-            display: block;
-        }
-
-        .faqItem.active .faqIcon {
-            transform: rotate(45deg);
-        }
-
-        /* footer */
-        footer {
-            border-top: 1px solid var(--line);
-            padding: 16px 0 30px;
-            margin-top: 20px;
-            font-size: 12px;
-            color: rgba(233, 233, 239, .65);
-        }
-
-        footer a {
-            text-decoration: none;
-            color: rgba(233, 233, 239, .85);
-        }
-
-        footer a:hover {
-            text-decoration: underline;
-        }
-    </style>
 </head>
 
 <body>
-    <!-- TOP BAR -->
     <header class="topbar">
-        <div class="wrap topbar__inner">
-            <a class="brand" href="#top">
+        <div class="wrap navWrap">
+            <a class="brand" href="#top" aria-label="O₂ Rhythm home">
                 <img src="/assets/img/logo-full.png" alt="O₂ Rhythm logo" />
-
             </a>
-            <nav>
-                <a href="#product">Product</a>
-                <a href="#environments">Environments</a>
+
+            <nav class="nav">
+                <a href="#what">What it is</a>
+                <a href="#helps">What it helps</a>
                 <a href="#how">How it works</a>
-                <a href="#faq">FAQ</a>
+                <a href="#fits">Where it fits</a>
+                <a href="#pricing">Pricing</a>
                 <a href="#contact">Contact</a>
-                <a href="https://www.linkedin.com/company/rhythm-o2/" target="_blank" rel="noopener">LinkedIn</a>
-                <a href="https://www.instagram.com/o2rhythm/" target="_blank" rel="noopener">Instagram</a>
             </nav>
         </div>
     </header>
 
-    <!-- HERO -->
     <main id="top">
-        <section class="hero" aria-label="O₂ Rhythm overview">
-            <div class="heroMedia">
-                <img src="/assets/img/desk-hero.png" alt="First responder console with O₂ Rhythm QR codes" />
+
+        <section class="hero">
+            <div class="heroImage">
+                <img src="/assets/img/qr-reset-hero.png" alt="O₂ Rhythm QR reset point in a calm modern space" />
             </div>
-            <div class="heroOverlay"></div>
 
-            <div class="wrap heroInner">
-                <div class="heroCard" id="product">
-                    <p class="kicker">Operational regulation system</p>
-                    <h1>On‑shift nervous system regulation in high‑stress environments.</h1>
-                    <p class="sub">
-                        O₂ Rhythm places QR-based micro-regulations where activation actually happens - consoles,
-                        bays, units
-                        and control rooms - so crews can scan, reset and get back to task in 30 to 120 seconds.
-                    </p>
+            <div class="wrap heroContent">
+                <p class="eyebrow">QR-based reset tools</p>
+                <h1>Scan. Reset. Continue.</h1>
+                <p class="heroText">
+                    O₂ Rhythm places short reset tools directly inside stressful environments through simple QR points.
+                </p>
+                <p class="heroSub">
+                    Built for waiting rooms, break rooms, workplaces, healthcare offices, dispatch centers, and everyday
+                    spaces where people need a fast way to regulate.
+                </p>
 
-                    <div class="pillRow">
-                        <div class="pill"><strong>No app.</strong> No logins, no passwords.</div>
-                        <div class="pill"><strong>Environment specific.</strong> Menus tuned to dispatch, EMS, fire, law
-                            enforcement and corrections.</div>
-                        <div class="pill"><strong>Adoption tracked.</strong> Usage tied to each placement.</div>
-                    </div>
-
-                    <div class="row">
-                        <a class="btn btnPrimary" href="https://o2rhythm.com/demo/" target="_blank" rel="noopener">
-                            Open live demo
-                        </a>
-                        <a class="btn" href="#contact">Talk about a pilot</a>
-                    </div>
+                <div class="heroButtons">
+                    <a class="btn btnPrimary" href="#pricing">See pricing</a>
+                    <a class="btn" href="#contact">Bring it to your space</a>
                 </div>
             </div>
         </section>
 
-        <!-- HOW IT WORKS -->
-        <section id="how" class="section" aria-label="How O₂ Rhythm works">
-            <div class="wrap grid2">
-                <div class="card">
-                    <h2>How it fits into a shift</h2>
-                    <p class="sub">
-                        O₂ Rhythm lives inside operations, not next to them. Crews do not leave the floor, log into an
-                        app
-                        or sit through a long session. They scan, run a short protocol and go back to work.
-                    </p>
+        <section id="what" class="section">
+            <div class="wrap narrow">
+                <p class="eyebrow">What happens when someone scans?</p>
+                <h2>Built for real-life stress.</h2>
+                <p class="sectionText">
+                    O₂ Rhythm gives people fast access to short reset tools directly from their phone through QR points
+                    placed inside stressful spaces.
+                </p>
+                <p class="sectionText">
+                    No app. No login. No long sessions.
+                </p>
 
-                    <ul class="hint">
-                        <li>Placement plan matched to your environments and workflow.</li>
-                        <li>Menus tuned to high acuity calls, stacked workload and post incident reset.</li>
-                        <li>Short drills that can be run solo or as part of briefing, debrief or training blocks.</li>
-                    </ul>
-                </div>
-
-                <div class="media howGraphic">
-                    <img src="/assets/img/how-it-works.png"
-                        alt="Scan, short protocol, back to task, adoption tracked" />
+                <div class="simpleTags">
+                    <span>Overwhelmed reset</span>
+                    <span>Grounding reset</span>
+                    <span>Focus reset</span>
+                    <span>Waiting room calm</span>
+                    <span>Post-stress downshift</span>
                 </div>
             </div>
         </section>
 
-        <!-- ENVIRONMENTS -->
-        <section id="environments" class="section" aria-label="Environments">
+        <section id="helps" class="section soft">
+            <div class="wrap split">
+                <div>
+                    <p class="eyebrow">What it helps</p>
+                    <h2>For the moments people are expected to keep going.</h2>
+                </div>
+
+                <div class="textBlock">
+                    <p>
+                        Waiting for an appointment. Walking back into work after a hard interaction. Sitting in a break
+                        room but not actually coming down.
+                    </p>
+                    <p>
+                        O₂ Rhythm gives people a simple way to interrupt stress in the moment instead of waiting until
+                        later.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="how" class="section">
             <div class="wrap">
-                <div class="card">
-                    <h2>Built for real environments, not wellness rooms</h2>
-                    <p class="sub">
-                        O₂ Rhythm is deployed where activation actually happens - consoles, bays, units and control
-                        rooms - so crews
-                        can scan, reset and get back to task without leaving the floor.
-                    </p>
+                <p class="eyebrow center">How it works</p>
+                <h2 class="centerText">One QR system. Simple reset access.</h2>
 
-                    <div class="envBlock">
-                        <div class="envGrid">
-                            <div class="envCard">
-                                <div class="envImg">
-                                    <img src="/assets/img/desk-qr2.png" alt="Dispatch environment" />
-                                </div>
-                                <div class="envBody">
-                                    <div class="envTitle">Dispatch / 911</div>
-                                    <div class="envWhy">
-                                        Console, quiet room and break area placements to drop residual activation after
-                                        stacked calls and critical events.
-                                    </div>
-                                    <div class="envMeta">PSAPs, call takers and radio operators.</div>
-                                </div>
-                            </div>
+                <div class="steps">
+                    <article>
+                        <span>01</span>
+                        <h3>Choose your first space</h3>
+                        <p>Start with one environment like a waiting room, break room, staff area, or front desk.</p>
+                    </article>
 
-                            <div class="envCard">
-                                <div class="envImg">
-                                    <img src="/assets/img/emt-qr.png" alt="EMS environment" />
-                                </div>
-                                <div class="envBody">
-                                    <div class="envTitle">EMS / Paramedic</div>
-                                    <div class="envWhy">
-                                        Station bay and unit placements that crews can hit between calls without logging
-                                        into anything.
-                                    </div>
-                                    <div class="envMeta">Medic units, fire based EMS and transport services.</div>
-                                </div>
-                            </div>
+                    <article>
+                        <span>02</span>
+                        <h3>Place the QR point</h3>
+                        <p>Use a clean display or printable QR material where people already are.</p>
+                    </article>
 
-                            <div class="envCard">
-                                <div class="envImg">
-                                    <img src="/assets/img/fire-qr.png" alt="Fire environment" />
-                                </div>
-                                <div class="envBody">
-                                    <div class="envTitle">Fire</div>
-                                    <div class="envWhy">
-                                        Bay, turnout and day room protocols that match turnout rhythm and post incident
-                                        reset.
-                                    </div>
-                                    <div class="envMeta">Engine, truck and wildland companies.</div>
-                                </div>
-                            </div>
+                    <article>
+                        <span>03</span>
+                        <h3>Scan and reset</h3>
+                        <p>People choose a short reset from their phone and continue with their day.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
 
-                            <div class="envCard">
-                                <div class="envImg">
-                                    <img src="/assets/img/police-qruse.png" alt="Law enforcement environment" />
-                                </div>
-                                <div class="envBody">
-                                    <div class="envTitle">Law enforcement</div>
-                                    <div class="envWhy">
-                                        Patrol car, briefing and report writing resets that can be run in minutes
-                                        without drawing attention.
-                                    </div>
-                                    <div class="envMeta">Patrol, investigations and specialty units.</div>
-                                </div>
-                            </div>
+        <section id="fits" class="section soft">
+            <div class="wrap">
+                <p class="eyebrow">Where it fits</p>
+                <h2>Designed for places where stress builds up.</h2>
 
-                            <div class="envCard">
-                                <div class="envImg">
-                                    <img src="/assets/img/corrections-qr.png" alt="Corrections environment" />
-                                </div>
-                                <div class="envBody">
-                                    <div class="envTitle">Corrections</div>
-                                    <div class="envWhy">
-                                        Control room and sally port placements to clear physiology after uses of force
-                                        and high acuity events.
-                                    </div>
-                                    <div class="envMeta">Jails, prisons and juvenile facilities.</div>
-                                </div>
-                            </div>
+                <div class="placeGrid">
+                    <article>
+                        <img src="/assets/img/waiting-room-reset.png" alt="Waiting room QR reset point" />
+                        <h3>Waiting rooms</h3>
+                        <p>For patients, families, and clients who are anxious, overstimulated, or stuck waiting.</p>
+                    </article>
 
-                            <div class="envCard">
-                                <div class="envImg">
-                                    <img src="/assets/img/post-classroomqr.png"
-                                        alt="Training and academy environment" />
-                                </div>
-                                <div class="envBody">
-                                    <div class="envTitle">Training and academy</div>
-                                    <div class="envWhy">
-                                        Classroom and scenario lane protocols that teach crews to regulate under load,
-                                        not just in a quiet room.
-                                    </div>
-                                    <div class="envMeta">Academies, in service training and simulation centers.</div>
-                                </div>
-                            </div>
-                        </div>
+                    <article>
+                        <img src="/assets/img/break-room-reset.png" alt="Break room QR reset point" />
+                        <h3>Break rooms</h3>
+                        <p>For staff who need a quick downshift between interactions, calls, patients, or tasks.</p>
+                    </article>
 
-                        <p class="hint" style="margin-top:14px;">
-                            Adoption is placement plus relevance. Menus are customized by environment so QR codes do not
-                            turn into wall clutter.
+                    <article>
+                        <img src="/assets/img/healthcare-reset.png" alt="Healthcare office QR reset point" />
+                        <h3>Healthcare offices</h3>
+                        <p>For dental, therapy, medical, chiropractic, med spa, and wellness spaces.</p>
+                    </article>
+
+                    <article>
+                        <img src="/assets/img/workplace-reset.png" alt="Workplace QR reset point" />
+                        <h3>Workplaces</h3>
+                        <p>For front desks, office teams, call centers, employee lounges, and high-pressure workdays.
                         </p>
-                    </div>
+                    </article>
+
+                    <article>
+                        <img src="/assets/img/dispatch-reset.png" alt="Dispatch QR reset point" />
+                        <h3>Dispatch and responders</h3>
+                        <p>For people moving from one high-stress moment to the next with little reset time.</p>
+                    </article>
+
+                    <article>
+                        <img src="/assets/img/travel-reset.png" alt="Travel QR reset point" />
+                        <h3>Travel and public spaces</h3>
+                        <p>For airports, lounges, hotels, and other places where waiting and stress collide.</p>
+                    </article>
                 </div>
             </div>
         </section>
 
-        <!-- FAQ -->
-        <section id="faq" class="section" aria-label="Frequently asked questions">
-            <div class="wrap">
-                <div class="card">
-                    <h2>FAQ</h2>
+        <section id="pricing" class="section">
+            <div class="wrap narrow">
+                <p class="eyebrow">Pricing</p>
+                <h2>Start simple. Add only what you need.</h2>
+                <p class="sectionText">
+                    Begin with one QR point in one environment. Add more points only if you want O₂ Rhythm available in
+                    additional spaces.
+                </p>
 
-                    <div class="faqItem">
-                        <button class="faqQuestion" type="button">
-                            Is this just breathing exercises?
-                            <span class="faqIcon">+</span>
-                        </button>
-                        <div class="faqAnswer">
-                            <p>
-                                No. Some protocols use breath, but the core of O₂ Rhythm is short, environment specific
-                                drills for consoles,
-                                bays, units and control rooms. Crews learn to regulate in the same conditions they work
-                                in, not on a mat in a separate space.
-                            </p>
-                        </div>
-                    </div>
+                <div class="pricing">
+                    <article class="priceMain">
+                        <p class="priceLabel">One-time setup</p>
+                        <h3>$149</h3>
+                        <p>Includes 1 QR system + 1 QR point environment.</p>
+                        <ul>
+                            <li>Primary QR display</li>
+                            <li>Environment-focused reset menu</li>
+                            <li>Access to curated reset tools</li>
+                            <li>Printable QR point materials</li>
+                            <li>Setup and onboarding</li>
+                        </ul>
+                    </article>
 
-                    <div class="faqItem">
-                        <button class="faqQuestion" type="button">
-                            How long does a protocol take?
-                            <span class="faqIcon">+</span>
-                        </button>
-                        <div class="faqAnswer">
-                            <p>
-                                Most protocols run 30 to 120 seconds. The goal is a clear down shift that fits between
-                                calls, after a critical event
-                                or before returning to the floor, not a long session that pulls people off the line.
-                            </p>
-                        </div>
-                    </div>
+                    <article class="priceSide">
+                        <p class="priceLabel">Additional QR point</p>
+                        <h3>+$99</h3>
+                        <p>One-time add-on for each additional environment.</p>
+                    </article>
 
-                    <div class="faqItem">
-                        <button class="faqQuestion" type="button">
-                            Do crews need an app or login?
-                            <span class="faqIcon">+</span>
-                        </button>
-                        <div class="faqAnswer">
-                            <p>
-                                No. Crews scan a QR code or tap a link posted in their environment. There are no
-                                usernames, passwords or downloads to manage.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="faqItem">
-                        <button class="faqQuestion" type="button">
-                            What does adoption tracked by environment mean?
-                            <span class="faqIcon">+</span>
-                        </button>
-                        <div class="faqAnswer">
-                            <p>
-                                Each placement has its own QR, so usage is tied to that console, bay, unit or room.
-                                Leadership sees which environments are
-                                actually using the tool and can adjust placements or menus with real data instead of
-                                guesses.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="faqItem">
-                        <button class="faqQuestion" type="button">
-                            What data do chiefs and directors actually see?
-                            <span class="faqIcon">+</span>
-                        </button>
-                        <div class="faqAnswer">
-                            <p>
-                                You see simple counts and trends by environment, not individual medical records or
-                                mental health notes. There is no PHI.
-                                The focus is on which placements are being used and when, so you can decide where to
-                                expand or adjust.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="faqItem">
-                        <button class="faqQuestion" type="button">
-                            How does this fit with what we already do?
-                            <span class="faqIcon">+</span>
-                        </button>
-                        <div class="faqAnswer">
-                            <p>
-                                O₂ Rhythm does not replace EAP, peer support, chaplains or other wellness work. It gives
-                                those efforts
-                                an operational tool that lives on shift, so regulation can happen between calls and
-                                contacts, not just in scheduled sessions.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="faqItem">
-                        <button class="faqQuestion" type="button">
-                            What does a pilot cost and how is it licensed?
-                            <span class="faqIcon">+</span>
-                        </button>
-                        <div class="faqAnswer">
-                            <p>
-                                Pilots are licensed per agency and kept intentionally simple: one universal QR with up
-                                to two customized environments for 60 or 90 days at a flat fee. A 90‑day pilot is our
-                                recommended option, with a 60‑day pilot available for agencies that need a shorter
-                                window or have tighter budgets. At the end of the pilot, you can roll directly into an
-                                annual license and expand to additional environments while keeping the same QR
-                                experience. We walk through pilot options and exact pricing on the first call so you can
-                                see what fits your agency and budget.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="faqItem">
-                        <button class="faqQuestion" type="button">
-                            What does a pilot cost and how is it licensed?
-                            <span class="faqIcon">+</span>
-                        </button>
-                        <div class="faqAnswer">
-                            <p>
-                                Pilots are licensed per agency and kept intentionally simple: one universal QR with up
-                                to two customized environments for 60 or 90 days at a flat fee. A 90‑day pilot is our
-                                recommended option, with a 60‑day pilot available for agencies that need a shorter
-                                window or have tighter budgets. At the end of the pilot, you can roll directly into an
-                                annual license and expand to additional environments while keeping the same QR
-                                experience. We walk through pilot options and exact pricing on the first call so you can
-                                see what fits your agency and budget.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="faqItem">
-                        <button class="faqQuestion" type="button">
-                            Do you offer shorter pilots for partners?
-                            <span class="faqIcon">+</span>
-                        </button>
-                        <div class="faqAnswer">
-                            <p>
-                                For strategic partners, we occasionally offer a 30‑day pilot with up to two environments
-                                to quickly validate fit and co‑design how O₂ Rhythm will be used inside larger programs.
-                                These partner pilots are structured around clear goals—such as co‑marketing, case
-                                studies, or introductions to other agencies—and are scoped individually based on the
-                                partnership rather than a standard price sheet.
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="faqItem">
-                        <button class="faqQuestion" type="button">
-                            Can we partner or bring this into our programs?
-                            <span class="faqIcon">+</span>
-                        </button>
-                        <div class="faqAnswer">
-                            <p>
-                                Yes. We partner with agencies, associations, and training organizations to embed Rhythm
-                                O₂ into existing wellness, resilience, peer support, and academy curricula. If you’re
-                                interested in partnership, note that when you use the pilot form and we’ll shape the
-                                conversation around how O₂ Rhythm can plug into your current offerings, including
-                                whether a shorter partner pilot makes sense.
-                            </p>
-                        </div>
-                    </div>
-
+                    <article class="priceSide">
+                        <p class="priceLabel">Optional updates</p>
+                        <h3>Available</h3>
+                        <p>Quarterly or annual content refresh options are available after setup.</p>
+                    </article>
                 </div>
             </div>
         </section>
-        <script>
-            // Handle pilot form submit without leaving the page
-            const pilotForm = document.getElementById('pilot-form');
-            const pilotMessage = document.getElementById('pilot-message');
 
-            if (pilotForm) {
-                pilotForm.addEventListener('submit', function (e) {
-                    e.preventDefault();
+        <section class="section soft">
+            <div class="wrap split">
+                <div class="imageCard">
+                    <img src="/assets/img/qr-display-closeup.png" alt="Close-up of O₂ Rhythm QR display" />
+                </div>
 
-                    const formData = new FormData(pilotForm);
-
-                    fetch(pilotForm.action, {
-                        method: 'POST',
-                        body: formData,
-                        mode: 'no-cors'
-                    }).then(function () {
-                        pilotForm.reset();
-                        if (pilotMessage) {
-                            pilotMessage.style.display = 'block';
-                        }
-                    }).catch(function () {
-                        // even if there is an error, at least do not leave them on a blank OK page
-                        if (pilotMessage) {
-                            pilotMessage.textContent = 'We had trouble submitting. Please email hello.o2rhythm@gmail.com.';
-                            pilotMessage.style.display = 'block';
-                        }
-                    });
-                });
-            }
-        </script>
-
-        <!-- DEMO & CONTACT -->
-        <section id="contact" class="section" aria-label="Demo and contact">
-            <div class="wrap">
-                <div class="card">
-                    <h2>See O₂ Rhythm in action</h2>
-                    <p class="hint">
-                        Open the same demo your crews would use on shift, then schedule a short call to map placements
-                        and a pilot that fits your agency.
+                <div>
+                    <p class="eyebrow">Why it matters</p>
+                    <h2>Most spaces expect people to stay calm without giving them anything to use.</h2>
+                    <p class="sectionText">
+                        O₂ Rhythm turns ordinary spaces into access points for regulation. It is simple, low-friction,
+                        and available right when stress shows up.
                     </p>
-
-                    <div class="demoWrap">
-                        <!-- Left: QR and demo details -->
-                        <div class="tile">
-                            <h3>Live demo</h3>
-                            <p class="hint">
-                                Scan the QR or open the demo page. No login, no app and no password. This is the same
-                                experience your team would use in a pilot.
-                            </p>
-
-                            <div class="qrWrap">
-                                <img src="/assets/img/demo-qr.png" alt="QR code to open the O₂ Rhythm live demo" />
-                            </div>
-
-                            <ul class="hint">
-                                <li>30 to 120 second protocols.</li>
-                                <li>Guided and silent options.</li>
-                                <li>Menus tailored to dispatch, EMS, fire, law enforcement and corrections.</li>
-                            </ul>
-
-                            <div class="row">
-                                <a class="btn btnPrimary" href="https://o2rhythm.com/demo/" target="_blank"
-                                    rel="noopener">
-                                    Open demo
-                                </a>
-                            </div>
-                        </div>
-
-                        <!-- Right: pilot form -->
-                        <div class="tile" id="pilot-intake">
-                            <h3>Talk about a pilot</h3>
-                            <p class="hint">
-                                Share your environment mix and current wellness or regulation tools. We will outline a
-                                60 to 90 day pilot
-                                with clear placements and adoption metrics.
-                            </p>
-
-                            <p class="hint" style="margin-top:8px;">
-                                Interested in partnership or program integration? Mention that in the notes and we will
-                                structure the call around it.
-                            </p>
-
-                            <form id="pilot-form"
-                                action="https://script.google.com/macros/s/AKfycbxTps_2ZCOKlpRxRj_yObNcppWM2zFvkLyDx054bKEHE2PDSrEMRh5MhjWnrAnZLuEv/exec"
-                                method="POST" class="form">
-
-                                <label>
-                                    <span>Agency or organization</span>
-                                    <input type="text" name="agency" required />
-                                </label>
-                                <label>
-                                    <span>Email</span>
-                                    <input type="email" name="email" required />
-                                </label>
-                                <label>
-                                    <span>Role</span>
-                                    <input type="text" name="role"
-                                        placeholder="Chief, director, training, wellness, peer support, etc." />
-                                </label>
-                                <label>
-                                    <span>Environments to focus on</span>
-                                    <textarea name="environments" rows="3"
-                                        placeholder="Dispatch, EMS, fire, law enforcement, corrections, training..."></textarea>
-                                </label>
-                                <label>
-                                    <span>Anything we should know?</span>
-                                    <textarea name="notes" rows="3"
-                                        placeholder="Current initiatives, specific incidents, staffing, constraints, partnership ideas..."></textarea>
-                                </label>
-
-                                <button class="btn btnPrimary" type="submit">Request pilot call</button>
-                            </form>
-                            <p class="hint" id="pilot-message" style="margin-top:10px; display:none;">
-                                Thanks for reaching out. We received your pilot request and will reply by email.
-                            </p>
-                            <p class="hint" style="margin-top:10px;">
-                                Prefer email? Reach us at
-                                <a href="mailto:hello.rhythmo2@gmail.com">hello.rhythmo2@gmail.com</a>.
-
-                            </p>
-                        </div>
-                    </div>
                 </div>
             </div>
         </section>
+        <section id="faq" class="section soft">
+            <div class="wrap narrow">
+
+                <p class="eyebrow center">FAQ</p>
+                <h2 class="centerText">Common questions</h2>
+
+                <div class="faqList">
+
+                    <div class="faqItem active">
+                        <button class="faqQuestion" type="button">
+                            Is this just breathwork?
+                            <span>+</span>
+                        </button>
+
+                        <div class="faqAnswer">
+                            <p>
+                                No. O₂ Rhythm includes breathing, grounding, sound regulation, sensory resets, focus
+                                tools, and short decompression experiences.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="faqItem">
+                        <button class="faqQuestion" type="button">
+                            Do people need an app?
+                            <span>+</span>
+                        </button>
+
+                        <div class="faqAnswer">
+                            <p>
+                                No. People simply scan the QR code from their phone and access the reset tools
+                                instantly.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="faqItem">
+                        <button class="faqQuestion" type="button">
+                            Can one QR system be used in multiple places?
+                            <span>+</span>
+                        </button>
+
+                        <div class="faqAnswer">
+                            <p>
+                                Yes. The same QR system can be placed in multiple spaces like waiting rooms, break
+                                rooms, staff areas, or front desks.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="faqItem">
+                        <button class="faqQuestion" type="button">
+                            What is a QR point?
+                            <span>+</span>
+                        </button>
+
+                        <div class="faqAnswer">
+                            <p>
+                                A QR point is a location where people can access O₂ Rhythm reset tools. Examples include
+                                waiting rooms, break rooms, staff areas, or transition spaces.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="faqItem">
+                        <button class="faqQuestion" type="button">
+                            Can this still work for dispatch and first responders?
+                            <span>+</span>
+                        </button>
+
+                        <div class="faqAnswer">
+                            <p>
+                                Yes. O₂ Rhythm was originally built around high-stress communication environments and
+                                now expands into healthcare, workplaces, waiting spaces, and public environments.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+        <section id="contact" class="section contact">
+            <div class="wrap narrow centerText">
+                <p class="eyebrow center">Bring O₂ Rhythm to your space</p>
+                <h2>Start with one QR point.</h2>
+                <p class="sectionText">
+                    Tell us what kind of space you have and where stress tends to build. We’ll help you choose the best
+                    first QR point.
+                </p>
+
+                <div class="heroButtons centerButtons">
+                    <a class="btn btnPrimary"
+                        href="mailto:hello.rhythmo2@gmail.com?subject=O₂ Rhythm QR Point Inquiry">Email O₂ Rhythm</a>
+                    <a class="btn" href="https://www.instagram.com/o2rhythm/" target="_blank" rel="noopener">Message on
+                        Instagram</a>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <footer>
-        <div class="wrap">
+        <div class="wrap footerInner">
+            <p>© <span id="year"></span> O₂ Rhythm. All rights reserved.</p>
             <p>
-                © <span id="year"></span> O₂ Rhythm. All rights reserved.
-                &middot;
-                <a href="https://www.linkedin.com/company/rhythm-o2/" target="_blank" rel="noopener">LinkedIn</a>
-                &middot;
                 <a href="https://www.instagram.com/o2rhythm/" target="_blank" rel="noopener">Instagram</a>
+                <span> · </span>
+                <a href="mailto:hello.rhythmo2@gmail.com">Email</a>
             </p>
         </div>
     </footer>
 
     <script>
-        // Auto-set year in footer
         document.getElementById('year').textContent = new Date().getFullYear();
-    </script>
-    <script>
-        // FAQ accordion
-        document.querySelectorAll('.faqQuestion').forEach(function (btn) {
-            btn.addEventListener('click', function () {
-                var item = this.parentElement;
-                var open = item.classList.contains('active');
 
-                document.querySelectorAll('.faqItem').forEach(function (i) {
-                    i.classList.remove('active');
-                });
+        document.querySelectorAll('.faqQuestion').forEach((button) => {
+            button.addEventListener('click', () => {
+                const item = button.closest('.faqItem');
+                const isActive = item.classList.contains('active');
 
-                if (!open) {
+                document.querySelectorAll('.faqItem').forEach((faq) => faq.classList.remove('active'));
+
+                if (!isActive) {
                     item.classList.add('active');
                 }
+
+                document.querySelectorAll('.faqQuestion span').forEach((icon) => {
+                    icon.textContent = icon.closest('.faqItem').classList.contains('active') ? '−' : '+';
+                });
             });
         });
     </script>
+
 </body>
 
 </html>
