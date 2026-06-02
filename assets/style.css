@@ -237,10 +237,13 @@ button {
 }
 
 .heroVisual img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: auto;
+    object-fit: contain;
+    object-position: center;
     border-radius: 30px;
     box-shadow: var(--shadow);
-    aspect-ratio: 4/3;
-    object-fit: cover;
 }
 
 .floatingCard {
@@ -487,9 +490,11 @@ h3 {
 
 .environmentGrid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 20px;
     margin-top: 42px;
+    justify-content: center;
+    align-items: start;
 }
 
 .environmentGrid article {
