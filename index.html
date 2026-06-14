@@ -14,92 +14,131 @@
     <link rel="stylesheet" href="/assets/style.css" />
 
     <style>
-        /* AirNotes spotlight section */
-        .airnotes-section {
-            background: linear-gradient(135deg, #fff8f0 0%, #f0f9ff 100%);
-            border-top: 1px solid var(--line);
-            border-bottom: 1px solid var(--line);
+        /* AirNotes banner section */
+        .airnotes-banner {
+            position: relative;
+            overflow: hidden;
+            background: #e8f4fd;
         }
 
-        .airnotes-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 14px;
-            background: linear-gradient(135deg, var(--teal), var(--blue));
-            color: #fff;
-            font-size: 11px;
+        .airnotes-banner__bg {
+            position: absolute;
+            inset: 0;
+            background-image: url('/assets/img/airnotes-hero.jpg');
+            background-size: cover;
+            background-position: center top;
+            opacity: 0.22;
+            pointer-events: none;
+        }
+
+        .airnotes-banner__inner {
+            position: relative;
+            z-index: 2;
+            padding: 80px 0;
+        }
+
+        .airnotes-for-kids {
+            display: inline-block;
+            padding: 5px 16px;
+            background: rgba(0, 191, 174, 0.15);
+            border: 1.5px solid rgba(0, 191, 174, 0.4);
+            border-radius: var(--radius-pill);
+            font-size: 11.5px;
             font-weight: 700;
             letter-spacing: 0.1em;
             text-transform: uppercase;
-            border-radius: var(--radius-pill);
+            color: #007a6e;
             margin-bottom: 20px;
         }
 
-        .airnotes-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 20px;
-            margin-top: 40px;
+        .airnotes-hero-img {
+            width: 100%;
+            max-width: 520px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            display: block;
+            margin: 0 auto;
         }
 
-        .airnotes-card {
-            background: var(--white);
-            border: 1px solid var(--line);
+        .airnotes-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            margin-top: 48px;
+        }
+
+        .airnotes-feat {
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(219,231,244,0.7);
             border-radius: var(--radius-md);
-            padding: 28px 24px;
+            padding: 24px 20px;
             box-shadow: var(--shadow-xs);
         }
 
-        .airnotes-card__icon {
-            font-size: 28px;
-            margin-bottom: 12px;
-            line-height: 1;
+        .airnotes-feat__label {
+            font-size: 10.5px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--teal);
+            margin-bottom: 8px;
         }
 
-        .airnotes-card h3 {
-            font-size: 1.05rem;
+        .airnotes-feat h3 {
+            font-size: 1rem;
             font-weight: 700;
-            margin: 0 0 8px;
+            margin: 0 0 6px;
             color: var(--navy);
         }
 
-        .airnotes-card p {
-            font-size: 0.93rem;
+        .airnotes-feat p {
+            font-size: 0.9rem;
             color: var(--muted);
             margin: 0;
             line-height: 1.6;
         }
 
         .airnotes-cta-row {
-            margin-top: 40px;
+            margin-top: 36px;
             display: flex;
             align-items: center;
-            gap: 16px;
+            gap: 14px;
             flex-wrap: wrap;
         }
 
         .btn.airnotes {
-            background: linear-gradient(135deg, var(--teal), var(--blue));
+            background: linear-gradient(135deg, #00bfae, #1a6fd8);
             color: #fff;
             border: none;
+            font-weight: 700;
         }
 
-        .btn.airnotes:hover {
-            opacity: 0.9;
+        .btn.airnotes:hover { opacity: 0.9; }
+
+        .airnotes-split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
         }
 
         @media (max-width: 720px) {
-            .airnotes-grid {
+            .airnotes-split {
+                grid-template-columns: 1fr;
+                gap: 36px;
+            }
+            .airnotes-features {
                 grid-template-columns: 1fr;
             }
             .airnotes-cta-row {
                 flex-direction: column;
                 align-items: flex-start;
             }
+            .airnotes-banner__inner { padding: 56px 0; }
         }
 
-        /* Updated reflect description */
+        /* Reflect path pills */
         .pathPills {
             display: flex;
             flex-wrap: wrap;
@@ -416,69 +455,6 @@
             </div>
         </section>
 
-        <!-- AIR NOTES -->
-        <section id="airnotes" class="section airnotes-section">
-            <div class="wrap">
-                <div class="wrap split">
-                    <div>
-                        <div class="airnotes-badge">New from O₂ Rhythm</div>
-
-                        <p class="eyebrow">Introducing Air Notes</p>
-
-                        <h2>Little notes for big feelings.</h2>
-
-                        <p class="sectionText">
-                            Air Notes is a free wellness tool for kids and teens built on the same foundation as O₂
-                            Rhythm. Children can breathe, write, and feel heard in a safe, private space designed
-                            for their age.
-                        </p>
-
-                        <p class="sectionText">
-                            Parents can leave kind notes scheduled to appear on their child's screen, giving support
-                            even from across the day. Everything a child writes stays private unless they choose to
-                            share.
-                        </p>
-
-                        <div class="airnotes-cta-row">
-                            <a class="btn airnotes" href="https://airnotes-henna.vercel.app" target="_blank" rel="noopener">
-                                Open Air Notes
-                            </a>
-                            <a class="btn" href="https://airnotes-henna.vercel.app" target="_blank" rel="noopener">
-                                See Parent Corner
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="imageFrame">
-                        <img src="/assets/img/shared-community.png" alt="Air Notes by O₂ Rhythm" />
-                    </div>
-                </div>
-
-                <div class="airnotes-grid">
-                    <div class="airnotes-card">
-                        <div class="airnotes-card__icon">&#9679;</div>
-                        <h3>Guided breathing</h3>
-                        <p>Age-appropriate breathing exercises that help kids and teens regulate when they are anxious,
-                            overwhelmed, or wound up.</p>
-                    </div>
-
-                    <div class="airnotes-card">
-                        <div class="airnotes-card__icon">&#9679;</div>
-                        <h3>Private notes</h3>
-                        <p>Write what is on your mind. Quick notes, full letters, photo captions, or just a few words.
-                            Everything stays private by default.</p>
-                    </div>
-
-                    <div class="airnotes-card">
-                        <div class="airnotes-card__icon">&#9679;</div>
-                        <h3>Parent Corner</h3>
-                        <p>Leave a kind note for your child that appears at a time you choose. A quiet way to stay
-                            connected without hovering.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <!-- ORGANIZATIONS -->
         <section id="organizations" class="section">
             <div class="wrap split">
@@ -529,6 +505,80 @@
 
                 <div class="imageFrame">
                     <img src="/assets/img/workplace.png" alt="O₂ Rhythm in a workplace setting" />
+                </div>
+            </div>
+        </section>
+
+        <!-- AIR NOTES -->
+        <section id="airnotes" class="airnotes-banner">
+            <div class="airnotes-banner__bg" aria-hidden="true"></div>
+            <div class="airnotes-banner__inner">
+                <div class="wrap">
+
+                    <div class="airnotes-split">
+                        <div>
+                            <span class="airnotes-for-kids">For kids and teens</span>
+
+                            <p class="eyebrow">Also from O₂ Rhythm</p>
+
+                            <h2 style="font-size:clamp(1.9rem,4vw,2.8rem);margin-bottom:20px;">Air Notes</h2>
+
+                            <p class="sectionText" style="font-size:1.15rem;font-weight:600;color:var(--navy);margin-bottom:12px;">
+                                Little notes for big feelings.
+                            </p>
+
+                            <p class="sectionText">
+                                Air Notes is a free, private wellness space built for kids and teens. They can breathe,
+                                write what is on their mind, and feel heard without sharing anything they are not ready to share.
+                            </p>
+
+                            <p class="sectionText">
+                                Parents can leave a kind note from Parent Corner -- scheduled to appear on their child's
+                                screen at just the right time.
+                            </p>
+
+                            <div class="airnotes-cta-row">
+                                <a class="btn airnotes" href="https://airnotes-henna.vercel.app" target="_blank" rel="noopener">
+                                    Open Air Notes
+                                </a>
+                                <a class="btn" href="https://airnotes-henna.vercel.app" target="_blank" rel="noopener">
+                                    Parent Corner
+                                </a>
+                            </div>
+                        </div>
+
+                        <div>
+                            <img
+                                src="/assets/img/airnotes-hero.jpg"
+                                alt="Air Notes by O2 Rhythm -- Little notes for big feelings"
+                                class="airnotes-hero-img"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="airnotes-features">
+                        <div class="airnotes-feat">
+                            <p class="airnotes-feat__label">Breathe</p>
+                            <h3>Guided breathing for kids</h3>
+                            <p>Age-appropriate exercises that help children calm down when they feel anxious, overwhelmed,
+                                or wound up.</p>
+                        </div>
+
+                        <div class="airnotes-feat">
+                            <p class="airnotes-feat__label">Write</p>
+                            <h3>Private notes, always</h3>
+                            <p>Quick notes, full letters, or just a few words. Everything a child writes stays private
+                                unless they choose to share it.</p>
+                        </div>
+
+                        <div class="airnotes-feat">
+                            <p class="airnotes-feat__label">Connect</p>
+                            <h3>Parent Corner</h3>
+                            <p>Leave a kind note that appears on your child's screen at a time you choose. A quiet way
+                                to stay close across the day.</p>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </section>
