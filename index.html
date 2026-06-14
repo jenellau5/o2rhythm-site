@@ -12,6 +12,112 @@
     <link rel="canonical" href="https://o2rhythm.com/" />
     <link rel="icon" href="/assets/img/logocircle.png" type="image/png" />
     <link rel="stylesheet" href="/assets/style.css" />
+
+    <style>
+        /* AirNotes spotlight section */
+        .airnotes-section {
+            background: linear-gradient(135deg, #fff8f0 0%, #f0f9ff 100%);
+            border-top: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+        }
+
+        .airnotes-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            background: linear-gradient(135deg, var(--teal), var(--blue));
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            border-radius: var(--radius-pill);
+            margin-bottom: 20px;
+        }
+
+        .airnotes-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .airnotes-card {
+            background: var(--white);
+            border: 1px solid var(--line);
+            border-radius: var(--radius-md);
+            padding: 28px 24px;
+            box-shadow: var(--shadow-xs);
+        }
+
+        .airnotes-card__icon {
+            font-size: 28px;
+            margin-bottom: 12px;
+            line-height: 1;
+        }
+
+        .airnotes-card h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin: 0 0 8px;
+            color: var(--navy);
+        }
+
+        .airnotes-card p {
+            font-size: 0.93rem;
+            color: var(--muted);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .airnotes-cta-row {
+            margin-top: 40px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn.airnotes {
+            background: linear-gradient(135deg, var(--teal), var(--blue));
+            color: #fff;
+            border: none;
+        }
+
+        .btn.airnotes:hover {
+            opacity: 0.9;
+        }
+
+        @media (max-width: 720px) {
+            .airnotes-grid {
+                grid-template-columns: 1fr;
+            }
+            .airnotes-cta-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        /* Updated reflect description */
+        .pathPills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .pathPill {
+            font-size: 11.5px;
+            font-weight: 600;
+            color: var(--blue);
+            background: rgba(26, 111, 216, 0.08);
+            border: 1px solid rgba(26, 111, 216, 0.18);
+            border-radius: var(--radius-pill);
+            padding: 4px 12px;
+            letter-spacing: 0.01em;
+        }
+    </style>
 </head>
 
 <body>
@@ -29,6 +135,7 @@
                 <a href="#live">Live Library</a>
                 <a href="#letter">Example Letter</a>
                 <a href="#topics">Topics</a>
+                <a href="#airnotes">Air Notes</a>
                 <a href="#organizations">Organizations</a>
                 <a class="navCta" href="https://o2rhythm.vercel.app" target="_blank" rel="noopener">
                     Open O₂ Rhythm Support
@@ -138,8 +245,8 @@
                     <h3>Regulate</h3>
                     <p><strong>Calm your body.</strong></p>
                     <p>Use breathing, grounding, and reset tools when you feel anxious, activated, numb, overwhelmed, or
-                        exhausted.</p>
-                    <a href="https://o2rhythm.vercel.app/#regulate" target="_blank" rel="noopener">Start a Reset</a>
+                        exhausted. Choose what you need right now and follow a guided reset.</p>
+                    <a href="https://o2rhythm.vercel.app" target="_blank" rel="noopener">Start a Reset</a>
                 </article>
 
                 <article class="pillarCard reflect">
@@ -147,8 +254,15 @@
                     <span class="number">02</span>
                     <h3>Reflect</h3>
                     <p><strong>Write a letter.</strong></p>
-                    <p>Write what you have lived, learned, survived, carried, or wish someone had told you.</p>
-                    <a href="https://o2rhythm.vercel.app/#reflect" target="_blank" rel="noopener">Write a Letter</a>
+                    <p>Choose who you are writing to, what you are carrying, or the role you speak from. A writing
+                        prompt is waiting. Submit for anonymous sharing, keep it private, or hold it for later.</p>
+                    <div class="pathPills">
+                        <span class="pathPill">Write to someone</span>
+                        <span class="pathPill">What I'm carrying</span>
+                        <span class="pathPill">Write from a role</span>
+                        <span class="pathPill">Someone may need this</span>
+                    </div>
+                    <a href="https://o2rhythm.vercel.app" target="_blank" rel="noopener" style="margin-top:14px;display:inline-block;">Write a Letter</a>
                 </article>
 
                 <article class="pillarCard connect">
@@ -156,8 +270,9 @@
                     <span class="number">03</span>
                     <h3>Connect</h3>
                     <p><strong>Read real stories.</strong></p>
-                    <p>Receive a letter or browse words from people who have been there before.</p>
-                    <a href="https://o2rhythm.vercel.app/#connect" target="_blank" rel="noopener">Read Real Stories</a>
+                    <p>Find a letter written for someone in your exact situation. Browse by what you are carrying, who
+                        you are, or what you need to hear. Every letter was written by a real person.</p>
+                    <a href="https://o2rhythm.vercel.app" target="_blank" rel="noopener">Read Real Stories</a>
                 </article>
             </div>
         </section>
@@ -197,12 +312,17 @@
                         grieving person, or person starting over can leave something for whoever needs it next.
                     </p>
 
+                    <p class="sectionText">
+                        Letters are reviewed before publishing. Writers choose to submit for review, keep it private,
+                        or hold it until they are ready.
+                    </p>
+
                     <div class="buttonRow">
-                        <a class="btn primary" href="https://o2rhythm.vercel.app/#library" target="_blank"
+                        <a class="btn primary" href="https://o2rhythm.vercel.app" target="_blank"
                             rel="noopener">
                             Read Letters
                         </a>
-                        <a class="btn" href="https://o2rhythm.vercel.app/#reflect" target="_blank" rel="noopener">
+                        <a class="btn" href="https://o2rhythm.vercel.app" target="_blank" rel="noopener">
                             Write a Letter
                         </a>
                     </div>
@@ -286,12 +406,75 @@
 
             <div class="wrap center narrow">
                 <div class="buttonRow centerButtons">
-                    <a class="btn primary" href="https://o2rhythm.vercel.app/#library" target="_blank" rel="noopener">
+                    <a class="btn primary" href="https://o2rhythm.vercel.app" target="_blank" rel="noopener">
                         Browse Letters
                     </a>
-                    <a class="btn" href="https://o2rhythm.vercel.app/#reflect" target="_blank" rel="noopener">
+                    <a class="btn" href="https://o2rhythm.vercel.app" target="_blank" rel="noopener">
                         Write a Letter
                     </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- AIR NOTES -->
+        <section id="airnotes" class="section airnotes-section">
+            <div class="wrap">
+                <div class="wrap split">
+                    <div>
+                        <div class="airnotes-badge">New from O₂ Rhythm</div>
+
+                        <p class="eyebrow">Introducing Air Notes</p>
+
+                        <h2>Little notes for big feelings.</h2>
+
+                        <p class="sectionText">
+                            Air Notes is a free wellness tool for kids and teens built on the same foundation as O₂
+                            Rhythm. Children can breathe, write, and feel heard in a safe, private space designed
+                            for their age.
+                        </p>
+
+                        <p class="sectionText">
+                            Parents can leave kind notes scheduled to appear on their child's screen, giving support
+                            even from across the day. Everything a child writes stays private unless they choose to
+                            share.
+                        </p>
+
+                        <div class="airnotes-cta-row">
+                            <a class="btn airnotes" href="https://airnotes-henna.vercel.app" target="_blank" rel="noopener">
+                                Open Air Notes
+                            </a>
+                            <a class="btn" href="https://airnotes-henna.vercel.app" target="_blank" rel="noopener">
+                                See Parent Corner
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="imageFrame">
+                        <img src="/assets/img/shared-community.png" alt="Air Notes by O₂ Rhythm" />
+                    </div>
+                </div>
+
+                <div class="airnotes-grid">
+                    <div class="airnotes-card">
+                        <div class="airnotes-card__icon">&#9679;</div>
+                        <h3>Guided breathing</h3>
+                        <p>Age-appropriate breathing exercises that help kids and teens regulate when they are anxious,
+                            overwhelmed, or wound up.</p>
+                    </div>
+
+                    <div class="airnotes-card">
+                        <div class="airnotes-card__icon">&#9679;</div>
+                        <h3>Private notes</h3>
+                        <p>Write what is on your mind. Quick notes, full letters, photo captions, or just a few words.
+                            Everything stays private by default.</p>
+                    </div>
+
+                    <div class="airnotes-card">
+                        <div class="airnotes-card__icon">&#9679;</div>
+                        <h3>Parent Corner</h3>
+                        <p>Leave a kind note for your child that appears at a time you choose. A quiet way to stay
+                            connected without hovering.</p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -315,8 +498,7 @@
 
                     <p class="sectionText">
                         It's an easy way to bring wellness tools affordably and anonymously to your employees, patients,
-                        students
-                        and clients—giving them support they can access privately, right when they need it.
+                        students and clients -- giving them support they can access privately, right when they need it.
                     </p>
 
                     <div class="miniList">
@@ -378,7 +560,7 @@
     <footer class="footer">
         <div class="wrap footerInner">
             <p>© <span id="year"></span> O₂ Rhythm. All rights reserved.</p>
-            <p>Regulate • Reflect • Connect</p>
+            <p>Regulate • Reflect • Connect &nbsp;|&nbsp; <a href="https://airnotes-henna.vercel.app" target="_blank" rel="noopener" style="color:var(--teal);">Air Notes</a></p>
         </div>
     </footer>
 
