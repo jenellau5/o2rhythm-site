@@ -1,636 +1,126 @@
 <!doctype html>
 <html lang="en">
-
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <title>O₂ Rhythm | Free Support for Hard Moments</title>
-    <meta name="description"
-        content="O₂ Rhythm is a free private support space to regulate your body, reflect through anonymous letters, and connect through real stories. Organizations can also bring in customized QR-based O₂ Rhythm access for shared spaces." />
-
-    <link rel="canonical" href="https://o2rhythm.com/" />
-    <link rel="icon" href="/assets/img/logocircle.png" type="image/png" />
-    <link rel="stylesheet" href="/assets/style.css" />
-
-    <style>
-        /* AirNotes banner section */
-        .airnotes-banner {
-            position: relative;
-            overflow: hidden;
-            background: #e8f4fd;
-        }
-
-        .airnotes-banner__bg {
-            position: absolute;
-            inset: 0;
-            background-image: url('/assets/img/airnotes-hero.jpg');
-            background-size: cover;
-            background-position: center top;
-            opacity: 0.22;
-            pointer-events: none;
-        }
-
-        .airnotes-banner__inner {
-            position: relative;
-            z-index: 2;
-            padding: 80px 0;
-        }
-
-        .airnotes-for-kids {
-            display: inline-block;
-            padding: 5px 16px;
-            background: rgba(0, 191, 174, 0.15);
-            border: 1.5px solid rgba(0, 191, 174, 0.4);
-            border-radius: var(--radius-pill);
-            font-size: 11.5px;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: #007a6e;
-            margin-bottom: 20px;
-        }
-
-        .airnotes-hero-img {
-            width: 100%;
-            max-width: 520px;
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-md);
-            display: block;
-            margin: 0 auto;
-        }
-
-        .airnotes-features {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 16px;
-            margin-top: 48px;
-        }
-
-        .airnotes-feat {
-            background: rgba(255,255,255,0.85);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(219,231,244,0.7);
-            border-radius: var(--radius-md);
-            padding: 24px 20px;
-            box-shadow: var(--shadow-xs);
-        }
-
-        .airnotes-feat__label {
-            font-size: 10.5px;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--teal);
-            margin-bottom: 8px;
-        }
-
-        .airnotes-feat h3 {
-            font-size: 1rem;
-            font-weight: 700;
-            margin: 0 0 6px;
-            color: var(--navy);
-        }
-
-        .airnotes-feat p {
-            font-size: 0.9rem;
-            color: var(--muted);
-            margin: 0;
-            line-height: 1.6;
-        }
-
-        .airnotes-cta-row {
-            margin-top: 36px;
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            flex-wrap: wrap;
-        }
-
-        .btn.airnotes {
-            background: linear-gradient(135deg, #00bfae, #1a6fd8);
-            color: #fff;
-            border: none;
-            font-weight: 700;
-        }
-
-        .btn.airnotes:hover { opacity: 0.9; }
-
-        .airnotes-split {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: center;
-        }
-
-        @media (max-width: 720px) {
-            .airnotes-split {
-                grid-template-columns: 1fr;
-                gap: 36px;
-            }
-            .airnotes-features {
-                grid-template-columns: 1fr;
-            }
-            .airnotes-cta-row {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            .airnotes-banner__inner { padding: 56px 0; }
-        }
-
-        /* Reflect path pills */
-        .pathPills {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 12px;
-        }
-
-        .pathPill {
-            font-size: 11.5px;
-            font-weight: 600;
-            color: var(--blue);
-            background: rgba(26, 111, 216, 0.08);
-            border: 1px solid rgba(26, 111, 216, 0.18);
-            border-radius: var(--radius-pill);
-            padding: 4px 12px;
-            letter-spacing: 0.01em;
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Free, private support for hard moments. Regulate, reflect, or connect through tools and anonymous letters from real people.">
+  <title>O₂ Rhythm | Free, private support for hard moments</title>
+  <link rel="icon" href="assets/img/logocircle.png">
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link href="https://api.fontshare.com/v2/css?f[]=switzer@400,600,700,800&f[]=general-sans@400,500,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/home.css">
 </head>
+<body id="top">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="O₂ Rhythm home">
+      <span class="brand-mark">O<span>₂</span></span><span>Rhythm</span>
+    </a>
+    <nav aria-label="Primary navigation">
+      <a href="#how">How It Works</a>
+      <a href="#organizations">Organizations</a>
+      <a href="#air-notes">Air Notes</a>
+      <a class="button button-small" href="https://o2rhythm.vercel.app/">Open O₂ Rhythm</a>
+    </nav>
+  </header>
 
-<body>
-    <header class="siteHeader">
-        <div class="wrap navWrap">
-            <a class="brand" href="#top" aria-label="O₂ Rhythm home">
-                <img src="/assets/img/banner.png" alt="O₂ Rhythm logo" />
-            </a>
-
-            <button class="menuButton" type="button" aria-label="Open navigation">Menu</button>
-
-            <nav class="nav">
-                <a href="#why">Why</a>
-                <a href="#how">How It Works</a>
-                <a href="#live">Live Library</a>
-                <a href="#letter">Example Letter</a>
-                <a href="#topics">Topics</a>
-                <a href="#airnotes">Air Notes</a>
-                <a href="#organizations">Organizations</a>
-                <a class="navCta" href="https://o2rhythm.vercel.app" target="_blank" rel="noopener">
-                    Open O₂ Rhythm Support
-                </a>
-            </nav>
+  <main id="main">
+    <section class="hero section">
+      <div class="hero-copy">
+        <p class="eyebrow">Private support for real-life moments</p>
+        <h1>For the moments you usually carry alone.</h1>
+        <p class="lede">Free, private support for hard moments. Calm your body, write what you're carrying, or read words from someone who's been there.</p>
+        <div class="actions">
+          <a class="button" href="https://o2rhythm.vercel.app/">Open O₂ Rhythm</a>
+          <a class="text-link" href="#how">See How It Works <span aria-hidden="true">↓</span></a>
         </div>
-    </header>
-
-    <main id="top">
-
-        <!-- HERO -->
-        <section class="hero">
-            <div class="heroBg"></div>
-
-            <div class="wrap heroGrid">
-                <div class="heroCopy">
-                    <p class="eyebrow">Private support for real-life moments</p>
-
-                    <h1>For the moments you usually carry alone.</h1>
-
-                    <p class="lead">
-                        O₂ Rhythm is free for individuals who need a place to reset, reflect, and feel less alone.
-                    </p>
-
-                    <p class="subLead">
-                        Calm your body, write what you need to say, and read real stories from people who have been
-                        there.
-                    </p>
-
-                    <p class="subLead">
-                        For grief, burnout, betrayal, caregiving, new motherhood, hard shifts, student stress, athlete
-                        pressure, waiting rooms, recovery, and starting over.
-                    </p>
-
-                    <div class="buttonRow">
-                        <a class="btn primary" href="https://o2rhythm.vercel.app" target="_blank" rel="noopener">
-                            Open O₂ Rhythm Support
-                        </a>
-                        <a class="btn" href="#letter">See a Letter</a>
-                    </div>
-                </div>
-
-                <div class="heroVisual">
-                    <img src="/assets/img/qr-code.png" alt="O₂ Rhythm QR station" />
-                </div>
-            </div>
-        </section>
-
-        <!-- WHY -->
-        <section id="why" class="section soft">
-            <div class="wrap center narrow">
-                <p class="eyebrow">The problem</p>
-
-                <h2>Most people do not need another wellness app. They need support in the exact moment they are trying
-                    to get through.</h2>
-
-                <p class="sectionText">
-                    O₂ Rhythm gives people somewhere to pause, process, and feel less alone without needing to explain
-                    everything out loud.
-                </p>
-            </div>
-
-            <div class="wrap momentGrid">
-                <article>
-                    <h3>When you are overwhelmed</h3>
-                    <p>New motherhood, parenting, caregiving, school stress, work pressure, practice, recovery, or too
-                        much at once.</p>
-                </article>
-
-                <article>
-                    <h3>When you are grieving</h3>
-                    <p>Loss, hospital waiting rooms, anniversaries, hard news, or the quiet after everyone else moves
-                        on.</p>
-                </article>
-
-                <article>
-                    <h3>When trust breaks</h3>
-                    <p>Divorce, betrayal, relationship endings, family conflict, or rebuilding after someone hurt you.
-                    </p>
-                </article>
-
-                <article>
-                    <h3>When the job follows you home</h3>
-                    <p>Dispatchers, nurses, first responders, teachers, corrections, healthcare workers, military, and
-                        anyone carrying hard moments from work.</p>
-                </article>
-            </div>
-        </section>
-
-        <!-- HOW IT WORKS -->
-        <section id="how" class="section">
-            <div class="wrap center narrow">
-                <p class="eyebrow">How it works</p>
-
-                <h2>Start with what you need.</h2>
-
-                <p class="sectionText">
-                    Some moments need your body to calm down. Some need your thoughts to go somewhere. Some need words
-                    from someone who understands.
-                </p>
-            </div>
-
-            <div class="wrap cards3 imageCards">
-                <article class="pillarCard regulate">
-                    <img src="/assets/img/regulate.png" alt="Regulate with O₂ Rhythm" />
-                    <span class="number">01</span>
-                    <h3>Regulate</h3>
-                    <p><strong>Calm your body.</strong></p>
-                    <p>Use breathing, grounding, and reset tools when you feel anxious, activated, numb, overwhelmed, or
-                        exhausted. Choose what you need right now and follow a guided reset.</p>
-                    <a href="https://o2rhythm.vercel.app" target="_blank" rel="noopener">Start a Reset</a>
-                </article>
-
-                <article class="pillarCard reflect">
-                    <img src="/assets/img/reflect.png" alt="Reflect with O₂ Rhythm" />
-                    <span class="number">02</span>
-                    <h3>Reflect</h3>
-                    <p><strong>Write a letter.</strong></p>
-                    <p>Choose who you are writing to, what you are carrying, or the role you speak from. A writing
-                        prompt is waiting. Submit for anonymous sharing, keep it private, or hold it for later.</p>
-                    <div class="pathPills">
-                        <span class="pathPill">Write to someone</span>
-                        <span class="pathPill">What I'm carrying</span>
-                        <span class="pathPill">Write from a role</span>
-                        <span class="pathPill">Someone may need this</span>
-                    </div>
-                    <a href="https://o2rhythm.vercel.app" target="_blank" rel="noopener" style="margin-top:14px;display:inline-block;">Write a Letter</a>
-                </article>
-
-                <article class="pillarCard connect">
-                    <img src="/assets/img/connect.png" alt="Connect with O₂ Rhythm" />
-                    <span class="number">03</span>
-                    <h3>Connect</h3>
-                    <p><strong>Read real stories.</strong></p>
-                    <p>Find a letter written for someone in your exact situation. Browse by what you are carrying, who
-                        you are, or what you need to hear. Every letter was written by a real person.</p>
-                    <a href="https://o2rhythm.vercel.app" target="_blank" rel="noopener">Read Real Stories</a>
-                </article>
-            </div>
-        </section>
-
-        <!-- LIVE STATS -->
-        <section id="live" class="section soft liveSection">
-            <div class="wrap center narrow">
-                <p class="eyebrow">Live update</p>
-
-                <h2>The library grows every time someone leaves something behind.</h2>
-
-                <p class="sectionText">
-                    These numbers update automatically as approved letters are added.
-                </p>
-            </div>
-
-            <div class="wrap statsWrap">
-                <div id="o2rhythm-stats"></div>
-            </div>
-        </section>
-
-        <!-- LETTER EXAMPLE -->
-        <section id="letter" class="section">
-            <div class="wrap split reverseMobile">
-                <div class="imageFrame flush">
-                    <img src="/assets/img/letter.png" alt="Example O₂ Rhythm letter" />
-                </div>
-
-                <div>
-                    <p class="eyebrow">A letter from someone who has been there</p>
-
-                    <h2>Real words hit differently.</h2>
-
-                    <p class="sectionText">
-                        The letter library is built from approved anonymous letters. A parent can leave words for
-                        another parent. A caregiver for another caregiver. A dispatcher, nurse, athlete, student,
-                        grieving person, or person starting over can leave something for whoever needs it next.
-                    </p>
-
-                    <p class="sectionText">
-                        Letters are reviewed before publishing. Writers choose to submit for review, keep it private,
-                        or hold it until they are ready.
-                    </p>
-
-                    <div class="buttonRow">
-                        <a class="btn primary" href="https://o2rhythm.vercel.app" target="_blank"
-                            rel="noopener">
-                            Read Letters
-                        </a>
-                        <a class="btn" href="https://o2rhythm.vercel.app" target="_blank" rel="noopener">
-                            Write a Letter
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- TOPICS & COMMUNITIES -->
-        <section id="topics" class="section soft">
-            <div class="wrap center narrow">
-                <p class="eyebrow">Topics and communities</p>
-
-                <h2>Find letters by what you are carrying or who you are writing as.</h2>
-
-                <p class="sectionText">
-                    O₂ Rhythm organizes letters by topic, category, and writing perspective so people can find words
-                    that actually fit their season.
-                </p>
-            </div>
-
-            <div class="wrap topicGrid largeTopicGrid">
-                <span>Encouragement</span>
-                <span>Burnout</span>
-                <span>Grief &amp; Loss</span>
-                <span>Mental Health</span>
-                <span>Hope</span>
-                <span>Loneliness &amp; Isolation</span>
-                <span>Major Life Change</span>
-                <span>Relationships</span>
-                <span>Recovery &amp; Healing</span>
-                <span>Identity &amp; Purpose</span>
-                <span>Anger</span>
-                <span>What I Wish I Knew</span>
-                <span>Gratitude &amp; Joy</span>
-                <span>Other</span>
-            </div>
-
-            <div class="wrap categoryGrid">
-                <article>
-                    <h3>First Responders, Military &amp; Public Safety</h3>
-                    <p>Dispatchers, EMTs, firefighters, law enforcement, corrections, emergency management, search and
-                        rescue, military, veterans, public safety families, and more.</p>
-                </article>
-
-                <article>
-                    <h3>Healthcare &amp; Waiting Areas</h3>
-                    <p>Nurses, physicians, therapists, healthcare workers, caregivers, patients, family members, waiting
-                        room visitors, hospice workers, chaplains, and more.</p>
-                </article>
-
-                <article>
-                    <h3>Education, Athletics &amp; Campus Life</h3>
-                    <p>Teachers, counselors, students, parents of students, coaches, athletes, student athletes,
-                        returning students, and campus communities.</p>
-                </article>
-
-                <article>
-                    <h3>Workplace &amp; Professional Life</h3>
-                    <p>Employees, managers, supervisors, entrepreneurs, remote workers, customer service teams, working
-                        parents, people new to the workforce, and people navigating job changes.</p>
-                </article>
-
-                <article>
-                    <h3>Family &amp; Friends</h3>
-                    <p>Parents, new parents, single parents, step-parents, siblings, extended family, friends,
-                        caregivers, widows, widowers, and loved ones.</p>
-                </article>
-
-                <article>
-                    <h3>Life Transitions</h3>
-                    <p>Recovery journeys, health journeys, life after divorce, betrayal, estrangement, starting over,
-                        retirement, chronic illness, fitness journeys, and major change.</p>
-                </article>
-
-                <article>
-                    <h3>Aging &amp; Senior Life</h3>
-                    <p>Seniors, grandparents, retirees, caregivers for parents, adult children of aging parents,
-                        partners of seniors, siblings of aging parents, and family support roles.</p>
-                </article>
-            </div>
-
-            <div class="wrap center narrow">
-                <div class="buttonRow centerButtons">
-                    <a class="btn primary" href="https://o2rhythm.vercel.app" target="_blank" rel="noopener">
-                        Browse Letters
-                    </a>
-                    <a class="btn" href="https://o2rhythm.vercel.app" target="_blank" rel="noopener">
-                        Write a Letter
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <!-- ORGANIZATIONS -->
-        <section id="organizations" class="section">
-            <div class="wrap split">
-                <div>
-                    <p class="eyebrow">For organizations</p>
-
-                    <h2>Bring O₂ Rhythm into the spaces where people have to keep going.</h2>
-
-                    <p class="sectionText">
-                        Bring O₂ Rhythm to your organization where it can be customized for your space.
-                    </p>
-
-                    <p class="sectionText">
-                        Place it inside waiting rooms, dispatch centers, workplaces, schools, clinics, locker rooms,
-                        campuses, and shared community spaces.
-                    </p>
-
-                    <p class="sectionText">
-                        It's an easy way to bring wellness tools affordably and anonymously to your employees, patients,
-                        students and clients -- giving them support they can access privately, right when they need it.
-                    </p>
-
-                    <div class="miniList">
-                        <div>
-                            <strong>QR station access</strong>
-                            <span>Simple display-based access for teams, visitors, patients, students, or staff.</span>
-                        </div>
-
-                        <div>
-                            <strong>Environment-specific support</strong>
-                            <span>Prompts and categories can match the people in that space.</span>
-                        </div>
-
-                        <div>
-                            <strong>Simple setup</strong>
-                            <span>No app, employee login, internal system access, or complicated rollout
-                                required.</span>
-                        </div>
-                    </div>
-
-                    <div class="buttonRow">
-                        <a class="btn primary"
-                            href="mailto:hello.rhythmo2@gmail.com?subject=O₂ Rhythm Organization Inquiry">
-                            Ask About Organization Access
-                        </a>
-                    </div>
-                </div>
-
-                <div class="imageFrame">
-                    <img src="/assets/img/workplace.png" alt="O₂ Rhythm in a workplace setting" />
-                </div>
-            </div>
-        </section>
-
-        <!-- AIR NOTES -->
-        <section id="airnotes" class="airnotes-banner">
-            <div class="airnotes-banner__bg" aria-hidden="true"></div>
-            <div class="airnotes-banner__inner">
-                <div class="wrap">
-
-                    <div class="airnotes-split">
-                        <div>
-                            <span class="airnotes-for-kids">For kids and teens</span>
-
-                            <p class="eyebrow">Also from O₂ Rhythm</p>
-
-                            <h2 style="font-size:clamp(1.9rem,4vw,2.8rem);margin-bottom:20px;">Air Notes</h2>
-
-                            <p class="sectionText" style="font-size:1.15rem;font-weight:600;color:var(--navy);margin-bottom:12px;">
-                                Little notes for big feelings.
-                            </p>
-
-                            <p class="sectionText">
-                                Air Notes is a free wellness space built for kids and teens. They can calm their body,
-                                write how they are feeling, and read notes from other kids who felt the same way.
-                            </p>
-
-                            <p class="sectionText">
-                                Parents can write an anonymous kind note from Parent Corner. It gets shared with every
-                                child using Air Notes -- for the kid who needs to hear "I'm proud of you" today.
-                                All notes from kids and parents are reviewed before they are posted.
-                            </p>
-
-                            <div class="airnotes-cta-row">
-                                <a class="btn airnotes" href="https://airnotes-henna.vercel.app" target="_blank" rel="noopener">
-                                    Open Air Notes
-                                </a>
-                                <a class="btn" href="https://airnotes-henna.vercel.app" target="_blank" rel="noopener">
-                                    Parent Corner
-                                </a>
-                            </div>
-                        </div>
-
-                        <div>
-                            <img
-                                src="/assets/img/airnotes-hero.jpg"
-                                alt="Air Notes by O2 Rhythm -- Little notes for big feelings"
-                                class="airnotes-hero-img"
-                            />
-                        </div>
-                    </div>
-
-                    <div class="airnotes-features">
-                        <div class="airnotes-feat">
-                            <p class="airnotes-feat__label">Calm</p>
-                            <h3>Breathing and grounding tools</h3>
-                            <p>Flower + Candle, Balloon Belly, Rainbow Breath, Finger Trace, Colors + Shapes -- exercises
-                                made for kids when feelings get big.</p>
-                        </div>
-
-                        <div class="airnotes-feat">
-                            <p class="airnotes-feat__label">Write</p>
-                            <h3>Start with how you feel</h3>
-                            <p>Pick an emotion, write a note, or send a Letter to the Clouds -- a private letter to
-                                someone you miss or who has passed.</p>
-                        </div>
-
-                        <div class="airnotes-feat">
-                            <p class="airnotes-feat__label">Read + Parent Corner</p>
-                            <h3>Real notes from real kids</h3>
-                            <p>Read notes from kids and teens who felt the same way. Parents can leave an anonymous kind
-                                note that reaches every child who needs it. All notes are reviewed before posting.</p>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-        <!-- FINAL CTA -->
-        <section id="contact" class="section contactSection">
-            <div class="wrap contactBox">
-                <div>
-                    <p class="eyebrow">Start where you are</p>
-
-                    <h2>Open O₂ Rhythm Support.</h2>
-
-                    <p>Use it for yourself or ask about bringing it into a shared space.</p>
-                </div>
-
-                <div class="buttonRow right">
-                    <a class="btn primary" href="https://o2rhythm.vercel.app" target="_blank" rel="noopener">
-                        Open O₂ Rhythm Support
-                    </a>
-                    <a class="btn" href="mailto:hello.rhythmo2@gmail.com?subject=O₂ Rhythm Inquiry">
-                        Email O₂ Rhythm
-                    </a>
-                </div>
-            </div>
-        </section>
-
-    </main>
-
-    <footer class="footer">
-        <div class="wrap footerInner">
-            <p>© <span id="year"></span> O₂ Rhythm. All rights reserved.</p>
-            <p>Regulate • Reflect • Connect &nbsp;|&nbsp; <a href="https://airnotes-henna.vercel.app" target="_blank" rel="noopener" style="color:var(--teal);">Air Notes</a></p>
+      </div>
+      <aside class="human-loop" aria-label="How O₂ Rhythm works">
+        <p>Something happened.</p>
+        <p>I need somewhere to go.</p>
+        <div><strong>Regulate.</strong> <strong>Reflect.</strong> <strong>Connect.</strong></div>
+      </aside>
+    </section>
+
+    <section class="section choices" id="how">
+      <div class="section-heading">
+        <p class="eyebrow">Start with what you need</p>
+        <h2>Three ways to meet the moment.</h2>
+      </div>
+      <div class="choice-grid">
+        <a class="choice" href="https://o2rhythm.vercel.app/">
+          <img src="assets/img/regulate.png" alt="" loading="lazy">
+          <span class="choice-number">01</span>
+          <h3>REGULATE</h3>
+          <p class="need">I need to calm my body.</p>
+          <p>Guided breathing, grounding, and reset tools.</p>
+          <span class="choice-link">Start a reset →</span>
+        </a>
+        <a class="choice" href="https://o2rhythm.vercel.app/">
+          <img src="assets/img/reflect.png" alt="" loading="lazy">
+          <span class="choice-number">02</span>
+          <h3>REFLECT</h3>
+          <p class="need">I need to get this out.</p>
+          <p>Write what you need to say. Keep it private or leave it anonymously.</p>
+          <span class="choice-link">Write a letter →</span>
+        </a>
+        <a class="choice" href="https://o2rhythm.vercel.app/">
+          <img src="assets/img/connect.png" alt="" loading="lazy">
+          <span class="choice-number">03</span>
+          <h3>CONNECT</h3>
+          <p class="need">I need to know I'm not alone.</p>
+          <p>Read real, anonymous letters from people who've been there.</p>
+          <span class="choice-link">Read letters →</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="section letter-section" id="letters">
+      <div class="letter-visual"><img src="assets/img/letter.png" alt="An example anonymous O₂ Rhythm letter"></div>
+      <div class="letter-copy">
+        <p class="eyebrow">Real words from real people</p>
+        <h2>Real words hit differently.</h2>
+        <p>Every public letter was written by a real person and reviewed before joining the library.</p>
+        <blockquote>What you leave behind might be exactly what someone else needs to read.</blockquote>
+        <div class="actions">
+          <a class="button" href="https://o2rhythm.vercel.app/">Read More Letters</a>
+          <a class="text-link" href="https://o2rhythm.vercel.app/">Leave Something Behind →</a>
         </div>
-    </footer>
+      </div>
+    </section>
 
-    <script src="https://o2rhythm.vercel.app/stats-widget.js"></script>
+    <section class="section org-section" id="organizations">
+      <div>
+        <p class="eyebrow">For organizations</p>
+        <h2>Bring O₂ Rhythm where people have to keep going.</h2>
+        <p class="places">Waiting rooms <span>•</span> Dispatch centers <span>•</span> Workplaces <span>•</span> Schools <span>•</span> Clinics <span>•</span> Locker rooms</p>
+        <p>One QR code gives people private access—no app, login, or complicated rollout.</p>
+        <a class="text-link" href="mailto:hello.rhythmo2@gmail.com?subject=O%E2%82%82%20Rhythm%20Organization%20Inquiry">Bring O₂ Rhythm to Your Organization →</a>
+      </div>
+    </section>
 
-    <script>
-        document.getElementById('year').textContent = new Date().getFullYear();
+    <section class="section air-section" id="air-notes">
+      <div class="air-image"><img src="assets/img/airnotes-hero.jpg" alt="Air Notes by O₂ Rhythm" loading="lazy"></div>
+      <div>
+        <p class="eyebrow">For kids &amp; teens</p>
+        <h2>Air Notes</h2>
+        <p class="air-tagline">Little notes for big feelings.</p>
+        <p>A kid-friendly place to breathe, write, and read encouraging notes from other kids and parents.</p>
+        <a class="text-link" href="https://airnotes-henna.vercel.app/">Open Air Notes →</a>
+      </div>
+    </section>
 
-        const menuButton = document.querySelector('.menuButton');
-        const nav = document.querySelector('.nav');
+    <section class="closing section">
+      <p class="eyebrow">Start where you are</p>
+      <h2>You don't have to explain everything to begin.</h2>
+      <a class="button" href="https://o2rhythm.vercel.app/">Open O₂ Rhythm</a>
+    </section>
+  </main>
 
-        menuButton.addEventListener('click', () => {
-            nav.classList.toggle('open');
-        });
-
-        document.querySelectorAll('.nav a').forEach((link) => {
-            link.addEventListener('click', () => nav.classList.remove('open'));
-        });
-    </script>
+  <footer>
+    <div><strong>O₂ Rhythm</strong><span>Regulate • Reflect • Connect</span></div>
+    <p>O₂ Rhythm offers peer support and self-guided tools. It is not emergency or medical care. If you are in immediate danger, contact local emergency services.</p>
+    <p>© 2026 O₂ Rhythm. All rights reserved.</p>
+  </footer>
 </body>
-
 </html>
