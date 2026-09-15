@@ -1,126 +1,402 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Free, private support for hard moments. Regulate, reflect, or connect through tools and anonymous letters from real people.">
-  <title>O₂ Rhythm | Free, private support for hard moments</title>
-  <link rel="icon" href="assets/img/logocircle.png">
-  <link rel="preconnect" href="https://api.fontshare.com">
-  <link href="https://api.fontshare.com/v2/css?f[]=switzer@400,600,700,800&f[]=general-sans@400,500,600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/home.css">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>O₂ Rhythm | Free Support for Hard Moments</title>
+    <meta name="description"
+        content="O₂ Rhythm is a free private support space to regulate your body, reflect through anonymous letters, and connect through real stories. Organizations can also bring in customized QR-based O₂ Rhythm access for shared spaces." />
+
+    <link rel="canonical" href="https://o2rhythm.com/" />
+    <link rel="icon" href="/assets/img/logocircle.png" type="image/png" />
+    <link rel="stylesheet" href="/assets/style.css" />
+
+    <style>
+        /* AirNotes banner section */
+        .airnotes-banner {
+            position: relative;
+            overflow: hidden;
+            background: #e8f4fd;
+        }
+
+        .airnotes-banner__bg {
+            position: absolute;
+            inset: 0;
+            background-image: url('/assets/img/airnotes-hero.jpg');
+            background-size: cover;
+            background-position: center top;
+            opacity: 0.22;
+            pointer-events: none;
+        }
+
+        .airnotes-banner__inner {
+            position: relative;
+            z-index: 2;
+            padding: 80px 0;
+        }
+
+        .airnotes-for-kids {
+            display: inline-block;
+            padding: 5px 16px;
+            background: rgba(0, 191, 174, 0.15);
+            border: 1.5px solid rgba(0, 191, 174, 0.4);
+            border-radius: var(--radius-pill);
+            font-size: 11.5px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #007a6e;
+            margin-bottom: 20px;
+        }
+
+        .airnotes-hero-img {
+            width: 100%;
+            max-width: 520px;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            display: block;
+            margin: 0 auto;
+        }
+
+        .airnotes-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            margin-top: 48px;
+        }
+
+        .airnotes-feat {
+            background: rgba(255,255,255,0.85);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(219,231,244,0.7);
+            border-radius: var(--radius-md);
+            padding: 24px 20px;
+            box-shadow: var(--shadow-xs);
+        }
+
+        .airnotes-feat__label {
+            font-size: 10.5px;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--teal);
+            margin-bottom: 8px;
+        }
+
+        .airnotes-feat h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin: 0 0 6px;
+            color: var(--navy);
+        }
+
+        .airnotes-feat p {
+            font-size: 0.9rem;
+            color: var(--muted);
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .airnotes-cta-row {
+            margin-top: 36px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .btn.airnotes {
+            background: linear-gradient(135deg, #00bfae, #1a6fd8);
+            color: #fff;
+            border: none;
+            font-weight: 700;
+        }
+
+        .btn.airnotes:hover { opacity: 0.9; }
+
+        .airnotes-split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        @media (max-width: 720px) {
+            .airnotes-split {
+                grid-template-columns: 1fr;
+                gap: 36px;
+            }
+            .airnotes-features {
+                grid-template-columns: 1fr;
+            }
+            .airnotes-cta-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .airnotes-banner__inner { padding: 56px 0; }
+        }
+
+        /* Reflect path pills */
+        .pathPills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .pathPill {
+            font-size: 11.5px;
+            font-weight: 600;
+            color: var(--blue);
+            background: rgba(26, 111, 216, 0.08);
+            border: 1px solid rgba(26, 111, 216, 0.18);
+            border-radius: var(--radius-pill);
+            padding: 4px 12px;
+            letter-spacing: 0.01em;
+        }
+    </style>
 </head>
-<body id="top">
-  <a class="skip-link" href="#main">Skip to content</a>
-  <header class="site-header">
-    <a class="brand" href="#top" aria-label="O₂ Rhythm home">
-      <span class="brand-mark">O<span>₂</span></span><span>Rhythm</span>
-    </a>
-    <nav aria-label="Primary navigation">
-      <a href="#how">How It Works</a>
-      <a href="#organizations">Organizations</a>
-      <a href="#air-notes">Air Notes</a>
-      <a class="button button-small" href="https://o2rhythm.vercel.app/">Open O₂ Rhythm</a>
-    </nav>
-  </header>
 
-  <main id="main">
-    <section class="hero section">
-      <div class="hero-copy">
-        <p class="eyebrow">Private support for real-life moments</p>
-        <h1>For the moments you usually carry alone.</h1>
-        <p class="lede">Free, private support for hard moments. Calm your body, write what you're carrying, or read words from someone who's been there.</p>
-        <div class="actions">
-          <a class="button" href="https://o2rhythm.vercel.app/">Open O₂ Rhythm</a>
-          <a class="text-link" href="#how">See How It Works <span aria-hidden="true">↓</span></a>
+<body>
+    <header class="siteHeader">
+        <div class="wrap navWrap">
+            <a class="brand" href="#top" aria-label="O₂ Rhythm home">
+                <img src="/assets/img/banner.png" alt="O₂ Rhythm logo" />
+            </a>
+
+            <button class="menuButton" type="button" aria-label="Open navigation">Menu</button>
+
+            <nav class="nav">
+                <a href="#how">How It Works</a>
+                <a href="#organizations">Organizations</a>
+                <a href="#airnotes">Air Notes</a>
+                <a class="navCta" href="https://o2rhythm.vercel.app" target="_blank" rel="noopener">
+                    Open O₂ Rhythm
+                </a>
+            </nav>
         </div>
-      </div>
-      <aside class="human-loop" aria-label="How O₂ Rhythm works">
-        <p>Something happened.</p>
-        <p>I need somewhere to go.</p>
-        <div><strong>Regulate.</strong> <strong>Reflect.</strong> <strong>Connect.</strong></div>
-      </aside>
-    </section>
+    </header>
 
-    <section class="section choices" id="how">
-      <div class="section-heading">
-        <p class="eyebrow">Start with what you need</p>
-        <h2>Three ways to meet the moment.</h2>
-      </div>
-      <div class="choice-grid">
-        <a class="choice" href="https://o2rhythm.vercel.app/">
-          <img src="assets/img/regulate.png" alt="" loading="lazy">
-          <span class="choice-number">01</span>
-          <h3>REGULATE</h3>
-          <p class="need">I need to calm my body.</p>
-          <p>Guided breathing, grounding, and reset tools.</p>
-          <span class="choice-link">Start a reset →</span>
-        </a>
-        <a class="choice" href="https://o2rhythm.vercel.app/">
-          <img src="assets/img/reflect.png" alt="" loading="lazy">
-          <span class="choice-number">02</span>
-          <h3>REFLECT</h3>
-          <p class="need">I need to get this out.</p>
-          <p>Write what you need to say. Keep it private or leave it anonymously.</p>
-          <span class="choice-link">Write a letter →</span>
-        </a>
-        <a class="choice" href="https://o2rhythm.vercel.app/">
-          <img src="assets/img/connect.png" alt="" loading="lazy">
-          <span class="choice-number">03</span>
-          <h3>CONNECT</h3>
-          <p class="need">I need to know I'm not alone.</p>
-          <p>Read real, anonymous letters from people who've been there.</p>
-          <span class="choice-link">Read letters →</span>
-        </a>
-      </div>
-    </section>
+    <main id="top">
 
-    <section class="section letter-section" id="letters">
-      <div class="letter-visual"><img src="assets/img/letter.png" alt="An example anonymous O₂ Rhythm letter"></div>
-      <div class="letter-copy">
-        <p class="eyebrow">Real words from real people</p>
-        <h2>Real words hit differently.</h2>
-        <p>Every public letter was written by a real person and reviewed before joining the library.</p>
-        <blockquote>What you leave behind might be exactly what someone else needs to read.</blockquote>
-        <div class="actions">
-          <a class="button" href="https://o2rhythm.vercel.app/">Read More Letters</a>
-          <a class="text-link" href="https://o2rhythm.vercel.app/">Leave Something Behind →</a>
+        <!-- HERO -->
+        <section class="hero">
+            <div class="heroBg"></div>
+
+            <div class="wrap heroGrid">
+                <div class="heroCopy">
+                    <p class="eyebrow">Private support for real-life moments</p>
+
+                    <h1>For the moments you usually carry alone.</h1>
+
+                    <p class="lead">
+                        Free, private support for hard moments. Calm your body, write what you're carrying, or read
+                        words from someone who's been there.
+                    </p>
+
+                    <div class="buttonRow">
+                        <a class="btn primary" href="https://o2rhythm.vercel.app" target="_blank" rel="noopener">
+                            Open O₂ Rhythm
+                        </a>
+                        <a class="btn" href="#how">See How It Works</a>
+                    </div>
+                </div>
+
+                <div class="heroVisual">
+                    <img src="/assets/img/qr-code.png" alt="O₂ Rhythm QR station" />
+                </div>
+            </div>
+        </section>
+
+        <!-- HOW IT WORKS -->
+        <section id="how" class="section">
+            <div class="wrap center narrow">
+                <p class="eyebrow">How it works</p>
+
+                <h2>Three ways to meet the moment.</h2>
+
+                <p class="sectionText">
+                    Start with what feels most true right now.
+                </p>
+            </div>
+
+            <div class="wrap cards3 imageCards">
+                <article class="pillarCard regulate">
+                    <img src="/assets/img/regulate.png" alt="Regulate with O₂ Rhythm" />
+                    <span class="number">01</span>
+                    <h3>REGULATE</h3>
+                    <p><strong>I need to calm my body.</strong></p>
+                    <p>Guided breathing, grounding, and reset tools.</p>
+                    <a href="https://o2rhythm.vercel.app" target="_blank" rel="noopener">Start a Reset</a>
+                </article>
+
+                <article class="pillarCard reflect">
+                    <img src="/assets/img/reflect.png" alt="Reflect with O₂ Rhythm" />
+                    <span class="number">02</span>
+                    <h3>REFLECT</h3>
+                    <p><strong>I need to get this out.</strong></p>
+                    <p>Write what you need to say. Keep it private or leave it anonymously.</p>
+                    <a href="https://o2rhythm.vercel.app" target="_blank" rel="noopener" style="margin-top:14px;display:inline-block;">Write a Letter</a>
+                </article>
+
+                <article class="pillarCard connect">
+                    <img src="/assets/img/connect.png" alt="Connect with O₂ Rhythm" />
+                    <span class="number">03</span>
+                    <h3>CONNECT</h3>
+                    <p><strong>I need to know I'm not alone.</strong></p>
+                    <p>Read real, anonymous letters from people who have been there.</p>
+                    <a href="https://o2rhythm.vercel.app" target="_blank" rel="noopener">Read Letters</a>
+                </article>
+            </div>
+        </section>
+
+        <!-- LETTER EXAMPLE -->
+        <section id="letter" class="section">
+            <div class="wrap split reverseMobile">
+                <div class="imageFrame flush">
+                    <img src="/assets/img/letter.png" alt="Example O₂ Rhythm letter" />
+                </div>
+
+                <div>
+                    <p class="eyebrow">Real words from real people</p>
+
+                    <h2>Real words hit differently.</h2>
+
+                    <p class="sectionText">
+                        Every public letter was written by a real person and reviewed before joining the library.
+                    </p>
+
+                    <p class="sectionText">
+                        <strong>What you leave behind might be exactly what someone else needs to read.</strong>
+                    </p>
+
+                    <div class="buttonRow">
+                        <a class="btn primary" href="https://o2rhythm.vercel.app" target="_blank"
+                            rel="noopener">
+                            Read More Letters
+                        </a>
+                        <a class="btn" href="https://o2rhythm.vercel.app" target="_blank" rel="noopener">
+                            Leave Something Behind
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ORGANIZATIONS -->
+        <section id="organizations" class="section">
+            <div class="wrap split">
+                <div>
+                    <p class="eyebrow">For organizations</p>
+
+                    <h2>Bring O₂ Rhythm where people have to keep going.</h2>
+
+                    <p class="sectionText">
+                        Waiting rooms • Dispatch centers • Workplaces • Schools • Clinics • Locker rooms
+                    </p>
+
+                    <p class="sectionText">
+                        One QR code gives people private access—no app, login, or complicated rollout.
+                    </p>
+
+                    <div class="buttonRow">
+                        <a class="btn primary"
+                            href="mailto:hello.rhythmo2@gmail.com?subject=O₂ Rhythm Organization Inquiry">
+                            Bring O₂ Rhythm to Your Organization
+                        </a>
+                    </div>
+                </div>
+
+                <div class="imageFrame">
+                    <img src="/assets/img/workplace.png" alt="O₂ Rhythm in a workplace setting" />
+                </div>
+            </div>
+        </section>
+
+        <!-- AIR NOTES -->
+        <section id="airnotes" class="airnotes-banner">
+            <div class="airnotes-banner__bg" aria-hidden="true"></div>
+            <div class="airnotes-banner__inner">
+                <div class="wrap">
+
+                    <div class="airnotes-split">
+                        <div>
+                            <span class="airnotes-for-kids">For kids &amp; teens</span>
+
+                            <h2 style="font-size:clamp(1.9rem,4vw,2.8rem);margin-bottom:20px;">Air Notes</h2>
+
+                            <p class="sectionText" style="font-size:1.15rem;font-weight:600;color:var(--navy);margin-bottom:12px;">
+                                Little notes for big feelings.
+                            </p>
+
+                            <p class="sectionText">
+                                A kid-friendly place to breathe, write, and read encouraging notes from other kids and parents.
+                            </p>
+
+                            <div class="airnotes-cta-row">
+                                <a class="btn airnotes" href="https://airnotes-henna.vercel.app" target="_blank" rel="noopener">
+                                    Open Air Notes
+                                </a>
+                            </div>
+                        </div>
+
+                        <div>
+                            <img
+                                src="/assets/img/airnotes-hero.jpg"
+                                alt="Air Notes by O2 Rhythm -- Little notes for big feelings"
+                                class="airnotes-hero-img"
+                            />
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- FINAL CTA -->
+        <section id="contact" class="section contactSection">
+            <div class="wrap contactBox">
+                <div>
+                    <p class="eyebrow">Start where you are</p>
+
+                    <h2>Open O₂ Rhythm.</h2>
+
+                    <p>You don't have to explain everything to begin.</p>
+                </div>
+
+                <div class="buttonRow right">
+                    <a class="btn primary" href="https://o2rhythm.vercel.app" target="_blank" rel="noopener">
+                        Open O₂ Rhythm
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        <div class="wrap footerInner">
+            <p>© <span id="year"></span> O₂ Rhythm. All rights reserved.</p>
+            <p>Regulate • Reflect • Connect &nbsp;|&nbsp; <a href="https://airnotes-henna.vercel.app" target="_blank" rel="noopener" style="color:var(--teal);">Air Notes</a></p>
         </div>
-      </div>
-    </section>
+    </footer>
 
-    <section class="section org-section" id="organizations">
-      <div>
-        <p class="eyebrow">For organizations</p>
-        <h2>Bring O₂ Rhythm where people have to keep going.</h2>
-        <p class="places">Waiting rooms <span>•</span> Dispatch centers <span>•</span> Workplaces <span>•</span> Schools <span>•</span> Clinics <span>•</span> Locker rooms</p>
-        <p>One QR code gives people private access—no app, login, or complicated rollout.</p>
-        <a class="text-link" href="mailto:hello.rhythmo2@gmail.com?subject=O%E2%82%82%20Rhythm%20Organization%20Inquiry">Bring O₂ Rhythm to Your Organization →</a>
-      </div>
-    </section>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
 
-    <section class="section air-section" id="air-notes">
-      <div class="air-image"><img src="assets/img/airnotes-hero.jpg" alt="Air Notes by O₂ Rhythm" loading="lazy"></div>
-      <div>
-        <p class="eyebrow">For kids &amp; teens</p>
-        <h2>Air Notes</h2>
-        <p class="air-tagline">Little notes for big feelings.</p>
-        <p>A kid-friendly place to breathe, write, and read encouraging notes from other kids and parents.</p>
-        <a class="text-link" href="https://airnotes-henna.vercel.app/">Open Air Notes →</a>
-      </div>
-    </section>
+        const menuButton = document.querySelector('.menuButton');
+        const nav = document.querySelector('.nav');
 
-    <section class="closing section">
-      <p class="eyebrow">Start where you are</p>
-      <h2>You don't have to explain everything to begin.</h2>
-      <a class="button" href="https://o2rhythm.vercel.app/">Open O₂ Rhythm</a>
-    </section>
-  </main>
+        menuButton.addEventListener('click', () => {
+            nav.classList.toggle('open');
+        });
 
-  <footer>
-    <div><strong>O₂ Rhythm</strong><span>Regulate • Reflect • Connect</span></div>
-    <p>O₂ Rhythm offers peer support and self-guided tools. It is not emergency or medical care. If you are in immediate danger, contact local emergency services.</p>
-    <p>© 2026 O₂ Rhythm. All rights reserved.</p>
-  </footer>
+        document.querySelectorAll('.nav a').forEach((link) => {
+            link.addEventListener('click', () => nav.classList.remove('open'));
+        });
+    </script>
 </body>
+
 </html>
