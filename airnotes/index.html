@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Air Notes | Little Notes for Big Feelings</title>
+    <meta name="description" content="Air Notes is a kid-friendly O₂ Rhythm experience where children and teens can pause, write, and read encouraging notes." />
+    <link rel="canonical" href="https://o2rhythm.com/airnotes/" />
+    <link rel="icon" href="/assets/img/logocircle.png" type="image/png" />
+    <link rel="stylesheet" href="/assets/style.css" />
+    <style>
+        .airHero { position:relative; overflow:hidden; padding:72px 0 84px; background:linear-gradient(145deg,#eefaff,#fff 58%,#e9fbf7); }
+        .airGrid { display:grid; grid-template-columns:.92fr 1.08fr; gap:56px; align-items:center; }
+        .airHero h1 { margin:10px 0 20px; color:var(--navy); font-size:clamp(52px,7vw,86px); line-height:.96; letter-spacing:-.06em; }
+        .airHero img { width:100%; border-radius:var(--radius-lg); box-shadow:var(--shadow-lg); }
+        .airTag { display:inline-flex; padding:6px 14px; border-radius:999px; background:rgba(0,191,174,.1); color:#007a6e; font-size:12px; font-weight:850; letter-spacing:.12em; text-transform:uppercase; }
+        .airWays { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-top:40px; }
+        .airWay { padding:26px; }
+        .airWay p { margin:10px 0 0; color:var(--muted); }
+        .parentNote { max-width:850px; margin:0 auto; padding:34px; background:var(--soft); border:1px solid var(--line); border-radius:var(--radius-lg); text-align:center; }
+        @media(max-width:900px){.airGrid,.airWays{grid-template-columns:1fr}.airHero{padding-top:48px}}
+    </style>
+</head>
+<body>
+    <header class="siteHeader">
+        <div class="wrap navWrap">
+            <a class="brand" href="/" aria-label="O₂ Rhythm home"><img src="/assets/img/banner.png" alt="O₂ Rhythm logo" /></a>
+            <button class="menuButton" type="button" aria-label="Open navigation">Menu</button>
+            <nav class="nav">
+                <a href="/">O₂ Rhythm</a>
+                <a href="/organizations/">Organizations</a>
+                <a class="navCta" href="https://airnotes-henna.vercel.app" target="_blank" rel="noopener">Open Air Notes</a>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <section class="airHero">
+            <div class="wrap airGrid">
+                <div>
+                    <span class="airTag">For kids &amp; teens</span>
+                    <h1>Little notes for big feelings.</h1>
+                    <p class="lead">A simple place to pause, put something into words, and read encouragement from someone else.</p>
+                    <div class="buttonRow">
+                        <a class="btn primary" href="https://airnotes-henna.vercel.app" target="_blank" rel="noopener">Open Air Notes</a>
+                        <a class="btn" href="#how">See How It Works</a>
+                    </div>
+                </div>
+                <img src="/assets/img/airnotes-hero.jpg" alt="Air Notes, a kid-friendly experience from O₂ Rhythm" />
+            </div>
+        </section>
+        <section id="how" class="section">
+            <div class="wrap center narrow">
+                <p class="eyebrow">A simple place to start</p>
+                <h2>Big feelings don't always come with the right words.</h2>
+                <p class="sectionText">Air Notes gives kids and teens a low-pressure way to take a minute—without needing to explain everything first.</p>
+            </div>
+            <div class="wrap airWays">
+                <article class="airWay imageFrame"><h3>Pause</h3><p>Take a breath or a short break when a moment feels like a lot.</p></article>
+                <article class="airWay imageFrame"><h3>Write</h3><p>Put the thought somewhere, even if it isn't perfectly said.</p></article>
+                <article class="airWay imageFrame"><h3>Read</h3><p>Find a kind note that makes the moment feel less lonely.</p></article>
+            </div>
+        </section>
+        <section class="section soft">
+            <div class="wrap parentNote">
+                <p class="eyebrow">For adults supporting them</p>
+                <h2 style="font-size:clamp(32px,4vw,50px);">A small next step can help.</h2>
+                <p class="sectionText">Air Notes is a supportive resource, not therapy, medical care, or an emergency service. If a child may be in immediate danger, contact local emergency services or an appropriate crisis resource.</p>
+                <div class="buttonRow centerButtons"><a class="btn primary" href="https://airnotes-henna.vercel.app" target="_blank" rel="noopener">Visit Air Notes</a></div>
+            </div>
+        </section>
+    </main>
+    <footer class="footer"><div class="wrap footerInner"><p>© <span id="year"></span> O₂ Rhythm.</p><p><a href="/">Back to O₂ Rhythm</a></p><p><a href="mailto:hello.rhythmo2@gmail.com?subject=Air%20Notes%20Inquiry" style="color:var(--teal);">Contact</a></p></div></footer>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+        const menuButton = document.querySelector('.menuButton');
+        const nav = document.querySelector('.nav');
+        menuButton.addEventListener('click', () => nav.classList.toggle('open'));
+        document.querySelectorAll('.nav a').forEach(link => link.addEventListener('click', () => nav.classList.remove('open')));
+    </script>
+</body>
+</html>
