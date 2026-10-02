@@ -5,14 +5,59 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>O₂ Rhythm | Something Happened. Here's What to Do Next.</title>
+    <title>O₂ Rhythm | Free Help to Calm Down After an Argument, a Loss or a Hard Day</title>
     <meta name="description"
-        content="O₂ Rhythm is a free, private app for the minutes after a hard moment. Calm your body, get it out, and hear from someone who's been there, in about three minutes. No download. No account." />
+        content="O₂ Rhythm is a free, private app for the minutes after a hard moment: an argument, losing your cool, a tough loss, a hard call at work. Calm your body, get it out, and don't stay alone with it. No download, no account." />
 
-    <meta property="og:title" content="O₂ Rhythm | For the minutes after a hard moment" />
-    <meta property="og:description" content="Calm your body, get it out, and hear from someone who's been there. Free, private, no download." />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="O₂ Rhythm" />
+    <meta property="og:title" content="O₂ Rhythm | Something happened. Here's what to do next." />
+    <meta property="og:description" content="Free, private help for the minutes after a hard moment. Calm your body, get it out, and don't stay alone with it. No download." />
     <meta property="og:url" content="https://o2rhythm.com/" />
-    <meta property="og:image" content="https://o2rhythm.com/assets/img/logocircle.png" />
+    <meta property="og:image" content="https://o2rhythm.com/assets/img/icon-512.png" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="theme-color" content="#0d1b3e" />
+    <link rel="apple-touch-icon" href="/assets/img/icon-180.png" />
+
+    <!-- Tells search engines what O₂ Rhythm is, and makes the FAQ eligible for rich results -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://o2rhythm.com/#org",
+          "name": "O₂ Rhythm",
+          "url": "https://o2rhythm.com/",
+          "logo": "https://o2rhythm.com/assets/img/icon-512.png",
+          "email": "hello.rhythmo2@gmail.com",
+          "sameAs": ["https://instagram.com/o2rhythm"]
+        },
+        {
+          "@type": "WebApplication",
+          "name": "O₂ Rhythm",
+          "url": "https://o2rhythm.vercel.app/",
+          "applicationCategory": "HealthApplication",
+          "operatingSystem": "Any (works in your phone's browser)",
+          "browserRequirements": "Requires a modern web browser",
+          "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+          "description": "Free, private help for the minutes after a hard moment: guided breathing and body resets, private writing, real letters from people who've been there, and simple ways to reach someone.",
+          "publisher": { "@id": "https://o2rhythm.com/#org" }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            { "@type": "Question", "name": "Is O₂ Rhythm really free?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Anyone can open O₂ Rhythm on their phone and use every tool for free." } },
+            { "@type": "Question", "name": "Do I need to download anything or sign up?", "acceptedAnswer": { "@type": "Answer", "text": "No. It opens in your phone's browser. There's no account, no email, and no password. You can add it to your home screen so it opens like an app." } },
+            { "@type": "Question", "name": "Who can see what I write?", "acceptedAnswer": { "@type": "Answer", "text": "If you keep it private, nobody. It stays on your phone. If you choose to leave something for others, it's reviewed first and shared without your name." } },
+            { "@type": "Question", "name": "Is O₂ Rhythm therapy?", "acceptedAnswer": { "@type": "Answer", "text": "No. O₂ Rhythm is for the minutes after a hard moment. It works alongside counseling, peer support, and crisis lines, not instead of them." } },
+            { "@type": "Question", "name": "Can I put O₂ Rhythm on my phone like an app?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Open O₂ Rhythm on your phone and add it to your home screen. On iPhone, use Safari: Share, then Add to Home Screen. On Android, use the menu, then Add to Home screen or Install app." } },
+            { "@type": "Question", "name": "What if I'm in crisis?", "acceptedAnswer": { "@type": "Answer", "text": "Please reach out now. Call or text 988 (Suicide and Crisis Lifeline) or call 911 if you're in immediate danger." } }
+          ]
+        }
+      ]
+    }
+    </script>
 
     <link rel="canonical" href="https://o2rhythm.com/" />
     <link rel="icon" href="/assets/img/logocircle.png" type="image/png" />
@@ -141,20 +186,18 @@
                 <article class="lpStep lpStep--connect">
                     <div class="lpStepArt"><p class="lpArtLetter">"You showed up.<br>That matters more<br>than you know."</p></div>
                     <p class="lpStepNum">3 · Connect</p>
-                    <h3>Know you're not alone</h3>
-                    <p>Read real words from people who've been there, and leave one line for the next person.</p>
+                    <h3>Don't stay alone with it</h3>
+                    <p>Text someone in your life with words already written for you, sit quietly with a friend, or read real words from people who've been there.</p>
                 </article>
             </div>
 
             <div class="wrap lpResult">
-                <div class="lpResultScale" aria-hidden="true">
-                    <span class="lpDot lpDot--before">8</span>
-                    <span class="lpArrow"></span>
-                    <span class="lpDot lpDot--after">4</span>
+                <div class="lpHowNow" aria-hidden="true">
+                    <span>Better</span><span>About the same</span><span>Worse</span>
                 </div>
                 <div>
-                    <h3>"You came in at 8. You're at 4 now."</h3>
-                    <p>Rate how loud it feels before and after. Seeing the number drop is often the moment it clicks that this works.</p>
+                    <h3>"How are you now?"</h3>
+                    <p>After each tool: better, about the same, or worse. Better? Leave whenever you're ready. Same? Try a different kind of reset. Worse? Reach someone. O₂ remembers what helped, only on your phone.</p>
                 </div>
             </div>
 
@@ -164,7 +207,35 @@
                     <li>Box breathing</li><li>Long exhales</li><li>Double sigh</li><li>5 senses</li>
                     <li>Tapping</li><li>Shake it out</li><li>Squeeze and release</li><li>Cold reset</li>
                     <li>Let it go</li><li>Rain, waves and forest sounds</li>
+                    <li>Sit with me</li><li>Reach someone</li><li>Help me say it</li>
                 </ul>
+            </div>
+        </section>
+
+        <!-- REACHING OUT -->
+        <section id="reach" class="section lpReach">
+            <div class="wrap center narrow">
+                <p class="eyebrow">Don't stay alone with it</p>
+                <h2>Reaching out, made easier.</h2>
+                <p class="sectionText">The hardest part is often the first message. O₂ helps with that, and with the moments you don't want to talk at all.</p>
+            </div>
+
+            <div class="wrap lpReachGrid">
+                <article>
+                    <h3>Reach someone</h3>
+                    <p>Pick what would help: just be with me, listen, or take my mind off it. Your message is written for you. Change anything, then send it from your own phone.</p>
+                    <p class="lpExample">"Hey, something hard happened. Could you just listen for a bit? You don't have to fix anything."</p>
+                </article>
+                <article>
+                    <h3>Help me say it</h3>
+                    <p>Apologize, say you're not ready to talk yet, ask for help, or set a boundary. Fill in a few blanks and your words come together. No AI, nothing sent until you send it.</p>
+                    <p class="lpExample">"Hey Sam, I'm sorry I snapped at you earlier. You don't have to answer right away."</p>
+                </article>
+                <article>
+                    <h3>Sit with me</h3>
+                    <p>Don't want to talk? Two quiet minutes with a calm, breathing presence. Invite a friend with a link and see "Patrick is here" when they join. No chat, just company.</p>
+                    <p class="lpExample">Tap your glow to send them a soft pulse.</p>
+                </article>
             </div>
         </section>
 
@@ -265,6 +336,14 @@
                     <p>No. It opens in your phone's browser. There's no account, no email, and no password.</p>
                 </details>
                 <details>
+                    <summary>Can I put it on my phone like an app?</summary>
+                    <p>Yes. Open <a href="https://o2rhythm.vercel.app">O₂ Rhythm</a> on your phone and tap "Add O₂ to your home screen." On iPhone: in Safari, tap Share, then Add to Home Screen. On Android: tap the ⋮ menu, then Add to Home screen or Install app. It gets its own icon and opens in one tap.</p>
+                </details>
+                <details>
+                    <summary>If I invite a friend to sit with me, what do they see?</summary>
+                    <p>A short note that someone asked them to sit for two minutes, then the same calm screen you see. No chat, no messages, no names stored. They just show up, and you see that they're there.</p>
+                </details>
+                <details>
                     <summary>Who can see what I write?</summary>
                     <p>If you keep it private, nobody. It stays on your phone. If you choose to leave something for others, it's reviewed first and shared without your name.</p>
                 </details>
@@ -280,6 +359,18 @@
                     <summary>Can my school, team, or workplace use it?</summary>
                     <p>Yes. <a href="/organizations/">See organization access</a> for QR codes and ready-made materials.</p>
                 </details>
+            </div>
+        </section>
+
+        <!-- KEEP IT ONE TAP AWAY -->
+        <section class="lpInstall">
+            <div class="wrap lpInstallBox">
+                <img src="/assets/img/icon-192.png" alt="O₂ Rhythm app icon" width="72" height="72" loading="lazy" />
+                <div>
+                    <h3>Keep it one tap away.</h3>
+                    <p>Add O₂ to your home screen so it's there the next time something happens. iPhone: Safari, Share, Add to Home Screen. Android: ⋮ menu, Add to Home screen.</p>
+                </div>
+                <a class="btn primary" href="https://o2rhythm.vercel.app">Open O₂ Rhythm</a>
             </div>
         </section>
 
