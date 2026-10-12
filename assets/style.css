@@ -818,3 +818,5 @@ h3 {
         align-items: flex-start;
     }
 }
+/* Images carry width and height so the page does not jump while loading; keep their shape */
+img[width][height] { height: auto; max-width: 100%; }
